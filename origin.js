@@ -4,12 +4,14 @@ var fps = 60;
 
 onLoad = function(){
 	
+	//This covers all the javascript files that need to be added
 	var importer = ["<script type='text/javascript' src='klass.min.js'></script>",
 					"<script type='text/javascript' src='Screen.js'></script>",
 					"<script type='text/javascript' src='Sprite.js'></script>",
 					"<script type='text/javascript' src='input.js'></script>"].join();
 	
 	$('head').append(importer);
+	
 	mainScreen = new Screen('mainScreen', 9, 1.0);
 	otherScreen = new Screen('otherScreen', 8, 0.0);
 	//mainScreen.fadingOut(1);

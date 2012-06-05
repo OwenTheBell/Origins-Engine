@@ -84,15 +84,27 @@ var Screen = klass(function(id, zIndex, opacity) {
 				this.drawState = 'updated';
 				//console.log(this.opacity);
 			} else if (this.fadeOut){
-				if (this.transitionFramesCount == this.transitionFrames){
-					this.zIndex--;
+				/*
+				if (this.transitionFramesCount >= this.transitionFrames){
 					this.opacity = 0.0;
-					this.drawState = 'updated';
+					this.zIndex--;
 					console.log(this.id + ' moving to background');
 					this.fadeOut = false;
 				} else {
 					this.transitionFramesCount++;
 				}
+				*/
+				
+				if (this.opacity <= 0.0){
+					this.opacity = 0;
+					this.fadeOut = false;
+					this.zIndex--;
+					console.log(this.id + " moving to background");
+				} else {
+					this.opacity -= (1 / this.transitionFrames);
+				}
+				
+				this.drawState = 'updated';
 			}
 			
 			var mouseInput = false;
@@ -105,9 +117,9 @@ var Screen = klass(function(id, zIndex, opacity) {
 				var testSprite = this.spriteArray[x];
 				if (mouseInput && (this.spriteArray[x] instanceof clickSprite)){
 					if ((mouseInput.X >= testSprite.left + parseInt($('#origins').css('left'))) && 
-						(mouseInput.X <= testSprite.left + testSprite.image.width + parseInt($('#origins').css('left'))) &&
+						(mouseInput.X <= testSprite.left + testSprite.width() + parseInt($('#origins').css('left'))) &&
 						(mouseInput.Y >= testSprite.top  + parseInt($('#origins').css('top'))) &&
-						(mouseInput.Y <= testSprite.top + testSprite.image.height + parseInt($('#origins').css('top')))){
+						(mouseInput.Y <= testSprite.top + testSprite.height() + parseInt($('#origins').css('top')))){
 							testSprite.clicked = true;
 						}
 				}

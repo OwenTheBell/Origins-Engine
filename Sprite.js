@@ -28,6 +28,13 @@ var Sprite = klass(function (top, left, image, id) {
 			this.left = left;
 			this.drawState = 'updated';
 		},
+		//these two functions just provide a little shorthand
+		width: function(){
+			return this.image.width;
+		},
+		height: function(){
+			return this.image.height;
+		},
 		update: function(){
 			
 		},
@@ -65,7 +72,6 @@ var Sprite = klass(function (top, left, image, id) {
 var clickSprite = Sprite.extend(function(top, left, image, id){
 	this.clicked = false;
 	this.clickMap = [];
-	//this.clickMap = this.makeClickMap();
 })
 	.methods({
 		update: function(){
@@ -102,17 +108,16 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 			//console.log("making a map");
 			
 			var canvas = document.createElement('canvas');
-			canvas.width = this.image.width;
-			canvas.height = this.image.height;
-			console.log("and then I go boom");
+			canvas.width = this.width();
+			canvas.height = this.height();
 			var ctx = canvas.getContext('2d');
 			ctx.drawImage(this.image, 0, 0);
 			
-			var pixels = ctx.getImageData(0, 0, this.image.width, this.image.height).data;
+			var pixels = ctx.getImageData(0, 0, this.width(), this.height()).data;
 			
 			for (var i = 0, n = pixels.length; i < n; i+=4){
-				var row = Math.floor((i / 4) / this.image.width);
-				var col = (i/4)	- (row * this.image.width);
+				var row = Math.floor((i / 4) / this.width());
+				var col = (i/4)	- (row * this.width());
 				if(!this.clickMap[row]) this.clickMap[row] = [];
 				this.clickMap[row][col] = pixels[i+3] == 0 ? 0 : 1;
 			}
