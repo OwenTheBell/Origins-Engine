@@ -75,8 +75,9 @@ var Screen = klass(function(id, zIndex, opacity) {
 				if (this.opacity >= 1.0){
 					this.opacity = 1.0;
 					this.fadeIn = false;
+					this.fadeOut = false;
 					this.zIndex--;
-					console.log('transition complete');
+					console.log(this.id + ' transition complete');
 				} else {
 					//Increment up the opacity
 					this.opacity += (1 / this.transitionFrames);
@@ -96,8 +97,9 @@ var Screen = klass(function(id, zIndex, opacity) {
 				*/
 				
 				if (this.opacity <= 0.0){
-					this.opacity = 0;
+					this.opacity = 0.0;
 					this.fadeOut = false;
+					this.fadeIn = false;
 					this.zIndex--;
 					console.log(this.id + " moving to background");
 				} else {
@@ -108,7 +110,7 @@ var Screen = klass(function(id, zIndex, opacity) {
 			}
 			
 			var mouseInput = false;
-			//Only take input if this is the frame on top
+			//Only take input if the screen is not transitioning
 			if (this.opacity == 1.0){
 				mouseInput = inputState.checkLeftClick();
 			}

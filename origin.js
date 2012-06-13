@@ -23,8 +23,6 @@ onLoad = function(){
 	mainScreen.addSprite(new Sprite(0, 0, 'blackcircle.png', 'blackcircle'));
 	otherScreen.addSprite(new Sprite(0, 0, 'purplecircle.png', 'purplecircle'));
 	mainScreen.addSprite(new screenChangeSprite(0, 184, 'crate.png', 'goLeft', otherScreen));
-	mainScreen.addSprite(new screenChangeSprite(368, 184, 'crate.png', 'goRight', otherScreen));
-	otherScreen.addSprite(new screenChangeSprite(0, 184, 'crate.png', 'goLeft', mainScreen));
 	otherScreen.addSprite(new screenChangeSprite(368, 184, 'crate.png', 'goRight', mainScreen));
 	mainScreen.draw();
 	//mainScreen.fadingIn(1);

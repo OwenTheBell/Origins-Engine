@@ -94,9 +94,9 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 				var y = mouseState.Y - this.top - parseInt($('#origins').css('top'));
 				//both attributes have -1 applied to compensate for the slight offset of
 				//cursor relative to clickable area. This solution is a hack and needs to be fixed
-				if (this.clickMap[x-1][y-1] == 1){
+				if (this.clickMap[x][y] == 1){
 					this.onClick();
-					debugPrint(x, y);
+					//debugPrint(x, y);
 				}
 			}
 		},
@@ -118,6 +118,7 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 			
 			var pixels = ctx.getImageData(0, 0, this.width(), this.height()).data;
 			
+			//these are declared out here to make debugging easier
 			var i, row, col;
 			
 			for (i = 0, n = pixels.length; i < n; i+=4){
@@ -126,8 +127,6 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 				if(!this.clickMap[row]) this.clickMap[row] = [];
 				this.clickMap[row][col] = pixels[i+3] == 0 ? 0 : 1;
 			}
-			
-			console.log(col);
 			
 			/*
 			var totalOfType = 0;
