@@ -1,7 +1,7 @@
-var Sprite = klass(function (top, left, image, id) {
+var Sprite = klass(function (left, top, image, id) {
 	this.containerScreen;
-	this.top = top;
-	this.left = left;
+	this.top = top; //y
+	this.left = left; //x
 	this.image = new Image();
 	this.image.src = image;
 	this.id = id;
@@ -92,8 +92,11 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 				//the game div
 				var x = mouseState.X - this.left - parseInt($('#origins').css('left'));
 				var y = mouseState.Y - this.top - parseInt($('#origins').css('top'));
-				if (this.clickMap[x][y] == 1){
+				//both attributes have -1 applied to compensate for the slight offset of
+				//cursor relative to clickable area. This solution is a hack and needs to be fixed
+				if (this.clickMap[x-1][y-1] == 1){
 					this.onClick();
+					debugPrint(x, y);
 				}
 			}
 		},
@@ -115,12 +118,16 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 			
 			var pixels = ctx.getImageData(0, 0, this.width(), this.height()).data;
 			
-			for (var i = 0, n = pixels.length; i < n; i+=4){
-				var row = Math.floor((i / 4) / this.width());
-				var col = (i/4)	- (row * this.width());
+			var i, row, col;
+			
+			for (i = 0, n = pixels.length; i < n; i+=4){
+				row = Math.floor((i / 4) / this.width());
+				col = (i/4)	- (row * this.width());
 				if(!this.clickMap[row]) this.clickMap[row] = [];
 				this.clickMap[row][col] = pixels[i+3] == 0 ? 0 : 1;
 			}
+			
+			console.log(col);
 			
 			/*
 			var totalOfType = 0;

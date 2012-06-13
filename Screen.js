@@ -116,9 +116,9 @@ var Screen = klass(function(id, zIndex, opacity) {
 			for (x in this.spriteArray){
 				var testSprite = this.spriteArray[x];
 				if (mouseInput && (this.spriteArray[x] instanceof clickSprite)){
-					if ((mouseInput.X >= testSprite.left + parseInt($('#origins').css('left'))) && 
+					if ((mouseInput.X > testSprite.left + parseInt($('#origins').css('left'))) && 
 						(mouseInput.X <= testSprite.left + testSprite.width() + parseInt($('#origins').css('left'))) &&
-						(mouseInput.Y >= testSprite.top  + parseInt($('#origins').css('top'))) &&
+						(mouseInput.Y > testSprite.top + parseInt($('#origins').css('top'))) &&
 						(mouseInput.Y <= testSprite.top + testSprite.height() + parseInt($('#origins').css('top')))){
 							testSprite.clicked = true;
 						}

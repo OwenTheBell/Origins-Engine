@@ -20,8 +20,12 @@ onLoad = function(){
 	mainScreen = new Screen('mainScreen', 9, 1.0);
 	otherScreen = new Screen('otherScreen', 8, 0.0);
 	//mainScreen.fadingOut(1);
-	mainScreen.addSprite(new screenChangeSprite(0, 0, 'blackcircle.png', 'blackcircle', otherScreen));
-	otherScreen.addSprite(new screenChangeSprite(0, 0, 'purplecircle.png', 'purplecircle', mainScreen));
+	mainScreen.addSprite(new Sprite(0, 0, 'blackcircle.png', 'blackcircle'));
+	otherScreen.addSprite(new Sprite(0, 0, 'purplecircle.png', 'purplecircle'));
+	mainScreen.addSprite(new screenChangeSprite(0, 184, 'crate.png', 'goLeft', otherScreen));
+	mainScreen.addSprite(new screenChangeSprite(368, 184, 'crate.png', 'goRight', otherScreen));
+	otherScreen.addSprite(new screenChangeSprite(0, 184, 'crate.png', 'goLeft', mainScreen));
+	otherScreen.addSprite(new screenChangeSprite(368, 184, 'crate.png', 'goRight', mainScreen));
 	mainScreen.draw();
 	//mainScreen.fadingIn(1);
 	startGame(60);
