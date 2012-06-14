@@ -66,7 +66,7 @@ var Sprite = klass(function (left, top, image, id) {
 				console.log("ERROR: invalid sprite draw state: " + this.id);
 			}
 			this.drawState = 'unchanged';
-				}
+		}
 	});
 
 var clickSprite = Sprite.extend(function(top, left, image, id){
