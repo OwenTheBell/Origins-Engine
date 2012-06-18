@@ -5,24 +5,32 @@ var topZIndex = 10;
 var bottomZIndex = 9;
 var transZIndex = 11; //this zIndex is used to place emerging layers on top
 
-/*
- * This is the importer that actually lets me see what I am writing
- */
+//If there is not a console then make console.log an empty function
+try{
+	console
+} catch(e) {
+	console = {};
+	console.log = function(){};
+}
 
 onLoad = function(){
 	
 	/*
-	//This covers all the javascript files that need to be added
+	 * Pull in the different javascript files
+	 * This is done here so that the people developing the external website
+	 * don't have to worry about importing all necessary javascript. All that
+	 * needs to be present is "origin.js" and jquery
+	 */
 	var importer = ["<script type='text/javascript' src='klass.min.js'></script>",
 					"<script type='text/javascript' src='Screen.js'></script>",
 					"<script type='text/javascript' src='Sprite.js'></script>",
-					"<script type='text/javascript' src='input.js'></script>"].join();
+					"<script type='text/javascript' src='input.js'></script>",
+					"<script type='text/javascript' src='DialogueScreen.js'></script>"].join("\n");
 	
 	$('head').append(importer);
-	*/
+	
 	mainScreen = new Screen('mainScreen', topZIndex);
 	otherScreen = new Screen('otherScreen', bottomZIndex);
-	//mainScreen.fadingOut(1);
 	mainScreen.addSprite(new Sprite(0, 0, 'blackcircle.png', 'blackcircle'));
 	otherScreen.addSprite(new Sprite(0, 0, 'purplecircle.png', 'purplecircle'));
 	mainScreen.addSprite(new screenChangeSprite(0, 184, 'crate.png', 'goLeft', otherScreen));
@@ -31,9 +39,7 @@ onLoad = function(){
 	talkScreen = new DialogueScreen('talkScreen', bottomZIndex, 'IntroDial.xml');
 	ajaxCall(talkScreen);
 	
-	
 	mainScreen.draw();
-	//mainScreen.fadingIn(1);
 	startGame(60);
 }
 
@@ -56,20 +62,12 @@ ajaxCall = function(dialogueScreen){
 		dataType: "xml",
 		success: function(data){
 			dialogueScreen.loadXML(data);
-			IEisDumbConsole('woot');
+			console.log('woot');
 		}
 	});
 	
 }
 
 debugPrint = function(x, y){
-	IEisDumbConsole('(' + x + ',' + y + ')');
-}
-
-IEisDumbConsole = function(output){
-	try{
-		console.log(output);
-	} catch(e){
-		//nothing here since IE doesn't have a console
-	}
+	console.log('(' + x + ',' + y + ')');
 }

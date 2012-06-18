@@ -42,9 +42,9 @@ var Sprite = klass(function (left, top, image, id) {
 			//debugPrint(this.width, this.height);
 			if (this.drawState === 'new') {
 				if (!this.containerScreen) {
-					IEisDumbConsole("ERROR: new sprite " + this.id + " is not in a screen");
+					console.log("ERROR: new sprite " + this.id + " is not in a screen");
 				} else {
-					IEisDumbConsole("drawing new sprite: " + this.id);
+					console.log("drawing new sprite: " + this.id);
 					$('#' + this.containerScreen.id).append(this.repDiv);
 				}
 			} else if (this.drawState === 'updated'){
@@ -56,14 +56,14 @@ var Sprite = klass(function (left, top, image, id) {
 					top: this.top + 'px',
 					left: this.left + 'px'
 				});
-				//IEisDumbConsole("drawing sprite: " + this.id); 
+				//console.log("drawing sprite: " + this.id); 
 			} else if (this.drawState === 'removed') {
 				//remove from the DOM
 				$('#' + this.id).remove();
 				//still needs to be removed from the spriteArray in the screen
 			} else if (this.drawState === 'unchanged') { //no need to do anything, duh
 			} else {
-				IEisDumbConsole("ERROR: invalid sprite draw state: " + this.id);
+				console.log("ERROR: invalid sprite draw state: " + this.id);
 			}
 			this.drawState = 'unchanged';
 		}
@@ -108,7 +108,7 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 		},
 		makeClickMap: function(){
 			//Using canvas create an 2d array of transparent vs nontransparent pixels
-			//IEisDumbConsole("making a map");
+			//console.log("making a map");
 			
 			var canvas = document.createElement('canvas');
 			canvas.width = this.width();
@@ -139,7 +139,7 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 				}
 			}
 			
-			IEisDumbConsole(totalOfType);
+			console.log(totalOfType);
 			*/
 		}
 	});

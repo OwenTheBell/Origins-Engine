@@ -74,28 +74,28 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 				if (statement.nextType === 'overseer'){
 					var tester = overseerContainer[statement.nextId];
 					if (!tester){
-						IEisDumbConsole('ERROR: ' + statement.nextId + ' is not a valid overseer id ' + id);
+						console.log('ERROR: ' + statement.nextId + ' is not a valid overseer id ' + id);
 					} else {
 						statement.setNext(tester);
 					}
 				} else if (statement.nextType === 'player'){
 					var tester = playerContainer[statement.nextId];
 					if (!tester){
-						IEisDumbConsole('ERROR: ' + statement.nextId + ' is not a valid player id ' + id);
+						console.log('ERROR: ' + statement.nextId + ' is not a valid player id ' + id);
 					} else {
 						statement.setNext(tester);
 					}
 				} else if (statement.nextType === 'popup'){
 					var tester = popupContainer[statement.nextId];
 					if (!tester){
-						IEisDumbConsole('ERROR: ' + statement.nextId + ' is not a valid popup id ' + id);
+						console.log('ERROR: ' + statement.nextId + ' is not a valid popup id ' + id);
 					} else {
 						statement.setNext(tester);
 					}
 				} else if (statement.nextType === 'exit'){
 					statement.setNext('exit'); //this is VERY temporary
 				} else {
-					IEisDumbConsole("ERROR: " + id + " has an invalid nextType of " + statement.nextType);
+					console.log("ERROR: " + id + " has an invalid nextType of " + statement.nextType);
 				}
 			};
 		}
@@ -128,7 +128,7 @@ var Statement = klass(function(xmlData){
 		setNext: function(nextStatement){
 			this.nextStatement = nextStatement;
 			if(nextStatement != 'exit'){
-				//IEisDumbConsole(this.nextStatement.id + " attached to " + this.id);
+				//console.log(this.nextStatement.id + " attached to " + this.id);
 			};
 		},
 		addText: function(text){
@@ -158,18 +158,18 @@ var Statement = klass(function(xmlData){
 				active = this.nextStatement;
 				displayed = false;
 			} else if (this.nextType === 'popup'){
-				IEisDumbConsole("Next statement is a popup");
+				console.log("Next statement is a popup");
 				keepGoing = false;
 			} else if (this.nextType === 'exit'){
-				IEisDumbConsole("THE END!!!!");
+				console.log("THE END!!!!");
 				keepGoing = false;
 			} else {
-				IEisDumbConsole("ERROR: " + this.id + " has an invalid nextType");
+				console.log("ERROR: " + this.id + " has an invalid nextType");
 				keepGoing = false;
 			}
 		},
 		draw: function(){
-			IEisDumbConsole(this.returnText());
+			console.log(this.returnText());
 		}
 	});
 
@@ -224,10 +224,10 @@ var PlayerOptions = klass(function(xmlData){
 			if (((keyValue - 49) < availableStatements.length) && ((keyValue - 49) >= 0)){
 				var next = availableStatements[keyValue - 49];
 				if (next.nextType === 'exit'){
-					IEisDumbConsole('THE END!!!!');
+					console.log('THE END!!!!');
 					keepGoing = false;
 				} else if (next.nextType === 'popup'){
-					IEisDumbConsole("next up is a popup");
+					console.log("next up is a popup");
 					keepGoing = false;
 				} else {
 					active = availableStatements[keyValue - 49].nextStatement;
@@ -248,7 +248,7 @@ var PlayerOptions = klass(function(xmlData){
 				//Only display an option if it does not have a check value, or
 				//if it's check value is inside set_check
 				if (!check || set_check[check]){
-					IEisDumbConsole(iter + " " + this.statementArray[x].returnText());
+					console.log(iter + " " + this.statementArray[x].returnText());
 					iter++;
 				}
 			}

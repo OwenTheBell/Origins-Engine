@@ -67,7 +67,7 @@ var Screen = klass(function(id, zIndex) {
 			this.fadeOut = true;
 			this.transitionFrames = seconds*fps;
 			this.transitionFramesCount = 0;
-			IEisDumbConsole(this.id + ' moving to background');
+			console.log(this.id + ' moving to background');
 			this.activeScreen = false;
 		},
 		//seconds: the number of seconds for the transition
@@ -86,7 +86,7 @@ var Screen = klass(function(id, zIndex) {
 					this.fadeOut = false;
 					this.zIndex = topZIndex;
 					this.activeScreen = true;
-					IEisDumbConsole(this.id + ' in foreground');
+					console.log(this.id + ' in foreground');
 				} else {
 					this.opacity += (1 / this.transitionFrames);
 				}
@@ -139,7 +139,7 @@ var Screen = klass(function(id, zIndex) {
 				$('#' + this.id).remove();
 			} else if (this.drawState === 'unchanged') {
 			} else {
-				IEisDumbConsole("ERROR: invalid screen draw state: " + this.id);
+				console.log("ERROR: invalid screen draw state: " + this.id);
 			}
 			this.drawstate = 'unchanged';
 			
