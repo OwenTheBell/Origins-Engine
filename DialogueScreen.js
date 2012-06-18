@@ -1,8 +1,8 @@
-var DialogueScreen = Screen.extend(function(id, zIndex, dialogueFile){
+var DialogueScreen = Screen.extend(function(id, zIndex, file){
 	this.dialogueContainer = {}; //not sure I actually need this since I have the firstStatement variable
 	//Contain the first statement in a dialogue, this will start of the conversation
 	this.firstStatement = null;
-	this.dialogueFile = dialogueFile; //url of the xml file with relevant dialogue
+	this.file = file; //url of the xml file with relevant dialogue
 })
 	.methods({
 		//XML has to be loaded after initialization so that's what this method is for
@@ -74,28 +74,28 @@ var DialogueScreen = Screen.extend(function(id, zIndex, dialogueFile){
 				if (statement.nextType === 'overseer'){
 					var tester = overseerContainer[statement.nextId];
 					if (!tester){
-						console.log('ERROR: ' + statement.nextId + ' is not a valid overseer id ' + id);
+						IEisDumbConsole('ERROR: ' + statement.nextId + ' is not a valid overseer id ' + id);
 					} else {
 						statement.setNext(tester);
 					}
 				} else if (statement.nextType === 'player'){
 					var tester = playerContainer[statement.nextId];
 					if (!tester){
-						console.log('ERROR: ' + statement.nextId + ' is not a valid player id ' + id);
+						IEisDumbConsole('ERROR: ' + statement.nextId + ' is not a valid player id ' + id);
 					} else {
 						statement.setNext(tester);
 					}
 				} else if (statement.nextType === 'popup'){
 					var tester = popupContainer[statement.nextId];
 					if (!tester){
-						console.log('ERROR: ' + statement.nextId + ' is not a valid popup id ' + id);
+						IEisDumbConsole('ERROR: ' + statement.nextId + ' is not a valid popup id ' + id);
 					} else {
 						statement.setNext(tester);
 					}
 				} else if (statement.nextType === 'exit'){
 					statement.setNext('exit'); //this is VERY temporary
 				} else {
-					console.log("ERROR: " + id + " has an invalid nextType of " + statement.nextType);
+					IEisDumbConsole("ERROR: " + id + " has an invalid nextType of " + statement.nextType);
 				}
 			};
 		}
@@ -128,7 +128,7 @@ var Statement = klass(function(xmlData){
 		setNext: function(nextStatement){
 			this.nextStatement = nextStatement;
 			if(nextStatement != 'exit'){
-				//console.log(this.nextStatement.id + " attached to " + this.id);
+				//IEisDumbConsole(this.nextStatement.id + " attached to " + this.id);
 			};
 		},
 		addText: function(text){
@@ -158,18 +158,18 @@ var Statement = klass(function(xmlData){
 				active = this.nextStatement;
 				displayed = false;
 			} else if (this.nextType === 'popup'){
-				console.log("Next statement is a popup");
+				IEisDumbConsole("Next statement is a popup");
 				keepGoing = false;
 			} else if (this.nextType === 'exit'){
-				console.log("THE END!!!!");
+				IEisDumbConsole("THE END!!!!");
 				keepGoing = false;
 			} else {
-				console.log("ERROR: " + this.id + " has an invalid nextType");
+				IEisDumbConsole("ERROR: " + this.id + " has an invalid nextType");
 				keepGoing = false;
 			}
 		},
 		draw: function(){
-			console.log(this.returnText());
+			IEisDumbConsole(this.returnText());
 		}
 	});
 
@@ -224,10 +224,10 @@ var PlayerOptions = klass(function(xmlData){
 			if (((keyValue - 49) < availableStatements.length) && ((keyValue - 49) >= 0)){
 				var next = availableStatements[keyValue - 49];
 				if (next.nextType === 'exit'){
-					console.log('THE END!!!!');
+					IEisDumbConsole('THE END!!!!');
 					keepGoing = false;
 				} else if (next.nextType === 'popup'){
-					console.log("next up is a popup");
+					IEisDumbConsole("next up is a popup");
 					keepGoing = false;
 				} else {
 					active = availableStatements[keyValue - 49].nextStatement;
@@ -248,7 +248,7 @@ var PlayerOptions = klass(function(xmlData){
 				//Only display an option if it does not have a check value, or
 				//if it's check value is inside set_check
 				if (!check || set_check[check]){
-					console.log(iter + " " + this.statementArray[x].returnText());
+					IEisDumbConsole(iter + " " + this.statementArray[x].returnText());
 					iter++;
 				}
 			}

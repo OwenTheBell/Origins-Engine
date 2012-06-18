@@ -52,15 +52,24 @@ ajaxCall = function(dialogueScreen){
 	$.ajax({
 		async: false,
 		type: "GET",
-		url: dialogueScreen.dialogueFile,
+		url: dialogueScreen.file,
 		dataType: "xml",
 		success: function(data){
 			dialogueScreen.loadXML(data);
+			IEisDumbConsole('woot');
 		}
 	});
 	
 }
 
 debugPrint = function(x, y){
-	console.log('(' + x + ',' + y + ')');
+	IEisDumbConsole('(' + x + ',' + y + ')');
+}
+
+IEisDumbConsole = function(output){
+	try{
+		console.log(output);
+	} catch(e){
+		//nothing here since IE doesn't have a console
+	}
 }
