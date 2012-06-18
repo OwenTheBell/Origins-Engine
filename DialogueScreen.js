@@ -1,7 +1,8 @@
-var DialogueScreen = Screen.extend(function(id, zIndex){
+var DialogueScreen = Screen.extend(function(id, zIndex, dialogueFile){
 	this.dialogueContainer = {}; //not sure I actually need this since I have the firstStatement variable
 	//Contain the first statement in a dialogue, this will start of the conversation
 	this.firstStatement = null;
+	this.dialogueFile = dialogueFile; //url of the xml file with relevant dialogue
 })
 	.methods({
 		//XML has to be loaded after initialization so that's what this method is for
@@ -20,7 +21,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex){
 			
 			$(xml).find("overseer").each(function(){
 				//only the raw xml is needed to make a new Overseer object
-				var overseer = new Overseer(this);
+				var overseer = new OverseerStatement(this);
 				//add overseers to overseerContainer sorted by id for easy lookup later
 				overseerContainer[overseer.id] = overseer;
 				

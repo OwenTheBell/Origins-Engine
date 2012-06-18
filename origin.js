@@ -27,6 +27,11 @@ onLoad = function(){
 	otherScreen.addSprite(new Sprite(0, 0, 'purplecircle.png', 'purplecircle'));
 	mainScreen.addSprite(new screenChangeSprite(0, 184, 'crate.png', 'goLeft', otherScreen));
 	otherScreen.addSprite(new screenChangeSprite(368, 184, 'crate.png', 'goRight', mainScreen));
+	
+	talkScreen = new DialogueScreen('talkScreen', bottomZIndex, 'IntroDial.xml');
+	ajaxCall(talkScreen);
+	
+	
 	mainScreen.draw();
 	//mainScreen.fadingIn(1);
 	startGame(60);
@@ -41,6 +46,19 @@ RunGame = function(){
 	otherScreen.update();
 	mainScreen.draw();
 	otherScreen.draw();
+}
+
+ajaxCall = function(dialogueScreen){
+	$.ajax({
+		async: false,
+		type: "GET",
+		url: dialogueScreen.dialogueFile,
+		dataType: "xml",
+		success: function(data){
+			dialogueScreen.loadXML(data);
+		}
+	});
+	
 }
 
 debugPrint = function(x, y){
