@@ -16,11 +16,10 @@ try{
 onLoad = function(){
 	
 	/*
-	 * Pull in the different javascript files
-	 * This is done here so that the people developing the external website
-	 * don't have to worry about importing all necessary javascript. All that
-	 * needs to be present is "origin.js" and jquery
+	 * Loading scripts this way is ok for production but not for developement
+	 * as all files imported this way don't appear in the debugger
 	 */
+	/*
 	var importer = ["<script type='text/javascript' src='klass.min.js'></script>",
 					"<script type='text/javascript' src='Screen.js'></script>",
 					"<script type='text/javascript' src='Sprite.js'></script>",
@@ -28,6 +27,7 @@ onLoad = function(){
 					"<script type='text/javascript' src='DialogueScreen.js'></script>"].join("\n");
 	
 	$('head').append(importer);
+	*/
 	
 	mainScreen = new Screen('mainScreen', topZIndex);
 	otherScreen = new Screen('otherScreen', bottomZIndex);
@@ -37,7 +37,7 @@ onLoad = function(){
 	otherScreen.addSprite(new screenChangeSprite(368, 184, 'crate.png', 'goRight', mainScreen));
 	
 	talkScreen = new DialogueScreen('talkScreen', bottomZIndex, 'IntroDial.xml');
-	ajaxCall(talkScreen);
+	ajaxGet(talkScreen);
 	
 	mainScreen.draw();
 	startGame(60);
@@ -54,7 +54,7 @@ RunGame = function(){
 	otherScreen.draw();
 }
 
-ajaxCall = function(dialogueScreen){
+ajaxGet = function(dialogueScreen){
 	$.ajax({
 		async: false,
 		type: "GET",
@@ -62,10 +62,8 @@ ajaxCall = function(dialogueScreen){
 		dataType: "xml",
 		success: function(data){
 			dialogueScreen.loadXML(data);
-			console.log('woot');
 		}
 	});
-	
 }
 
 debugPrint = function(x, y){
