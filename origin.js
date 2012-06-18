@@ -4,6 +4,7 @@ var fps = 60;
 var topZIndex = 10;
 var bottomZIndex = 9;
 var transZIndex = 11; //this zIndex is used to place emerging layers on top
+var dialogueZIndex = 12;
 
 //If there is not a console then make console.log an empty function
 try{
@@ -36,9 +37,11 @@ onLoad = function(){
 	mainScreen.addSprite(new screenChangeSprite(0, 184, 'crate.png', 'goLeft', otherScreen));
 	otherScreen.addSprite(new screenChangeSprite(368, 184, 'crate.png', 'goRight', mainScreen));
 	
-	talkScreen = new DialogueScreen('talkScreen', bottomZIndex, 'IntroDial.xml');
+	
+	talkScreen = new DialogueScreen('talkScreen', dialogueZIndex, 'IntroDial.xml');
 	ajaxGet(talkScreen);
 	
+	talkScreen.draw();
 	mainScreen.draw();
 	startGame(60);
 }

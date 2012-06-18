@@ -3,6 +3,23 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 	//Contain the first statement in a dialogue, this will start of the conversation
 	this.firstStatement = null;
 	this.file = file; //url of the xml file with relevant dialogue
+	
+	this.overseerDiv = jQuery('<div>', {
+		id: 'overseerDiv'
+	});
+	this.overseerDiv.css({
+		position: 'inherit',
+		top: '5px',
+		left: '5px',
+		width: parseInt($('#origins').css('width')) - 20 + 'px',
+		//width: '580px',
+		height: '150px',
+		'border-style': 'solid',
+		'border-width': '5',
+		'background-color': '#FFFFFF'
+	});
+	
+	this.repDiv.append(this.overseerDiv);
 })
 	.methods({
 		//XML has to be loaded after initialization so that's what this method is for
