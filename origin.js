@@ -1,6 +1,9 @@
 var mainScreen;
 var otherScreen;
 var fps = 60;
+var topZIndex = 10;
+var bottomZIndex = 9;
+var transZIndex = 11; //this zIndex is used to place emerging layers on top
 
 /*
  * This is the importer that actually lets me see what I am writing
@@ -17,8 +20,8 @@ onLoad = function(){
 	
 	$('head').append(importer);
 	*/
-	mainScreen = new Screen('mainScreen', 9, 1.0);
-	otherScreen = new Screen('otherScreen', 8, 0.0);
+	mainScreen = new Screen('mainScreen', topZIndex);
+	otherScreen = new Screen('otherScreen', bottomZIndex);
 	//mainScreen.fadingOut(1);
 	mainScreen.addSprite(new Sprite(0, 0, 'blackcircle.png', 'blackcircle'));
 	otherScreen.addSprite(new Sprite(0, 0, 'purplecircle.png', 'purplecircle'));

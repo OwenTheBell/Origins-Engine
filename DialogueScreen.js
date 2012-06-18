@@ -1,4 +1,4 @@
-var DialogueScreen = Screen.extend(function(id, zIndex, opacity){
+var DialogueScreen = Screen.extend(function(id, zIndex){
 	this.dialogueContainer = {}; //not sure I actually need this since I have the firstStatement variable
 	//Contain the first statement in a dialogue, this will start of the conversation
 	this.firstStatement = null;

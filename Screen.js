@@ -1,4 +1,4 @@
-var Screen = klass(function(id, zIndex, opacity) {
+var Screen = klass(function(id, zIndex) {
 	this.id = id
 	this.spriteArray = [];
 	//Not sure if I need this, this was for when the clickMap was going to be
@@ -8,9 +8,15 @@ var Screen = klass(function(id, zIndex, opacity) {
 	this.fadeIn = false;
 	this.timeIn;
 	this.drawState = 'new';
+	this.activeScreen = false;
+	this.opacity = 0.0
 	
 	this.zIndex = zIndex;
-	this.opacity = opacity;
+	//set opacity based on whether or not this screen is on the top zIndex
+	if (this.zIndex == topZIndex) {
+		this.opacity = 1.0;
+		this.activeScreen = true;
+	}
 	
 	this.transitionFrames = 0;
 	this.transitionFramesCount = 0;
@@ -22,7 +28,7 @@ var Screen = klass(function(id, zIndex, opacity) {
 	this.repDiv.css({
 		position: 'inherit',
 		opacity: this.opacity,
-		'z-index': this.zIndex
+		'z-index': this.zIndex,
 	});
 })
 	.methods({
@@ -61,12 +67,14 @@ var Screen = klass(function(id, zIndex, opacity) {
 			this.fadeOut = true;
 			this.transitionFrames = seconds*fps;
 			this.transitionFramesCount = 0;
+			console.log(this.id + ' moving to background');
+			this.activeScreen = false;
 		},
 		//seconds: the number of seconds for the transition
 		fadingIn: function(seconds){
 			this.fadeIn = true;
 			this.transitionFrames = seconds*fps;
-			this.zIndex = 10;
+			this.zIndex = transZIndex;
 			this.drawState = 'updated';
 		},
 		update: function(){
@@ -76,32 +84,19 @@ var Screen = klass(function(id, zIndex, opacity) {
 					this.opacity = 1.0;
 					this.fadeIn = false;
 					this.fadeOut = false;
-					this.zIndex--;
-					console.log(this.id + ' transition complete');
+					this.zIndex = topZIndex;
+					this.activeScreen = true;
+					console.log(this.id + ' in foreground');
 				} else {
-					//Increment up the opacity
 					this.opacity += (1 / this.transitionFrames);
 				}
 				this.drawState = 'updated';
-				//console.log(this.opacity);
 			} else if (this.fadeOut){
-				/*
-				if (this.transitionFramesCount >= this.transitionFrames){
-					this.opacity = 0.0;
-					this.zIndex--;
-					console.log(this.id + ' moving to background');
-					this.fadeOut = false;
-				} else {
-					this.transitionFramesCount++;
-				}
-				*/
-				
 				if (this.opacity <= 0.0){
 					this.opacity = 0.0;
 					this.fadeOut = false;
 					this.fadeIn = false;
-					this.zIndex--;
-					console.log(this.id + " moving to background");
+					this.zIndex = bottomZIndex;
 				} else {
 					this.opacity -= (1 / this.transitionFrames);
 				}
@@ -111,7 +106,7 @@ var Screen = klass(function(id, zIndex, opacity) {
 			
 			var mouseInput = false;
 			//Only take input if the screen is not transitioning
-			if (this.opacity == 1.0){
+			if (this.activeScreen){
 				mouseInput = inputState.checkLeftClick();
 			}
 			
