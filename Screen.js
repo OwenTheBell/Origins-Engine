@@ -153,3 +153,8 @@ var Screen = klass(function(id, zIndex, opacity) {
 			}
 		}
 	});
+
+
+var dialogueScreen = Screen.extend(function(id, zIndex, opacity, targetXML){
+	
+})
