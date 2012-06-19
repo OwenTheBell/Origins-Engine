@@ -89,30 +89,24 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			 */
 			function linkNext(statement, id){
 				if (statement.nextType === 'overseer'){
-					var tester = overseerContainer[statement.nextId];
-					if (!tester){
-						console.log('ERROR: ' + statement.nextId + ' is not a valid overseer id ' + id);
-					} else {
-						statement.setNext(tester);
-					}
+					checkContainer(overseerContainer, 'overseer');
 				} else if (statement.nextType === 'player'){
-					var tester = playerContainer[statement.nextId];
-					if (!tester){
-						console.log('ERROR: ' + statement.nextId + ' is not a valid player id ' + id);
-					} else {
-						statement.setNext(tester);
-					}
+					checkContainer(playerContainer, 'player');
 				} else if (statement.nextType === 'popup'){
-					var tester = popupContainer[statement.nextId];
-					if (!tester){
-						console.log('ERROR: ' + statement.nextId + ' is not a valid popup id ' + id);
-					} else {
-						statement.setNext(tester);
-					}
+					checkContainer(popupContainer, 'popup');
 				} else if (statement.nextType === 'exit'){
 					statement.setNext('exit'); //this is VERY temporary
 				} else {
 					console.log("ERROR: " + id + " has an invalid nextType of " + statement.nextType);
+				}
+				
+				function checkContainer(container, type){
+					var tester = container[statement.nextId];
+					if(!tester){
+						console.log("ERROR: " + statement.nextId + " is not a valid " + type + " id " + id);
+					} else {
+						statement.setNext(tester);
+					}
 				}
 			};
 		}

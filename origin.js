@@ -7,8 +7,10 @@ var transZIndex = 11; //this zIndex is used to place emerging layers on top
 var dialogueZIndex = 12;
 
 //If there is not a console then make console.log an empty function
+//Consider a boolean to force console.log to be an empty statement
+//This would be useful to speed up production code runtimes
 try{
-	console
+	console;
 } catch(e) {
 	console = {};
 	console.log = function(){};
