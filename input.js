@@ -1,8 +1,14 @@
 var inputState = {
-	aKeyDown: false,
-	sKeyDown: false,
-	dKeyDown: false,
-	wKeyDown: false,
+	keydown: false,
+	keydownvalue: -1,
+	
+	keypressed: false,
+	keypressvalue: -1,
+	
+	getKeyPressValue: function(){
+		this.keypressed = false;
+		return this.keypressvalue;
+	},
 		
 	mouseClick: {
 		X: -1,
@@ -30,40 +36,33 @@ var inputState = {
 
 //keydown triggers
 $(document).keydown(function(e){
-	if (e.which == 65){ //a
-		inputState.aKeyDown = true;
-	} else if (e.which == 68) { //d
-		inputState.dKeyDown = true;
-	} else if (e.which == 87) { //w
-		inputState.wKeyDown = true;
-	} else if (e.which == 83) { //s
-		inputState.sKeyDown = true;
-	}
+	inputState.keydown = true;
+	inputState.keydownvalue = e.which;
 });
 
 //keyup triggers
 $(document).keyup(function(e){
-	if (e.which == 65){ //a
-		inputState.aKeyDown = false;
-	} else if (e.which == 68) { //d
-		inputState.dKeyDown = false;
-	} else if (e.which == 87) { //w
-		inputState.wKeyDown = false;
-	} else if (e.which == 83) { //s
-		inputState.sKeyDown = false;
-	}
+	inputState.keydown = false;
+	inputState.keydownvalue = -1;
 });
 
 //mouse input triggers
 $(document).mousedown(function(e){
 	if (e.which == 1){
 		inputState.mouseClick = {X: e.pageX, Y: e.pageY, happened: true};
-		//debugPrint(e.pageX, e.pageY);
+		//helper.debugPrint(e.pageX, e.pageY);
 	}
 });
 
 $(document).mouseup(function(e){
 	if (e.which == 1){
 		inputState.mouseClick.happened = false;
+	}
+});
+
+$(document).keypress(function(e){
+	if (!inputState.keypressed){
+		inputState.keyvalue = e.which;
+		inputState.keypressed = true;
 	}
 });

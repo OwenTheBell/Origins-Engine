@@ -1,8 +1,9 @@
 var DialogueScreen = Screen.extend(function(id, zIndex, file){
-	this.dialogueContainer = {}; //not sure I actually need this since I have the firstStatement variable
-	//Contain the first statement in a dialogue, this will start of the conversation
-	this.firstStatement = null;
+	this.dialogueContainer = {}; //not sure I actually need this since I have the activeStatement variable
+	//Contains the first statement in a dialogue, this will start off the conversation
+	this.activeStatement = null;
 	this.file = file; //url of the xml file with relevant dialogue
+	this.set_check = {}; //object to contain the set & check conversation values
 	
 	this.overseerDiv = jQuery('<div>', {
 		id: 'overseerDiv'
@@ -45,23 +46,23 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			
 			$(xml).find("overseer").each(function(){
 				//only the raw xml is needed to make a new Overseer object
-				var overseer = new OverseerStatement(this);
+				var overseer = new OverseerStatement(that, this);
 				//add overseers to overseerContainer sorted by id for easy lookup later
 				overseerContainer[overseer.id] = overseer;
 				
 				//if there is not a first element of the conversation then set it
-				if (!that.firstStatement){
-					that.firstStatement = overseer;
+				if (!that.activeStatement){
+					that.activeStatement = overseer;
 				}
 			});
 			
 			$(xml).find('player').each(function(){
-				var player = new PlayerOptions(this);				
+				var player = new PlayerOptions(that, this);				
 				playerContainer[player.id] = player;
 			});
 			
 			$(xml).find('popup').each(function(){
-				var popup = new PopupStatement(this);
+				var popup = new PopupStatement(that, this);
 				popupContainer[popup.id] = popup;
 			});
 			
@@ -94,7 +95,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			 * 		as playerStatements do not have ids so a string needs to be passed
 			 * 		to be used instead
 			 */
-			function linkNext(statement, id){
+			function linkNext(statement){
 				if (statement.nextType === 'overseer'){
 					checkContainer(overseerContainer, 'overseer');
 				} else if (statement.nextType === 'player'){
@@ -104,7 +105,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 				} else if (statement.nextType === 'exit'){
 					statement.setNext('exit'); //this is VERY temporary
 				} else {
-					console.log("ERROR: " + id + " has an invalid nextType of " + statement.nextType);
+					console.log("ERROR: " + statement.id + " has an invalid nextType of " + statement.nextType);
 				}
 				
 				function checkContainer(container, type){
@@ -118,10 +119,20 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			};
 		},
 		
-		draw: function(){
+		update: function(){
 			this.supr();
 			
-			this.overseerDiv.html(this.firstStatement.returnText());
+			if (inputState.keypressed){
+				var keyValue = inputState.getKeyPressValue();
+			}
+			
+			this.activeStatement.update();
+		},
+		
+		draw: function(){
+			this.activeStatement.draw();
+			
+			this.supr();
 		}
 	});
 
@@ -139,10 +150,13 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
  * 			arachne: id of an arachneStatement
  * 			exit: id of a Screen that the chat will exit to
  */
-var Statement = klass(function(xmlData){
+var Statement = klass(function(parent, xmlData){
+	this.parent = parent;
 	this.nextType = $(xmlData).attr('nextType');
 	this.nextId = $(xmlData).attr('nextId');
 	this.texts = []; //array of text xml elements, not raw strings
+	this.drawState = 'new';
+	
 	var that = this;
 	$(xmlData).find('text').each(function(){
 		that.texts.push(this);
@@ -158,7 +172,7 @@ var Statement = klass(function(xmlData){
 		addText: function(text){
 			this.texts.push(text);
 		},
-		//Returns all of this.texts as a formatted string
+		//Returns all of this.texts as a formatted strg
 		//This will probably change so that text is instead drawn individually by the object
 		returnText: function(){
 			var textArray = [];
@@ -167,46 +181,53 @@ var Statement = klass(function(xmlData){
 				if(!color){
 					textArray.push($(this.texts[x]).text());
 				} else {
-					textArray.push($(this.texts[x]).text().toUpperCase());
+					if (color === 'hex color value'){
+						color = '#FF00FF';
+					}
+					textArray.push("<font color='" + color + "'>" + $(this.texts[x]).text() + "</font>");
 				}
 			}
 			return textArray.join("");
 		},
-		update: function(keyValue){
-			if (this.nextType === 'overseer'){
-				if (keyValue == 13){
-					active = this.nextStatement;
-					displayed = false;
-				}
-			} else if (this.nextType === 'player'){
-				active = this.nextStatement;
-				displayed = false;
-			} else if (this.nextType === 'popup'){
-				console.log("Next statement is a popup");
-				keepGoing = false;
-			} else if (this.nextType === 'exit'){
-				console.log("THE END!!!!");
-				keepGoing = false;
-			} else {
-				console.log("ERROR: " + this.id + " has an invalid nextType");
-				keepGoing = false;
-			}
+		update: function(){
 		},
 		draw: function(){
-			console.log(this.returnText());
 		}
 	});
 
-var OverseerStatement = Statement.extend(function(xmlData){
+var OverseerStatement = Statement.extend(function(parent, xmlData){
 	this.id = $(xmlData).attr('id');
 	if (!$(xmlData).attr('highlight')){
 		this.highlight = $(xmlData).attr('highlight');
 	}
-	/*
-	this.id = id;
-	this.highlight = highlight; //this arugment is optional
-	*/
-});
+})
+	.methods({
+		update: function(){
+			if(this.drawState === 'unchanged'){
+				if (this.nextType === 'overseer'){
+					if (this.parent.keyValue == 13){
+						this.parent.activeStatement = this.nextStatement;
+					}
+				} else if (this.nextType === 'player'){
+					this.parent.activeStatement = this.nextStatement;
+				} else if (this.nextType === 'popup'){
+					console.log("Next statement is a popup");
+				} else if (this.nextType === 'exit'){
+					console.log("THE END!!!!");
+				} else {
+					console.log("ERROR: " + this.id + " has an invalid nextType");
+				}
+			}
+		},
+		draw: function(){
+			if (this.drawState === 'new'){
+				this.parent.overseerDiv.html(this.returnText());
+			} else {
+				console.log("ERROR: invalid statement draw state " + this.id);
+			}
+			this.drawState = 'unchanged';
+		}
+	});
 
 /*
  * Not a statement but still important. Since all player statements
@@ -215,66 +236,70 @@ var OverseerStatement = Statement.extend(function(xmlData){
  * Nonplayer statements will point to a playerOptions that contains
  * reply statements
  */
-var PlayerOptions = klass(function(xmlData){
+var PlayerOptions = klass(function(parent, xmlData){
+	this.parent = parent;
 	this.id = $(xmlData).attr('id');
 	this.statementArray = [];
+	this.availableStatements = null;
+	this.drawState = 'new';
+	
 	var that = this;
 	$(xmlData).find('option').each(function(){
-		var statement = new PlayerStatement(this, that.id + "statement");
+		var statement = new PlayerStatement(that.parent, this, that.id + "Statement" + that.statementArray.length);
 		that.statementArray.push(statement);
 	});
 })
 	.methods({
-		addStatement: function(statement){
-			statement.setId(this.id + "Statement");
-			this.statementArray.push(statement);
-		},
 		/*
 		 * Currently updated() and draw() are called in reverse order, this
 		 * needs to be fixed
 		 */
-		update: function(keyValue){
+		update: function(){
 			//make array of available answers
-			var availableStatements = [];
-			for(x in this.statementArray){
-				var statement = this.statementArray[x];
-				var check = statement.check();
-				if (!check || set_check[check]){
-					availableStatements.push(statement);
+			if (!this.availableStatements){
+				this.availableStatements = [];
+				for(x in this.statementArray){
+					var statement = this.statementArray[x];
+					var check = statement.check();
+					if (!check || parent.set_check[check]){
+						this.availableStatements.push(statement);
+					}
 				}
 			}
 			
-			//now that we have an array we can actually check which answers to select
-			if (((keyValue - 49) < availableStatements.length) && ((keyValue - 49) >= 0)){
-				var next = availableStatements[keyValue - 49];
-				if (next.nextType === 'exit'){
-					console.log('THE END!!!!');
-					keepGoing = false;
-				} else if (next.nextType === 'popup'){
-					console.log("next up is a popup");
-					keepGoing = false;
-				} else {
-					active = availableStatements[keyValue - 49].nextStatement;
-					var set = availableStatements[keyValue - 49].set();
-					//if the selected statement has a set variable, set it for later
-					if (set){
-						set_check[set] = "true";
+			if(this.parent.keyValue){
+				var keyValue = this.parent.keyValue;
+				//now that we have an array we can actually check which answers to select
+				if (((keyValue - 49) < this.availableStatements.length) && ((keyValue - 49) >= 0)){
+					var next = this.availableStatements[keyValue - 49];
+					if (next.nextType === 'exit'){
+						console.log('THE END!!!!');
+					} else if (next.nextType === 'popup'){
+						console.log("next up is a popup");
+					} else {
+						this.parent.activeStatement = this.availableStatements[keyValue - 49].nextStatement;
+						var set = this.availableStatements[keyValue - 49].set();
+						//if the selected statement has a set variable, set it for later
+						if (set){
+							this.parent.set_check[set] = "true";
+						}
 					}
-					displayed = false;
 				}
 			}
 		},
 		draw: function(){
-			var iter = 1;
-			for(x in this.statementArray){
-				var statement = this.statementArray[x];
-				var check = statement.check();
-				//Only display an option if it does not have a check value, or
-				//if it's check value is inside set_check
-				if (!check || set_check[check]){
-					console.log(iter + " " + this.statementArray[x].returnText());
+			
+			if (this.drawState === 'new'){
+				var iter = 1;
+				var returnText = "";
+				for (x in this.availableStatements){
+					var statement = this.availableStatements[x];
+					returnText += '<p>' + iter + ' ' + statement.returnText() + '</p>';
 					iter++;
 				}
+				this.parent.playerDiv.html(returnText);
+			} else {
+				console.log("ERROR: invalid statement draw state " + this.id);
 			}
 		}
 	});
@@ -282,8 +307,9 @@ var PlayerOptions = klass(function(xmlData){
 /*
  * A player statement can have both a set and a check value, this just needs
  * to be reflected in the input object
+ * NOTE: parent in this case is the DialogueScreen not a PlayerOptions
  */
-var PlayerStatement = Statement.extend(function(xmlData, id){
+var PlayerStatement = Statement.extend(function(parent, xmlData, id){
 	this.id = id; //id is included as a seperate parameter since there is not id definition in the xml
 	this.set_check = {}; //optional, object containing id and whether or not this statement uses set or check
 	var that = this;
@@ -303,7 +329,7 @@ var PlayerStatement = Statement.extend(function(xmlData, id){
 		}
 	});
 
-var PopupStatement = Statement.extend(function(xmlData){
+var PopupStatement = Statement.extend(function(parent, xmlData){
 	this.id = $(xmlData).attr('id');
 	this.target = $(xmlData).attr('target');
 })

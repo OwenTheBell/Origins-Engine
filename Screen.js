@@ -7,7 +7,7 @@ var Screen = klass(function(id, zIndex) {
 	this.fadeOut = false;
 	this.fadeIn = false;
 	this.timeIn;
-	this.drawState = 'new';
+	this.drawState = 'new'; // new/updated/removed/unchanged
 	this.activeScreen = false;
 	this.opacity = 0.0
 	

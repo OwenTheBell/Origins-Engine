@@ -1,9 +1,9 @@
 <dialogue>
 <overseer id = "introOS1" nextType = "player" nextId = "player introPL1">
 	<text> Perillos Capsule</text>
-	<text color= "hex color value"> occupant </text> 
+	<text color= "hex color value"> occupant</text> 
 	<text>, this is the</text>
-	<text color = "hex color value">MINOS Overseer</text>
+	<text color = "hex color value"> MINOS Overseer</text>
 	<text>. Do you copy?</text>
 	<text color = "hex color value"> Occupant</text>
 	<text>?</text>
