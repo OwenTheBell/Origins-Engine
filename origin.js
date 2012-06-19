@@ -1,5 +1,4 @@
-var mainScreen;
-var otherScreen;
+var screenCollection = [];
 var fps = 60;
 var topZIndex = 10;
 var bottomZIndex = 9;
@@ -32,19 +31,18 @@ onLoad = function(){
 	$('head').append(importer);
 	*/
 	
-	mainScreen = new Screen('mainScreen', topZIndex);
-	otherScreen = new Screen('otherScreen', bottomZIndex);
+	var mainScreen = new Screen('mainScreen', topZIndex);
+	var otherScreen = new Screen('otherScreen', bottomZIndex);
 	mainScreen.addSprite(new Sprite(0, 0, 'blackcircle.png', 'blackcircle'));
 	otherScreen.addSprite(new Sprite(0, 0, 'purplecircle.png', 'purplecircle'));
 	mainScreen.addSprite(new screenChangeSprite(0, 184, 'crate.png', 'goLeft', otherScreen));
 	otherScreen.addSprite(new screenChangeSprite(368, 184, 'crate.png', 'goRight', mainScreen));
 	
 	
-	talkScreen = new DialogueScreen('talkScreen', dialogueZIndex, 'IntroDial.xml');
-	ajaxGet(talkScreen);
+	var talkScreen = new DialogueScreen('talkScreen', dialogueZIndex, 'IntroDial.xml');
+	helper.ajaxGet(talkScreen);
 	
-	talkScreen.draw();
-	mainScreen.draw();
+	screenCollection.push(mainScreen, otherScreen, talkScreen);
 	startGame(60);
 }
 
@@ -53,24 +51,10 @@ startGame = function() {
 }
 
 RunGame = function(){
-	mainScreen.update();
-	otherScreen.update();
-	mainScreen.draw();
-	otherScreen.draw();
-}
-
-ajaxGet = function(dialogueScreen){
-	$.ajax({
-		async: false,
-		type: "GET",
-		url: dialogueScreen.file,
-		dataType: "xml",
-		success: function(data){
-			dialogueScreen.loadXML(data);
-		}
-	});
-}
-
-debugPrint = function(x, y){
-	console.log('(' + x + ',' + y + ')');
+	for (x in screenCollection){
+		screenCollection[x].update();
+	}
+	for (x in screenCollection){
+		screenCollection[x].draw();
+	}
 }

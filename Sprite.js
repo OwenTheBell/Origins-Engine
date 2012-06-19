@@ -77,7 +77,6 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 		update: function(){
 			this.supr();
 			
-			
 			if (this.clickMap.length == 0){
 				this.makeClickMap();
 			}

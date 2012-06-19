@@ -11,15 +11,22 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		position: 'inherit',
 		top: '5px',
 		left: '5px',
-		width: parseInt($('#origins').css('width')) - 20 + 'px',
-		//width: '580px',
-		height: '150px',
-		'border-style': 'solid',
-		'border-width': '5',
-		'background-color': '#FFFFFF'
 	});
+	this.overseerDiv.addClass('dialogue');
+	
+	this.playerDiv = jQuery('<div>', {
+		id: 'playerDiv'
+	});
+	this.playerDiv.addClass('dialogue');
+	//this function needs to be cleaned up a little bit
+	this.playerDiv.css({
+		position: 'inherit',
+		top: (parseInt($('#origins').css('height')) - parseInt(helper.findCSSRule('.dialogue').style.height) - 15) + 'px',
+		left: '5px',
+	})
 	
 	this.repDiv.append(this.overseerDiv);
+	this.repDiv.append(this.playerDiv);
 })
 	.methods({
 		//XML has to be loaded after initialization so that's what this method is for
@@ -109,6 +116,12 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 					}
 				}
 			};
+		},
+		
+		draw: function(){
+			this.supr();
+			
+			this.overseerDiv.html(this.firstStatement.returnText());
 		}
 	});
 
