@@ -15,7 +15,7 @@ var Screen = klass(function(id, zIndex) {
 	//set opacity based on whether or not this screen is on the top zIndex
 	if ((this.zIndex == topZIndex) || (this.zIndex == dialogueZIndex)) {
 		this.opacity = 1.0;
-		this.activeScreen = true;
+		//this.activeScreen = true;
 	}
 	
 	this.transitionFrames = 0;

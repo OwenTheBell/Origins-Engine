@@ -24,7 +24,6 @@ var helper = {
 	findCSSRule: function(rule){
 		var mysheet = document.styleSheets[0];
 		var myrules = mysheet.cssRules ? mysheet.cssRules : mysheet.rules;
-		console.log(myrules);
 		for (i in myrules){
 			if (myrules[i].selectorText.toLowerCase() === rule) {
 				return myrules[i];

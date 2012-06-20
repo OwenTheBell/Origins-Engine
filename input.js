@@ -62,7 +62,7 @@ $(document).mouseup(function(e){
 
 $(document).keypress(function(e){
 	if (!inputState.keypressed){
-		inputState.keyvalue = e.which;
+		inputState.keypressvalue = e.which;
 		inputState.keypressed = true;
 	}
 });

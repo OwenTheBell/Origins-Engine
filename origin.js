@@ -17,6 +17,11 @@ try{
 
 onLoad = function(){
 	
+	//setup some of the external css for the dialogueScreen
+	var rule = helper.findCSSRule('.dialogue');
+	rule.style.width = parseInt($('#origins').css('width')) - 20 + 'px';
+	rule.style.height = parseInt($('#origins').css('height'))  / 4 + 'px';
+	
 	/*
 	 * Loading scripts this way is ok for production but not for developement
 	 * as all files imported this way don't appear in the debugger
@@ -40,6 +45,7 @@ onLoad = function(){
 	
 	
 	var talkScreen = new DialogueScreen('talkScreen', dialogueZIndex, 'IntroDial.xml');
+	talkScreen.activeScreen = true;
 	helper.ajaxGet(talkScreen);
 	
 	screenCollection.push(mainScreen, otherScreen, talkScreen);

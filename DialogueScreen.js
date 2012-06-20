@@ -1,9 +1,10 @@
 var DialogueScreen = Screen.extend(function(id, zIndex, file){
-	this.dialogueContainer = {}; //not sure I actually need this since I have the activeStatement variable
 	//Contains the first statement in a dialogue, this will start off the conversation
 	this.activeStatement = null;
+	this.nextActiveStatement = null;
 	this.file = file; //url of the xml file with relevant dialogue
-	this.set_check = {}; //object to contain the set & check conversation values
+	this.set_check = []; //object to contain the set & check conversation values
+	this.keyValue = false;
 	
 	this.overseerDiv = jQuery('<div>', {
 		id: 'overseerDiv'
@@ -24,7 +25,9 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		position: 'inherit',
 		top: (parseInt($('#origins').css('height')) - parseInt(helper.findCSSRule('.dialogue').style.height) - 15) + 'px',
 		left: '5px',
-	})
+	});
+	
+	//this.playerDiv.
 	
 	this.repDiv.append(this.overseerDiv);
 	this.repDiv.append(this.playerDiv);
@@ -41,7 +44,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			var playerContainer = {};
 			var popupContainer = {};
 			
-			//need to capture this so that it can be accessed within subfunctions
+			//need to capture 'this' so that it can be accessed within subfunctions
 			var that = this;
 			
 			$(xml).find("overseer").each(function(){
@@ -122,8 +125,15 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		update: function(){
 			this.supr();
 			
-			if (inputState.keypressed){
-				var keyValue = inputState.getKeyPressValue();
+			if (this.activeScreen && inputState.keypressed){
+				this.keyValue = inputState.getKeyPressValue();
+			} else {
+				this.keyValue = false;
+			}
+			
+			if (this.nextActiveStatement){
+				this.activeStatement = this.nextActiveStatement;
+				this.nextActiveStatement = null;
 			}
 			
 			this.activeStatement.update();
@@ -206,10 +216,10 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 			if(this.drawState === 'unchanged'){
 				if (this.nextType === 'overseer'){
 					if (this.parent.keyValue == 13){
-						this.parent.activeStatement = this.nextStatement;
+						this.parent.nextActiveStatement = this.nextStatement;
 					}
 				} else if (this.nextType === 'player'){
-					this.parent.activeStatement = this.nextStatement;
+					this.parent.nextActiveStatement = this.nextStatement;
 				} else if (this.nextType === 'popup'){
 					console.log("Next statement is a popup");
 				} else if (this.nextType === 'exit'){
@@ -222,6 +232,7 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 		draw: function(){
 			if (this.drawState === 'new'){
 				this.parent.overseerDiv.html(this.returnText());
+			} else if (this.drawState === 'unchanged'){ 
 			} else {
 				console.log("ERROR: invalid statement draw state " + this.id);
 			}
@@ -261,7 +272,7 @@ var PlayerOptions = klass(function(parent, xmlData){
 				for(x in this.statementArray){
 					var statement = this.statementArray[x];
 					var check = statement.check();
-					if (!check || parent.set_check[check]){
+					if (!check || this.parent.set_check[check]){
 						this.availableStatements.push(statement);
 					}
 				}
@@ -271,17 +282,18 @@ var PlayerOptions = klass(function(parent, xmlData){
 				var keyValue = this.parent.keyValue;
 				//now that we have an array we can actually check which answers to select
 				if (((keyValue - 49) < this.availableStatements.length) && ((keyValue - 49) >= 0)){
-					var next = this.availableStatements[keyValue - 49];
-					if (next.nextType === 'exit'){
+					var selected = this.availableStatements[keyValue - 49];
+					if (selected.nextType === 'exit'){
 						console.log('THE END!!!!');
-					} else if (next.nextType === 'popup'){
+					} else if (selected.nextType === 'popup'){
 						console.log("next up is a popup");
 					} else {
-						this.parent.activeStatement = this.availableStatements[keyValue - 49].nextStatement;
-						var set = this.availableStatements[keyValue - 49].set();
+						this.parent.nextActiveStatement = selected.nextStatement;
+						var set = selected.set();
 						//if the selected statement has a set variable, set it for later
 						if (set){
-							this.parent.set_check[set] = "true";
+							this.parent.set_check[set] = true;
+							console.log('setting');
 						}
 					}
 				}
@@ -289,18 +301,22 @@ var PlayerOptions = klass(function(parent, xmlData){
 		},
 		draw: function(){
 			
+			//Returns text formatted into a table so that things look nicer
 			if (this.drawState === 'new'){
 				var iter = 1;
-				var returnText = "";
+				var returnText = "<table border = '0'>";
 				for (x in this.availableStatements){
 					var statement = this.availableStatements[x];
-					returnText += '<p>' + iter + ' ' + statement.returnText() + '</p>';
+					returnText += '<tr><td>' + iter + ' ' + statement.returnText() + '</td></tr>';
 					iter++;
 				}
+				returnText += '</table>';
 				this.parent.playerDiv.html(returnText);
+			} else if (this.drawState === 'unchanged') {
 			} else {
 				console.log("ERROR: invalid statement draw state " + this.id);
 			}
+			this.drawState = 'unchanged';
 		}
 	});
 
