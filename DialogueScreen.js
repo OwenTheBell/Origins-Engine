@@ -122,6 +122,14 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			};
 		},
 		
+		activate: function(){
+			this.activeScreen = true;
+			this.zIndex = dialogueZIndex;
+			this.opacity = 1.0;
+			this.drawState = 'updated';
+			console.log(this.id + ' activated');
+		},
+		
 		update: function(){
 			this.supr();
 			
@@ -221,17 +229,20 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 				} else if (this.nextType === 'player'){
 					this.parent.nextActiveStatement = this.nextStatement;
 				} else if (this.nextType === 'popup'){
-					console.log("Next statement is a popup");
+					this.parent.playerDiv.html("Next statement is a popup");
 				} else if (this.nextType === 'exit'){
-					console.log("THE END!!!!");
+					this.parent.playerDiv.html("THE END!!!!");
 				} else {
-					console.log("ERROR: " + this.id + " has an invalid nextType");
+					this.parent.playerDiv.html("ERROR: " + this.id + " has an invalid nextType");
 				}
 			}
 		},
 		draw: function(){
 			if (this.drawState === 'new'){
 				this.parent.overseerDiv.html(this.returnText());
+				if (this.nextType === 'overseer'){
+					this.parent.playerDiv.html('Press Enter');
+				}
 			} else if (this.drawState === 'unchanged'){ 
 			} else {
 				console.log("ERROR: invalid statement draw state " + this.id);

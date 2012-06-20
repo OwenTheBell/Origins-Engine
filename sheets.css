@@ -24,3 +24,11 @@ div {
 	border-width: 5px;
 	background-color: #FFFFFF;
 }
+
+.clickSprite {
+	cursor: pointer;
+}
+
+#tester {
+	top: 1280px;
+}

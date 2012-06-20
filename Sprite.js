@@ -16,7 +16,7 @@ var Sprite = klass(function (left, top, image, id) {
 	this.repDiv.css({
 		position: 'inherit',
 		top: this.top + 'px',
-		left: this.left + 'px'
+		left: this.left + 'px',
 	});
 })
 	.methods({
@@ -44,7 +44,6 @@ var Sprite = klass(function (left, top, image, id) {
 				if (!this.containerScreen) {
 					console.log("ERROR: new sprite " + this.id + " is not in a screen");
 				} else {
-					console.log("drawing new sprite: " + this.id);
 					$('#' + this.containerScreen.id).append(this.repDiv);
 				}
 			} else if (this.drawState === 'updated'){
@@ -72,6 +71,7 @@ var Sprite = klass(function (left, top, image, id) {
 var clickSprite = Sprite.extend(function(top, left, image, id){
 	this.clicked = false;
 	this.clickMap = [];
+	//this.repDiv.addClass('clickSprite');
 })
 	.methods({
 		update: function(){
@@ -84,16 +84,19 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 	
 			//Sprite has been clicked on, check if pixel is transparent or not
 			if (this.clicked){
+				console.log(this.id + ' check click');
 				this.clicked = false;
-				var mouseState = {X: inputState.mouseClick.X, Y: inputState.mouseClick.Y};
+				var mouseState = inputState.mouseClick;
 				//The click map starts at (0, 0) relative to the sprite so the mouse position
 				//needs to be adjusted to account for the position of the sprite as well as
 				//the game div
 				var x = mouseState.X - this.left - parseInt($('#origins').css('left'));
 				var y = mouseState.Y - this.top - parseInt($('#origins').css('top'));
+				helper.debugPrint(x, y);
 				//both attributes have -1 applied to compensate for the slight offset of
 				//cursor relative to clickable area. This solution is a hack and needs to be fixed
 				if (this.clickMap[x][y] == 1){
+					console.log(this.id + ' clicked');
 					this.onClick();
 					//debugPrint(x, y);
 				}
@@ -115,6 +118,8 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 			var ctx = canvas.getContext('2d');
 			ctx.drawImage(this.image, 0, 0);
 			
+			//helper.debugPrint(this.width(), this.height());
+			
 			var pixels = ctx.getImageData(0, 0, this.width(), this.height()).data;
 			
 			//these are declared out here to make debugging easier
@@ -127,7 +132,7 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 				this.clickMap[row][col] = pixels[i+3] == 0 ? 0 : 1;
 			}
 			
-			/*
+			
 			var totalOfType = 0;
 			
 			for (x in this.clickMap){
@@ -138,14 +143,13 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 				}
 			}
 			
-			console.log(totalOfType);
-			*/
+			console.log(this.id + " has a total of " + totalOfType + " transparent pixels out of " + (this.clickMap.length * this.clickMap[0].length));
+			
 		}
 	});
 
 var screenChangeSprite = clickSprite.extend(function(top, left, image, id, targetScreen){
 	this.targetScreen = targetScreen;
-	this.containerScreen;
 })
 	.methods({
 		onClick: function(){
@@ -153,3 +157,13 @@ var screenChangeSprite = clickSprite.extend(function(top, left, image, id, targe
 			this.containerScreen.fadingOut(1);
 		}
 	});
+	
+var dialogueSprite = clickSprite.extend(function(top, left, image, id, targetDialogue){
+	this.targetDialogue = targetDialogue
+})
+	.methods({
+		onClick: function(){
+			this.targetDialogue.activate();
+			this.containerScreen.activeScreen = false;
+		}
+	})

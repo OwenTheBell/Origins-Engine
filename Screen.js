@@ -105,20 +105,33 @@ var Screen = klass(function(id, zIndex) {
 			}
 			
 			var mouseInput = false;
+			var mousePos = {};
+			var mouseOverCheck = false;
 			//Only take input if the screen is not transitioning
 			if (this.activeScreen){
 				mouseInput = inputState.checkLeftClick();
+				mousePos = inputState.mousePos;
 			}
 			
 			for (x in this.spriteArray){
 				var testSprite = this.spriteArray[x];
-				if (mouseInput && (this.spriteArray[x] instanceof clickSprite)){
-					if ((mouseInput.X > testSprite.left + parseInt($('#origins').css('left'))) && 
-						(mouseInput.X <= testSprite.left + testSprite.width() + parseInt($('#origins').css('left'))) &&
-						(mouseInput.Y > testSprite.top + parseInt($('#origins').css('top'))) &&
-						(mouseInput.Y <= testSprite.top + testSprite.height() + parseInt($('#origins').css('top')))){
-							testSprite.clicked = true;
+				if (testSprite instanceof clickSprite){
+					if (mouseInput){
+						if ((mouseInput.X > testSprite.left + parseInt($('#origins').css('left'))) && 
+							(mouseInput.X <= testSprite.left + testSprite.width() + parseInt($('#origins').css('left'))) &&
+							(mouseInput.Y > testSprite.top + parseInt($('#origins').css('top'))) &&
+							(mouseInput.Y <= testSprite.top + testSprite.height() + parseInt($('#origins').css('top')))){
+								testSprite.clicked = true;
+							}
+					}
+					/*
+					if ((mousePos.X > testSprite.left + parseInt($('#origins').css('left'))) && 
+						(mousePos.X <= testSprite.left + testSprite.width() + parseInt($('#origins').css('left'))) &&
+						(mousePos.Y > testSprite.top + parseInt($('#origins').css('top'))) &&
+						(mousePos.Y <= testSprite.top + testSprite.height() + parseInt($('#origins').css('top')))){
+							mouseOverCheck = true;
 						}
+						*/
 				}
 				testSprite.update();
 			}
@@ -148,8 +161,3 @@ var Screen = klass(function(id, zIndex) {
 			}
 		}
 	});
-
-
-var dialogueScreen = Screen.extend(function(id, zIndex, opacity, targetXML){
-	
-})

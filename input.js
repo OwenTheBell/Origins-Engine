@@ -16,6 +16,11 @@ var inputState = {
 		happened: false
 	},
 	
+	mousePos: {
+		X: -1,
+		Y: -1,
+	},
+	
 	/*
 	 * Use this function to get mouse input rather than checking mouseClick
 	 * directly
@@ -65,4 +70,8 @@ $(document).keypress(function(e){
 		inputState.keypressvalue = e.which;
 		inputState.keypressed = true;
 	}
+});
+
+$(document).mousemove(function(e){
+	inputState.mousePos = {X: e.pageX, Y: e.pageY};
 });
