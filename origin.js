@@ -45,7 +45,7 @@ onLoad = function(){
 	//var otherScreen = new Screen('otherScreen', bottomZIndex);
 	mainScreen.addSprite(new Sprite(0, 0, 'Sprites/Background.png', 'background', talkScreen));
 	mainScreen.addSprite(new dialogueSprite(999, 0, 'Sprites/Bed.png', 'sleeps', talkScreen));
-	mainScreen.addSprite(new dialogueSprite(199, 99, 'Sprites/Water.png', 'water', talkScreen));
+	mainScreen.addSprite(new dialogueSprite(199, 100, 'Sprites/Water.png', 'water', talkScreen));
 	mainScreen.addSprite(new dialogueSprite(799, 300, 'Sprites/Bike.png', 'bike', talkScreen));
 	mainScreen.addSprite(new dialogueSprite(699, 0, 'Sprites/Ladder.png', 'ladder', talkScreen));
 	mainScreen.addSprite(new dialogueSprite(99, 99, 'Sprites/Food_Pellets.png', 'food', talkScreen))

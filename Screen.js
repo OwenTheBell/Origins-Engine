@@ -131,7 +131,7 @@ var Screen = klass(function(id, zIndex) {
 						(mousePos.Y <= testSprite.top + testSprite.height() + parseInt($('#origins').css('top')))){
 							mouseOverCheck = true;
 						}
-						*/
+					*/
 				}
 				testSprite.update();
 			}

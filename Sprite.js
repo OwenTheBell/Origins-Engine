@@ -92,9 +92,7 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 				//the game div
 				var x = mouseState.X - this.left - parseInt($('#origins').css('left'));
 				var y = mouseState.Y - this.top - parseInt($('#origins').css('top'));
-				helper.debugPrint(x, y);
-				//both attributes have -1 applied to compensate for the slight offset of
-				//cursor relative to clickable area. This solution is a hack and needs to be fixed
+				//helper.debugPrint(x, y);
 				if (this.clickMap[x][y] == 1){
 					console.log(this.id + ' clicked');
 					this.onClick();
@@ -118,21 +116,19 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 			var ctx = canvas.getContext('2d');
 			ctx.drawImage(this.image, 0, 0);
 			
-			//helper.debugPrint(this.width(), this.height());
-			
 			var pixels = ctx.getImageData(0, 0, this.width(), this.height()).data;
 			
 			//these are declared out here to make debugging easier
-			var i, row, col;
+			var row, col;
 			
-			for (i = 0, n = pixels.length; i < n; i+=4){
+			for (var i = 0, n = pixels.length; i < n; i+=4){
 				row = Math.floor((i / 4) / this.width());
 				col = (i/4)	- (row * this.width());
 				if(!this.clickMap[row]) this.clickMap[row] = [];
 				this.clickMap[row][col] = pixels[i+3] == 0 ? 0 : 1;
 			}
 			
-			
+			/*
 			var totalOfType = 0;
 			
 			for (x in this.clickMap){
@@ -144,7 +140,7 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 			}
 			
 			console.log(this.id + " has a total of " + totalOfType + " transparent pixels out of " + (this.clickMap.length * this.clickMap[0].length));
-			
+			*/
 		}
 	});
 
