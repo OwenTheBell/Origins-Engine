@@ -37,18 +37,26 @@ onLoad = function(){
 	*/
 	
 	var mainScreen = new Screen('mainScreen', topZIndex);
-	var otherScreen = new Screen('otherScreen', bottomZIndex);
-	mainScreen.addSprite(new Sprite(0, 0, 'blackcircle.png', 'blackcircle'));
-	otherScreen.addSprite(new Sprite(0, 0, 'purplecircle.png', 'purplecircle'));
-	mainScreen.addSprite(new screenChangeSprite(0, 184, 'crate.png', 'goLeft', otherScreen));
-	otherScreen.addSprite(new screenChangeSprite(368, 184, 'crate.png', 'goRight', mainScreen));
+	//var otherScreen = new Screen('otherScreen', bottomZIndex);
+	mainScreen.addSprite(new Sprite(0, 0, 'Sprites/Background.png', 'background'));
+	mainScreen.addSprite(new Sprite(999, 0, 'Sprites/Bed.png', 'sleeps'));
+	mainScreen.addSprite(new Sprite(199, 99, 'Sprites/Water.png', 'water'));
+	mainScreen.addSprite(new Sprite(799, 0, 'Sprites/bike.png', 'bike'));
+	mainScreen.addSprite(new Sprite(699, 0, 'Sprites/Ladder.png', 'ladder'));
+	mainScreen.addSprite(new Sprite(99, 99, 'Sprites/Food Pellets.png', 'food'))
+	mainScreen.addSprite(new Sprite(0, 349, 'Sprites/Drawer.png', 'bookshelf'));
+	mainScreen.addSprite(new Sprite(349, 249, 'Sprites/Table.png', 'table'));
+	
+	//otherScreen.addSprite(new Sprite(0, 0, 'purplecircle.png', 'purplecircle'));
+	//otherScreen.addSprite(new screenChangeSprite(368, 184, 'crate.png', 'goRight', mainScreen));
 	
 	
-	var talkScreen = new DialogueScreen('talkScreen', dialogueZIndex, 'IntroDial.xml');
-	talkScreen.activeScreen = true;
-	helper.ajaxGet(talkScreen);
+	//var talkScreen = new DialogueScreen('talkScreen', dialogueZIndex, 'IntroDial.xml');
+	//talkScreen.activeScreen = true;
+	//helper.ajaxGet(talkScreen);
 	
-	screenCollection.push(mainScreen, otherScreen, talkScreen);
+	//screenCollection.push(mainScreen, otherScreen, talkScreen);
+	screenCollection.push(mainScreen);
 	startGame(60);
 }
 
