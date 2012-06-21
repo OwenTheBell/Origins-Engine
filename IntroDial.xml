@@ -193,13 +193,13 @@
 </overseer>
 <overseer id = "introOS11" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
 	<text>This room is known as the </text>
-	<text color="hex color value">Observation Module </text>
-	<text> and will be unlocked now. The room can be accessed by using the hatch-door at the top of the ladder. This room is your primary research module and operating environment. Report here regularly. The ladder will also serve to take you to other unlocked modules.</text>
+	<text color="hex color value">Observation Room </text>
+	<text> and will be unlocked now. The room can be accessed by using the hatch-door at the top of the ladder. This room is your primary research Room and operating environment. Report here regularly. The ladder will also serve to take you to other unlocked Rooms.</text>
 </overseer>
 <overseer id = "introOS12" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
 	<text>This room is known as the </text>
-	<text color="hex color value">Observation Module </text>
-	<text> and will be unlocked now. The room can be accessed by using the hatch-door. This room is your primary research module and operating environment. Report here regularly.</text>
+	<text color="hex color value">Observation Room </text>
+	<text> and will be unlocked now. The room can be accessed by using the hatch-door. This room is your primary research Room and operating environment. Report here regularly.</text>
 </overseer>
 <overseer id = "introOS13" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
 	<text>This </text>
@@ -212,7 +212,7 @@
 </overseer>
 <overseer id = "introOS14" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to" highlight="id of what you wanted highlighted">
 	<text>Here you may see your own progress or change your personal settings </text>
-	<text color="hex color value">Observation Module </text>
+	<text color="hex color value">Observation Room </text>
 </overseer>
 <overseer id = "introOS15" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
 	<text>With the computer-watch you carry you can also access most of the information on the </text>
@@ -394,7 +394,7 @@
 	</option>
 </player>
 <overseer id = "firsttaskOS2" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
-	<text>I have unlocked a hidden storage componet in your </text>
+	<text>I have unlocked a storage componet in your </text>
 	 <text color="hex color value">Main Quarter</text>
 	<text>. Go up to the componet and I will instruct you further.</text>
 </overseer>

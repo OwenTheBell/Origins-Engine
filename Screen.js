@@ -113,7 +113,7 @@ var Screen = klass(function(id, zIndex) {
 				mousePos = inputState.mousePos;
 			}
 			
-			for (x in this.spriteArray){
+			for (var x = 0; x < this.spriteArray.length; x++){
 				var testSprite = this.spriteArray[x];
 				if (testSprite instanceof clickSprite){
 					if (mouseInput){
@@ -121,7 +121,7 @@ var Screen = klass(function(id, zIndex) {
 							(mouseInput.X <= testSprite.left + testSprite.width() + parseInt($('#origins').css('left'))) &&
 							(mouseInput.Y > testSprite.top + parseInt($('#origins').css('top'))) &&
 							(mouseInput.Y <= testSprite.top + testSprite.height() + parseInt($('#origins').css('top')))){
-								testSprite.clicked = true;
+								testSprite.clicked(mouseInput.X, mouseInput.Y);
 							}
 					}
 					/*
