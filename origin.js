@@ -17,6 +17,7 @@ try{
 
 $(document).ready(function(){
 	
+	//This entire thing needs to be improved, this is a really brute force way to do things
 	preloader('Sprites/Background.png',
 				'Sprites/Bed.png',
 				'Sprites/Water.png',
@@ -48,23 +49,31 @@ $(document).ready(function(){
 	
 	var mainScreen = new Screen('mainScreen', topZIndex);
 	mainScreen.activeScreen = true;
+	screenCollection.push(mainScreen);
 	
 	var talkScreen = new DialogueScreen('talkScreen', bottomZIndex, 'IntroDial.xml');
 	helper.ajaxGet(talkScreen);
 	
+	var dialogueScreens = new Array();
+	
+	helper.altAjaxGet(dialogueScreens, 'IntroObj.xml');
+	for(key in dialogueScreens){
+		screenCollection.push(dialogueScreens[key]);
+	}
+	
 	//var otherScreen = new Screen('otherScreen', bottomZIndex);
-	mainScreen.addSprite(new Sprite(0, 0, 'Sprites/Background.png', 'background', talkScreen));
-	mainScreen.addSprite(new dialogueSprite(999, 0, 'Sprites/Bed.png', 'sleeps', talkScreen));
-	mainScreen.addSprite(new dialogueSprite(199, 100, 'Sprites/Water.png', 'water', talkScreen));
-	mainScreen.addSprite(new dialogueSprite(799, 300, 'Sprites/Bike.png', 'bike', talkScreen));
-	mainScreen.addSprite(new dialogueSprite(699, 0, 'Sprites/Ladder.png', 'ladder', talkScreen));
-	mainScreen.addSprite(new dialogueSprite(99, 99, 'Sprites/Food_Pellets.png', 'food', talkScreen))
-	mainScreen.addSprite(new dialogueSprite(0, 349, 'Sprites/Drawer.png', 'bookshelf', talkScreen));
-	mainScreen.addSprite(new dialogueSprite(350, 250, 'Sprites/Table.png', 'table', talkScreen));
+	mainScreen.addSprite(new Sprite(0, 0, 'Sprites/Background.png', 'background'));
+	mainScreen.addSprite(new dialogueSprite(999, 0, 'Sprites/Bed.png', 'sleeps', dialogueScreens['sleeps']));
+	mainScreen.addSprite(new dialogueSprite(199, 100, 'Sprites/Water.png', 'water', dialogueScreens['water']));
+	mainScreen.addSprite(new dialogueSprite(799, 300, 'Sprites/Bike.png', 'bike', dialogueScreens['bike']));
+	mainScreen.addSprite(new dialogueSprite(699, 0, 'Sprites/Ladder.png', 'ladder', dialogueScreens['ladder']));
+	mainScreen.addSprite(new dialogueSprite(99, 99, 'Sprites/Food_Pellets.png', 'food', dialogueScreens['food']))
+	mainScreen.addSprite(new dialogueSprite(0, 349, 'Sprites/Drawer.png', 'bookshelf', dialogueScreens['bookshelf']));
+	mainScreen.addSprite(new dialogueSprite(350, 250, 'Sprites/Table.png', 'table', dialogueScreens['table']));
 	
 	
 	//screenCollection.push(mainScreen, otherScreen, talkScreen);
-	screenCollection.push(mainScreen, talkScreen);
+	// screenCollection.push(mainScreen, introFTScreen);
 	startGame(60);
 });
 
@@ -74,7 +83,11 @@ startGame = function() {
 
 RunGame = function(){
 	$(screenCollection).each(function(){
-		this.update();
+		try{
+			this.update();
+		} catch(e) {
+			console.log(this.id);
+		}
 	});
 	$(screenCollection).each(function(){
 		this.draw();
@@ -82,7 +95,7 @@ RunGame = function(){
 }
 
 //This function should, in theory, be preloading all images by ensuring that
-//they are cached in the browser
+//they are cached in the browser before they are actually used
 preloader = function(){
 	for (var i = 0; i < arguments.length; i++){
 		var img = new Image();

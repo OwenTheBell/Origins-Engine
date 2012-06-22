@@ -114,7 +114,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 				function checkContainer(container, type){
 					var tester = container[statement.nextId];
 					if(!tester){
-						console.log("ERROR: " + statement.nextId + " is not a valid " + type + " id " + id);
+						console.log("ERROR: " + statement.nextId + " is not a valid " + type + " id " + statement.id);
 					} else {
 						statement.setNext(tester);
 					}
@@ -128,6 +128,12 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			this.opacity = 1.0;
 			this.drawState = 'updated';
 			console.log(this.id + ' activated');
+		},
+		
+		deActivate: function(){
+			this.activeScreen = false;
+			this.zIndex = bottomZIndex;
+			this.opacity = 0.0;
 		},
 		
 		update: function(){
@@ -230,6 +236,9 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 					this.parent.playerDiv.html("Next statement is a popup");
 				} else if (this.nextType === 'exit'){
 					this.parent.playerDiv.html("THE END!!!!");
+					if (this.parent.keyValue == 13){
+						this.parent.deActivate();
+					}
 				} else {
 					this.parent.playerDiv.html("ERROR: " + this.id + " has an invalid nextType");
 				}

@@ -17,6 +17,23 @@ var helper = {
 		});
 	},
 	
+	altAjaxGet: function(dialogueScreens, file){
+		var extData;
+		$.ajax({
+			async: false,
+			type: 'GET',
+			url: file,
+			dataType: 'xml',
+			success: function(data){
+				$(data).find('item').each(function(){
+					var temp = new DialogueScreen($(this).attr('id'), bottomZIndex);
+					temp.loadXML(this);
+					dialogueScreens[temp.id] = temp;
+				});
+			}
+		});
+	},
+	
 	debugPrint: function(x, y){
 		console.log('(' + x + ',' + y + ')');
 	},
