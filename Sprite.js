@@ -119,8 +119,13 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 			var ctx = canvas.getContext('2d');
 			ctx.drawImage(this.image, 0, 0);
 			
-			var pixels = ctx.getImageData(0, 0, this.width(), this.height()).data;
-			
+			var pixels = [];
+			// var that = this;
+			try {
+				pixels = ctx.getImageData(0, 0, this.width(), this.height()).data;
+			} catch (e){
+				console.log('ERROR: ' + this.id + ' failed to load image');
+			}
 			//these are declared out here to make debugging easier
 			
 			

@@ -15,7 +15,17 @@ try{
 	console.log = function(){};
 }
 
-onLoad = function(){
+$(document).ready(function(){
+	
+	preloader('Sprites/Background.png',
+				'Sprites/Bed.png',
+				'Sprites/Water.png',
+				'Sprites/Ladder.png',
+				'Sprites/Bike.png',
+				'Sprites/Food_Pellets.png',
+				'Sprites/Drawer.png',
+				'Sprites/Table.png'
+			);
 	
 	//setup some of the external css for the dialogueScreen
 	var rule = helper.findCSSRule('.dialogue');
@@ -52,25 +62,33 @@ onLoad = function(){
 	mainScreen.addSprite(new dialogueSprite(0, 349, 'Sprites/Drawer.png', 'bookshelf', talkScreen));
 	mainScreen.addSprite(new dialogueSprite(350, 250, 'Sprites/Table.png', 'table', talkScreen));
 	
-	//otherScreen.addSprite(new Sprite(0, 0, 'purplecircle.png', 'purplecircle'));
-	//otherScreen.addSprite(new screenChangeSprite(368, 184, 'crate.png', 'goRight', mainScreen));
-	
-	
 	
 	//screenCollection.push(mainScreen, otherScreen, talkScreen);
 	screenCollection.push(mainScreen, talkScreen);
 	startGame(60);
-}
+});
 
 startGame = function() {
 	setInterval(RunGame, 1000 / fps);
 }
 
 RunGame = function(){
-	for (x in screenCollection){
-		screenCollection[x].update();
-	}
-	for (x in screenCollection){
-		screenCollection[x].draw();
+	$(screenCollection).each(function(){
+		this.update();
+	});
+	$(screenCollection).each(function(){
+		this.draw();
+	});
+}
+
+//This function should, in theory, be preloading all images by ensuring that
+//they are cached in the browser
+preloader = function(){
+	for (var i = 0; i < arguments.length; i++){
+		var img = new Image();
+		img.src = arguments[i];
+		$(img).load(function(){
+			return;
+		});
 	}
 }

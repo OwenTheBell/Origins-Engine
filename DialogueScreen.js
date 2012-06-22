@@ -155,8 +155,6 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 	});
 
 
-
-
 /*
  * General parent object that all statements inherit from
  * ARGS:
