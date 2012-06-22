@@ -24,14 +24,24 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 	this.playerDiv.css({
 		position: 'inherit',
 		top: (parseInt($('#origins').css('height')) - parseInt(helper.findCSSRule('.dialogue').style.height) - 15) + 'px',
-		left: '5px',
+		left: '5px'
 	});
-	
-	//this.playerDiv.
 	
 	this.repDiv.append(this.overseerDiv);
 	this.repDiv.append(this.playerDiv);
+
+	//Now make a set of 4 divs to hold text within playerDiv
+	this.playerStatements = [];
+	for(var i = 0; i < 4; i ++){
+		this.playerStatements.push(jQuery('<div>'));
+		this.playerStatements[i].css({
+			position: 'inherit',
+			top: Math.floor(parseInt(this.playerDiv.css('height')) / 4) * i + 'px'
+		});
+		this.playerDiv.append(this.playerStatements[i]);
+	}
 })
+
 	.methods({
 		//XML has to be loaded after initialization so that's what this method is for
 		loadXML: function(xml){
@@ -151,6 +161,25 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 				this.nextActiveStatement = null;
 			}
 			
+			var mousePos = inputState.mousePos;
+			mousePos.X -= parseInt($('#origins').css('left')) + parseInt(this.playerDiv.css('left'));
+			mousePos.Y -= parseInt($('#origins').css('top')) + parseInt(this.playerDiv.css('top'));
+			if((mousePos.X > 0) && (mousePos.X <= parseInt(this.playerDiv.css('width')))
+				&& (mousePos.Y > 0) && (mousePos.Y <= parseInt(this.playerDiv.css('height')))){
+				
+				for(var i = 0; i < this.playerStatements.length; i++){
+					var tempY = mousePos.Y - parseInt(this.playerStatements[i].css('top'));
+					if(!this.playerStatements[i]){
+						console.log(i);
+					}
+					if((tempY > 0) && (tempY <= Math.floor(parseInt(this.playerDiv.css('height')) / 4))){
+						this.playerStatements[i].css('background-color', '#FF00FF');
+					} else {
+						this.playerStatements[i].css('background-color', '#FFFFFF');
+					}
+				}
+			}
+						
 			this.activeStatement.update();
 		},
 		
@@ -322,15 +351,13 @@ var PlayerOptions = klass(function(parent, xmlData){
 			
 			//Returns text formatted into a table so that things look nicer
 			if (this.drawState === 'new'){
-				var iter = 1;
-				var returnText = "<table border = '0'>";
-				for (x in this.availableStatements){
-					var statement = this.availableStatements[x];
-					returnText += '<tr><td>' + iter + ' ' + statement.returnText() + '</td></tr>';
-					iter++;
+				//var returnText = "<table border = '0'>";
+				for (var i = 0; i < this.availableStatements.length; i++){
+					var statement = this.availableStatements[i];
+					this.parent.playerStatements[i].html((i+1) + ' ' + statement.returnText());
 				}
-				returnText += '</table>';
-				this.parent.playerDiv.html(returnText);
+				//returnText += '</table>';
+				//this.parent.playerDiv.html(returnText);
 			} else if (this.drawState === 'unchanged') {
 			} else {
 				console.log("ERROR: invalid statement draw state " + this.id);
