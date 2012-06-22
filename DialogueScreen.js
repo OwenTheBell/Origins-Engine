@@ -134,6 +134,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			this.activeScreen = false;
 			this.zIndex = bottomZIndex;
 			this.opacity = 0.0;
+			this.parent.deActivated();
 		},
 		
 		update: function(){

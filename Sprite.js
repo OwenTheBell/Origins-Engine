@@ -135,40 +135,6 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 				if(!this.clickMap[row]) this.clickMap[row] = [];
 				this.clickMap[row][col] = pixels[i+3] == 0 ? 0 : 1;
 			}
-			
-			// for(var i = 0; i < (this.width() * this.height()); i++){
-				// var row = Math.floor(i * this.width());
-				// var col = i - (row * this.width());
-				// if(!this.clickMap[row]) this.clickMap[row] = [];
-				// if(pixels[i*4+3] == 0){
-					// this.clickMap[row].push(0);
-				// } else {
-					// this.clickMap[row].push(1);
-				// }
-				// // this.clickMap[row][col] = pixels[i*4+3] == 0 ? 0 : 1;
-			// }
-			// helper.debugPrint(this.clickMap.length, this.clickMap[0].length);
-			
-			
-			var totalOfType = 0;
-			var setError = 'no error here';
-			
-			for (var x = 0; x < this.clickMap.length; x++){
-				for (var y = 0; y < this.clickMap[x].length; y++){
-					if((this.clickMap[x][y] != 0) && (this.clickMap[x][y] != 1)){
-						var setError = 'we have an error';
-					}
-					// if (this.clickMap[x][y] == 0){
-						// totalOfType++;
-					// }
-				}
-			}
-			// console.log(this.id + ' has dimensions of (' + this.clickMap.length + ', ' + this.clickMap[this.clickMap.length - 1].length + ')');
-// 			
-			// console.log(setError);
-			
-			// console.log(this.id + " has a total of " + totalOfType + " transparent pixels out of " + (this.clickMap.length * this.clickMap[0].length));
-			
 		}
 	});
 
@@ -183,11 +149,15 @@ var screenChangeSprite = clickSprite.extend(function(top, left, image, id, targe
 	});
 	
 var dialogueSprite = clickSprite.extend(function(top, left, image, id, targetDialogue){
-	this.targetDialogue = targetDialogue
+	this.targetDialogue = targetDialogue;
+	this.targetDialogue.parent = this;
 })
 	.methods({
 		onClick: function(){
 			this.targetDialogue.activate();
 			this.containerScreen.activeScreen = false;
+		},
+		deActivated: function(){
+			this.containerScreen.activeScreen = true;
 		}
 	})

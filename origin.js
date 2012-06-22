@@ -56,12 +56,11 @@ $(document).ready(function(){
 	
 	var dialogueScreens = new Array();
 	
-	helper.altAjaxGet(dialogueScreens, 'IntroObj.xml');
+	helper.altAjaxGet(dialogueScreens, 'IntroObjMainRm.xml');
 	for(key in dialogueScreens){
 		screenCollection.push(dialogueScreens[key]);
 	}
 	
-	//var otherScreen = new Screen('otherScreen', bottomZIndex);
 	mainScreen.addSprite(new Sprite(0, 0, 'Sprites/Background.png', 'background'));
 	mainScreen.addSprite(new dialogueSprite(999, 0, 'Sprites/Bed.png', 'sleeps', dialogueScreens['sleeps']));
 	mainScreen.addSprite(new dialogueSprite(199, 100, 'Sprites/Water.png', 'water', dialogueScreens['water']));
@@ -70,10 +69,9 @@ $(document).ready(function(){
 	mainScreen.addSprite(new dialogueSprite(99, 99, 'Sprites/Food_Pellets.png', 'food', dialogueScreens['food']))
 	mainScreen.addSprite(new dialogueSprite(0, 349, 'Sprites/Drawer.png', 'bookshelf', dialogueScreens['bookshelf']));
 	mainScreen.addSprite(new dialogueSprite(350, 250, 'Sprites/Table.png', 'table', dialogueScreens['table']));
+	mainScreen.addSprite(new dialogueSprite(299, 300, 'Sprites/Chair.png', 'chair', dialogueScreens['chair']));
+	mainScreen.addSprite(new dialogueSprite(0, 49, 'Sprites/Thermostat.png', 'smallmonitor', dialogueScreens['smallmonitor']));
 	
-	
-	//screenCollection.push(mainScreen, otherScreen, talkScreen);
-	// screenCollection.push(mainScreen, introFTScreen);
 	startGame(60);
 });
 

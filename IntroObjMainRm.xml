@@ -58,11 +58,6 @@
 
 </overseer>
 </item>
-<item id = "clothes">
-<overseer id = "clothingCabinetinto1" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
-	<text>There are several identical pairs of clothing in this cabinet. Keeping up with the latest fashions will likely be difficult here. There are also lots of socks.</text>
-</overseer>
-</item>
 <item id = "sleeps">
 <overseer id = "sleepPodintro1"  nextType = "player" nextId = "playerSleepPodintro1">
 	<text>This is your </text>
@@ -89,32 +84,6 @@
 
 </overseer>
 </item>
-<item id = "windows">
-<overseer id = "windowopenintro1"  nextType = "player" nextId = "playerwindowintro1">
-	<text>This is your window to the universe. Would you like to close it?</text>
-
-</overseer>
-<overseer id = "windowclosedintro1"  nextType = "player" nextId = "playerwindowintro2">
-	<text>This is your window to the universe. Would you like to open it?</text>
-
-</overseer>
-<player id = "playerwindowintro1">
-	<option nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
-		<text>Yes, please.</text>
-	</option>
-	<option nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
-		<text>No, leave it open.</text>
-	</option>
-</player>
-<player id = "playerwindowintro2">
-	<option nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
-		<text>Yes, open it.</text>
-	</option>
-	<option nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
-		<text>No, leave it closed.</text>
-	</option>
-</player>
-</item>
 <item id = "table">
 <overseer id = "tableintro1" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
 	<text>This is a nice white folding table which you can use as you please. </text>
@@ -125,12 +94,12 @@
 	<text>This complex hydro-dispenser is able to reconstitute excess liquids into drinkable though tasteless water.</text>
 </overseer>
 </item>
-<item id = "Chair">
+<item id = "chair">
 <overseer id = "chairintro1" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
 	<text>This chair is specifically designed to make you as uncomfortable as possible. It is a mystery why anyone would build such a thing.</text>
 </overseer>
 </item>
-<item id = "Smallmonitor">
+<item id = "smallmonitor">
 <overseer id = "sMonitorintro1" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
 	<text>This monitor seems to simply display random waves and charts. You can't tell if they are really monitoring anything and pressing the big buttons has no effect on them.</text>
 </overseer>
