@@ -188,5 +188,6 @@ var dialogueSprite = clickSprite.extend(function(top, left, image, id, targetDia
 		},
 		deActivated: function(){
 			this.containerScreen.activeScreen = true;
+			console.log('Reseting active screen');
 		}
 	})

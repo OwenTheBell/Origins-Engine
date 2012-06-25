@@ -5,6 +5,9 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 	this.file = file; //url of the xml file with relevant dialogue
 	this.set_check = []; //object to contain the set & check conversation values
 	this.keyValue = false;
+	//These strings contain the HTML values to reuse when the active Statement isn't relevant
+	this.previousOveerseerHTML = '';
+	this.playerHTML = '';
 	
 	this.overseerDiv = jQuery('<div>', {
 		id: 'overseerDiv'
@@ -40,8 +43,10 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		left: '5px'
 	});
 	
-	this.repDiv.append(this.overseerDiv);
-	this.repDiv.append(this.playerDiv);
+	this.drawCheck = true;
+	
+	//this.repDiv.append(this.overseerDiv);
+	//this.repDiv.append(this.playerDiv);
 
 	//Now make a set of 4 divs to hold text within playerDiv
 	this.playerStatements = [];
@@ -161,7 +166,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		},
 		
 		update: function(){
-			this.supr();
+			//this.supr();
 			
 			if (this.activeScreen && inputState.keypressed){
 				this.keyValue = inputState.getKeyPressValue();
@@ -173,7 +178,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 				this.activeStatement = this.nextActiveStatement;
 				this.nextActiveStatement = null;
 			}
-			
+			/*
 			var mousePos = inputState.mousePos;
 			mousePos.X -= parseInt($('#origins').css('left')) + parseInt(this.playerDiv.css('left'));
 			mousePos.Y -= parseInt($('#origins').css('top')) + parseInt(this.playerDiv.css('top'));
@@ -192,37 +197,76 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 					}
 				}
 			}
-						
-			this.activeStatement.update();
+			*/
+			if (this.activeScreen){
+				this.activeStatement.update();
+			}
 		},
 		
 		draw: function(){
-			this.activeStatement.draw();
-			
 			//So the new drawing approach is just going to be to create the individual
 			//divs for overseer and player and then just directly insert the return text
 			
-			var oveerseerHTML = [];
-			
-			overseerHTML.push('<div id="OverseerDIV" style="');
-			for(x in this.overseerCSS){
-				overseerHTML.push(x + ':' + this.overseerCSS[x] + '; ');
+			if(this.activeScreen){
+			// if(this.activeScreen && (this.drawCheck || this.playerHTML === '')) {
+				var newOverseerHTML = [];
+				var newPlayerHTML = [];
+				
+				//When the overseerDiv needs to be updated
+				if (this.activeStatement instanceof OverseerStatement){	
+					newOverseerHTML.push('<div id="OverseerDIV" style="');
+					for(x in this.overseerCSS){
+						newOverseerHTML.push(x + ':' + this.overseerCSS[x] + '; ');
+					}
+					newOverseerHTML.push('" class="dialogue" >');
+					newOverseerHTML.push(this.activeStatement.returnText());
+					newOverseerHTML.push('</div>');
+					this.overseerHTML = newOverseerHTML.join('');
+					
+					if (this.activeStatement.nextStatement === 'exit'){
+						newPlayerHTML.push('<div id:"PlayerDiv" style="');
+						for(x in this.playerCSS){
+							newPlayerHTML.push(x + ':' + this.playerCSS[x] + '; ');
+						}
+						newPlayerHTML.push('" class="dialogue" >');
+						newPlayerHTML.push('Press Enter to Exit</div>');
+						this.playerHTML = newPlayerHTML.join('');
+					} else if (this.activeStatement.nextStatement === 'popup'){
+						newPlayerHTML.push('<div id:"PlayerDiv" style="');
+						for(x in this.playerCSS){
+							newPlayerHTML.push(x + ':' + this.playerCSS[x] + '; ');
+						}
+						newPlayerHTML.push('" class="dialogue" >');
+						newPlayerHTML.push('There will be a popup here</div>');
+						this.playerHTML = newPlayerHTML.join('');
+					}
+					
+				} else if (this.activeStatement instanceof PlayerOptions){
+					newPlayerHTML.push('<div id:"PlayerDiv" style="');
+					for(x in this.playerCSS){
+						newPlayerHTML.push(x + ':' + this.playerCSS[x] + '; ');
+					}
+					newPlayerHTML.push('" class="dialogue" >');
+					//Here we collect the return info from the different statements
+					newPlayerHTML.push('<table>');
+					$(this.activeStatement.availableStatements).each(function(){
+						newPlayerHTML.push('<tr><td>' + this.returnText() + '</td></tr>');
+					});
+					newPlayerHTML.push('</table></div>');
+					this.playerHTML = newPlayerHTML.join('');
+				}
+				
+				var newPopupHTML = ''; //Just leave it this way until popups are implemented
+				
+				//And then here return overseerHTML and playerHTML as they either hold
+				//the old values or the new updates values
+				
+				//console.log(this.overseerHTML);
+				//console.log(this.playerHTML);
+				//this.drawCheck = false;
+				
+				return (this.overseerHTML + this.playerHTML);	
 			}
-			overseerHTML.push('>');
-			if(this.activeStatement instanceof OverseerStatement){
-				overseeHTML.push(this.activeStatement.returnText());
-			}
-			overseerHTML.push('</div>');
-			
-			var playerHTML = [];
-			
-			playerHTML.push('<div id:"PlayerDiv" style="');
-			for(x in this.playerCSS){
-				playerHTML.push(x + ':' + this.playerCSS[x] + '; ');
-			}
-			playerHTML.push('>');
-			
-			this.supr();
 		}
 	});
 
@@ -299,6 +343,7 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 						this.parent.nextActiveStatement = this.nextStatement;
 					}
 				} else if (this.nextType === 'player'){
+					console.log(this.id + 'is setting next active');
 					this.parent.nextActiveStatement = this.nextStatement;
 				} else if (this.nextType === 'popup'){
 					this.parent.playerDiv.html("Next statement is a popup");
@@ -311,6 +356,7 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 					this.parent.playerDiv.html("ERROR: " + this.id + " has an invalid nextType");
 				}
 			}
+			this.drawState = 'unchanged';
 		},
 		draw: function(){
 			//New draw approach
@@ -377,11 +423,12 @@ var PlayerOptions = klass(function(parent, xmlData){
 						console.log("next up is a popup");
 					} else {
 						this.parent.nextActiveStatement = selected.nextStatement;
+						console.log(this.parent.nextActiveStatement.id + " is now active");
 						var set = selected.set();
 						//if the selected statement has a set variable, set it for later
 						if (set){
 							this.parent.set_check[set] = true;
-							console.log('setting');
+							// console.log('setting');
 						}
 					}
 				}
