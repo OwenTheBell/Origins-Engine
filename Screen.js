@@ -30,6 +30,15 @@ var Screen = klass(function(id, zIndex) {
 		opacity: this.opacity,
 		'z-index': this.zIndex,
 	});
+	
+	this.css = {
+		'postion': 'inherit',
+		'opaciy': this.opacity,
+		'z-index': this.zIndex
+	}
+	//if(this instanceof DialogueScreen) {}
+	//else console.log('Generating screen of id ' + this.id);
+	
 })
 	.methods({
 		addSprite: function(newSprite){
@@ -137,10 +146,50 @@ var Screen = klass(function(id, zIndex) {
 			}
 		},
 		draw: function(){
+			//So we should be able to simplify the draw if each screen features a total redraw
+			//There could well be big issues with this total redraw, though, so we'll see how this works
+			//One thing I am pretty worried about, though, is how expensive creating and joining all
+			//these arrays might turn out to be
+			
+			if(this instanceof DialogueScreen) {}
+			else {
+				var returnedHTML = [];
+				$(this.spriteArray).each(function(){
+					returnedHTML.push(this.draw());
+				})
+				var myHTML = [];
+				myHTML.push('<div id =' + this.id + ' style="');
+				for(x in this.css){
+					myHTML.push(x + ':' + this.css[x] + '; ');
+				}
+				myHTML.push('">');
+				
+				return(myHTML.join('') + returnedHTML.join('') + '</div>');
+				
+			}
+			
+			/*
 			//Draw state is necessary since then we can assure that we avoid
 			//unneeded redraws
 			if (this.drawState === 'new') {
 				$('#origins').append(this.repDiv);
+				if(this instanceof DialogueScreen) {}
+				else {
+					var returnedHTML = [];
+					$(this.spriteArray).each(function(){
+						returnedHTML.push(this.draw());
+					})
+					var myHTML = [];
+					myHTML.push('<div id =' + this.id + ' style="');
+					for(x in this.css){
+						myHTML.push(x + ':' + this.css[x] + '; ');
+					}
+					myHTML.push('">');
+					
+					return(myHTML.join('') + returnedHTML.join('') + '</div>');
+					
+				}
+				
 			} else if (this.drawState === 'updated'){
 				//In theory we should only ever be updating the screen css
 				//if (this.fadeIn)
@@ -151,13 +200,15 @@ var Screen = klass(function(id, zIndex) {
 			} else if (this.drawState === 'removed') {
 				$('#' + this.id).remove();
 			} else if (this.drawState === 'unchanged') {
+				//no need to do anything here
 			} else {
 				console.log("ERROR: invalid screen draw state: " + this.id);
 			}
-			this.drawstate = 'unchanged';
+			this.drawState = 'unchanged';
 			
-			for (img in this.spriteArray){
-				this.spriteArray[img].draw();
-			}
+			//for (img in this.spriteArray){
+			//	this.spriteArray[img].draw();
+			//}
+			*/
 		}
 	});

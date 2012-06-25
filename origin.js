@@ -51,8 +51,8 @@ $(document).ready(function(){
 	mainScreen.activeScreen = true;
 	screenCollection.push(mainScreen);
 	
-	var talkScreen = new DialogueScreen('talkScreen', bottomZIndex, 'IntroDial.xml');
-	helper.ajaxGet(talkScreen);
+	//var talkScreen = new DialogueScreen('talkScreen', bottomZIndex, 'IntroDial.xml');
+	//helper.ajaxGet(talkScreen);
 	
 	var dialogueScreens = new Array();
 	
@@ -81,15 +81,20 @@ startGame = function() {
 
 RunGame = function(){
 	$(screenCollection).each(function(){
-		try{
-			this.update();
-		} catch(e) {
-			console.log(this.id);
-		}
+		this.update();
 	});
+	/*
+	 * An array of strings returned by the draw functions of different
+	 * objects. After all functions return their draw string the string will be
+	 * set as the innerHtml of the origins div
+	 */
+	var drawString = [];
 	$(screenCollection).each(function(){
-		this.draw();
+		//this.draw();
+		drawString.push(this.draw());
 	});
+	//console.log(drawString.join(''));
+	$('#origins').html(drawString.join(''));
 }
 
 //This function should, in theory, be preloading all images by ensuring that

@@ -18,6 +18,12 @@ var Sprite = klass(function (left, top, image, id) {
 		top: this.top + 'px',
 		left: this.left + 'px',
 	});
+	
+	this.css = {
+		position: 'inherit',
+		top: this.top + 'px',
+		left: this.left + 'px',
+	}
 })
 	.methods({
 		changeTop: function(top){
@@ -40,17 +46,39 @@ var Sprite = klass(function (left, top, image, id) {
 		},
 		draw: function(){
 			//debugPrint(this.width, this.height);
+			
+			
+			
+			var returnHTML = [];
+			returnHTML.push('<div id="' + this.id +'" style="');
+			for(x in this.css){
+				returnHTML.push(x + ':' + this.css[x] + '; ');
+			}
+			returnHTML.push('">');
+			
+			returnHTML.push('<img src="' + this.image.src + '"/>');
+			
+			returnHTML.push('</div>');
+			
+			return(returnHTML.join(''));
+			
+			/*
 			if (this.drawState === 'new') {
 				if (!this.containerScreen) {
 					console.log("ERROR: new sprite " + this.id + " is not in a screen");
 				} else {
 					$('#' + this.containerScreen.id).append(this.repDiv);
 				}
+			
+				var returnHTML = [];
+				returnHTML.push('<div id="' + this.id +'" style="');
+				for(x in this.css){
+					returnHTML.push(x + ':' + this.css[x] + '; ');
+				}
+				returnHTML.push('"></div>');
+				return(returnHTML.join(''));
+				//console.log(returnHTML.join(''));
 			} else if (this.drawState === 'updated'){
-				/*
-				 * Since the div containing the image has already been added to the
-				 * DOM, all that needs to be updated is the css to alter its position
-				 */
 				this.repDiv.css({
 					top: this.top + 'px',
 					left: this.left + 'px'
@@ -65,6 +93,7 @@ var Sprite = klass(function (left, top, image, id) {
 				console.log("ERROR: invalid sprite draw state: " + this.id);
 			}
 			this.drawState = 'unchanged';
+			*/
 		}
 	});
 

@@ -14,6 +14,19 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		top: '5px',
 		left: '5px',
 	});
+	
+	this.overseerCSS = {
+		position: 'inherit',
+		top: '5px',
+		left: '5px'
+	}
+	
+	this.playerCSS = {
+		position: 'inherit',
+		top: (parseInt($('#origins').css('height')) - parseInt(helper.findCSSRule('.dialogue').style.height) - 15) + 'px',
+		left: '5px'
+	}
+	
 	this.overseerDiv.addClass('dialogue');
 	
 	this.playerDiv = jQuery('<div>', {
@@ -186,6 +199,29 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		draw: function(){
 			this.activeStatement.draw();
 			
+			//So the new drawing approach is just going to be to create the individual
+			//divs for overseer and player and then just directly insert the return text
+			
+			var oveerseerHTML = [];
+			
+			overseerHTML.push('<div id="OverseerDIV" style="');
+			for(x in this.overseerCSS){
+				overseerHTML.push(x + ':' + this.overseerCSS[x] + '; ');
+			}
+			overseerHTML.push('>');
+			if(this.activeStatement instanceof OverseerStatement){
+				overseeHTML.push(this.activeStatement.returnText());
+			}
+			overseerHTML.push('</div>');
+			
+			var playerHTML = [];
+			
+			playerHTML.push('<div id:"PlayerDiv" style="');
+			for(x in this.playerCSS){
+				playerHTML.push(x + ':' + this.playerCSS[x] + '; ');
+			}
+			playerHTML.push('>');
+			
 			this.supr();
 		}
 	});
@@ -255,6 +291,8 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 })
 	.methods({
 		update: function(){
+			//Don;t update until state is unchanged, this ensures that this statement
+			//draws before activeStatement is changed
 			if(this.drawState === 'unchanged'){
 				if (this.nextType === 'overseer'){
 					if (this.parent.keyValue == 13){
@@ -275,6 +313,8 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 			}
 		},
 		draw: function(){
+			//New draw approach
+			
 			if (this.drawState === 'new'){
 				this.parent.overseerDiv.html(this.returnText());
 				if (this.nextType === 'overseer'){
