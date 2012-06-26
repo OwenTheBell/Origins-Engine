@@ -2,12 +2,14 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 	//Contains the first statement in a dialogue, this will start off the conversation
 	this.activeStatement = null;
 	this.nextActiveStatement = null;
+	this.originalActive = null; //Track the original active so it can be reset on exit
 	this.file = file; //url of the xml file with relevant dialogue
 	this.set_check = []; //object to contain the set & check conversation values
 	this.keyValue = false;
 	//These strings contain the HTML values to reuse when the active Statement isn't relevant
-	this.previousOveerseerHTML = '';
+	this.overseerHTML = '';
 	this.playerHTML = '';
+	this.popupHTML = '';
 	
 	this.overseerCSS = {
 		position: 'inherit',
@@ -21,15 +23,14 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		left: '5px'
 	}
 
-	//Now make a set of 4 divs to hold text within playerDiv
-	this.playerStatements = [];
-	for(var i = 0; i < 4; i ++){
-		this.playerStatements.push(jQuery('<div>'));
-		this.playerStatements[i].css({
+	this.responseHolders = [];
+	for (var i=0; i < this.responseHolders.length; i++) {
+		this.responseHolders.push({
 			position: 'inherit',
-			top: Math.floor(parseInt(this.playerCSS.top) / 4) * i + 'px'
+			height: Math.floor(parseInt(helper.findCSSRule('.dialoge').style.height) / 4) + 'px',
+			top: parseInt(this.height) * i + 'px',
 		});
-	}
+	};
 })
 
 	.methods({
@@ -44,7 +45,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			var playerContainer = {};
 			var popupContainer = {};
 			
-			//need to capture 'this' so that it can be accessed within subfunctions
+			// need to capture 'this' so that it can be accessed within subfunctions
 			var that = this;
 			
 			$(xml).find("overseer").each(function(){
@@ -93,10 +94,10 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			/*
 			 * Function for setting a statement's nextStatement
 			 * ARGS:
-			 * 	statement: the statement itself
-			 * 	id: identify what the statement is in case of error. This is needed 
-			 * 		as playerStatements do not have ids so a string needs to be passed
-			 * 		to be used instead
+			 *	statement: the statement itself
+			 *	id: identify what the statement is in case of error. This is needed 
+			 *		as playerStatements do not have ids so a string needs to be passed
+			 *		to be used instead
 			 */
 			function linkNext(statement){
 				if (statement.nextType === 'overseer'){
@@ -127,7 +128,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			this.zIndex = dialogueZIndex;
 			this.opacity = 1.0;
 			this.drawState = 'updated';
-			console.log(this.id + ' activated');
+			this.originalActive = this.activeStatement;
 		},
 		
 		deActivate: function(){
@@ -135,6 +136,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			this.zIndex = bottomZIndex;
 			this.opacity = 0.0;
 			this.parent.deActivated();
+			this.activeStatement = this.originalActive;
 		},
 		
 		update: function(){
@@ -180,12 +182,40 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			//divs for overseer and player and then just directly insert the return text
 			
 			if(this.activeScreen){
-			// if(this.activeScreen && (this.drawCheck || this.playerHTML === '')) {
 				var newOverseerHTML = [];
 				var newPlayerHTML = [];
+				var newPopupHTML = [];
+				
+				//Function to handle creating the PlayerDiv
+				var that = this;
+				function addToPlayer(inputString) {
+					var returnString = [];
+					returnString.push('<div id:"PlayerDiv" style="');
+					for(x in that.playerCSS){
+						returnString.push(x + ':' + that.playerCSS[x] + '; ');
+					}	
+					returnString.push('" class="dialogue" >');
+					if (inputString instanceof Array){
+						$(inputString).each(function(){
+							returnString.push('<div style="');
+							for (x in that.responseHolders[0]) {
+								returnString.push(x + ':' + that.responseHolders[0][x] + '; ');
+							};
+							returnString.push('" >' + this.returnText() + '</div>');
+						});
+						returnString.push('</div>');
+					} else {
+						returnString.push('<div style="');
+						for (x in that.responseHolders[0]) {
+							returnString.push(x + ':' + that.responseHolders[0][x] + '; ');
+						};
+						returnString.push('" >' + inputString + '</div></div>');
+					}
+					return returnString.join('');
+				};
 				
 				//When the overseerDiv needs to be updated
-				if (this.activeStatement instanceof OverseerStatement){	
+				if (this.activeStatement instanceof OverseerStatement){ 
 					newOverseerHTML.push('<div id="OverseerDIV" style="');
 					for(x in this.overseerCSS){
 						newOverseerHTML.push(x + ':' + this.overseerCSS[x] + '; ');
@@ -196,48 +226,15 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 					this.overseerHTML = newOverseerHTML.join('');
 					
 					if (this.activeStatement.nextStatement === 'exit'){
-						newPlayerHTML.push('<div id:"PlayerDiv" style="');
-						for(x in this.playerCSS){
-							newPlayerHTML.push(x + ':' + this.playerCSS[x] + '; ');
-						}
-						newPlayerHTML.push('" class="dialogue" >');
-						newPlayerHTML.push('Press Enter to Exit</div>');
-						this.playerHTML = newPlayerHTML.join('');
+						this.playerHTML = addToPlayer('Press Enter to Exit');
 					} else if (this.activeStatement.nextStatement === 'popup'){
-						newPlayerHTML.push('<div id:"PlayerDiv" style="');
-						for(x in this.playerCSS){
-							newPlayerHTML.push(x + ':' + this.playerCSS[x] + '; ');
-						}
-						newPlayerHTML.push('" class="dialogue" >');
-						newPlayerHTML.push('There will be a popup here</div>');
-						this.playerHTML = newPlayerHTML.join('');
+						this.playerHTML = addToPlayer('There will be a popup here');
 					}
-					
 				} else if (this.activeStatement instanceof PlayerOptions){
-					newPlayerHTML.push('<div id:"PlayerDiv" style="');
-					for(x in this.playerCSS){
-						newPlayerHTML.push(x + ':' + this.playerCSS[x] + '; ');
-					}
-					newPlayerHTML.push('" class="dialogue" >');
-					//Here we collect the return info from the different statements
-					newPlayerHTML.push('<table>');
-					$(this.activeStatement.availableStatements).each(function(){
-						newPlayerHTML.push('<tr><td>' + this.returnText() + '</td></tr>');
-					});
-					newPlayerHTML.push('</table></div>');
-					this.playerHTML = newPlayerHTML.join('');
+					this.playerHTML = addToPlayer(this.activeStatement.availableStatements);
 				}
 				
-				var newPopupHTML = ''; //Just leave it this way until popups are implemented
-				
-				//And then here return overseerHTML and playerHTML as they either hold
-				//the old values or the new updated values
-				
-				//console.log(this.overseerHTML);
-				//console.log(this.playerHTML);
-				//this.drawCheck = false;
-				
-				return (this.overseerHTML + this.playerHTML);	
+				return (this.overseerHTML + this.playerHTML + this.popupHTML);	
 			}
 		}
 	});
@@ -246,13 +243,13 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 /*
  * General parent object that all statements inherit from
  * ARGS:
- * 	nextType: the type of the next statements (overseer/player/popup/arachne/exit)
- * 	nextVariable: info on where to go. The data type changes based on the value of nextType
- * 			overseer: id of an overseerStatement
- * 			player: id of a playerOptions
- * 			popup: id of a popupStatement
- * 			arachne: id of an arachneStatement
- * 			exit: id of a Screen that the chat will exit to
+ *	nextType: the type of the next statements (overseer/player/popup/arachne/exit)
+ *	nextVariable: info on where to go. The data type changes based on the value of nextType
+ *			overseer: id of an overseerStatement
+ *			player: id of a playerOptions
+ *			popup: id of a popupStatement
+ *			arachne: id of an arachneStatement
+ *			exit: id of a Screen that the chat will exit to
  */
 var Statement = klass(function(parent, xmlData){
 	this.parent = parent;
@@ -294,8 +291,6 @@ var Statement = klass(function(parent, xmlData){
 			return textArray.join("");
 		},
 		update: function(){
-		},
-		draw: function(){
 		}
 	});
 
@@ -322,23 +317,7 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 			} else {
 				this.parent.playerDiv.html("ERROR: " + this.id + " has an invalid nextType");
 			}
-		},
-		/*
-		draw: function(){
-			//New draw approach
-			
-			if (this.drawState === 'new'){
-				this.parent.overseerDiv.html(this.returnText());
-				if (this.nextType === 'overseer'){
-					this.parent.playerDiv.html('Press Enter');
-				}
-			} else if (this.drawState === 'unchanged'){ 
-			} else {
-				console.log("ERROR: invalid statement draw state " + this.id);
-			}
-			this.drawState = 'unchanged';
 		}
-		*/
 	});
 
 /*
@@ -362,10 +341,6 @@ var PlayerOptions = klass(function(parent, xmlData){
 	});
 })
 	.methods({
-		/*
-		 * Currently updated() and draw() are called in reverse order, this
-		 * needs to be fixed
-		 */
 		update: function(){
 			//make array of available answers
 			if (!this.availableStatements){
@@ -385,9 +360,7 @@ var PlayerOptions = klass(function(parent, xmlData){
 				if (((keyValue - 49) < this.availableStatements.length) && ((keyValue - 49) >= 0)){
 					var selected = this.availableStatements[keyValue - 49];
 					if (selected.nextType === 'exit'){
-						console.log('THE END!!!!');
 					} else if (selected.nextType === 'popup'){
-						console.log("next up is a popup");
 					} else {
 						this.parent.nextActiveStatement = selected.nextStatement;
 						console.log(this.parent.nextActiveStatement.id + " is now active");
@@ -400,23 +373,6 @@ var PlayerOptions = klass(function(parent, xmlData){
 					}
 				}
 			}
-		},
-		draw: function(){
-			
-			//Returns text formatted into a table so that things look nicer
-			if (this.drawState === 'new'){
-				//var returnText = "<table border = '0'>";
-				for (var i = 0; i < this.availableStatements.length; i++){
-					var statement = this.availableStatements[i];
-					this.parent.playerStatements[i].html((i+1) + ' ' + statement.returnText());
-				}
-				//returnText += '</table>';
-				//this.parent.playerDiv.html(returnText);
-			} else if (this.drawState === 'unchanged') {
-			} else {
-				console.log("ERROR: invalid statement draw state " + this.id);
-			}
-			this.drawState = 'unchanged';
 		}
 	});
 
