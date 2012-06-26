@@ -9,15 +9,6 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 	this.previousOveerseerHTML = '';
 	this.playerHTML = '';
 	
-	this.overseerDiv = jQuery('<div>', {
-		id: 'overseerDiv'
-	});
-	this.overseerDiv.css({
-		position: 'inherit',
-		top: '5px',
-		left: '5px',
-	});
-	
 	this.overseerCSS = {
 		position: 'inherit',
 		top: '5px',
@@ -29,24 +20,6 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		top: (parseInt($('#origins').css('height')) - parseInt(helper.findCSSRule('.dialogue').style.height) - 15) + 'px',
 		left: '5px'
 	}
-	
-	this.overseerDiv.addClass('dialogue');
-	
-	this.playerDiv = jQuery('<div>', {
-		id: 'playerDiv'
-	});
-	this.playerDiv.addClass('dialogue');
-	//this function needs to be cleaned up a little bit
-	this.playerDiv.css({
-		position: 'inherit',
-		top: (parseInt($('#origins').css('height')) - parseInt(helper.findCSSRule('.dialogue').style.height) - 15) + 'px',
-		left: '5px'
-	});
-	
-	this.drawCheck = true;
-	
-	//this.repDiv.append(this.overseerDiv);
-	//this.repDiv.append(this.playerDiv);
 
 	//Now make a set of 4 divs to hold text within playerDiv
 	this.playerStatements = [];
@@ -54,9 +27,8 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		this.playerStatements.push(jQuery('<div>'));
 		this.playerStatements[i].css({
 			position: 'inherit',
-			top: Math.floor(parseInt(this.playerDiv.css('height')) / 4) * i + 'px'
+			top: Math.floor(parseInt(this.playerCSS.top) / 4) * i + 'px'
 		});
-		this.playerDiv.append(this.playerStatements[i]);
 	}
 })
 
@@ -259,7 +231,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 				var newPopupHTML = ''; //Just leave it this way until popups are implemented
 				
 				//And then here return overseerHTML and playerHTML as they either hold
-				//the old values or the new updates values
+				//the old values or the new updated values
 				
 				//console.log(this.overseerHTML);
 				//console.log(this.playerHTML);
@@ -335,29 +307,23 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 })
 	.methods({
 		update: function(){
-			//Don;t update until state is unchanged, this ensures that this statement
-			//draws before activeStatement is changed
-			if(this.drawState === 'unchanged'){
-				if (this.nextType === 'overseer'){
-					if (this.parent.keyValue == 13){
-						this.parent.nextActiveStatement = this.nextStatement;
-					}
-				} else if (this.nextType === 'player'){
-					console.log(this.id + 'is setting next active');
+			if (this.nextType === 'overseer'){
+				if (this.parent.keyValue == 13){
 					this.parent.nextActiveStatement = this.nextStatement;
-				} else if (this.nextType === 'popup'){
-					this.parent.playerDiv.html("Next statement is a popup");
-				} else if (this.nextType === 'exit'){
-					this.parent.playerDiv.html("THE END!!!!");
-					if (this.parent.keyValue == 13){
-						this.parent.deActivate();
-					}
-				} else {
-					this.parent.playerDiv.html("ERROR: " + this.id + " has an invalid nextType");
 				}
+			} else if (this.nextType === 'player'){
+				this.parent.nextActiveStatement = this.nextStatement;
+			} else if (this.nextType === 'popup'){
+				console.log('Popup not implemented');
+			} else if (this.nextType === 'exit'){
+				if (this.parent.keyValue == 13){
+					this.parent.deActivate();
+				}
+			} else {
+				this.parent.playerDiv.html("ERROR: " + this.id + " has an invalid nextType");
 			}
-			this.drawState = 'unchanged';
 		},
+		/*
 		draw: function(){
 			//New draw approach
 			
@@ -372,6 +338,7 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 			}
 			this.drawState = 'unchanged';
 		}
+		*/
 	});
 
 /*
