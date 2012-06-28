@@ -91,13 +91,11 @@ RunGame = function(){
 	 * objects. After all functions return their draw string the string will be
 	 * set as the innerHtml of the origins div
 	 */
-	var drawString = [];
+	var HTML = '';
 	$(screenCollection).each(function(){
-		//this.draw();
-		drawString.push(this.draw());
+		HTML += this.draw();
 	});
-	//console.log(drawString.join(''));
-	$('#origins').html(drawString.join(''));
+	$('#origins').html(HTML);
 }
 
 //This function should, in theory, be preloading all images by ensuring that

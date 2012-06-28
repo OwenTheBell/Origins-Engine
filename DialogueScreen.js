@@ -137,6 +137,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			this.opacity = 1.0;
 			this.drawState = 'updated';
 			this.originalActive = this.activeStatement;
+			console.log(this.id + " activated");
 		},
 		
 		deActivate: function(){
@@ -149,15 +150,19 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		
 		update: function(){
 			
-			if (this.activeScreen && inputState.keypressed){
-				this.keyValue = inputState.getKeyPressValue();
-			} else {
-				this.keyValue = false;
-			}
-			
-			if (this.nextActiveStatement){
-				this.activeStatement = this.nextActiveStatement;
-				this.nextActiveStatement = null;
+			if (this.activeScreen) {
+				if (inputState.keypressed){
+					this.keyValue = inputState.getKeyPressValue();
+				} else {
+					this.keyValue = false;
+				}
+				
+				if (this.nextActiveStatement){
+					this.activeStatement = this.nextActiveStatement;
+					this.nextActiveStatement = null;
+				}
+				
+				this.activeStatement.update();
 			}
 			/*
 			var mousePos = inputState.mousePos;
@@ -179,9 +184,9 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 				}
 			}
 			*/
-			if (this.activeScreen){
-				this.activeStatement.update();
-			}
+//			if (this.activeScreen){
+//				this.activeStatement.update();
+//			}
 		},
 		
 		draw: function(){
@@ -197,43 +202,41 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 				//Function to handle creating the PlayerDiv
 				var that = this;
 				function addToPlayer(inputString) {
-					var returnString = [];
-					returnString.push('<div id="PlayerDiv" style="');
+					var returnString = '';
+					returnString += '<div id="PlayerDiv" style="';
 					for(x in that.playerCSS){
-						returnString.push(x + ':' + that.playerCSS[x] + '; ');
+						returnString += x + ':' + that.playerCSS[x] + '; ';
 					}	
-					returnString.push('" class="dialogue speech" >');
+					returnString += '" class="dialogue speech" >';
 					if (inputString instanceof Array){
 						var iter = 0; //This should never go greater than 3
 						$(inputString).each(function(){
-							returnString.push('<div style="');
+							returnString += '<div style="';
 							for (x in that.responseHolders[iter]) {
-								returnString.push(x + ':' + that.responseHolders[iter][x] + '; ');
+								returnString += x + ':' + that.responseHolders[iter][x] + '; ';
 							};
-							returnString.push('" >' + this.returnText() + '</div>');
+							returnString += '" >' + this.draw() + '</div>';
 							iter++;
 						});
-						returnString.push('</div>');
+						returnString += '</div>';
 					} else {
-						returnString.push('<div style="');
+						returnString += '<div style="';
 						for (x in that.responseHolders[0]) {
-							returnString.push(x + ':' + that.responseHolders[0][x] + '; ');
+							returnString += x + ':' + that.responseHolders[0][x] + '; ';
 						};
-						returnString.push('" >' + inputString + '</div></div>');
+						returnString += '" >' + inputString + '</div></div>';
 					}
-					return returnString.join('');
+					return returnString;
 				};
 				
 				//When the overseerDiv needs to be updated
 				if (this.activeStatement instanceof OverseerStatement){ 
-					newOverseerHTML.push('<div id="OverseerDIV" style="');
+					newOverseerHTML += '<div id="OverseerDIV" style="';
 					for(x in this.overseerCSS){
-						newOverseerHTML.push(x + ':' + this.overseerCSS[x] + '; ');
+						newOverseerHTML += x + ':' + this.overseerCSS[x] + '; ';
 					}
-					newOverseerHTML.push('" class="dialogue speech" >');
-					newOverseerHTML.push(this.activeStatement.returnText());
-					newOverseerHTML.push('</div>');
-					this.overseerHTML = newOverseerHTML.join('');
+					newOverseerHTML += '" class="dialogue speech" >' + this.activeStatement.draw() + '</div>';
+					this.overseerHTML = newOverseerHTML;
 					
 					if (this.activeStatement.nextStatement === 'exit'){
 						this.playerHTML = addToPlayer('Press Enter to Exit');
@@ -243,19 +246,22 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 				} else if (this.activeStatement instanceof PlayerOptions){
 					this.playerHTML = addToPlayer(this.activeStatement.availableStatements);
 				} else if (this.activeStatement instanceof PopupStatement){
-					newPopupHTML.push('<div id="PopupDIV" style="');
+					newPopupHTML += '<div id="PopupDIV" style="';
 					for (x in this.popupCSS){
-						newPopupHTML.push(x + ':' + this.popupCSS[x] + '; ');
+						newPopupHTML += x + ':' + this.popupCSS[x] + '; ';
 					}
-					newPopupHTML.push('" class="dialogue" ><table>');
-					newPopupHTML.push('<tr><td>' + this.activeStatement.returnText() + '</td></tr>');
-					newPopupHTML.push('<tr><td><center> ' + this.activeStatement.collectedInput + '</center></td></tr>');
-					newPopupHTML.push('<tr><td>Press Enter when Done</td></tr>');
-					newPopupHTML.push('</div>');
-					this.popupHTML = newPopupHTML.join('');
+					newPopupHTML += '" class="dialogue" ><table>';
+					newPopupHTML += '<tr><td>' + this.activeStatement.draw() + '</td></tr>';
+					newPopupHTML += '<tr><td><center> ' + this.activeStatement.collectedInput + '</center></td></tr>';
+					newPopupHTML += '<tr><td>Press Enter when Done</td></tr>';
+					newPopupHTML += '</div>' ;
+					this.popupHTML = newPopupHTML;
 				}
-				
-				return (this.overseerHTML + this.playerHTML + this.popupHTML);
+				if (this.opacity) {
+					return (this.overseerHTML + this.playerHTML + this.popupHTML);
+				} else {
+					return '';
+				}
 			}
 		}
 	});
@@ -291,36 +297,36 @@ var Statement = klass(function(parent, xmlData){
 		addText: function(text){
 			this.texts.push(text);
 		},
+		update: function(){
+		},
 		//Returns all of this.texts as an html string
-		returnText: function(){
-			var textArray = [];
+		draw: function(){
+			var HTML;
 			$(this.texts).each(function(){
 				var color = $(this).attr('color');
 				if (color){
 					if(color === 'hex color value') {
 						color = '#FFOOFF';
 					}
-					textArray.push('<font color="' + color + '">');
+					HTML += '<font color="' + color + '">';
 				}
 				//Check to see if there is a declared variable instead of plain text
 				if ( $(this).find('variable').text()){
 					//Confirm variable exists, this does not need to be in final code
 					if (inputVariables[$(this).find('variable')]) {
-						textArray.push(inputVariables[$(this).find('variable').text()]);
+						HTML += inputVariables[$(this).find('variable').text()];
 					} else {
-						textArray.push('Variable undeclared');
+						HTML += 'Variable undeclared';
 					}
 				} else {
-					textArray.push($(this).text());
+					HTML += $(this).text();
 				}
 				if(color){
-					textArray.push('</font>');
+					HTML += '</font>';
 				}
 			});
-			return textArray.join("");
+			return HTML;
 		},
-		update: function(){
-		}
 	});
 
 var OverseerStatement = Statement.extend(function(parent, xmlData){

@@ -1,9 +1,6 @@
 var Screen = klass(function(id, zIndex) {
 	this.id = id
 	this.spriteArray = [];
-	//Not sure if I need this, this was for when the clickMap was going to be
-	//contained on the screen not each individual image
-	//this.clickArray = [];
 	this.fadeOut = false;
 	this.fadeIn = false;
 	this.timeIn;
@@ -21,23 +18,11 @@ var Screen = klass(function(id, zIndex) {
 	this.transitionFrames = 0;
 	this.transitionFramesCount = 0;
 	
-	//The screen requires a div so that it can contain sprites
-	this.repDiv = jQuery('<div>', {
-		id: this.id
-	});
-	this.repDiv.css({
-		position: 'inherit',
-		opacity: this.opacity,
-		'z-index': this.zIndex,
-	});
-	
 	this.css = {
 		'postion': 'inherit',
-		'opaciy': this.opacity,
+		'opacity': this.opacity,
 		'z-index': this.zIndex
 	}
-	//if(this instanceof DialogueScreen) {}
-	//else console.log('Generating screen of id ' + this.id);
 	
 })
 	.methods({
@@ -146,69 +131,18 @@ var Screen = klass(function(id, zIndex) {
 			}
 		},
 		draw: function(){
-			//So we should be able to simplify the draw if each screen features a total redraw
-			//There could well be big issues with this total redraw, though, so we'll see how this works
-			//One thing I am pretty worried about, though, is how expensive creating and joining all
-			//these arrays might turn out to be
-			
-			if(this instanceof DialogueScreen) {}
-			else {
-				var returnedHTML = [];
-				$(this.spriteArray).each(function(){
-					returnedHTML.push(this.draw());
-				})
-				var myHTML = [];
-				myHTML.push('<div id =' + this.id + ' style="');
+			var HTML = '';
+			if (this.opacity > 0){
+				HTML += '<div id =' + this.id + ' style="';
 				for(x in this.css){
-					myHTML.push(x + ':' + this.css[x] + '; ');
+					HTML += x + ':' + this.css[x] + '; ';
 				}
-				myHTML.push('">');
-				
-				return(myHTML.join('') + returnedHTML.join('') + '</div>');
-				
-			}
-			
-			/*
-			//Draw state is necessary since then we can assure that we avoid
-			//unneeded redraws
-			if (this.drawState === 'new') {
-				$('#origins').append(this.repDiv);
-				if(this instanceof DialogueScreen) {}
-				else {
-					var returnedHTML = [];
-					$(this.spriteArray).each(function(){
-						returnedHTML.push(this.draw());
-					})
-					var myHTML = [];
-					myHTML.push('<div id =' + this.id + ' style="');
-					for(x in this.css){
-						myHTML.push(x + ':' + this.css[x] + '; ');
-					}
-					myHTML.push('">');
-					
-					return(myHTML.join('') + returnedHTML.join('') + '</div>');
-					
-				}
-				
-			} else if (this.drawState === 'updated'){
-				//In theory we should only ever be updating the screen css
-				//if (this.fadeIn)
-				this.repDiv.css({
-					opacity: this.opacity,
-					'z-index': this.zIndex
+				HTML += '" >';
+				$(this.spriteArray).each(function(){
+					HTML += this.draw();
 				});
-			} else if (this.drawState === 'removed') {
-				$('#' + this.id).remove();
-			} else if (this.drawState === 'unchanged') {
-				//no need to do anything here
-			} else {
-				console.log("ERROR: invalid screen draw state: " + this.id);
+				HTML += '</div>';
 			}
-			this.drawState = 'unchanged';
-			
-			//for (img in this.spriteArray){
-			//	this.spriteArray[img].draw();
-			//}
-			*/
+			return(HTML);
 		}
 	});

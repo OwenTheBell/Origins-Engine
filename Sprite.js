@@ -33,15 +33,13 @@ var Sprite = klass(function (left, top, image, id) {
 			
 		},
 		draw: function(){
-			var returnHTML = [];
-			returnHTML.push('<div id="' + this.id +'" style="');
+			var HTML = '';
+			HTML += '<div id="' + this.id +'" style="';
 			for(x in this.css){
-				returnHTML.push(x + ':' + this.css[x] + '; ');
+				HTML += x + ':' + this.css[x] + '; ';
 			}
-			returnHTML.push('">');
-			returnHTML.push('<img src="' + this.image.src + '"/>');
-			returnHTML.push('</div>');
-			return(returnHTML.join(''));
+			HTML += '"><img src="' + this.image.src + '"/></div>';
+			return(HTML);
 		}
 	});
 
@@ -64,7 +62,7 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 	
 			//Sprite has been clicked on, check if pixel is transparent or not
 			if (this.mouseLoc){
-				console.log(this.id + ' check click');
+//				console.log(this.id + ' check click');
 				helper.debugPrint(this.mouseLoc.X, this.mouseLoc.Y);
 				//The click map starts at (0, 0) relative to the sprite so the mouse position
 				//needs to be adjusted to account for the position of the sprite as well as
@@ -73,7 +71,7 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 				var y = this.mouseLoc.Y - this.top - parseInt($('#origins').css('top'));
 				//helper.debugPrint(x, y);
 				if (this.clickMap[x][y] == 1){
-					console.log(this.id + ' clicked');
+//					console.log(this.id + ' clicked');
 					this.onClick();
 					//debugPrint(x, y);
 				}
@@ -81,10 +79,6 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 			}
 		},
 		onClick: function(){
-			var randomnumber =  Math.floor(Math.random() * parseInt($('#origins').css('width')));
-			this.changeLeft(randomnumber);
-			randomnumber = Math.floor(Math.random() * parseInt($('#origins').css('top')));
-			this.changeTop(randomnumber);
 		},
 		makeClickMap: function(){
 			//Using canvas create an 2d array of transparent vs nontransparent pixels
