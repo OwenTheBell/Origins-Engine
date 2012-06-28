@@ -119,16 +119,13 @@
 		<text>Oh, I see your point. That's a good point.</text>
 	</option>
 </player>
-<popup id="playerPopup1" nextType = "overseer" nextId = "introOS5a">
-			<text color="hex color value"></text>
-			<variable id="playerName"></variable>
-			<playerName></playerName>
-			<overseerName></overseerName>
+<popup id="playerPopup1" nextType = "overseer" nextId = "introOS5a" target = "playerName">
+			<text>Enter your name please</text>
 </popup>
 <overseer id = "introOS5a" nextType = "player" nextId= "playerintroPL6">
 	<text>Alright capsule</text>
 	<text color="hex color value"> occupant </text>
-	<variable id="playerName" color="hex color value"></variable>
+	<text color="hex color value"><variable>playerName</variable></text>
 	<text>. Is there anything else I can do to make you feel more at home? Perhaps, read you a bed-time story when you go to sleep or, I know, request that your next supply shipment be full of warm milk and stuffed animals? Would you like me to sing you a lullaby now or can I do that after my vitally important briefing?</text>
 </overseer>
 <overseer id = "introOS5b" nextType = "player" nextId= "playerintroPL6">
@@ -162,14 +159,11 @@
 <overseer id = "introOS6b" nextType = "popup" nextId= "overseerPopup1">
 	<text>Does a worm have the right to 'name' an approaching foot? But, I suppose if you MUST for my briefing to begin, you may. We would not want you to feel as if you have been mistreated up in space, correct?</text>
 </overseer>
-<popup id="overseerPopup1" nextType = "overseer" nextId = "introOS7">
-			<text color="hex color value"></text>
-			<variable id="overseerName"></variable>
-			<playerName></playerName>
-			<overseerName></overseerName>
+<popup id="overseerPopup1" nextType = "overseer" nextId = "introOS7" target = "overseerName">
+			<text color="hex color value">What would you like to call the overseer?</text>
 </popup>
 <overseer id = "introOS6c" nextType = "overseer" nextId= "introOS7">
-	<text>Excellent, I can now begin my briefing. It is quite an exquiste briefing, if I do say so myself. I look forward to briefing you intently and intensely. It is almost oxymoronic, because this briefing is so loaded with information but still brief enough to be a briefing. Allow me a moment to get all my notecards together. Alright, I am ready.</text>
+	<text>Excellent, I can now begin my briefing. It is quite an exquisite briefing, if I do say so myself. I look forward to briefing you intently and intensely. It is almost oxymoronic, because this briefing is so loaded with information but still brief enough to be a briefing. Allow me a moment to get all my notecards together. Alright, I am ready.</text>
 </overseer>
 <overseer id = "introOS7" nextType = "overseer" nextId= "introOS8">
 	<text>As you may know, this capsule and all projects and experiments contained within it are part of</text>
@@ -229,7 +223,7 @@
 <player id = "playerintroPL7">
 	<option nextType = "overseer" nextId = "introOS17a">
 		<text>Thank you, </text>
-		<variable id="overseerName" color="hex color value"></variable>
+		<text color="hex color value"><variable>overseerName</variable></text>
 		<text>.</text>
 	</option>
 	<option nextType = "overseer" nextId = "introOS17b">
@@ -389,7 +383,7 @@
 	</option>
 	<option  nextType = "overseer" nextId = "firsttaskOS2">
 		<text>Look </text>
-		<variable id="overseerName"></variable>
+		<text color="hex color value"><variable>overseerName</variable></text>
 		<text> I can't even put oil in my car witout taking it to the mechanic. I don't think I'm cut out for this.</text>
 	</option>
 </player>
@@ -400,7 +394,7 @@
 </overseer>
 <overseer id = "firsttaskOS2b" nextType = "player" nextId = "playerfirsttaskPL2">
 	<text>Please open the storage unit, </text>
-	<variable id="playerName"></variable>
+	<text color="hex color value"><variable>playerName</variable></text>
 	<text>.</text>
 </overseer>
 <player id = "playerfirsttaskPL2">
@@ -427,12 +421,12 @@
 </overseer>
 <overseer id = "firsttaskOS3c" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
 	<text>I believe in you </text>
-	<variable id="playerName"></variable>
+	<text color="hex color value"><variable>playerName</variable></text>
 	<text>. Mostly becuase it should be quite simple, but if you need a moment to re-think your life and how you've come to be here I will allow it.</text>
 </overseer>
 <overseer id = "firsttaskOS4" nextType = "player" nextId = "playerfirsttaskPL3">
 	<text>The next part is very difficult. Do you see the large button on the surface of the robot? Please press the button,</text>
-	<variable id="playerName"></variable>
+	<text color="hex color value"><variable>playerName</variable></text>
 	<text>.</text>
 </overseer>
 <player id = "playerfirsttaskPL3">
@@ -490,7 +484,7 @@
 <player id = "playerfirsttaskPL5">
 	<option nextType = "overseer" nextId = "firsttaskOS9a">
 		<text>Copy,</text>
-		<variable id="overseerName"></variable>
+		<text color="hex color value"><variable>overseerName</variable></text>
 		<text>.</text>
 	</option>
 	<option nextType = "overseer" nextId = "firsttaskOS9b">
@@ -501,21 +495,21 @@
 	</option>
 </player>
 <overseer id = "firsttaskOS9a" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
-	<variable id="overseerName"></variable>
+	<text color="hex color value"><variable>overseerName</variable></text>
 	<text> out.</text>
 </overseer>
 <overseer id = "firsttaskOS9b" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
 	<text>...right. </text>
-	<variable id="overseerName"></variable>
+	<text color="hex color value"><variable>overseerName</variable></text>
 	<text> out.</text>
 </overseer>
 <overseer id = "firsttaskOS9c" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
 	<text>Do not worry </text>
-	<variable id="playerName"></variable>
+	<text color="hex color value"><variable>playerName</variable></text>
 	<text> it is a secure space-age </text>
 	<text color="hex color value">sleeping compartment</text>
 	<text>. Much better than a coffin and no one needs to bury you, even.</text>
-	<variable id="overseerName"></variable>
+	<text color="hex color value"><variable>overseerName</variable></text>
 	<text> out.</text>
 </overseer>
 </dialogue>

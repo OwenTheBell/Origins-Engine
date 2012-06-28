@@ -6,18 +6,6 @@ var Sprite = klass(function (left, top, image, id) {
 	this.image.src = image;
 	this.id = id;
 	this.drawState = 'new';
-	/*
-	 * Make the div that will contain the image and positional data
-	 */
-	this.repDiv = jQuery('<div>', {
-		id: this.id
-	});
-	this.repDiv.html("<img src='" + this.image.src + "' />");
-	this.repDiv.css({
-		position: 'inherit',
-		top: this.top + 'px',
-		left: this.left + 'px',
-	});
 	
 	this.css = {
 		position: 'inherit',
@@ -45,55 +33,15 @@ var Sprite = klass(function (left, top, image, id) {
 			
 		},
 		draw: function(){
-			//debugPrint(this.width, this.height);
-			
-			
-			
 			var returnHTML = [];
 			returnHTML.push('<div id="' + this.id +'" style="');
 			for(x in this.css){
 				returnHTML.push(x + ':' + this.css[x] + '; ');
 			}
 			returnHTML.push('">');
-			
 			returnHTML.push('<img src="' + this.image.src + '"/>');
-			
 			returnHTML.push('</div>');
-			
 			return(returnHTML.join(''));
-			
-			/*
-			if (this.drawState === 'new') {
-				if (!this.containerScreen) {
-					console.log("ERROR: new sprite " + this.id + " is not in a screen");
-				} else {
-					$('#' + this.containerScreen.id).append(this.repDiv);
-				}
-			
-				var returnHTML = [];
-				returnHTML.push('<div id="' + this.id +'" style="');
-				for(x in this.css){
-					returnHTML.push(x + ':' + this.css[x] + '; ');
-				}
-				returnHTML.push('"></div>');
-				return(returnHTML.join(''));
-				//console.log(returnHTML.join(''));
-			} else if (this.drawState === 'updated'){
-				this.repDiv.css({
-					top: this.top + 'px',
-					left: this.left + 'px'
-				});
-				//console.log("drawing sprite: " + this.id); 
-			} else if (this.drawState === 'removed') {
-				//remove from the DOM
-				$('#' + this.id).remove();
-				//still needs to be removed from the spriteArray in the screen
-			} else if (this.drawState === 'unchanged') { //no need to do anything, duh
-			} else {
-				console.log("ERROR: invalid sprite draw state: " + this.id);
-			}
-			this.drawState = 'unchanged';
-			*/
 		}
 	});
 

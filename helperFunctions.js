@@ -46,6 +46,7 @@ var helper = {
 				return myrules[i];
 			}
 		}
+		console.log(document.styleSheets[0].cssRules[0].cssText);
 		return false;
 	}
 }

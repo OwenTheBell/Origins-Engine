@@ -19,18 +19,27 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 	
 	this.playerCSS = {
 		position: 'inherit',
-		top: (parseInt($('#origins').css('height')) - parseInt(helper.findCSSRule('.dialogue').style.height) - 15) + 'px',
+		top: (parseInt($('#origins').css('height')) - parseInt(helper.findCSSRule('.speech').style.height) - 15) + 'px',
 		left: '5px'
 	}
-
+	
 	this.responseHolders = [];
-	for (var i=0; i < this.responseHolders.length; i++) {
+	for (var i=0; i < 4; i++) {
 		this.responseHolders.push({
 			position: 'inherit',
-			height: Math.floor(parseInt(helper.findCSSRule('.dialoge').style.height) / 4) + 'px',
-			top: parseInt(this.height) * i + 'px',
+			height: Math.floor(parseInt(helper.findCSSRule('.speech').style.height) / 4) + 'px',
 		});
+		//This needs to be setup out here so that it can access the height variable
+		this.responseHolders[i].top = parseInt(this.responseHolders[i].height) * i + 'px';
 	};
+	
+	this.popupCSS = {
+		position: 'inherit',
+		width: parseInt($('#origins').css('width')) / 5 + 'px',
+		height: parseInt($('#origins').css('height')) / 4 + 'px',
+	}
+	this.popupCSS.top = (parseInt($('#origins').css('height')) - parseInt(this.popupCSS.height)) / 2 + 'px';
+	this.popupCSS.left = (parseInt($('#origins').css('width')) - parseInt(this.popupCSS.width)) / 2 + 'px';
 })
 
 	.methods({
@@ -47,7 +56,6 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			
 			// need to capture 'this' so that it can be accessed within subfunctions
 			var that = this;
-			
 			$(xml).find("overseer").each(function(){
 				//only the raw xml is needed to make a new Overseer object
 				var overseer = new OverseerStatement(that, this);
@@ -140,7 +148,6 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		},
 		
 		update: function(){
-			//this.supr();
 			
 			if (this.activeScreen && inputState.keypressed){
 				this.keyValue = inputState.getKeyPressValue();
@@ -185,23 +192,26 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 				var newOverseerHTML = [];
 				var newPlayerHTML = [];
 				var newPopupHTML = [];
+				this.popupHTML = ''; //Value must be reset as popup should only appear when active
 				
 				//Function to handle creating the PlayerDiv
 				var that = this;
 				function addToPlayer(inputString) {
 					var returnString = [];
-					returnString.push('<div id:"PlayerDiv" style="');
+					returnString.push('<div id="PlayerDiv" style="');
 					for(x in that.playerCSS){
 						returnString.push(x + ':' + that.playerCSS[x] + '; ');
 					}	
-					returnString.push('" class="dialogue" >');
+					returnString.push('" class="dialogue speech" >');
 					if (inputString instanceof Array){
+						var iter = 0; //This should never go greater than 3
 						$(inputString).each(function(){
 							returnString.push('<div style="');
-							for (x in that.responseHolders[0]) {
-								returnString.push(x + ':' + that.responseHolders[0][x] + '; ');
+							for (x in that.responseHolders[iter]) {
+								returnString.push(x + ':' + that.responseHolders[iter][x] + '; ');
 							};
 							returnString.push('" >' + this.returnText() + '</div>');
+							iter++;
 						});
 						returnString.push('</div>');
 					} else {
@@ -220,7 +230,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 					for(x in this.overseerCSS){
 						newOverseerHTML.push(x + ':' + this.overseerCSS[x] + '; ');
 					}
-					newOverseerHTML.push('" class="dialogue" >');
+					newOverseerHTML.push('" class="dialogue speech" >');
 					newOverseerHTML.push(this.activeStatement.returnText());
 					newOverseerHTML.push('</div>');
 					this.overseerHTML = newOverseerHTML.join('');
@@ -232,9 +242,20 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 					}
 				} else if (this.activeStatement instanceof PlayerOptions){
 					this.playerHTML = addToPlayer(this.activeStatement.availableStatements);
+				} else if (this.activeStatement instanceof PopupStatement){
+					newPopupHTML.push('<div id="PopupDIV" style="');
+					for (x in this.popupCSS){
+						newPopupHTML.push(x + ':' + this.popupCSS[x] + '; ');
+					}
+					newPopupHTML.push('" class="dialogue" ><table>');
+					newPopupHTML.push('<tr><td>' + this.activeStatement.returnText() + '</td></tr>');
+					newPopupHTML.push('<tr><td><center> ' + this.activeStatement.collectedInput + '</center></td></tr>');
+					newPopupHTML.push('<tr><td>Press Enter when Done</td></tr>');
+					newPopupHTML.push('</div>');
+					this.popupHTML = newPopupHTML.join('');
 				}
 				
-				return (this.overseerHTML + this.playerHTML + this.popupHTML);	
+				return (this.overseerHTML + this.playerHTML + this.popupHTML);
 			}
 		}
 	});
@@ -266,28 +287,36 @@ var Statement = klass(function(parent, xmlData){
 	.methods({
 		setNext: function(nextStatement){
 			this.nextStatement = nextStatement;
-			if(nextStatement != 'exit'){
-				//console.log(this.nextStatement.id + " attached to " + this.id);
-			};
 		},
 		addText: function(text){
 			this.texts.push(text);
 		},
-		//Returns all of this.texts as a formatted strg
-		//This will probably change so that text is instead drawn individually by the object
+		//Returns all of this.texts as an html string
 		returnText: function(){
 			var textArray = [];
-			for (x in this.texts){
-				var color = $(this.texts[x]).attr('color');
-				if(!color){
-					textArray.push($(this.texts[x]).text());
-				} else {
-					if (color === 'hex color value'){
-						color = '#FF00FF';
+			$(this.texts).each(function(){
+				var color = $(this).attr('color');
+				if (color){
+					if(color === 'hex color value') {
+						color = '#FFOOFF';
 					}
-					textArray.push("<font color='" + color + "'>" + $(this.texts[x]).text() + "</font>");
+					textArray.push('<font color="' + color + '">');
 				}
-			}
+				//Check to see if there is a declared variable instead of plain text
+				if ( $(this).find('variable').text()){
+					//Confirm variable exists, this does not need to be in final code
+					if (inputVariables[$(this).find('variable')]) {
+						textArray.push(inputVariables[$(this).find('variable').text()]);
+					} else {
+						textArray.push('Variable undeclared');
+					}
+				} else {
+					textArray.push($(this).text());
+				}
+				if(color){
+					textArray.push('</font>');
+				}
+			});
 			return textArray.join("");
 		},
 		update: function(){
@@ -309,7 +338,9 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 			} else if (this.nextType === 'player'){
 				this.parent.nextActiveStatement = this.nextStatement;
 			} else if (this.nextType === 'popup'){
-				console.log('Popup not implemented');
+				if (this.parent.keyValue == 13) {
+					console.log('Popup not implemented');
+				}
 			} else if (this.nextType === 'exit'){
 				if (this.parent.keyValue == 13){
 					this.parent.deActivate();
@@ -360,7 +391,9 @@ var PlayerOptions = klass(function(parent, xmlData){
 				if (((keyValue - 49) < this.availableStatements.length) && ((keyValue - 49) >= 0)){
 					var selected = this.availableStatements[keyValue - 49];
 					if (selected.nextType === 'exit'){
+						this.parent.deActivate();
 					} else if (selected.nextType === 'popup'){
+						this.parent.nextActiveStatement = selected.nextStatement;
 					} else {
 						this.parent.nextActiveStatement = selected.nextStatement;
 						console.log(this.parent.nextActiveStatement.id + " is now active");
@@ -368,7 +401,6 @@ var PlayerOptions = klass(function(parent, xmlData){
 						//if the selected statement has a set variable, set it for later
 						if (set){
 							this.parent.set_check[set] = true;
-							// console.log('setting');
 						}
 					}
 				}
@@ -377,8 +409,6 @@ var PlayerOptions = klass(function(parent, xmlData){
 	});
 
 /*
- * A player statement can have both a set and a check value, this just needs
- * to be reflected in the input object
  * NOTE: parent in this case is the DialogueScreen not a PlayerOptions
  */
 var PlayerStatement = Statement.extend(function(parent, xmlData, id){
@@ -404,7 +434,19 @@ var PlayerStatement = Statement.extend(function(parent, xmlData, id){
 var PopupStatement = Statement.extend(function(parent, xmlData){
 	this.id = $(xmlData).attr('id');
 	this.target = $(xmlData).attr('target');
+	this.collectedInput = '';
 })
 	.methods({
-		
+		update: function(){
+			if (this.parent.keyValue){
+				var keyValue = this.parent.keyValue;
+				if (keyValue == 13){
+					inputVariables[this.target] = this.collectedInput;
+					this.parent.nextActiveStatement = this.nextStatement;
+				}//Only accept lower or uppercase letters
+				else if (((keyValue >= 65) && (keyValue <= 90)) || ((keyValue >= 97) && (keyValue <= 122))){
+					this.collectedInput += String.fromCharCode(keyValue);
+				} 
+			}
+		}
 	});

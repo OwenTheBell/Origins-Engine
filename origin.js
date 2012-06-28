@@ -4,6 +4,7 @@ var topZIndex = 10;
 var bottomZIndex = 9;
 var transZIndex = 11; //this zIndex is used to place emerging layers on top
 var dialogueZIndex = 12;
+var inputVariables = {};
 
 //If there is not a console then make console.log an empty function
 //Consider a boolean to force console.log to be an empty statement
@@ -29,7 +30,7 @@ $(document).ready(function(){
 			);
 	
 	//setup some of the external css for the dialogueScreen
-	var rule = helper.findCSSRule('.dialogue');
+	var rule = helper.findCSSRule('.speech');
 	rule.style.width = parseInt($('#origins').css('width')) - 20 + 'px';
 	rule.style.height = parseInt($('#origins').css('height'))  / 4 + 'px';
 	
@@ -51,8 +52,10 @@ $(document).ready(function(){
 	mainScreen.activeScreen = true;
 	screenCollection.push(mainScreen);
 	
-	//var talkScreen = new DialogueScreen('talkScreen', bottomZIndex, 'IntroDial.xml');
-	//helper.ajaxGet(talkScreen);
+	// var talkScreen = new DialogueScreen('talkScreen', bottomZIndex, 'IntroDial.xml');
+	// helper.ajaxGet(talkScreen);
+	// talkScreen.activeScreen = true;
+	// screenCollection.push(talkScreen);
 	
 	var dialogueScreens = new Array();
 	
