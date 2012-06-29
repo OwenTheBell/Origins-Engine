@@ -210,6 +210,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 					returnString += '" class="dialogue speech" >';
 					if (inputString instanceof Array){
 						var iter = 0; //This should never go greater than 3
+						if (iter > 3) console.log('Too many input options');
 						$(inputString).each(function(){
 							returnString += '<div style="';
 							for (x in that.responseHolders[iter]) {
@@ -257,11 +258,9 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 					newPopupHTML += '</div>' ;
 					this.popupHTML = newPopupHTML;
 				}
-				if (this.opacity) {
-					return (this.overseerHTML + this.playerHTML + this.popupHTML);
-				} else {
-					return '';
-				}
+				return (this.overseerHTML + this.playerHTML + this.popupHTML);
+			} else {
+				return '';
 			}
 		}
 	});
@@ -301,7 +300,7 @@ var Statement = klass(function(parent, xmlData){
 		},
 		//Returns all of this.texts as an html string
 		draw: function(){
-			var HTML;
+			var HTML = '';
 			$(this.texts).each(function(){
 				var color = $(this).attr('color');
 				if (color){
@@ -311,10 +310,11 @@ var Statement = klass(function(parent, xmlData){
 					HTML += '<font color="' + color + '">';
 				}
 				//Check to see if there is a declared variable instead of plain text
-				if ( $(this).find('variable').text()){
-					//Confirm variable exists, this does not need to be in final code
-					if (inputVariables[$(this).find('variable')]) {
-						HTML += inputVariables[$(this).find('variable').text()];
+				var variable = $(this).find('variable').text();
+				if (variable){
+					//Confirm variable exists
+					if (inputVariables[variable]) {
+						HTML += inputVariables[variable];
 					} else {
 						HTML += 'Variable undeclared';
 					}
