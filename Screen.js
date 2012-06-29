@@ -6,23 +6,22 @@ var Screen = klass(function(id, zIndex) {
 	this.timeIn;
 	this.drawState = 'new'; // new/updated/removed/unchanged
 	this.activeScreen = false;
-	this.opacity = 0.0
 	
-	this.zIndex = zIndex;
+	this.css = {
+		// 'position': 'inherit',
+		'opacity': 0.0,
+		'z-index': zIndex,
+	}
+	
 	//set opacity based on whether or not this screen is on the top zIndex
-	if ((this.zIndex == topZIndex) || (this.zIndex == dialogueZIndex)) {
-		this.opacity = 1.0;
-		//this.activeScreen = true;
+	if ((this.css['z-index'] == topZIndex) || (this.css['z-index'] == dialogueZIndex)) {
+		this.css['opacity'] = 1.0;
 	}
 	
 	this.transitionFrames = 0;
 	this.transitionFramesCount = 0;
 	
-	this.css = {
-		'postion': 'inherit',
-		'opacity': this.opacity,
-		'z-index': this.zIndex
-	}
+
 	
 })
 	.methods({
@@ -68,31 +67,31 @@ var Screen = klass(function(id, zIndex) {
 		fadingIn: function(seconds){
 			this.fadeIn = true;
 			this.transitionFrames = seconds*fps;
-			this.zIndex = transZIndex;
+			this.css['z-index'] = transZIndex;
 			this.drawState = 'updated';
 		},
 		update: function(){
 			//Check if any sprites have been clicked
 			if (this.fadeIn){
-				if (this.opacity >= 1.0){
-					this.opacity = 1.0;
+				if (this.css['opacity'] >= 1.0){
+					this.css['opacity'] = 1.0;
 					this.fadeIn = false;
 					this.fadeOut = false;
-					this.zIndex = topZIndex;
+					this.css['z-index'] = topZIndex;
 					this.activeScreen = true;
 					console.log(this.id + ' in foreground');
 				} else {
-					this.opacity += (1 / this.transitionFrames);
+					this.css['opacity'] += (1 / this.transitionFrames);
 				}
 				this.drawState = 'updated';
 			} else if (this.fadeOut){
-				if (this.opacity <= 0.0){
-					this.opacity = 0.0;
+				if (this.css['opacity'] <= 0.0){
+					this.css['opacity'] = 0.0;
 					this.fadeOut = false;
 					this.fadeIn = false;
-					this.zIndex = bottomZIndex;
+					this.css['z-index'] = bottomZIndex;
 				} else {
-					this.opacity -= (1 / this.transitionFrames);
+					this.css['opacity'] -= (1 / this.transitionFrames);
 				}
 				
 				this.drawState = 'updated';
@@ -132,7 +131,7 @@ var Screen = klass(function(id, zIndex) {
 		},
 		draw: function(){
 			var HTML = '';
-			if (this.opacity > 0){
+			if (this.css['opacity'] > 0){
 				HTML += '<div id =' + this.id + ' style="';
 				for(x in this.css){
 					HTML += x + ':' + this.css[x] + '; ';

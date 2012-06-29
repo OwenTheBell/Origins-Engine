@@ -8,7 +8,7 @@ var Sprite = klass(function (left, top, image, id) {
 	this.drawState = 'new';
 	
 	this.css = {
-		position: 'inherit',
+		// position: 'inherit',
 		top: this.top + 'px',
 		left: this.left + 'px',
 	}

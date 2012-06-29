@@ -1,4 +1,4 @@
-var screenCollection = [];
+var screenCollection = new Array();
 var fps = 60;
 var topZIndex = 10;
 var bottomZIndex = 9;
@@ -49,19 +49,22 @@ $(document).ready(function(){
 	*/
 	
 	var mainScreen = new Screen('mainScreen', topZIndex);
-	mainScreen.activeScreen = true;
-	screenCollection.push(mainScreen);
+	// mainScreen.activeScreen = true;
+	screenCollection[mainScreen.id] = mainScreen;
 	
-	// var talkScreen = new DialogueScreen('talkScreen', bottomZIndex, 'IntroDial.xml');
-	// helper.ajaxGet(talkScreen);
-	// talkScreen.activeScreen = true;
-	// screenCollection.push(talkScreen);
+	var talkScreen = new DialogueScreen('talkScreen', bottomZIndex, 'IntroDial.xml');
+	helper.ajaxGet(talkScreen);
+	talkScreen.activate();
+	screenCollection[talkScreen.id] = talkScreen;
 	
 	var dialogueScreens = new Array();
 	
 	helper.altAjaxGet(dialogueScreens, 'IntroObjMainRm.xml');
+	// $(dialogueScreens).each(function(){
+	// 	screenCollection[this.id] = this;
+	// })
 	for(key in dialogueScreens){
-		screenCollection.push(dialogueScreens[key]);
+		screenCollection[dialogueScreens[key].id] = dialogueScreens[key];
 	}
 	
 	mainScreen.addSprite(new Sprite(0, 0, 'Sprites/Background.png', 'background'));
@@ -75,7 +78,9 @@ $(document).ready(function(){
 	mainScreen.addSprite(new dialogueSprite(299, 300, 'Sprites/Chair.png', 'chair', dialogueScreens['chair']));
 	mainScreen.addSprite(new dialogueSprite(0, 49, 'Sprites/Thermostat.png', 'smallmonitor', dialogueScreens['smallmonitor']));
 	
-	startGame(60);
+	console.log(screenCollection);
+	
+	startGame();
 });
 
 startGame = function() {
@@ -83,18 +88,18 @@ startGame = function() {
 }
 
 RunGame = function(){
-	$(screenCollection).each(function(){
-		this.update();
-	});
+	for(x in screenCollection) {
+		screenCollection[x].update();
+	}
 	/*
 	 * An array of strings returned by the draw functions of different
 	 * objects. After all functions return their draw string the string will be
 	 * set as the innerHtml of the origins div
 	 */
 	var HTML = '';
-	$(screenCollection).each(function(){
-		HTML += this.draw();
-	});
+	for(x in screenCollection) {
+		HTML += screenCollection[x].draw();
+	}
 	$('#origins').html(HTML);
 }
 

@@ -12,29 +12,30 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 	this.popupHTML = '';
 	
 	this.overseerCSS = {
-		position: 'inherit',
+		// position: 'inherit',
 		top: '5px',
-		left: '5px'
+		left: '5px',
 	}
 	
 	this.playerCSS = {
-		position: 'inherit',
-		top: (parseInt($('#origins').css('height')) - parseInt(helper.findCSSRule('.speech').style.height) - 15) + 'px',
-		left: '5px'
+		// position: 'inherit',
+		top: parseInt($('#origins').css('height')) - parseInt(helper.findCSSRule('.speech').style.height) - 15 + 'px',
+		left: 5 + 'px',
 	}
 	
 	this.responseHolders = [];
 	for (var i=0; i < 4; i++) {
 		this.responseHolders.push({
-			position: 'inherit',
+			// position: 'inherit',
 			height: Math.floor(parseInt(helper.findCSSRule('.speech').style.height) / 4) + 'px',
+			width: helper.findCSSRule('.speech').style.width,
 		});
 		//This needs to be setup out here so that it can access the height variable
 		this.responseHolders[i].top = parseInt(this.responseHolders[i].height) * i + 'px';
 	};
 	
 	this.popupCSS = {
-		position: 'inherit',
+		// position: 'inherit',
 		width: parseInt($('#origins').css('width')) / 5 + 'px',
 		height: parseInt($('#origins').css('height')) / 4 + 'px',
 	}
@@ -133,8 +134,8 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		
 		activate: function(){
 			this.activeScreen = true;
-			this.zIndex = dialogueZIndex;
-			this.opacity = 1.0;
+			this.css['z-index'] = dialogueZIndex;
+			this.css['opacity'] = 1.0;
 			this.drawState = 'updated';
 			this.originalActive = this.activeStatement;
 			console.log(this.id + " activated");
@@ -142,9 +143,9 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		
 		deActivate: function(){
 			this.activeScreen = false;
-			this.zIndex = bottomZIndex;
-			this.opacity = 0.0;
-			this.parent.deActivated();
+			this.css['z-index'] = bottomZIndex;
+			this.css['opacity'] = 0.0;
+			screenCollection[this.activeStatement.nextId].activeScreen = true;
 			this.activeStatement = this.originalActive;
 		},
 		
@@ -162,31 +163,24 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 					this.nextActiveStatement = null;
 				}
 				
-				this.activeStatement.update();
-			}
-			/*
-			var mousePos = inputState.mousePos;
-			mousePos.X -= parseInt($('#origins').css('left')) + parseInt(this.playerDiv.css('left'));
-			mousePos.Y -= parseInt($('#origins').css('top')) + parseInt(this.playerDiv.css('top'));
-			if((mousePos.X > 0) && (mousePos.X <= parseInt(this.playerDiv.css('width')))
-				&& (mousePos.Y > 0) && (mousePos.Y <= parseInt(this.playerDiv.css('height')))){
-				
-				for(var i = 0; i < this.playerStatements.length; i++){
-					var tempY = mousePos.Y - parseInt(this.playerStatements[i].css('top'));
-					if(!this.playerStatements[i]){
-						console.log(i);
-					}
-					if((tempY > 0) && (tempY <= Math.floor(parseInt(this.playerDiv.css('height')) / 4))){
-						this.playerStatements[i].css('background-color', '#FF00FF');
-					} else {
-						this.playerStatements[i].css('background-color', '#FFFFFF');
+				var mousePos = inputState.mousePos;
+				mousePos.X -= parseInt($('#origins').css('left')) + parseInt(this.playerCSS.left);
+				mousePos.Y -= parseInt($('#origins').css('top')) + parseInt(this.playerCSS.top);
+				if((mousePos.X > 0) && (mousePos.X <= parseInt(helper.findCSSRule('.speech').style.width))
+					&& (mousePos.Y > 0) && (mousePos.Y <= parseInt(helper.findCSSRule('.speech').style.height))){
+
+					for(var i = 0; i < this.responseHolders.length; i++){
+						var tempY = mousePos.Y - parseInt(this.responseHolders[i].top);
+						if((tempY > 0) && (tempY <= parseInt(this.responseHolders[i].height))){
+							this.responseHolders[i]['background-color'] = '#FFFF88';
+						} else {
+							this.responseHolders[i]['background-color'] = '#FFFFFF';
+						}
 					}
 				}
+				
+				this.activeStatement.update();
 			}
-			*/
-//			if (this.activeScreen){
-//				this.activeStatement.update();
-//			}
 		},
 		
 		draw: function(){
@@ -238,11 +232,13 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 					}
 					newOverseerHTML += '" class="dialogue speech" >' + this.activeStatement.draw() + '</div>';
 					this.overseerHTML = newOverseerHTML;
-					
-					if (this.activeStatement.nextStatement === 'exit'){
+					if (this.activeStatement.nextType === 'overseer'){
+						this.playerHTML = addToPlayer('Press Enter to continue');
+					}
+					if (this.activeStatement.nextType === 'exit'){
 						this.playerHTML = addToPlayer('Press Enter to Exit');
-					} else if (this.activeStatement.nextStatement === 'popup'){
-						this.playerHTML = addToPlayer('There will be a popup here');
+					} else if (this.activeStatement.nextType === 'popup'){
+						this.playerHTML = addToPlayer('Press Enter to continue');
 					}
 				} else if (this.activeStatement instanceof PlayerOptions){
 					this.playerHTML = addToPlayer(this.activeStatement.availableStatements);
@@ -258,7 +254,13 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 					newPopupHTML += '</div>' ;
 					this.popupHTML = newPopupHTML;
 				}
-				return (this.overseerHTML + this.playerHTML + this.popupHTML);
+				var HTML = '<div id =' + this.id + ' style="';
+				for(x in this.css){
+					HTML += x + ':' + this.css[x] + '; ';
+				}
+				HTML += '">' + this.overseerHTML + this.playerHTML + this.popupHTML + '</div>';
+				
+				return (HTML);
 			} else {
 				return '';
 			}
