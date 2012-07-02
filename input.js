@@ -4,39 +4,12 @@ var inputState = {
 	
 	keypressed: false,
 	keypressvalue: -1,
-	
-	getKeyPressValue: function(){
-		this.keypressed = false;
-		return this.keypressvalue;
-	},
 		
-	mouseClick: {
+	mouse: {
 		X: -1,
 		Y: -1,
-		happened: false
+		clicked: false
 	},
-	
-	mousePos: {
-		X: -1,
-		Y: -1,
-	},
-	
-	/*
-	 * Use this function to get mouse input rather than checking mouseClick
-	 * directly
-	 * 
-	 * Returns {X:x, Y:y} in the event new mouse input has not been checked and
-	 * then sets the event variable to false to prevent further checking.
-	 * If mouse input has been checked then the function return false instead
-	 * of an object
-	 */
-	checkLeftClick: function(){
-		if (this.mouseClick.happened){
-			this.mouseClick.happened = false;
-			return {X: this.mouseClick.X, Y: this.mouseClick.Y};
-		}
-		return false;
-	}
 }
 
 //keydown triggers

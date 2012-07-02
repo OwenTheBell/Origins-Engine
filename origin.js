@@ -5,6 +5,7 @@ var bottomZIndex = 9;
 var transZIndex = 11; //this zIndex is used to place emerging layers on top
 var dialogueZIndex = 12;
 var inputVariables = {};
+var globalInput;
 
 //If there is not a console then make console.log an empty function
 //Consider a boolean to force console.log to be an empty statement
@@ -26,7 +27,9 @@ $(document).ready(function(){
 				'Sprites/Bike.png',
 				'Sprites/Food_Pellets.png',
 				'Sprites/Drawer.png',
-				'Sprites/Table.png'
+				'Sprites/Table.png',
+				'Sprites/Chair.png',
+				'Sprites/Thermostat.png'
 			);
 	
 	//setup some of the external css for the dialogueScreen
@@ -68,15 +71,15 @@ $(document).ready(function(){
 	}
 	
 	mainScreen.addSprite(new Sprite(0, 0, 'Sprites/Background.png', 'background'));
-	mainScreen.addSprite(new dialogueSprite(999, 0, 'Sprites/Bed.png', 'sleeps', dialogueScreens['sleeps']));
-	mainScreen.addSprite(new dialogueSprite(199, 100, 'Sprites/Water.png', 'water', dialogueScreens['water']));
-	mainScreen.addSprite(new dialogueSprite(799, 300, 'Sprites/Bike.png', 'bike', dialogueScreens['bike']));
-	mainScreen.addSprite(new dialogueSprite(699, 0, 'Sprites/Ladder.png', 'ladder', dialogueScreens['ladder']));
-	mainScreen.addSprite(new dialogueSprite(99, 99, 'Sprites/Food_Pellets.png', 'food', dialogueScreens['food']))
-	mainScreen.addSprite(new dialogueSprite(0, 349, 'Sprites/Drawer.png', 'bookshelf', dialogueScreens['bookshelf']));
-	mainScreen.addSprite(new dialogueSprite(350, 250, 'Sprites/Table.png', 'table', dialogueScreens['table']));
-	mainScreen.addSprite(new dialogueSprite(299, 300, 'Sprites/Chair.png', 'chair', dialogueScreens['chair']));
-	mainScreen.addSprite(new dialogueSprite(0, 49, 'Sprites/Thermostat.png', 'smallmonitor', dialogueScreens['smallmonitor']));
+	mainScreen.addSprite(new dialogueSprite(999, 0, 'Sprites/Bed.png', 'Bed', dialogueScreens['sleeps']));
+	mainScreen.addSprite(new dialogueSprite(199, 100, 'Sprites/Water.png', 'Water', dialogueScreens['water']));
+	mainScreen.addSprite(new dialogueSprite(799, 300, 'Sprites/Bike.png', 'Bike', dialogueScreens['bike']));
+	mainScreen.addSprite(new dialogueSprite(699, 0, 'Sprites/Ladder.png', 'Ladder', dialogueScreens['ladder']));
+	mainScreen.addSprite(new dialogueSprite(99, 99, 'Sprites/Food_Pellets.png', 'Food_Pellets', dialogueScreens['food']))
+	mainScreen.addSprite(new dialogueSprite(0, 349, 'Sprites/Drawer.png', 'Drawer', dialogueScreens['bookshelf']));
+	mainScreen.addSprite(new dialogueSprite(350, 250, 'Sprites/Table.png', 'Table', dialogueScreens['table']));
+	mainScreen.addSprite(new dialogueSprite(299, 300, 'Sprites/Chair.png', 'Chair', dialogueScreens['chair']));
+	mainScreen.addSprite(new dialogueSprite(0, 49, 'Sprites/Thermostat.png', 'Thermostat', dialogueScreens['smallmonitor']));
 	
 	console.log(screenCollection);
 	
@@ -88,6 +91,8 @@ startGame = function() {
 }
 
 RunGame = function(){
+	globalInput = inputState;
+	
 	for(x in screenCollection) {
 		screenCollection[x].update();
 	}
@@ -109,7 +114,14 @@ preloader = function(){
 	for (var i = 0; i < arguments.length; i++){
 		var img = new Image();
 		img.src = arguments[i];
+		//just some artifical delay to prevent moving on until the image has loaded
+		/*
+			TODO Ok so the delay caused by this function does nothing. One options might be to
+			implemented a reursive function that would only call to load the next image after
+			the current image has been loaded
+		*/
 		$(img).load(function(){
+			// console.log(img.src)
 			return;
 		});
 	}

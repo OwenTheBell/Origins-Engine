@@ -168,14 +168,31 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 				mousePos.Y -= parseInt($('#origins').css('top')) + parseInt(this.playerCSS.top);
 				if((mousePos.X > 0) && (mousePos.X <= parseInt(helper.findCSSRule('.speech').style.width))
 					&& (mousePos.Y > 0) && (mousePos.Y <= parseInt(helper.findCSSRule('.speech').style.height))){
-
+					
+					var target = Math.floor(mousePos.Y / parseInt(this.responseHolders[0].height));
+					
 					for(var i = 0; i < this.responseHolders.length; i++){
-						var tempY = mousePos.Y - parseInt(this.responseHolders[i].top);
-						if((tempY > 0) && (tempY <= parseInt(this.responseHolders[i].height))){
+						if(target == i){
 							this.responseHolders[i]['background-color'] = '#FFFF88';
 						} else {
 							this.responseHolders[i]['background-color'] = '#FFFFFF';
 						}
+					}
+				}
+				var mouseInput = inputState.checkLeftClick();
+				if(mouseInput){
+					mouseInput.X -= parseInt($('#origins').css('left'));
+					mouseInput.X -= parseInt($('#origins').css('top'));
+					if (this.activeStatement instanceof PlayerStatement){
+						mouseInput.X -= parseInt(this.playerCSS.left);
+						mouseInput.Y -= parseInt(this.playerCSS.top);
+						if((mouseInput.X > 0) && (mouseInput.X <= parseInt(this.playerCSS.width))
+							&& (mouseInput.Y > 0) && (mouseInput.Y <= parseInt(this.playerCSS.height))){
+								
+								var target = Math.floor(mouseInput.Y / parseInt(this.responseHolders[0].height));
+								this.activeStatement.clicked = target;
+								console.log(target);
+							}
 					}
 				}
 				
@@ -266,7 +283,6 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			}
 		}
 	});
-
 
 /*
  * General parent object that all statements inherit from
@@ -372,6 +388,7 @@ var PlayerOptions = klass(function(parent, xmlData){
 	this.statementArray = [];
 	this.availableStatements = null;
 	this.drawState = 'new';
+	this.clicked = null; //this variable is set externally if an option was clicked
 	
 	var that = this;
 	$(xmlData).find('option').each(function(){
@@ -393,25 +410,39 @@ var PlayerOptions = klass(function(parent, xmlData){
 				}
 			}
 			
-			if(this.parent.keyValue){
-				var keyValue = this.parent.keyValue;
-				//now that we have an array we can actually check which answers to select
-				if (((keyValue - 49) < this.availableStatements.length) && ((keyValue - 49) >= 0)){
-					var selected = this.availableStatements[keyValue - 49];
-					if (selected.nextType === 'exit'){
-						this.parent.deActivate();
-					} else if (selected.nextType === 'popup'){
-						this.parent.nextActiveStatement = selected.nextStatement;
-					} else {
-						this.parent.nextActiveStatement = selected.nextStatement;
-						console.log(this.parent.nextActiveStatement.id + " is now active");
-						var set = selected.set();
-						//if the selected statement has a set variable, set it for later
-						if (set){
-							this.parent.set_check[set] = true;
-						}
+			if(this.clicked){
+				
+				var selected = this.availableStatements[this.clicked];
+				if (selected.nextType === 'exit'){
+					this.parent.deActivate();
+				} else if (selected.nextType === 'popup'){
+					this.parent.nextActiveStatement = selected.nextStatement;
+				} else {
+					this.parent.nextActiveStatement = selected.nextStatement;
+					var set = selected.set();
+					//if the selected statement has a set variable, set it for later
+					if (set){
+						this.parent.set_check[set] = true;
 					}
 				}
+				
+				// var keyValue = this.parent.keyValue;
+				// //now that we have an array we can actually check which answers to select
+				// if (((keyValue - 49) < this.availableStatements.length) && ((keyValue - 49) >= 0)){
+				// 	var selected = this.availableStatements[keyValue - 49];
+				// 	if (selected.nextType === 'exit'){
+				// 		this.parent.deActivate();
+				// 	} else if (selected.nextType === 'popup'){
+				// 		this.parent.nextActiveStatement = selected.nextStatement;
+				// 	} else {
+				// 		this.parent.nextActiveStatement = selected.nextStatement;
+				// 		var set = selected.set();
+				// 		//if the selected statement has a set variable, set it for later
+				// 		if (set){
+				// 			this.parent.set_check[set] = true;
+				// 		}
+				// 	}
+				// }
 			}
 		}
 	});
