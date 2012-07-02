@@ -6,6 +6,8 @@
  */
 var inputState = {
 	
+	shiftDown: false,
+	
 	key: {
 		value: null,
 		down: false,
@@ -49,8 +51,14 @@ var inputState = {
 }
 
 $(document).keydown(function(e){
-	if(!inputState.key.value){
-		inputState.key.value = e.which;
+	if (e.which == 16){
+		inputState.shiftDown = true;
+	} else if (!inputState.key.value){
+		if(!inputState.shiftDown && ((e.which >= 65) && (e.which <= 90))){
+			inputState.key.value = e.which + 32;
+		} else {
+			inputState.key.value = e.which;
+		}
 		inputState.key.down = true;
 		inputState.key.press = true;
 	}
@@ -58,7 +66,9 @@ $(document).keydown(function(e){
 
 $(document).keyup(function(e){
 	//only disrupt the key press if it is the key registered as down
-	if (inputState.key.value == e.which){
+	if (e.which == 16){
+		inputState.shiftDown = false;
+	} else if ((inputState.key.value == e.which) || (inputState.key.value == e.which + 32)){
 		inputState.key.value = null;
 		inputState.key.down = false;
 		inputState.key.press = false;
@@ -72,6 +82,7 @@ $(document).mousemove(function(e){
 });
 
 $(document).mousedown(function(e){
+	e.preventDefault(); //this prevents objects from getting highlighted and dragged
 	if (e.which == 1){
 		inputState.mouse.click = true;
 		inputState.mouse.down = true;

@@ -6,6 +6,7 @@ var Sprite = klass(function (left, top, image, id) {
 	this.image.src = image;
 	this.id = id;
 	this.drawState = 'new';
+	// this.cssClasses = []; //store names of any applied css classes
 	
 	this.css = {
 		// position: 'inherit',
@@ -48,6 +49,7 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 	this.mouseLoc = null;
 	this.clickMap = [];
 	this.clicked = false;
+	this.mouseOver = false; //detect mouse position over sprite
 	//this.repDiv.addClass('clickSprite');
 })
 	.methods({
@@ -57,21 +59,29 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 			if (this.clickMap.length == 0){
 				this.makeClickMap();
 			}
-	
-			//Sprite has been clicked on, check if pixel is transparent or not
-			if (this.clicked){
+			
+			if (this.clicked || this.mouseOver){
 				var mouse = globalInput.mouse;
 				//Translate the mouse position so that it is relative to the sprite
 				var x = mouse.X - this.left - parseInt($('#origins').css('left'));
 				var y = mouse.Y - this.top - parseInt($('#origins').css('top'));
-				helper.debugPrint(x, y);
-				if (this.clickMap[x][y] == 1){
-					// console.log(this.id + ' clicked');
-					this.onClick();
-					//debugPrint(x, y);
-				}
 				
+				if (this.clickMap[x][y] == 1){
+					if(this.clicked){
+						this.onClick();
+					}
+					if (this.mouseOver){
+						this.css.cursor = 'pointer';
+					}
+				} else if (this.css.cursor){
+					delete this.css.cursor;
+					console.log('reverting cursor');
+				}
 				this.clicked = false;
+				this.mouseOver = false;
+			} else if (!this.mouseOver && this.css.cursor){
+				delete this.css.cursor;
+				console.log('reverting cursor');
 			}
 		},
 		onClick: function(){

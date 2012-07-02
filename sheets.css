@@ -29,6 +29,10 @@ div {
 	
 }
 
+.spriteHover {
+	background: #0000FF;
+}
+
 .clickSprite {
 	cursor: pointer;
 }

@@ -58,15 +58,12 @@ $(document).ready(function(){
 	
 	var talkScreen = new DialogueScreen('talkScreen', bottomZIndex, 'IntroDial.xml');
 	helper.ajaxGet(talkScreen);
-	talkScreen.activate();
+	// talkScreen.activate();
 	screenCollection[talkScreen.id] = talkScreen;
 	
 	var dialogueScreens = new Array();
 	
 	helper.altAjaxGet(dialogueScreens, 'IntroObjMainRm.xml');
-	// $(dialogueScreens).each(function(){
-	// 	screenCollection[this.id] = this;
-	// })
 	for(key in dialogueScreens){
 		screenCollection[dialogueScreens[key].id] = dialogueScreens[key];
 	}
@@ -82,7 +79,7 @@ $(document).ready(function(){
 	mainScreen.addSprite(new dialogueSprite(299, 300, 'Sprites/Chair.png', 'Chair', dialogueScreens['chair']));
 	mainScreen.addSprite(new dialogueSprite(0, 49, 'Sprites/Thermostat.png', 'Thermostat', dialogueScreens['smallmonitor']));
 	
-	console.log(screenCollection);
+	// console.log(screenCollection);
 	
 	startGame();
 });

@@ -138,7 +138,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			this.css['opacity'] = 1.0;
 			this.drawState = 'updated';
 			this.originalActive = this.activeStatement;
-			console.log(this.id + " activated");
+			// console.log(this.id + " activated");
 		},
 		
 		deActivate: function(){
@@ -152,7 +152,6 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		update: function(){
 			
 			if (this.activeScreen) {
-				// console.log(globalFrameCounter);
 				if (globalInput.key.press){
 					this.keyValue = globalInput.key.value;
 				} else {
@@ -165,7 +164,6 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 				}
 				
 				var mouse = globalInput.mouse;
-				//console.log(mouse);
 				mouse.X -= parseInt($('#origins').css('left')) + parseInt(this.playerCSS.left);
 				mouse.Y -= parseInt($('#origins').css('top')) + parseInt(this.playerCSS.top);
 				if((mouse.X > 0) && (mouse.X <= parseInt(helper.findCSSRule('.speech').style.width))
@@ -173,19 +171,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 					
 					var target = Math.floor(mouse.Y / parseInt(this.responseHolders[0].height));
 					
-					
-					// for(var i = 0; i < this.responseHolders.length; i++){
-						// if(target == i){
-							// this.responseHolders[i]['background-color'] = '#FFFF88';
-						// } else {
-							// this.responseHolders[i]['background-color'] = '#FFFFFF';
-						// }
-					// }
-					
 					if (mouse.click) {
-					//if (this.keyValue == 13){
-						// console.log(globalInput.mouse.click);
-						console.log(target);
 						this.activeStatement.clicked = target;
 					} else {
 						for(var i = 0; i < this.responseHolders.length; i++){
@@ -435,7 +421,7 @@ var PlayerOptions = klass(function(parent, xmlData){
 	});
 
 /*
- * NOTE: parent in this case is the DialogueScreen not a PlayerOptions
+ * NOTE: parent in this case is a DialogueScreen not a PlayerOptions object
  */
 var PlayerStatement = Statement.extend(function(parent, xmlData, id){
 	this.id = id; //id is included as a seperate parameter since there is not id definition in the xml
@@ -472,7 +458,9 @@ var PopupStatement = Statement.extend(function(parent, xmlData){
 				}//Only accept lower or uppercase letters
 				else if (((keyValue >= 65) && (keyValue <= 90)) || ((keyValue >= 97) && (keyValue <= 122))){
 					this.collectedInput += String.fromCharCode(keyValue);
-				} 
+				} else if (keyValue == 8){
+					this.collectedInput = this.collectedInput.slice(0, this.collectedInput.length - 1);
+				}
 			}
 		}
 	});
