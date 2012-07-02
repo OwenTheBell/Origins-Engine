@@ -75,7 +75,6 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 					}
 				} else if (this.css.cursor){
 					delete this.css.cursor;
-					console.log('reverting cursor');
 				}
 				this.clicked = false;
 				this.mouseOver = false;

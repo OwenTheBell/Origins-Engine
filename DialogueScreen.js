@@ -154,6 +154,9 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			if (this.activeScreen) {
 				if (globalInput.key.press){
 					this.keyValue = globalInput.key.value;
+					//console.log(globalInput.key.values)
+					// console.log(this.keyValue);
+					// console.log(String.fromCharCode(this.keyValue));
 				} else {
 					this.keyValue = false;
 				}

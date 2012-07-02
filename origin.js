@@ -58,12 +58,12 @@ $(document).ready(function(){
 	
 	var talkScreen = new DialogueScreen('talkScreen', bottomZIndex, 'IntroDial.xml');
 	helper.ajaxGet(talkScreen);
-	// talkScreen.activate();
+	talkScreen.activate();
 	screenCollection[talkScreen.id] = talkScreen;
 	
 	var dialogueScreens = new Array();
 	
-	helper.altAjaxGet(dialogueScreens, 'IntroObjMainRm.xml');
+	helper.groupItemAjaxGet(dialogueScreens, 'IntroObjMainRm.xml');
 	for(key in dialogueScreens){
 		screenCollection[dialogueScreens[key].id] = dialogueScreens[key];
 	}
@@ -91,23 +91,10 @@ startGame = function() {
 RunGame = function(){
 	globalInput.key = inputState.getKey();
 	globalInput.mouse = inputState.getMouse();
-	// if(globalInput.mouse.click){
-		// console.log('this mouse is being clicked so why isn\'t this working?');
-	// }
-	// if(globalInput.key.press){
-		// console.log(globalInput.key.value);
-	// }
-	
-	//globalInput.mouse.click = true;
 	
 	for(x in screenCollection) {
 		screenCollection[x].update();
 	}
-	/*
-	 * An array of strings returned by the draw functions of different
-	 * objects. After all functions return their draw string the string will be
-	 * set as the innerHtml of the origins div
-	 */
 	var HTML = '';
 	for(x in screenCollection) {
 		HTML += screenCollection[x].draw();

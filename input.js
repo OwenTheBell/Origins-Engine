@@ -8,10 +8,11 @@ var inputState = {
 	
 	shiftDown: false,
 	
+	pressed: [],
+	
 	key: {
-		value: null,
-		down: false,
-		press: false, //input rejected value
+		values: [],
+		press: false,
 	},
 	
 	mouse: {
@@ -22,17 +23,14 @@ var inputState = {
 	},
 	
 	getKey: function(){
+		this.key.press = this.pressed[0];
 		var returnKey = helper.cloneObj(this.key);
-		if(this.key.press){
-			this.key.press = false;
-		}
-		return returnKey;
-		// if (this.key.press){
-			// this.key.press = false;
-			// return {value: this.key.value, down: this.key.down, press: true};
-		// } else {
-			// return this.key;
+		returnKey.value = returnKey.values[0];
+		this.pressed[0] = false;
+		// if (returnKey.values.length > 0) {
+			// returnKey.value = returnKey.values[0];
 		// }
+		return returnKey;
 	},
 	
 	getMouse: function(){
@@ -41,26 +39,26 @@ var inputState = {
 			this.mouse.click = false;
 		}
 		return returnMouse;
-		// if (this.mouse.click){
-			// this.mouse.click = false;
-			// return {X: this.mouse.X, Y: this.mouse.Y, click: true, down: this.mouse.down};
-		// } else {
-			// return this.mouse;
-		// }
 	}
 }
 
 $(document).keydown(function(e){
 	if (e.which == 16){
 		inputState.shiftDown = true;
-	} else if (!inputState.key.value){
+	} else {
 		if(!inputState.shiftDown && ((e.which >= 65) && (e.which <= 90))){
-			inputState.key.value = e.which + 32;
+			if (inputState.key.values.indexOf(e.which + 32) == -1){
+				inputState.key.values.push(e.which + 32);
+				inputState.pressed.push(true);
+				console.log(inputState.key.values);
+			}
 		} else {
-			inputState.key.value = e.which;
+			if (inputState.key.values.indexOf(e.which) == -1){
+				inputState.key.values.push(e.which);
+				inputState.pressed.push(true);
+				console.log(inputState.key.values);
+			}
 		}
-		inputState.key.down = true;
-		inputState.key.press = true;
 	}
 });
 
@@ -68,10 +66,18 @@ $(document).keyup(function(e){
 	//only disrupt the key press if it is the key registered as down
 	if (e.which == 16){
 		inputState.shiftDown = false;
-	} else if ((inputState.key.value == e.which) || (inputState.key.value == e.which + 32)){
-		inputState.key.value = null;
-		inputState.key.down = false;
-		inputState.key.press = false;
+	} else if (inputState.key.values.indexOf(e.which) > -1){
+		var target = inputState.key.values.indexOf(e.which);
+		inputState.key.values.splice(target, 1);
+		inputState.pressed.splice(target, 1);
+		console.log(inputState.key.values);
+		//inputState.key.press = false;
+	} else if (inputState.key.values.indexOf(e.which + 32) > -1){
+		var target = inputState.key.values.indexOf(e.which + 32);
+		inputState.key.values.splice(target, 1);
+		inputState.pressed.splice(target, 1);
+		console.log(inputState.key.values);
+		//inputState.key.press = false;
 	}
 });
 

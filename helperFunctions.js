@@ -17,7 +17,7 @@ var helper = {
 		});
 	},
 	
-	altAjaxGet: function(dialogueScreens, file){
+	groupItemAjaxGet: function(dialogueScreens, file){
 		var extData;
 		$.ajax({
 			async: false,
