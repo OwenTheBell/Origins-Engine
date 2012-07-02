@@ -97,37 +97,32 @@ var Screen = klass(function(id, zIndex) {
 				this.drawState = 'updated';
 			}
 			
-			var mouseInput = false;
-			var mousePos = {};
+			var mouse = {};
 			var mouseOverCheck = false;
 			//Only take input if the screen is not transitioning
 			if (this.activeScreen){
-				mouseInput = inputState.checkLeftClick();
-				mousePos = inputState.mousePos;
-			}
+				mouse = globalInput.mouse;
 			
-			for (var x = 0; x < this.spriteArray.length; x++){
-				var testSprite = this.spriteArray[x];
-				if (testSprite instanceof clickSprite){
-					if (mouseInput){
-						if ((mouseInput.X > testSprite.left + parseInt($('#origins').css('left'))) && 
-							(mouseInput.X <= testSprite.left + testSprite.width() + parseInt($('#origins').css('left'))) &&
-							(mouseInput.Y > testSprite.top + parseInt($('#origins').css('top'))) &&
-							(mouseInput.Y <= testSprite.top + testSprite.height() + parseInt($('#origins').css('top')))){
-								testSprite.clicked(mouseInput.X, mouseInput.Y);
+				for (var x = 0; x < this.spriteArray.length; x++){
+					var testSprite = this.spriteArray[x];
+					if (testSprite instanceof clickSprite){
+						if ((mouse.X > testSprite.left + parseInt($('#origins').css('left'))) && 
+							(mouse.X <= testSprite.left + testSprite.width() + parseInt($('#origins').css('left'))) &&
+							(mouse.Y > testSprite.top + parseInt($('#origins').css('top'))) &&
+							(mouse.Y <= testSprite.top + testSprite.height() + parseInt($('#origins').css('top')))){
+							//do the mouse Over check here
+								
+							if (mouse.click) {
+								testSprite.clicked = true;
 							}
-					}
-					/*
-					if ((mousePos.X > testSprite.left + parseInt($('#origins').css('left'))) && 
-						(mousePos.X <= testSprite.left + testSprite.width() + parseInt($('#origins').css('left'))) &&
-						(mousePos.Y > testSprite.top + parseInt($('#origins').css('top'))) &&
-						(mousePos.Y <= testSprite.top + testSprite.height() + parseInt($('#origins').css('top')))){
-							mouseOverCheck = true;
 						}
-					*/
+					}
 				}
-				testSprite.update();
 			}
+			//update sprites even if the screen is not active as this allows animations to continue in the background
+			$(this.spriteArray).each(function(){
+				this.update();
+			})
 		},
 		draw: function(){
 			var HTML = '';

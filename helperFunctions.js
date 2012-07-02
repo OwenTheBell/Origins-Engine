@@ -34,6 +34,19 @@ var helper = {
 		});
 	},
 	
+	cloneObj: function(obj){
+		var newObj = {};
+		for (i in obj){
+			if (i == 'clone') continue;
+			if (obj[i] && typeof obj[i] == "object") {
+				newObj[i] = this.cloneObj(obj[i]);
+			} else {
+				newObj[i] = obj[i];
+			}
+		}
+		return newObj;
+	},
+	
 	debugPrint: function(x, y){
 		console.log('(' + x + ',' + y + ')');
 	},

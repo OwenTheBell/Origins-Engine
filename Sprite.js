@@ -30,7 +30,8 @@ var Sprite = klass(function (left, top, image, id) {
 			return this.image.height;
 		},
 		update: function(){
-			
+			this.css.top = this.top + 'px';
+			this.css.left = this.left + 'px';
 		},
 		draw: function(){
 			var HTML = '';
@@ -46,36 +47,31 @@ var Sprite = klass(function (left, top, image, id) {
 var clickSprite = Sprite.extend(function(top, left, image, id){
 	this.mouseLoc = null;
 	this.clickMap = [];
+	this.clicked = false;
 	//this.repDiv.addClass('clickSprite');
 })
 	.methods({
-		clicked: function(x, y){
-			this.mouseLoc = {X:x, Y:y};
-		},
 		update: function(){
 			this.supr();
 			
 			if (this.clickMap.length == 0){
 				this.makeClickMap();
 			}
-			
 	
 			//Sprite has been clicked on, check if pixel is transparent or not
-			if (this.mouseLoc){
-//				console.log(this.id + ' check click');
-				helper.debugPrint(this.mouseLoc.X, this.mouseLoc.Y);
-				//The click map starts at (0, 0) relative to the sprite so the mouse position
-				//needs to be adjusted to account for the position of the sprite as well as
-				//the game div
-				var x = this.mouseLoc.X - this.left - parseInt($('#origins').css('left'));
-				var y = this.mouseLoc.Y - this.top - parseInt($('#origins').css('top'));
-				//helper.debugPrint(x, y);
+			if (this.clicked){
+				var mouse = globalInput.mouse;
+				//Translate the mouse position so that it is relative to the sprite
+				var x = mouse.X - this.left - parseInt($('#origins').css('left'));
+				var y = mouse.Y - this.top - parseInt($('#origins').css('top'));
+				helper.debugPrint(x, y);
 				if (this.clickMap[x][y] == 1){
-//					console.log(this.id + ' clicked');
+					// console.log(this.id + ' clicked');
 					this.onClick();
 					//debugPrint(x, y);
 				}
-				this.mouseLoc = null;
+				
+				this.clicked = false;
 			}
 		},
 		onClick: function(){

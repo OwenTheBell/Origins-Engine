@@ -152,8 +152,9 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		update: function(){
 			
 			if (this.activeScreen) {
-				if (inputState.keypressed){
-					this.keyValue = inputState.getKeyPressValue();
+				// console.log(globalFrameCounter);
+				if (globalInput.key.press){
+					this.keyValue = globalInput.key.value;
 				} else {
 					this.keyValue = false;
 				}
@@ -163,36 +164,37 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 					this.nextActiveStatement = null;
 				}
 				
-				var mousePos = inputState.mousePos;
-				mousePos.X -= parseInt($('#origins').css('left')) + parseInt(this.playerCSS.left);
-				mousePos.Y -= parseInt($('#origins').css('top')) + parseInt(this.playerCSS.top);
-				if((mousePos.X > 0) && (mousePos.X <= parseInt(helper.findCSSRule('.speech').style.width))
-					&& (mousePos.Y > 0) && (mousePos.Y <= parseInt(helper.findCSSRule('.speech').style.height))){
+				var mouse = globalInput.mouse;
+				//console.log(mouse);
+				mouse.X -= parseInt($('#origins').css('left')) + parseInt(this.playerCSS.left);
+				mouse.Y -= parseInt($('#origins').css('top')) + parseInt(this.playerCSS.top);
+				if((mouse.X > 0) && (mouse.X <= parseInt(helper.findCSSRule('.speech').style.width))
+					&& (mouse.Y > 0) && (mouse.Y <= parseInt(helper.findCSSRule('.speech').style.height))){
 					
-					var target = Math.floor(mousePos.Y / parseInt(this.responseHolders[0].height));
+					var target = Math.floor(mouse.Y / parseInt(this.responseHolders[0].height));
 					
-					for(var i = 0; i < this.responseHolders.length; i++){
-						if(target == i){
-							this.responseHolders[i]['background-color'] = '#FFFF88';
-						} else {
-							this.responseHolders[i]['background-color'] = '#FFFFFF';
-						}
-					}
-				}
-				var mouseInput = inputState.checkLeftClick();
-				if(mouseInput){
-					mouseInput.X -= parseInt($('#origins').css('left'));
-					mouseInput.X -= parseInt($('#origins').css('top'));
-					if (this.activeStatement instanceof PlayerStatement){
-						mouseInput.X -= parseInt(this.playerCSS.left);
-						mouseInput.Y -= parseInt(this.playerCSS.top);
-						if((mouseInput.X > 0) && (mouseInput.X <= parseInt(this.playerCSS.width))
-							&& (mouseInput.Y > 0) && (mouseInput.Y <= parseInt(this.playerCSS.height))){
-								
-								var target = Math.floor(mouseInput.Y / parseInt(this.responseHolders[0].height));
-								this.activeStatement.clicked = target;
-								console.log(target);
+					
+					// for(var i = 0; i < this.responseHolders.length; i++){
+						// if(target == i){
+							// this.responseHolders[i]['background-color'] = '#FFFF88';
+						// } else {
+							// this.responseHolders[i]['background-color'] = '#FFFFFF';
+						// }
+					// }
+					
+					if (mouse.click) {
+					//if (this.keyValue == 13){
+						// console.log(globalInput.mouse.click);
+						console.log(target);
+						this.activeStatement.clicked = target;
+					} else {
+						for(var i = 0; i < this.responseHolders.length; i++){
+							if(target == i){
+								this.responseHolders[i]['background-color'] = '#FFFF88';
+							} else {
+								this.responseHolders[i]['background-color'] = '#FFFFFF';
 							}
+						}
 					}
 				}
 				
@@ -250,12 +252,12 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 					newOverseerHTML += '" class="dialogue speech" >' + this.activeStatement.draw() + '</div>';
 					this.overseerHTML = newOverseerHTML;
 					if (this.activeStatement.nextType === 'overseer'){
-						this.playerHTML = addToPlayer('Press Enter to continue');
+						this.playerHTML = addToPlayer('Click to continue');
 					}
 					if (this.activeStatement.nextType === 'exit'){
-						this.playerHTML = addToPlayer('Press Enter to Exit');
+						this.playerHTML = addToPlayer('Click to Exit');
 					} else if (this.activeStatement.nextType === 'popup'){
-						this.playerHTML = addToPlayer('Press Enter to continue');
+						this.playerHTML = addToPlayer('Click to continue');
 					}
 				} else if (this.activeStatement instanceof PlayerOptions){
 					this.playerHTML = addToPlayer(this.activeStatement.availableStatements);
@@ -301,6 +303,7 @@ var Statement = klass(function(parent, xmlData){
 	this.nextId = $(xmlData).attr('nextId');
 	this.texts = []; //array of text xml elements, not raw strings
 	this.drawState = 'new';
+	this.clicked = -1;
 	
 	var that = this;
 	$(xmlData).find('text').each(function(){
@@ -356,17 +359,17 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 	.methods({
 		update: function(){
 			if (this.nextType === 'overseer'){
-				if (this.parent.keyValue == 13){
+				if (this.clicked >= 0){
 					this.parent.nextActiveStatement = this.nextStatement;
 				}
 			} else if (this.nextType === 'player'){
 				this.parent.nextActiveStatement = this.nextStatement;
 			} else if (this.nextType === 'popup'){
-				if (this.parent.keyValue == 13) {
+				if (this.parent.clicked >= 0) {
 					console.log('Popup not implemented');
 				}
 			} else if (this.nextType === 'exit'){
-				if (this.parent.keyValue == 13){
+				if (this.clicked >= 0){
 					this.parent.deActivate();
 				}
 			} else {
@@ -388,7 +391,6 @@ var PlayerOptions = klass(function(parent, xmlData){
 	this.statementArray = [];
 	this.availableStatements = null;
 	this.drawState = 'new';
-	this.clicked = null; //this variable is set externally if an option was clicked
 	
 	var that = this;
 	$(xmlData).find('option').each(function(){
@@ -410,9 +412,10 @@ var PlayerOptions = klass(function(parent, xmlData){
 				}
 			}
 			
-			if(this.clicked){
+			if((this.clicked >= 0) && (this.clicked < this.availableStatements.length)){
 				
 				var selected = this.availableStatements[this.clicked];
+				//console.log(selected);
 				if (selected.nextType === 'exit'){
 					this.parent.deActivate();
 				} else if (selected.nextType === 'popup'){
@@ -426,23 +429,7 @@ var PlayerOptions = klass(function(parent, xmlData){
 					}
 				}
 				
-				// var keyValue = this.parent.keyValue;
-				// //now that we have an array we can actually check which answers to select
-				// if (((keyValue - 49) < this.availableStatements.length) && ((keyValue - 49) >= 0)){
-				// 	var selected = this.availableStatements[keyValue - 49];
-				// 	if (selected.nextType === 'exit'){
-				// 		this.parent.deActivate();
-				// 	} else if (selected.nextType === 'popup'){
-				// 		this.parent.nextActiveStatement = selected.nextStatement;
-				// 	} else {
-				// 		this.parent.nextActiveStatement = selected.nextStatement;
-				// 		var set = selected.set();
-				// 		//if the selected statement has a set variable, set it for later
-				// 		if (set){
-				// 			this.parent.set_check[set] = true;
-				// 		}
-				// 	}
-				// }
+				this.clicked = -1;
 			}
 		}
 	});

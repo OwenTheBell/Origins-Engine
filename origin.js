@@ -4,8 +4,9 @@ var topZIndex = 10;
 var bottomZIndex = 9;
 var transZIndex = 11; //this zIndex is used to place emerging layers on top
 var dialogueZIndex = 12;
-var inputVariables = {};
-var globalInput;
+var inputVariables = {}; //this holds variables that will be set by user input
+var globalInput = {}; //this copies input contained in inputState for global access
+var globalFrameCounter = 0;
 
 //If there is not a console then make console.log an empty function
 //Consider a boolean to force console.log to be an empty statement
@@ -52,7 +53,7 @@ $(document).ready(function(){
 	*/
 	
 	var mainScreen = new Screen('mainScreen', topZIndex);
-	// mainScreen.activeScreen = true;
+	mainScreen.activeScreen = true;
 	screenCollection[mainScreen.id] = mainScreen;
 	
 	var talkScreen = new DialogueScreen('talkScreen', bottomZIndex, 'IntroDial.xml');
@@ -91,7 +92,16 @@ startGame = function() {
 }
 
 RunGame = function(){
-	globalInput = inputState;
+	globalInput.key = inputState.getKey();
+	globalInput.mouse = inputState.getMouse();
+	// if(globalInput.mouse.click){
+		// console.log('this mouse is being clicked so why isn\'t this working?');
+	// }
+	// if(globalInput.key.press){
+		// console.log(globalInput.key.value);
+	// }
+	
+	//globalInput.mouse.click = true;
 	
 	for(x in screenCollection) {
 		screenCollection[x].update();
@@ -106,6 +116,7 @@ RunGame = function(){
 		HTML += screenCollection[x].draw();
 	}
 	$('#origins').html(HTML);
+	globalFrameCounter++;
 }
 
 //This function should, in theory, be preloading all images by ensuring that

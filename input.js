@@ -1,50 +1,86 @@
+/*
+ * inputState should not be accessed directly by anything other than globalInput.
+ * The reason for this is to ensure that there is one consistent copy of input for
+ * each iteration of the loop that is then updated. This is because inputState is 
+ * updated by input which occurs independent of the game loop happening.
+ */
 var inputState = {
-	keydown: false,
-	keydownvalue: -1,
 	
-	keypressed: false,
-	keypressvalue: -1,
-		
+	key: {
+		value: null,
+		down: false,
+		press: false, //input rejected value
+	},
+	
 	mouse: {
 		X: -1,
 		Y: -1,
-		clicked: false
+		click: false, //input rejected value
+		down: false,
 	},
+	
+	getKey: function(){
+		var returnKey = helper.cloneObj(this.key);
+		if(this.key.press){
+			this.key.press = false;
+		}
+		return returnKey;
+		// if (this.key.press){
+			// this.key.press = false;
+			// return {value: this.key.value, down: this.key.down, press: true};
+		// } else {
+			// return this.key;
+		// }
+	},
+	
+	getMouse: function(){
+		var returnMouse = helper.cloneObj(this.mouse);
+		if (this.mouse.click){
+			this.mouse.click = false;
+		}
+		return returnMouse;
+		// if (this.mouse.click){
+			// this.mouse.click = false;
+			// return {X: this.mouse.X, Y: this.mouse.Y, click: true, down: this.mouse.down};
+		// } else {
+			// return this.mouse;
+		// }
+	}
 }
 
-//keydown triggers
 $(document).keydown(function(e){
-	inputState.keydown = true;
-	inputState.keydownvalue = e.which;
+	if(!inputState.key.value){
+		inputState.key.value = e.which;
+		inputState.key.down = true;
+		inputState.key.press = true;
+	}
 });
 
-//keyup triggers
 $(document).keyup(function(e){
-	inputState.keydown = false;
-	inputState.keydownvalue = -1;
+	//only disrupt the key press if it is the key registered as down
+	if (inputState.key.value == e.which){
+		inputState.key.value = null;
+		inputState.key.down = false;
+		inputState.key.press = false;
+	}
 });
 
-//mouse input triggers
+//mouse input
+$(document).mousemove(function(e){
+	inputState.mouse.X = e.pageX;
+	inputState.mouse.Y = e.pageY;
+});
+
 $(document).mousedown(function(e){
 	if (e.which == 1){
-		inputState.mouseClick = {X: e.pageX, Y: e.pageY, happened: true};
-		//helper.debugPrint(e.pageX, e.pageY);
+		inputState.mouse.click = true;
+		inputState.mouse.down = true;
 	}
 });
 
 $(document).mouseup(function(e){
 	if (e.which == 1){
-		inputState.mouseClick.happened = false;
+		inputState.mouse.click = false;
+		inputState.mouse.down = false;
 	}
-});
-
-$(document).keypress(function(e){
-	if (!inputState.keypressed){
-		inputState.keypressvalue = e.which;
-		inputState.keypressed = true;
-	}
-});
-
-$(document).mousemove(function(e){
-	inputState.mousePos = {X: e.pageX, Y: e.pageY};
 });
