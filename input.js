@@ -23,13 +23,9 @@ var inputState = {
 	},
 	
 	getKey: function(){
-		this.key.press = this.pressed[0];
 		var returnKey = helper.cloneObj(this.key);
 		returnKey.value = returnKey.values[0];
-		this.pressed[0] = false;
-		// if (returnKey.values.length > 0) {
-			// returnKey.value = returnKey.values[0];
-		// }
+		this.key.press = false;
 		return returnKey;
 	},
 	
@@ -49,13 +45,17 @@ $(document).keydown(function(e){
 		if(!inputState.shiftDown && ((e.which >= 65) && (e.which <= 90))){
 			if (inputState.key.values.indexOf(e.which + 32) == -1){
 				inputState.key.values.push(e.which + 32);
-				inputState.pressed.push(true);
+				if(inputState.key.values.length == 1){
+					inputState.key.press = true;
+				}
 				console.log(inputState.key.values);
 			}
 		} else {
 			if (inputState.key.values.indexOf(e.which) == -1){
 				inputState.key.values.push(e.which);
-				inputState.pressed.push(true);
+				if(inputState.key.values.length == 1){
+					inputState.key.press = true;
+				}
 				console.log(inputState.key.values);
 			}
 		}
@@ -69,13 +69,13 @@ $(document).keyup(function(e){
 	} else if (inputState.key.values.indexOf(e.which) > -1){
 		var target = inputState.key.values.indexOf(e.which);
 		inputState.key.values.splice(target, 1);
-		inputState.pressed.splice(target, 1);
+		inputState.key.press = true;
 		console.log(inputState.key.values);
 		//inputState.key.press = false;
 	} else if (inputState.key.values.indexOf(e.which + 32) > -1){
 		var target = inputState.key.values.indexOf(e.which + 32);
 		inputState.key.values.splice(target, 1);
-		inputState.pressed.splice(target, 1);
+		inputState.key.press = true;
 		console.log(inputState.key.values);
 		//inputState.key.press = false;
 	}
