@@ -12,14 +12,14 @@ var inputState = {
 	
 	key: {
 		values: [],
-		press: false,
+		press: false
 	},
 	
 	mouse: {
 		X: -1,
 		Y: -1,
 		click: false, //input rejected value
-		down: false,
+		down: false
 	},
 	
 	getKey: function(){

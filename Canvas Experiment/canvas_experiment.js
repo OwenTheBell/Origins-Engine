@@ -7,7 +7,8 @@ var g_Frames = 0;
 var g_generate = 1;
 
 $(document).ready(function(){
-	canvas = $('#myCanvas').get(0);
+	// canvas = $('#myCanvas').get(0);
+	canvas = document.getElementById('myCanvas');
 	context = canvas.getContext('2d');
 	
 	g_elements.push(new Emitter(canvas.width / 2, canvas.height / 2, 5, g_generate));
@@ -110,8 +111,7 @@ var Emitter = klass(function(x, y, radius, generate){
 				this.draw();
 			});
 			this.waveForm.draw();
-		},
-		
+		}
 	});
 
 var Reciever = klass(function(x, y, radius){
@@ -130,15 +130,17 @@ var Reciever = klass(function(x, y, radius){
 					var distance = getDistance(pulse.x, pulse.y, this.x, this.y);
 					if ((pulse.radius > (distance - this.radius)) && (pulse.radius < (distance + this.radius))){
 						this.lastCollide = pulse; //track the last collided pulse to avoid collide again
+						console.log('pulse detected at: ' + g_Frames);
 						//g_elements is organized such that i+1 will be a pulse
 						var nextPulse = g_elements[i+1];
-						distance = getDistance(nextPulse.x, nextPulse.y, this.x, this.y);
+						distance = getDistance(nextPulse.x, nextPulse.y, this.x, this.y) - this.radius;
 						remainingDis = distance - nextPulse.radius;
-						remainingFrames = remainingDis / nextPulse.growth;
+						//add one to account for pulses updating before the reciever
+						remainingFrames = Math.floor(remainingDis / nextPulse.growth) + 1;
 						if (!this.waveForm){
 							this.waveForm = new WaveForm(remainingFrames, 'recieverCanvas');
 						} else {
-							this.waveForm.pulse = remainingFrames;
+							this.waveForm.generate = remainingFrames;
 						}
 						break;
 					}
@@ -146,6 +148,9 @@ var Reciever = klass(function(x, y, radius){
 			};
 			if (this.waveForm){
 				this.waveForm.update();
+				if (this.waveForm.debugY == 1){
+					console.log('wave form peaked at: '+ g_Frames);
+				}
 			}
 		},
 		draw: function() {
@@ -156,7 +161,7 @@ var Reciever = klass(function(x, y, radius){
 			if(this.waveForm){
 				this.waveForm.draw();
 			}
-		},
+		}
 		
 	});
 
@@ -213,7 +218,7 @@ var Pulse = klass(function(x, y, radius, growth){
 				context.closePath();
 				context.stroke();
 			}
-		},
+		}
 		
 	});
 
@@ -223,11 +228,13 @@ var WaveForm = klass(function(generate, canvas){
 	this.points = [];
 	this.currentX = 0;
 	this.generate = generate;
+	this.debugY = 0;
 })
 	.methods({
 		update: function(){
 			if (g_Frames >= this.generate){
 				var tempY = Math.cos(this.currentX * Math.PI/(this.generate / 2));
+				this.debugY = tempY;
 				// if(tempY == 1){
 					// console.log(g_Frames);
 				// }
@@ -260,5 +267,5 @@ var WaveForm = klass(function(generate, canvas){
 				
 				next.X--;
 			}
-		},
+		}
 	});
