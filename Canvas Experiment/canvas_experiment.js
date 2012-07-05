@@ -78,18 +78,21 @@ var Emitter = klass(function(x, y, radius, generate){
 			var x = 0, y = 0;
 			
 			if(g_Mouse.down){
-				if((g_Mouse.Y >= 0) && (g_Mouse.Y < canvas.height) && (g_Mouse.X >= 0) && (g_Mouse.X < canvas.width)){
-					var rads = Math.atan2(g_Mouse.Y - this.y, g_Mouse.X - this.x);
-					var degrees = rads * 180 / Math.PI;
-					x = 90 - Math.abs(degrees);
-					x = x / 90;
-					x = this.move * x;
-					//calculate angle relative to y-axis
-					rads = Math.atan2(g_Mouse.X - this.x, g_Mouse.Y - this.y);
-					degrees = rads * 180 / Math.PI;
-					y = 90 - Math.abs(degrees);
-					y = y / 90;
-					y = this.move * y;
+				//if the mouse is within a certain distance don't update the emitter position
+				if (!(Math.abs(g_Mouse.X - this.x) < this.move && Math.abs(g_Mouse.Y - this.y) < this.move)){
+					if((g_Mouse.Y >= 0) && (g_Mouse.Y < canvas.height) && (g_Mouse.X >= 0) && (g_Mouse.X < canvas.width)){
+						var rads = Math.atan2(g_Mouse.Y - this.y, g_Mouse.X - this.x);
+						var degrees = rads * 180 / Math.PI;
+						x = 90 - Math.abs(degrees);
+						x = x / 90;
+						x = this.move * x;
+						//calculate angle relative to y-axis
+						rads = Math.atan2(g_Mouse.X - this.x, g_Mouse.Y - this.y);
+						degrees = rads * 180 / Math.PI;
+						y = 90 - Math.abs(degrees);
+						y = y / 90;
+						y = this.move * y;
+					}
 				}
 			}
 			
@@ -131,7 +134,12 @@ var Reciever = klass(function(x, y, radius){
 					if ((pulse.radius > (distance - this.radius)) && (pulse.radius < (distance + this.radius))){
 						this.lastCollide = pulse; //track the last collided pulse to avoid collide again
 						console.log('pulse detected at: ' + g_Frames);
-						//g_elements is organized such that i+1 will be a pulse
+						/*
+						 * elements is organized such that if there is a i+1 it will be a pulse
+						 * if there is not a pulse at that position, though, then the reciever needs
+						 * to determine when it thinks the next pulse will arrive based on the rate of
+						 * pulse generation and how quickly the pulses move
+						 */
 						var nextPulse = g_elements[i+1];
 						distance = getDistance(nextPulse.x, nextPulse.y, this.x, this.y) - this.radius;
 						remainingDis = distance - nextPulse.radius;
