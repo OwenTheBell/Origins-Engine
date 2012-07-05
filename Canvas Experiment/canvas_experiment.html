@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<script type="text/javascript" charset="utf-8" src="jquery.js")> </script>
+		<script src="http://code.jquery.com/jquery-latest.js"> </script>
 		<script type="text/javascript" charset="utf-8" src="klass.min.js"> </script>
 		<script type="text/javascript" charset="utf-8" src="canvas_experiment.js"> </script>
 		<script type="text/javascript" charset="utf-8" src="../input.js"> </script>
@@ -10,14 +10,23 @@
 				margin: 0px;
 				padding: 0px;
 			}
-			#myCanvas {
+			canvas {
+				position: absolute;
 				border: 1px solid;
+			}
+			#emitterCanvas{
+				top: 505px;
+			}
+			#recieverCanvas{
+				top: 590px
 			}
 		</style>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>canvas_experiment</title>
 	</head>
 	<body>
-		<canvas id="myCanvas" width='800' height='500'></canvas>
+		<canvas id="myCanvas" width='800' height='500'> </canvas>
+		<canvas id='emitterCanvas' width='400' height='80'> </canvas>
+		<canvas id='recieverCanvas' width='400' height='80'> </canvas>
 	</body>
 </html>
