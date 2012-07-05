@@ -142,13 +142,13 @@ var Reciever = klass(function(x, y, radius){
 						 */
 						var nextPulse = g_elements[i+1];
 						distance = getDistance(nextPulse.x, nextPulse.y, this.x, this.y) - this.radius;
-						remainingDis = distance - nextPulse.radius;
+						distance = distance - nextPulse.radius;
 						//add one to account for pulses updating before the reciever
-						remainingFrames = Math.floor(remainingDis / nextPulse.growth) + 1;
+						var frames = Math.floor(distance / nextPulse.growth) + 1;
 						if (!this.waveForm){
-							this.waveForm = new WaveForm(remainingFrames, 'recieverCanvas');
+							this.waveForm = new WaveForm(frames, 'recieverCanvas');
 						} else {
-							this.waveForm.generate = remainingFrames;
+							this.waveForm.generate = frames;
 						}
 						break;
 					}
