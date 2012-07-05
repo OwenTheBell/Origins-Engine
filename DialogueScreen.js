@@ -12,21 +12,18 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 	this.popupHTML = '';
 	
 	this.overseerCSS = {
-		// position: 'inherit',
 		top: '5px',
 		left: '5px',
 	}
 	
 	this.playerCSS = {
-		// position: 'inherit',
-		top: parseInt($('#origins').css('height')) - parseInt(helper.findCSSRule('.speech').style.height) - 15 + 'px',
+		top: $('#origins').height() - parseInt(helper.findCSSRule('.speech').style.height) - 15 + 'px',
 		left: 5 + 'px',
 	}
 	
 	this.responseHolders = [];
 	for (var i=0; i < 4; i++) {
 		this.responseHolders.push({
-			// position: 'inherit',
 			height: Math.floor(parseInt(helper.findCSSRule('.speech').style.height) / 4) + 'px',
 			width: helper.findCSSRule('.speech').style.width,
 		});
@@ -35,12 +32,11 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 	};
 	
 	this.popupCSS = {
-		// position: 'inherit',
-		width: parseInt($('#origins').css('width')) / 5 + 'px',
-		height: parseInt($('#origins').css('height')) / 4 + 'px',
+		width: $('#origins').width() / 5 + 'px',
+		height: $('#origins').height() / 4 + 'px',
 	}
-	this.popupCSS.top = (parseInt($('#origins').css('height')) - parseInt(this.popupCSS.height)) / 2 + 'px';
-	this.popupCSS.left = (parseInt($('#origins').css('width')) - parseInt(this.popupCSS.width)) / 2 + 'px';
+	this.popupCSS.top = ($('#origins').height() - parseInt(this.popupCSS.height)) / 2 + 'px';
+	this.popupCSS.left = ($('#origins').width() - parseInt(this.popupCSS.width)) / 2 + 'px';
 })
 
 	.methods({
@@ -154,9 +150,6 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			if (this.activeScreen) {
 				if (globalInput.key.press){
 					this.keyValue = globalInput.key.value;
-					//console.log(globalInput.key.values)
-					// console.log(this.keyValue);
-					// console.log(String.fromCharCode(this.keyValue));
 				} else {
 					this.keyValue = false;
 				}
@@ -167,8 +160,8 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 				}
 				
 				var mouse = globalInput.mouse;
-				mouse.X -= parseInt($('#origins').css('left')) + parseInt(this.playerCSS.left);
-				mouse.Y -= parseInt($('#origins').css('top')) + parseInt(this.playerCSS.top);
+				mouse.X -= $('#origins').position().left + parseInt(this.playerCSS.left);
+				mouse.Y -= $('#origins').position().top + parseInt(this.playerCSS.top);
 				if((mouse.X > 0) && (mouse.X <= parseInt(helper.findCSSRule('.speech').style.width))
 					&& (mouse.Y > 0) && (mouse.Y <= parseInt(helper.findCSSRule('.speech').style.height))){
 					

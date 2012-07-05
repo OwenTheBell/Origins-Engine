@@ -9,7 +9,6 @@ var Sprite = klass(function (left, top, image, id) {
 	// this.cssClasses = []; //store names of any applied css classes
 	
 	this.css = {
-		// position: 'inherit',
 		top: this.top + 'px',
 		left: this.left + 'px',
 	}
