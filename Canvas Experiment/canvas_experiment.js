@@ -1,20 +1,20 @@
 var canvas, context;
 var fps = 60;
 var g_elements = [];
-var reciever = {};
 var g_Mouse = {};
 var g_Frames = 0;
 var g_generate = 1;
 
 $(document).ready(function(){
-	// canvas = $('#myCanvas').get(0);
 	canvas = document.getElementById('myCanvas');
+	console.log(canvas.left)
+	//append these values to canvas since it doesn't normally have them
+	canvas.left = $('#myCanvas').position().left;
+	canvas.top = $('#myCanvas').position().top;
 	context = canvas.getContext('2d');
 	
 	g_elements.push(new Emitter(canvas.width / 2, canvas.height / 2, 5, g_generate));
-	reciever = new Reciever(100, 100, 5);
-	g_elements.push(reciever);
-	// g_elements.push(new WaveForm(pulse));
+	g_elements.push(new Reciever(100, 100, 5));
 	
 	startDraw();		
 })
@@ -75,29 +75,26 @@ var Emitter = klass(function(x, y, radius, generate){
 			});
 			this.waveForm.update();
 			
-			var x = 0, y = 0;
+			var moveX = 0, moveY = 0;
 			
 			if(g_Mouse.down){
-				//if the mouse is within a certain distance don't update the emitter position
-				if (!(Math.abs(g_Mouse.X - this.x) < this.move && Math.abs(g_Mouse.Y - this.y) < this.move)){
+				//if the mouse is less than a move away in both dimensions don't update position
+				if (Math.abs(g_Mouse.X - this.x) >= this.move || Math.abs(g_Mouse.Y - this.y) >= this.move){
 					if((g_Mouse.Y >= 0) && (g_Mouse.Y < canvas.height) && (g_Mouse.X >= 0) && (g_Mouse.X < canvas.width)){
-						var rads = Math.atan2(g_Mouse.Y - this.y, g_Mouse.X - this.x);
-						var degrees = rads * 180 / Math.PI;
-						x = 90 - Math.abs(degrees);
-						x = x / 90;
-						x = this.move * x;
-						//calculate angle relative to y-axis
-						rads = Math.atan2(g_Mouse.X - this.x, g_Mouse.Y - this.y);
-						degrees = rads * 180 / Math.PI;
-						y = 90 - Math.abs(degrees);
-						y = y / 90;
-						y = this.move * y;
+						function findMove(y, x){
+							var temp = math.atan2(y, x);
+							var temp = temp * 180 / Math.PI;
+							return temp / 90;
+							return temp;
+						}
+						moveX = this.move * findMove(g_Mouse.Y - this.y, g_Mouse.X - this.x);
+						moveY = this.move * findMove(g_Mouse.X - this.x, g_Mouse.Y - this.y);
 					}
 				}
 			}
 			
-			this.x += x;
-			this.y += y;
+			this.x += moveX;
+			this.y += moveY;
 			
 			if (this.x + this.radius > canvas.width) this.x = canvas.width;
 			else if (this.x - this.radius < 0) this.x = 0;
@@ -148,7 +145,10 @@ var Reciever = klass(function(x, y, radius){
 						if (!this.waveForm){
 							this.waveForm = new WaveForm(frames, 'recieverCanvas');
 						} else {
-							this.waveForm.generate = frames;
+							//save the points from the previous waveForm
+							var points = this.waveForm.points;
+							this.waveForm = new WaveForm(frames, 'recieverCanvas');
+							this.waveForm.points = points;
 						}
 						break;
 					}
@@ -179,34 +179,13 @@ var Pulse = klass(function(x, y, radius, growth){
 	this.growth = growth;
 	this.collision = false;
 	this.radius = radius;
-	var distances = [];
-	var canvasPos = $('#myCanvas').position();
-	distances.push(getDistance(
-		this.x,
-		this.y,
-		canvasPos.left,
-		canvasPos.top
-	));
-	distances.push(getDistance(
-		this.x,
-		this.y, 
-		canvasPos.left + canvas.width,
-		canvasPos.top
-	));
-	
-	distances.push(getDistance(
-		this.x,
-		this.y,
-		canvasPos.left + canvas.width,
-		canvasPos.top + canvas.height
-	));
-	distances.push(getDistance(
-		this.x,
-		this.y,
-		canvasPos.left,
-		canvasPos.top + canvas.height
-	));
-	//The maximum radius the circle can have before it no longer appears on screen
+	var distances = [[canvas.left, canvas.top],
+					[canvas.left+canvas.width, canvas.top],
+					[canvas.left+canvas.width, canvas.top+canvas.height],
+					[canvas.left, canvas.top+canvas.height]];
+	for(i in distances){
+		distances[i] = getDistance(this.x, this.y, distances[i][0], distances[i][1]);
+	}
 	this.maxRadius = getMax(distances);
 	
 })
@@ -243,9 +222,6 @@ var WaveForm = klass(function(generate, canvas){
 			if (g_Frames >= this.generate){
 				var tempY = Math.cos(this.currentX * Math.PI/(this.generate / 2));
 				this.debugY = tempY;
-				// if(tempY == 1){
-					// console.log(g_Frames);
-				// }
 	
 				tempY = (this.canvas.height / 2 ) - tempY * (this.canvas.height / 2);
 				
