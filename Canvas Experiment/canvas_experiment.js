@@ -1,10 +1,11 @@
 var g_canvas, g_context;
 var g_fps = 60;
 var g_reciever = {};
+var g_emitter = {};
 var g_elements = [];
 var g_Mouse = {};
 var g_Frames = 0;
-var g_generate = .5;
+var g_generate = 2;
 
 $(document).ready(function(){
 	g_canvas = document.getElementById('myCanvas');
@@ -13,15 +14,16 @@ $(document).ready(function(){
 	g_canvas.top = $('#myCanvas').position().top;
 	g_context = g_canvas.getContext('2d');
 	
-	g_elements.push(new Emitter(g_canvas.width / 2, g_canvas.height / 2, 5, g_generate));
+	g_emitter = new Emitter(g_canvas.width / 2, g_canvas.height / 2, 5, .5);
 	g_reciever = new Reciever(100, 100, 5);
+	g_elements.push(g_emitter);
 	g_elements.push(g_reciever);
 	
-	startDraw();		
-})
+	startDraw();
+});
 
 function startDraw () {
-	setInterval(loop, 1000/60);
+	setInterval(loop, 1000/g_fps);
 }
 
 function loop() {
@@ -42,7 +44,7 @@ function loop() {
 function getDistance(x1, y1, x2, y2){
 	var x = Math.pow((x2 - x1), 2);
 	var y = Math.pow((y2 - y1), 2);
-	return Math.sqrt(x + y)
+	return Math.sqrt(x + y);
 }
 
 function getMax(array){
@@ -55,28 +57,25 @@ function getMax(array){
 	return max;
 }
 
-var Emitter = klass(function(x, y, radius, generate){
+var Emitter = klass(function(x, y, radius, pulsePerSecond){
 	this.x = x;
 	this.y = y;
 	this.radius = radius;
 	this.move = .5;
+	this.growth = 1;
 	this.circles = [];
-	this.generate = g_fps / generate;
+	this.pulsePerSecond = pulsePerSecond;
 	this.waveForm = null;
 })
 	.methods({
 		update: function() {
-			if ((g_Frames >= this.generate) && (g_Frames % this.generate == 0)){
-				g_elements.push(new Pulse(this.x, this.y, this.radius, 1));
+			if (g_Frames % (g_fps / this.pulsePerSecond) == 0){
+				g_elements.push(new Pulse(this.x, this.y, this.radius, this.growth));
 				if (!this.waveForm){
-					this.waveForm = new WaveForm(this.generate, 'emitterCanvas');
+					this.waveForm = new WaveForm(g_fps / this.pulsePerSecond, 'emitterCanvas');
 				}
-				// console.log(g_Frames);
 			}
 			
-			$(this.circles).each(function(){
-				this.update();
-			});
 			if (this.waveForm){
 				this.waveForm.update();
 			}
@@ -113,9 +112,6 @@ var Emitter = klass(function(x, y, radius, generate){
 			g_context.closePath();
 			g_context.fill();
 			
-			$(this.circles).each(function(){
-				this.draw();
-			});
 			if (this.waveForm){
 				this.waveForm.draw();
 			}
@@ -145,65 +141,44 @@ var Reciever = klass(function(x, y, radius){
 				 */
 				if (pulse instanceof Pulse && this.collided.indexOf(pulse) == -1){
 					var distance = getDistance(pulse.x, pulse.y, this.x, this.y);
-					if ((pulse.radius > (distance - this.radius)) && (pulse.radius < (distance + this.radius))){
-						// console.log('pulse detected ' + g_Frames);
+					if (pulse.radius > (distance - this.radius)){
+						console.log('pulse detected ' + g_Frames);
 						this.collided.push(pulse);
 						this.nextPulse = null;
 						if(g_elements[i+1]){
 							this.nextPulse = g_elements[i+1];
 							distance = getDistance(this.nextPulse.x, this.nextPulse.y, this.x, this.y);
 							distance -= this.nextPulse.radius;
+							//subtracting 1 smoothes out the waveform a little bit
 							var frames = Math.floor(distance / this.nextPulse.growth) - 1;
 							if(!this.waveForm){
+								console.log('making a new waveform');
 								this.waveForm = new WaveForm(frames, 'recieverCanvas');
 							} else {
-								var Y = this.waveForm.currentY;
-								var newX = Math.round(Math.acos(Y) * (this.waveForm.generate/2)/Math.PI);
-								this.waveForm.generate = frames;
-								this.waveForm.currentX = newX;
-								
-								// this.waveForm.generate = frames;
-								// var points = this.waveForm.points;
-								// this.waveForm = new WaveForm(frames, 'recieverCanvas');
-								// this.waveForm.points = points;
+								var points = this.waveForm.points;
+								this.waveForm = new WaveForm(frames, 'recieverCanvas');
+								this.waveForm.points = points;
 							}
+						} else {
+							distance = (g_emitter.x, g_emitter.y, this.x, this.y) - g_emitter.radius;
+							var frames = Math.floor(distance / g_emitter.growth) - 1;
+							frames += (g_Frames % (g_fps / g_emitter.pulsePerSecond));
+							var points = this.waveForm.points;
+							this.waveForm = new WaveForm(frames, 'recieverCanvas');
+							this.waveForm.points = points;
+							
+							// var points = this.waveForm.points;
+							// var Xadjust = this.waveForm.Xadjust;
+							// var frames = this.waveForm.frames;
+							// this.waveForm = new WaveForm(frames, 'recieverCanvas');
+							// this.waveForm.points = points;
+							// this.waveForm.Xadjust = Xadjust;
 						}
 					} else if (this.waveForm && !this.nextPulse) {
 						distance -= pulse.radius;
 						var frames = Math.floor(distance / pulse.growth) - 1;
-						
-						var Y = this.waveForm.currentY;
-						var newX = Math.round(Math.acos(Y) * (this.waveForm.generate/2)/Math.PI);
-						this.waveForm.generate *= (frames / this.waveForm.frameCount);
-						console.log(frames / this.waveForm.frameCount);
-						this.waveForm.currentX = newX;
+						this.waveForm.adjustFrames(frames);
 						this.nextPulse = pulse;
-						
-					// 	this.nextPulse = pulse;
-					// 	distance -= this.nextPulse.radius;
-					// 	var frames = Math.floor(distance / this.nextPulse.growth);
-					// 	
-					// 	if(frames != this.waveForm.frameCount){
-					// 		var Y = this.waveFrom.currentY;
-					// 		var newX = Math.round(Math.acos(Y) * (this.waveForm.generate/2)/Math.PI);
-					// 		
-					// 		
-					// 		// helper.debugPrint(frames, this.waveForm.frameCount);
-					// 		var points = this.waveForm.points;
-					// 		var newSpeed = frames / this.waveForm.frameCount;
-					// 		this.waveForm.generate = this.waveForm.generate * newSpeed;
-					// 		this.waveForm.frameCount = frames;
-					// 		console.log('recalculating')
-					// 	}
-					// 	
-					// 	
-					// 	// var currentX = this.waveForm.currentX;
-					// 	// var points = this.waveForm.points;
-					// 	// this.waveForm = new WaveForm(frames, 'recieverCanvas');
-					// 	// this.waveForm.points = points;
-					// 	// currentX = Math.round(Math.acos(this.waveForm.debugY) * (frames/2)/Math.PI);
-					// 	// this.waveForm.currentX = currentX;
-					// 	// console.log('recalculating');
 					}
 				}
 			}
@@ -265,25 +240,21 @@ var Pulse = klass(function(x, y, radius, growth){
 		
 	});
 
-var WaveForm = klass(function(generate, canvas){
+var WaveForm = klass(function(frames, canvas){
 	this.canvas = $('#' + canvas).get(0);
 	this.context = this.canvas.getContext('2d');
 	this.points = [];
-	this.currentX = 0;
-	this.generate = generate; //number frames between peaks
-	this.frameCount = 0; //count of frames until the next peak
-	this.currentY = 0;
+	this.currentX = 0; //value varying between 0 and 2PI
+	this.currentY = 0; //value varying between 1 and -1
+	this.frames = frames; //num of frames between pulses
+	this.Xadjust = (Math.PI * 2) / this.frames; //amount to change X per frame
 })
 	.methods({
 		update: function(){
-			var tempY = Math.cos(this.currentX * Math.PI);///(this.generate / 2));
-			var textX = Math.round(Math.acos(tempY) * (this.generate/2)/Math.PI);
-			// helper.debugPrint(textX, this.currentX);
-			// this.debugY = tempY;
-			if (this.currentY == 1){
-				this.frameCount = this.generate;
+			this.currentY = Math.cos(this.currentX);
+			if (this.currentX >= (Math.PI * 2)){
+				this.currentX -= Math.PI * 2;
 			}
-
 			var tempY = (this.canvas.height / 2 ) - this.currentY * (this.canvas.height / 2);
 			
 			var newPoint = {X: this.canvas.width, Y:tempY};
@@ -292,8 +263,7 @@ var WaveForm = klass(function(generate, canvas){
 			if(this.points[0].X < 0){
 				this.points.splice(0, 1);
 			}
-			this.currentX++;
-			this.frameCount--;
+			this.currentX += this.Xadjust;
 		},
 		draw: function(){
 			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -311,5 +281,11 @@ var WaveForm = klass(function(generate, canvas){
 				prev = {X: next.X, Y: next.Y};
 				next.X--;
 			}
+		},
+		adjustFrames: function(newFrames){
+			var spaceToFill = Math.PI * 2 - this.currentX;
+			var distancePerFrame = spaceToFill / newFrames;
+			helper.debugPrint(this.Xadjust, distancePerFrame);
+			this.Xadjust = distancePerFrame;
 		}
 	});
