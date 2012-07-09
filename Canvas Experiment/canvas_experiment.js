@@ -146,42 +146,71 @@ var Reciever = klass(function(x, y, radius){
 				if (pulse instanceof Pulse && this.collided.indexOf(pulse) == -1){
 					var distance = getDistance(pulse.x, pulse.y, this.x, this.y);
 					if ((pulse.radius > (distance - this.radius)) && (pulse.radius < (distance + this.radius))){
-						console.log('pulse detected ' + g_Frames);
+						// console.log('pulse detected ' + g_Frames);
 						this.collided.push(pulse);
 						this.nextPulse = null;
 						if(g_elements[i+1]){
 							this.nextPulse = g_elements[i+1];
-							//we can reuse the distance variable
 							distance = getDistance(this.nextPulse.x, this.nextPulse.y, this.x, this.y);
-							distance = distance - this.nextPulse.radius;
-							var frames = Math.floor(distance / this.nextPulse.growth);
+							distance -= this.nextPulse.radius;
+							var frames = Math.floor(distance / this.nextPulse.growth) - 1;
 							if(!this.waveForm){
 								this.waveForm = new WaveForm(frames, 'recieverCanvas');
 							} else {
+								var Y = this.waveForm.currentY;
+								var newX = Math.round(Math.acos(Y) * (this.waveForm.generate/2)/Math.PI);
+								this.waveForm.generate = frames;
+								this.waveForm.currentX = newX;
+								
 								// this.waveForm.generate = frames;
-								var points = this.waveForm.points;
-								this.waveForm = new WaveForm(frames, 'recieverCanvas');
-								this.waveForm.points = points;
+								// var points = this.waveForm.points;
+								// this.waveForm = new WaveForm(frames, 'recieverCanvas');
+								// this.waveForm.points = points;
 							}
 						}
 					} else if (this.waveForm && !this.nextPulse) {
+						distance -= pulse.radius;
+						var frames = Math.floor(distance / pulse.growth) - 1;
+						
+						var Y = this.waveForm.currentY;
+						var newX = Math.round(Math.acos(Y) * (this.waveForm.generate/2)/Math.PI);
+						this.waveForm.generate *= (frames / this.waveForm.frameCount);
+						console.log(frames / this.waveForm.frameCount);
+						this.waveForm.currentX = newX;
 						this.nextPulse = pulse;
-						distance = distance - this.nextPulse.radius;
-						var frames = Math.floor(distance / this.nextPulse.growth);
-						var currentX = this.waveForm.currentX;
-						var points = this.waveForm.points;
-						this.waveForm = new WaveForm(frames, 'recieverCanvas');
-						this.waveForm.points = points;
-						currentX = Math.round(Math.acos(this.waveForm.debugY) * (frames/2)/Math.PI);
-						this.waveForm.currentX = currentX;
-						console.log('recalculating');
+						
+					// 	this.nextPulse = pulse;
+					// 	distance -= this.nextPulse.radius;
+					// 	var frames = Math.floor(distance / this.nextPulse.growth);
+					// 	
+					// 	if(frames != this.waveForm.frameCount){
+					// 		var Y = this.waveFrom.currentY;
+					// 		var newX = Math.round(Math.acos(Y) * (this.waveForm.generate/2)/Math.PI);
+					// 		
+					// 		
+					// 		// helper.debugPrint(frames, this.waveForm.frameCount);
+					// 		var points = this.waveForm.points;
+					// 		var newSpeed = frames / this.waveForm.frameCount;
+					// 		this.waveForm.generate = this.waveForm.generate * newSpeed;
+					// 		this.waveForm.frameCount = frames;
+					// 		console.log('recalculating')
+					// 	}
+					// 	
+					// 	
+					// 	// var currentX = this.waveForm.currentX;
+					// 	// var points = this.waveForm.points;
+					// 	// this.waveForm = new WaveForm(frames, 'recieverCanvas');
+					// 	// this.waveForm.points = points;
+					// 	// currentX = Math.round(Math.acos(this.waveForm.debugY) * (frames/2)/Math.PI);
+					// 	// this.waveForm.currentX = currentX;
+					// 	// console.log('recalculating');
 					}
 				}
 			}
 			if (this.waveForm){
 				this.waveForm.update();
-				if (this.waveForm.debugY == 1){
-					console.log('waveForm peak ' + g_Frames);
+				if(this.waveForm.currentY == 1){
+					console.log('waveForm peaked at ' + g_Frames);
 				}
 			}
 		},
@@ -241,17 +270,21 @@ var WaveForm = klass(function(generate, canvas){
 	this.context = this.canvas.getContext('2d');
 	this.points = [];
 	this.currentX = 0;
-	this.generate = generate;
-	this.debugY = 0;
+	this.generate = generate; //number frames between peaks
+	this.frameCount = 0; //count of frames until the next peak
+	this.currentY = 0;
 })
 	.methods({
 		update: function(){
 			var tempY = Math.cos(this.currentX * Math.PI);///(this.generate / 2));
 			var textX = Math.round(Math.acos(tempY) * (this.generate/2)/Math.PI);
 			// helper.debugPrint(textX, this.currentX);
-			this.debugY = tempY;
+			// this.debugY = tempY;
+			if (this.currentY == 1){
+				this.frameCount = this.generate;
+			}
 
-			tempY = (this.canvas.height / 2 ) - tempY * (this.canvas.height / 2);
+			var tempY = (this.canvas.height / 2 ) - this.currentY * (this.canvas.height / 2);
 			
 			var newPoint = {X: this.canvas.width, Y:tempY};
 			
@@ -259,7 +292,8 @@ var WaveForm = klass(function(generate, canvas){
 			if(this.points[0].X < 0){
 				this.points.splice(0, 1);
 			}
-			this.currentX += 2 / this.generate;
+			this.currentX++;
+			this.frameCount--;
 		},
 		draw: function(){
 			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
