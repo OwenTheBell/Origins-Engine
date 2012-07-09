@@ -49,7 +49,6 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 	this.clickMap = [];
 	this.clicked = false;
 	this.mouseOver = false; //detect mouse position over sprite
-	//this.repDiv.addClass('clickSprite');
 })
 	.methods({
 		update: function(){
@@ -86,8 +85,6 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 		},
 		makeClickMap: function(){
 			//Using canvas create an 2d array of transparent vs nontransparent pixels
-			//console.log("making a map");
-			
 			var canvas = document.createElement('canvas');
 			canvas.width = this.width();
 			canvas.height = this.height();
@@ -101,8 +98,6 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 			} catch (e){
 				console.log('ERROR: ' + this.id + ' failed to load image');
 			}
-			//these are declared out here to make debugging easier
-			
 			
 			for (var i = 0; i < pixels.length; i+=4){
 				var col = Math.floor((i / 4) / this.width());

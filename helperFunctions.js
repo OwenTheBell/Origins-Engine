@@ -54,12 +54,14 @@ var helper = {
 	findCSSRule: function(rule){
 		var mysheet = document.styleSheets[0];
 		var myrules = mysheet.cssRules ? mysheet.cssRules : mysheet.rules;
+		var cssText = '';
 		for (i in myrules){
-			if (myrules[i].selectorText.toLowerCase() === rule) {
+			if (myrules[i].selectorText && myrules[i].selectorText.toLowerCase() === rule){
 				return myrules[i];
 			}
 		}
-		console.log(document.styleSheets[0].cssRules[0].cssText);
+		console.log('ERROR: css rule ' + rule + ' not found');
+		//console.log(document.styleSheets[0].cssRules[0].cssText);
 		return false;
 	}
 }

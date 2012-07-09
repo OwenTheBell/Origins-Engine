@@ -31,7 +31,10 @@ $(document).ready(function(){
 				'Sprites/Table.png',
 				'Sprites/Chair.png',
 				'Sprites/Thermostat.png'
-			);
+		);
+});
+
+continueOn = function(){
 	
 	//setup some of the external css for the dialogueScreen
 	var rule = helper.findCSSRule('.speech');
@@ -82,7 +85,7 @@ $(document).ready(function(){
 	// console.log(screenCollection);
 	
 	startGame();
-});
+};
 
 startGame = function() {
 	setInterval(RunGame, 1000 / fps);
@@ -106,18 +109,16 @@ RunGame = function(){
 //This function should, in theory, be preloading all images by ensuring that
 //they are cached in the browser before they are actually used
 preloader = function(){
-	for (var i = 0; i < arguments.length; i++){
-		var img = new Image();
-		img.src = arguments[i];
-		//just some artifical delay to prevent moving on until the image has loaded
-		/*
-			TODO Ok so the delay caused by this function does nothing. One options might be to
-			implemented a reursive function that would only call to load the next image after
-			the current image has been loaded
-		*/
-		$(img).load(function(){
-			// console.log(img.src)
-			return;
-		});
-	}
+	$('#origins').html('LOADING');
+	var img = new Image();
+	img.src = arguments[0];
+	
+	$(img).load(function(){
+		if (arguments.length > 1){
+			arguments.splice(0, 1);
+			preloader(arguments);
+		} else {
+			continueOn();
+		}
+	});
 }
