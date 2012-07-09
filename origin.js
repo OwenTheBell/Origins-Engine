@@ -24,7 +24,6 @@ try{
 }
 
 $(document).ready(function(){
-	
 	//This entire thing needs to be improved, this is a really brute force way to do things
 	preloader('Sprites/Background.png',
 				'Sprites/Bed.png',
@@ -111,8 +110,9 @@ RunGame = function(){
 	g.frameCounter++;
 }
 
-//This function should, in theory, be preloading all images by ensuring that
-//they are cached in the browser before they are actually used
+/*
+ * Caches all images in memory before moving on with the rest of setting up the game
+ */
 preloader = function(){
 	$('#origins').html('LOADING');
 	var img = new Image();
