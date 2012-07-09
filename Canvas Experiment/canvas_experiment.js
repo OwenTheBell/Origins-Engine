@@ -129,6 +129,11 @@ var Reciever = klass(function(x, y, radius){
 	this.waveForm = null;
 	this.newWave = false;
 	this.nextPulse = null;
+	this.click = document.createElement('audio');
+	this.click.setAttribute('src', '../Audio/click.wav');
+	this.click.setAttribute('type', 'audio/wav');
+	$('#mainDIV').append(this.click);
+	// this.click = new Audio('../Audio/click.mp3');
 })
 	.methods({
 		update: function() {
@@ -143,6 +148,7 @@ var Reciever = klass(function(x, y, radius){
 					var distance = getDistance(pulse.x, pulse.y, this.x, this.y);
 					if (pulse.radius > (distance - this.radius)){
 						console.log('pulse detected ' + g_Frames);
+						// this.click.play();
 						this.collided.push(pulse);
 						this.nextPulse = null;
 						if(g_elements[i+1]){

@@ -39,7 +39,7 @@ $(document).ready(function(){
 		);
 });
 
-continueOn = function(){
+continueReady = function(){
 	
 	//setup some of the external css for the dialogueScreen
 	var rule = helper.findCSSRule('.speech');
@@ -123,7 +123,7 @@ preloader = function(){
 			arguments.splice(0, 1);
 			preloader(arguments);
 		} else {
-			continueOn();
+			continueReady();
 		}
 	});
 }
