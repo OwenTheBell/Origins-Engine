@@ -1,12 +1,17 @@
-var screenCollection = new Array();
-var fps = 60;
-var topZIndex = 10;
-var bottomZIndex = 9;
-var transZIndex = 11; //this zIndex is used to place emerging layers on top
-var dialogueZIndex = 12;
-var inputVariables = {}; //this holds variables that will be set by user input
-var globalInput = {}; //this copies input contained in inputState for global access
-var globalFrameCounter = 0;
+/*
+ * g holds all global variables. There is no particular need for this object
+ * outside of pure legibility in the code.
+ */
+var g = {
+	screenCollection: new Array(),
+	fps: 60,
+	topZIndex: 10,
+	bottomZIndex: 9,
+	transZIndex: 11, //this zIndex is used to place emerging layers on top
+	dialogueZIndex: 12,
+	input: {}, //this copies input contained in inputState for global access
+	frameCounter: 0 
+}
 
 //If there is not a console then make console.log an empty function
 //Consider a boolean to force console.log to be an empty statement
@@ -55,20 +60,20 @@ continueOn = function(){
 	$('head').append(importer);
 	*/
 	
-	var mainScreen = new Screen('mainScreen', topZIndex);
-	mainScreen.activeScreen = true;
-	screenCollection[mainScreen.id] = mainScreen;
+	var mainScreen = new Screen('mainScreen', g.topZIndex);
+	//mainScreen.activeScreen = true;
+	g.screenCollection[mainScreen.id] = mainScreen;
 	
-	var talkScreen = new DialogueScreen('talkScreen', bottomZIndex, 'IntroDial.xml');
+	var talkScreen = new DialogueScreen('talkScreen', g.bottomZIndex, 'IntroDial.xml');
 	helper.ajaxGet(talkScreen);
 	talkScreen.activate();
-	screenCollection[talkScreen.id] = talkScreen;
+	g.screenCollection[talkScreen.id] = talkScreen;
 	
 	var dialogueScreens = new Array();
 	
 	helper.groupItemAjaxGet(dialogueScreens, 'IntroObjMainRm.xml');
 	for(key in dialogueScreens){
-		screenCollection[dialogueScreens[key].id] = dialogueScreens[key];
+		g.screenCollection[dialogueScreens[key].id] = dialogueScreens[key];
 	}
 	
 	mainScreen.addSprite(new Sprite(0, 0, 'Sprites/Background.png', 'background'));
@@ -88,22 +93,22 @@ continueOn = function(){
 };
 
 startGame = function() {
-	setInterval(RunGame, 1000 / fps);
+	setInterval(RunGame, 1000 / g.fps);
 }
 
 RunGame = function(){
-	globalInput.key = inputState.getKey();
-	globalInput.mouse = inputState.getMouse();
+	g.input.key = inputState.getKey();
+	g.input.mouse = inputState.getMouse();
 	
-	for(x in screenCollection) {
-		screenCollection[x].update();
+	for(x in g.screenCollection) {
+		g.screenCollection[x].update();
 	}
 	var HTML = '';
-	for(x in screenCollection) {
-		HTML += screenCollection[x].draw();
+	for(x in g.screenCollection) {
+		HTML += g.screenCollection[x].draw();
 	}
 	$('#origins').html(HTML);
-	globalFrameCounter++;
+	g.frameCounter++;
 }
 
 //This function should, in theory, be preloading all images by ensuring that

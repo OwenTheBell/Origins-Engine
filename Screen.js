@@ -14,7 +14,7 @@ var Screen = klass(function(id, zIndex) {
 	}
 	
 	//set opacity based on whether or not this screen is on the top zIndex
-	if (this.css['z-index'] == topZIndex) {
+	if (this.css['z-index'] == g.topZIndex) {
 		this.css['opacity'] = 1.0;
 	}
 	
@@ -26,7 +26,7 @@ var Screen = klass(function(id, zIndex) {
 })
 	.methods({
 		addSprite: function(newSprite){
-			newSprite.containerScreen = this;
+			newSprite.parent = this;
 			this.spriteArray.push(newSprite);
 		},
 			
@@ -58,7 +58,7 @@ var Screen = klass(function(id, zIndex) {
 		},
 		fadingOut: function(seconds){
 			this.fadeOut = true;
-			this.transitionFrames = seconds*fps;
+			this.transitionFrames = seconds*g.fps;
 			this.transitionFramesCount = 0;
 			console.log(this.id + ' moving to background');
 			this.activeScreen = false;
@@ -66,8 +66,8 @@ var Screen = klass(function(id, zIndex) {
 		//seconds: the number of seconds for the transition
 		fadingIn: function(seconds){
 			this.fadeIn = true;
-			this.transitionFrames = seconds*fps;
-			this.css['z-index'] = transZIndex;
+			this.transitionFrames = seconds*g.fps;
+			this.css['z-index'] = g.transZIndex;
 			this.drawState = 'updated';
 		},
 		update: function(){
@@ -77,7 +77,7 @@ var Screen = klass(function(id, zIndex) {
 					this.css['opacity'] = 1.0;
 					this.fadeIn = false;
 					this.fadeOut = false;
-					this.css['z-index'] = topZIndex;
+					this.css['z-index'] = g.topZIndex;
 					this.activeScreen = true;
 					console.log(this.id + ' in foreground');
 				} else {
@@ -89,7 +89,7 @@ var Screen = klass(function(id, zIndex) {
 					this.css['opacity'] = 0.0;
 					this.fadeOut = false;
 					this.fadeIn = false;
-					this.css['z-index'] = bottomZIndex;
+					this.css['z-index'] = g.bottomZIndex;
 					this.activeScreen = false;
 				} else {
 					this.css['opacity'] -= (1 / this.transitionFrames);
@@ -102,7 +102,7 @@ var Screen = klass(function(id, zIndex) {
 			var mouseOverCheck = false;
 			//Only take input if the screen is not transitioning
 			if (this.activeScreen){
-				mouse = globalInput.mouse;
+				mouse = g.input.mouse;
 			
 				for (var x = 0; x < this.spriteArray.length; x++){
 					var testSprite = this.spriteArray[x];
@@ -130,6 +130,7 @@ var Screen = klass(function(id, zIndex) {
 		},
 		draw: function(){
 			var HTML = '';
+			//only bother rendering if we can actually see this screen
 			if (this.css['opacity'] > 0){
 				HTML += '<div id =' + this.id + ' style="';
 				for(x in this.css){

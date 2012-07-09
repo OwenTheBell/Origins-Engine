@@ -1,6 +1,7 @@
 /*
- * This file is just a collection of functions that didn't really have a place.
- * Instead they are all just being stored in the object in here.
+ * This is a collection of functions that are used various places to helper
+ * accomplish tasks. They are contained within the helper object just to make
+ * locating them easier during code maintenance
  */
 
 var helper = {
@@ -26,7 +27,7 @@ var helper = {
 			dataType: 'xml',
 			success: function(data){
 				$(data).find('item').each(function(){
-					var temp = new DialogueScreen($(this).attr('id'), bottomZIndex);
+					var temp = new DialogueScreen($(this).attr('id'), g.bottomZIndex);
 					temp.loadXML(this);
 					dialogueScreens[temp.id] = temp;
 				});
@@ -54,14 +55,11 @@ var helper = {
 	findCSSRule: function(rule){
 		var mysheet = document.styleSheets[0];
 		var myrules = mysheet.cssRules ? mysheet.cssRules : mysheet.rules;
-		var cssText = '';
 		for (i in myrules){
 			if (myrules[i].selectorText && myrules[i].selectorText.toLowerCase() === rule){
 				return myrules[i];
 			}
 		}
 		console.log('ERROR: css rule ' + rule + ' not found');
-		//console.log(document.styleSheets[0].cssRules[0].cssText);
-		return false;
 	}
 }

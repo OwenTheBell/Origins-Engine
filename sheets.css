@@ -9,6 +9,7 @@
 	height: 720px;
 }
 
+
 @font-face {
     font-family: 'MichromaRegular';
     src: url('Fonts/michroma-webfont.eot');
@@ -20,13 +21,6 @@
     font-style: normal;
 
 }
-
-/*
-@font-face{
-	font-family: Michroma;
-	src: url('Fonts/Michroma.ttf');
-}
-*/
 
 div {
 	position: inherit;

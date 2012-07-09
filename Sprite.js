@@ -1,5 +1,5 @@
 var Sprite = klass(function (left, top, image, id) {
-	this.containerScreen;
+	this.parent;
 	this.top = top; //y
 	this.left = left; //x
 	this.image = new Image();
@@ -30,8 +30,6 @@ var Sprite = klass(function (left, top, image, id) {
 			return this.image.height;
 		},
 		update: function(){
-			this.css.top = this.top + 'px';
-			this.css.left = this.left + 'px';
 		},
 		draw: function(){
 			var HTML = '';
@@ -52,33 +50,33 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 })
 	.methods({
 		update: function(){
-			this.supr();
-			
-			if (this.clickMap.length == 0){
-				this.makeClickMap();
-			}
-			
-			if (this.clicked || this.mouseOver){
-				var mouse = globalInput.mouse;
-				//Translate the mouse position so that it is relative to the sprite
-				var x = mouse.X - this.left - parseInt($('#origins').css('left'));
-				var y = mouse.Y - this.top - parseInt($('#origins').css('top'));
-				
-				if (this.clickMap[x][y] == 1){
-					if(this.clicked){
-						this.onClick();
-					}
-					if (this.mouseOver){
-						this.css.cursor = 'pointer';
-					}
-				} else if (this.css.cursor){
-					delete this.css.cursor;
+			if (this.parent.activeScreen){
+				if (this.clickMap.length == 0){
+					this.makeClickMap();
 				}
-				this.clicked = false;
-				this.mouseOver = false;
-			} else if (!this.mouseOver && this.css.cursor){
-				delete this.css.cursor;
-				console.log('reverting cursor');
+				
+				if (this.clicked || this.mouseOver){
+					var mouse = g.input.mouse;
+					//Translate the mouse position so that it is relative to the sprite
+					var x = mouse.X - this.left - parseInt($('#origins').css('left'));
+					var y = mouse.Y - this.top - parseInt($('#origins').css('top'));
+					
+					if (this.clickMap[x][y] == 1){
+						if(this.clicked){
+							this.onClick();
+						}
+						if (this.mouseOver){
+							this.css.cursor = 'pointer';
+						}
+					} else if (this.css.cursor){
+						delete this.css.cursor;
+					}
+					this.clicked = false;
+					this.mouseOver = false;
+				} else if (!this.mouseOver && this.css.cursor){
+					delete this.css.cursor;
+					console.log('reverting cursor');
+				}
 			}
 		},
 		onClick: function(){
@@ -114,7 +112,7 @@ var screenChangeSprite = clickSprite.extend(function(top, left, image, id, targe
 	.methods({
 		onClick: function(){
 			this.targetScreen.fadingIn(1);
-			this.containerScreen.fadingOut(1);
+			this.parent.fadingOut(1);
 		}
 	});
 	
@@ -125,10 +123,10 @@ var dialogueSprite = clickSprite.extend(function(top, left, image, id, targetDia
 	.methods({
 		onClick: function(){
 			this.targetDialogue.activate();
-			this.containerScreen.activeScreen = false;
+			this.parent.activeScreen = false;
 		},
 		deActivated: function(){
-			this.containerScreen.activeScreen = true;
+			this.parent.activeScreen = true;
 			console.log('Reseting active screen');
 		}
 	})

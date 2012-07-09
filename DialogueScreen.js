@@ -130,7 +130,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		
 		activate: function(){
 			this.activeScreen = true;
-			this.css['z-index'] = dialogueZIndex;
+			this.css['z-index'] = g.dialogueZIndex;
 			this.css['opacity'] = 1.0;
 			this.drawState = 'updated';
 			this.originalActive = this.activeStatement;
@@ -139,7 +139,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		
 		deActivate: function(){
 			this.activeScreen = false;
-			this.css['z-index'] = bottomZIndex;
+			this.css['z-index'] = g.bottomZIndex;
 			this.css['opacity'] = 0.0;
 			screenCollection[this.activeStatement.nextId].activeScreen = true;
 			this.activeStatement = this.originalActive;
@@ -148,8 +148,8 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		update: function(){
 			
 			if (this.activeScreen) {
-				if (globalInput.key.press){
-					this.keyValue = globalInput.key.value;
+				if (g.input.key.press){
+					this.keyValue = g.input.key.value;
 				} else {
 					this.keyValue = false;
 				}
@@ -159,7 +159,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 					this.nextActiveStatement = null;
 				}
 				
-				var mouse = globalInput.mouse;
+				var mouse = g.input.mouse;
 				mouse.X -= $('#origins').position().left + parseInt(this.playerCSS.left);
 				mouse.Y -= $('#origins').position().top + parseInt(this.playerCSS.top);
 				if((mouse.X > 0) && (mouse.X <= parseInt(helper.findCSSRule('.speech').style.width))
@@ -187,7 +187,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		draw: function(){
 			//So the new drawing approach is just going to be to create the individual
 			//divs for overseer and player and then just directly insert the return text
-			
+			var HTML = '';
 			if(this.activeScreen){
 				var newOverseerHTML = [];
 				var newPlayerHTML = [];
@@ -255,16 +255,13 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 					newPopupHTML += '</div>' ;
 					this.popupHTML = newPopupHTML;
 				}
-				var HTML = '<div id =' + this.id + ' style="';
+				HTML = '<div id =' + this.id + ' style="';
 				for(x in this.css){
 					HTML += x + ':' + this.css[x] + '; ';
 				}
 				HTML += '">' + this.overseerHTML + this.playerHTML + this.popupHTML + '</div>';
-				
-				return (HTML);
-			} else {
-				return '';
 			}
+			return HTML;
 		}
 	});
 

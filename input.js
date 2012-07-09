@@ -48,7 +48,6 @@ $(document).keydown(function(e){
 				if(inputState.key.values.length == 1){
 					inputState.key.press = true;
 				}
-				console.log(inputState.key.values);
 			}
 		} else {
 			if (inputState.key.values.indexOf(e.which) == -1){
@@ -56,7 +55,6 @@ $(document).keydown(function(e){
 				if(inputState.key.values.length == 1){
 					inputState.key.press = true;
 				}
-				console.log(inputState.key.values);
 			}
 		}
 	}
@@ -70,14 +68,10 @@ $(document).keyup(function(e){
 		var target = inputState.key.values.indexOf(e.which);
 		inputState.key.values.splice(target, 1);
 		inputState.key.press = true;
-		console.log(inputState.key.values);
-		//inputState.key.press = false;
 	} else if (inputState.key.values.indexOf(e.which + 32) > -1){
 		var target = inputState.key.values.indexOf(e.which + 32);
 		inputState.key.values.splice(target, 1);
 		inputState.key.press = true;
-		console.log(inputState.key.values);
-		//inputState.key.press = false;
 	}
 });
 
