@@ -246,7 +246,7 @@ var WaveForm = klass(function(generate, canvas){
 })
 	.methods({
 		update: function(){
-			var tempY = Math.cos(this.currentX * Math.PI/(this.generate / 2));
+			var tempY = Math.cos(this.currentX * Math.PI);///(this.generate / 2));
 			var textX = Math.round(Math.acos(tempY) * (this.generate/2)/Math.PI);
 			// helper.debugPrint(textX, this.currentX);
 			this.debugY = tempY;
@@ -259,7 +259,7 @@ var WaveForm = klass(function(generate, canvas){
 			if(this.points[0].X < 0){
 				this.points.splice(0, 1);
 			}
-			this.currentX++;
+			this.currentX += 2 / this.generate;
 		},
 		draw: function(){
 			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
