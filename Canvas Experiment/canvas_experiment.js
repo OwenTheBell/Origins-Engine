@@ -166,13 +166,6 @@ var Reciever = klass(function(x, y, radius){
 							var points = this.waveForm.points;
 							this.waveForm = new WaveForm(frames, 'recieverCanvas');
 							this.waveForm.points = points;
-							
-							// var points = this.waveForm.points;
-							// var Xadjust = this.waveForm.Xadjust;
-							// var frames = this.waveForm.frames;
-							// this.waveForm = new WaveForm(frames, 'recieverCanvas');
-							// this.waveForm.points = points;
-							// this.waveForm.Xadjust = Xadjust;
 						}
 					} else if (this.waveForm && !this.nextPulse) {
 						distance -= pulse.radius;

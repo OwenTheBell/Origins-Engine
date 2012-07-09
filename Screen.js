@@ -14,7 +14,7 @@ var Screen = klass(function(id, zIndex) {
 	}
 	
 	//set opacity based on whether or not this screen is on the top zIndex
-	if ((this.css['z-index'] == topZIndex) || (this.css['z-index'] == dialogueZIndex)) {
+	if (this.css['z-index'] == topZIndex) {
 		this.css['opacity'] = 1.0;
 	}
 	
@@ -90,6 +90,7 @@ var Screen = klass(function(id, zIndex) {
 					this.fadeOut = false;
 					this.fadeIn = false;
 					this.css['z-index'] = bottomZIndex;
+					this.activeScreen = false;
 				} else {
 					this.css['opacity'] -= (1 / this.transitionFrames);
 				}
@@ -119,10 +120,13 @@ var Screen = klass(function(id, zIndex) {
 					}
 				}
 			}
-			//update sprites even if the screen is not active as this allows animations to continue in the background
-			$(this.spriteArray).each(function(){
-				this.update();
-			})
+			//update sprites if screen is visible.
+			//Even if the screen is not active animation may be occuring in the background
+			if (this.css['opacity'] > 0.0){
+				$(this.spriteArray).each(function(){
+					this.update();
+				});
+			}
 		},
 		draw: function(){
 			var HTML = '';
