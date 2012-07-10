@@ -40,7 +40,14 @@ $(document).ready(function(){
 				'Sprites/Main_View2/View2BackestBackground.png',
 				'Sprites/Main_View2/View2Background.png',
 				'Sprites/Main_View2/Clothing_Cabinet.png',
-				'Sprites/ArrowObject.png'
+				'Sprites/ArrowObject.png',
+				'Sprites/Cryo_Room/Training_Room_Background.png',
+				'Sprites/Cryo_Room/Fog.png',
+				'Sprites/Cryo_Room/Robot.png',
+				'Sprites/Cryo_Room/Storage_Container.png',
+				'Sprites/Cryo_Room/Solar_Panel.png',
+				'Sprites/Cryo_Room/Cryo_Console.png',
+				'Sprites/Cryo_Room/Ladder.png'
 		);
 });
 
@@ -71,9 +78,12 @@ continueReady = function(){
 	var mainScreen1 = new Screen('mainScreen1', g.topZIndex);
 	mainScreen1.activeScreen = true;
 	g.screenCollection[mainScreen1.id] = mainScreen1;
-	9
+	
 	var mainScreen2 = new Screen('mainScreen2', g.bottomZIndex);
 	g.screenCollection[mainScreen2.id] = mainScreen2;
+	
+	var cryoScreen = new Screen('cryoScreen', g.bottomZIndex);
+	g.screenCollection[cryoScreen.id] = cryoScreen;
 	
 	// var talkScreen = new DialogueScreen('talkScreen', g.bottomZIndex, 'XML/IntroDial.xml');
 	// helper.ajaxGet(talkScreen);
@@ -91,8 +101,9 @@ continueReady = function(){
 	mainScreen1.addSprite(new dialogueSprite(999, 0, 'Sprites/Main_View1/Bed.png', 'Bed', dialogueScreens['sleeps']));
 	mainScreen1.addSprite(new dialogueSprite(199, 100, 'Sprites/Main_View1/Water.png', 'Water', dialogueScreens['water']));
 	mainScreen1.addSprite(new dialogueSprite(799, 300, 'Sprites/Main_View1/Bike.png', 'Bike', dialogueScreens['bike']));
-	mainScreen1.addSprite(new dialogueSprite(699, 0, 'Sprites/Main_View1/Ladder.png', 'Ladder', dialogueScreens['ladder']));
-	mainScreen1.addSprite(new dialogueSprite(99, 99, 'Sprites/Main_View1/Food_Pellets.png', 'Food_Pellets', dialogueScreens['food']))
+	// mainScreen1.addSprite(new dialogueSprite(699, 0, 'Sprites/Main_View1/Ladder.png', 'Ladder', dialogueScreens['ladder']));
+	mainScreen1.addSprite(new screenChangeSprite(699, 0, 'Sprites/Main_View1/Ladder.png', 'Ladder', cryoScreen));
+	mainScreen1.addSprite(new dialogueSprite(99, 99, 'Sprites/Main_View1/Food_Pellets.png', 'Food_Pellets', dialogueScreens['food']));
 	mainScreen1.addSprite(new dialogueSprite(0, 349, 'Sprites/Main_View1/Drawer.png', 'Drawer', dialogueScreens['bookshelf']));
 	mainScreen1.addSprite(new dialogueSprite(350, 250, 'Sprites/Main_View1/Table.png', 'Table', dialogueScreens['table']));
 	mainScreen1.addSprite(new dialogueSprite(299, 300, 'Sprites/Main_View1/Chair.png', 'Chair', dialogueScreens['chair']));
@@ -109,7 +120,21 @@ continueReady = function(){
 	mainScreen2.addSprite(new Sprite(0, 0, 'Sprites/Main_View2/View2Background.png', 'background'));
 	mainScreen2.addSprite(new dialogueSprite(849, 199, 'Sprites/Main_View2/Clothing_Cabinet.png', 'clothes', dialogueScreens['clothes']));
 	mainScreen2.addSprite(new screenChangeSprite(0, 647, 'Sprites/ArrowObject.png', 'change', mainScreen1));
-	//mainScreen2.addSprite(new dialougeSprite(400, 300, 'Sprites/Main_View2/'))
+	
+	dialogueScreens = new Array();
+	helper.groupItemAjaxGet(dialogueScreens, 'XML/Mod1ObjCryo.xml');
+	for(key in dialogueScreens){
+		g.screenCollection[dialogueScreens[key].id] = dialogueScreens[key];
+	}
+	cryoScreen.addSprite(new Sprite(0, 0, 'Sprites/Cryo_Room/Training_Room_Background.png', 'background'));
+	cryoScreen.addSprite(new dialogueSprite(313, 513, 'Sprites/Cryo_Room/Robot.png', 'miceCatcher', dialogueScreens['miceCatcher']));
+	cryoScreen.addSprite(new dialogueSprite(740, 20, 'Sprites/Cryo_Room/Storage_Container.png', 'storageContainer', dialogueScreens['storageContainer']));
+	cryoScreen.addSprite(new dialogueSprite(799, 49, 'Sprites/Cryo_Room/Solar_Panel.png', 'solarPanel', dialogueScreens['solarPanel']));
+	cryoScreen.addSprite(new dialogueSprite(180, 340, 'Sprites/Cryo_Room/Cryo_Console.png', 'consoleCryo', dialogueScreens['consoleCryo']));
+	// // cryoScreen.addSprite(new dialougeSprite(580, 0, 'Sprites/Cryo_Room/Ladder.png', 'ladderCryo', dialougeScreens['ladderCryo']));
+	cryoScreen.addSprite(new screenChangeSprite(580, 0, 'Sprites/Cryo_Room/Ladder.png', 'ladderCryo', mainScreen1));
+	cryoScreen.addSprite(new Sprite(0, 0, 'Sprites/Cryo_Room/Fog.png', 'fog'));
+	
 	
 	// console.log(screenCollection);
 	
