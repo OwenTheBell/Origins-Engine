@@ -111,6 +111,7 @@ var screenChangeSprite = clickSprite.extend(function(top, left, image, id, targe
 })
 	.methods({
 		onClick: function(){
+			console.log('moving from ' + this.parent.id + ' to ' + this.targetScreen.id);
 			this.targetScreen.fadingIn(1);
 			this.parent.fadingOut(1);
 		}
