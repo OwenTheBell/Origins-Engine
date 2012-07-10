@@ -40,7 +40,7 @@ $(document).ready(function(){
 				'Sprites/Main_View2/View2BackestBackground.png',
 				'Sprites/Main_View2/View2Background.png',
 				'Sprites/Main_View2/Clothing_Cabinet.png',
-				'Sprites/crate.png'
+				'Sprites/ArrowObject.png'
 		);
 });
 
@@ -97,7 +97,7 @@ continueReady = function(){
 	mainScreen1.addSprite(new dialogueSprite(350, 250, 'Sprites/Main_View1/Table.png', 'Table', dialogueScreens['table']));
 	mainScreen1.addSprite(new dialogueSprite(299, 300, 'Sprites/Main_View1/Chair.png', 'Chair', dialogueScreens['chair']));
 	mainScreen1.addSprite(new dialogueSprite(0, 49, 'Sprites/Main_View1/Thermostat.png', 'Thermostat', dialogueScreens['smallmonitor']));
-	mainScreen1.addSprite(new screenChangeSprite(0, 680, 'Sprites/crate.png', 'change', mainScreen2));
+	mainScreen1.addSprite(new screenChangeSprite(0, 647, 'Sprites/ArrowObject.png', 'change', mainScreen2));
 	
 	dialogueScreens = new Array();
 	helper.groupItemAjaxGet(dialogueScreens, 'XML/IntroObjMainRm2.xml');
@@ -108,7 +108,7 @@ continueReady = function(){
 	mainScreen2.addSprite(new Sprite(0, 0, 'Sprites/Main_View2/View2BackestBackground.png', 'window_background'));
 	mainScreen2.addSprite(new Sprite(0, 0, 'Sprites/Main_View2/View2Background.png', 'background'));
 	mainScreen2.addSprite(new dialogueSprite(849, 199, 'Sprites/Main_View2/Clothing_Cabinet.png', 'clothes', dialogueScreens['clothes']));
-	mainScreen2.addSprite(new screenChangeSprite(0, 680, 'Sprites/crate.png', 'change', mainScreen1));
+	mainScreen2.addSprite(new screenChangeSprite(0, 647, 'Sprites/ArrowObject.png', 'change', mainScreen1));
 	//mainScreen2.addSprite(new dialougeSprite(400, 300, 'Sprites/Main_View2/'))
 	
 	// console.log(screenCollection);

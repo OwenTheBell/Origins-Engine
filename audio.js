@@ -10,10 +10,18 @@ var audioElement = klass(function (id, path) {
 	} else {
 		console.log('WTF browser are you using?!');
 	}
+	this.element.load();
 	$('#' + g.audioDiv).append(this.element);
 })
 	.methods({
 		play: function(){
 			this.element.play();
+		},
+		pause: function(){
+			this.element.pause();
+		},
+		stop: function(){
+			this.element.pause();
+			this.currentTime=0;
 		}
 	});
