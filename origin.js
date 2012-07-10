@@ -10,7 +10,9 @@ var g = {
 	transZIndex: 11, //this zIndex is used to place emerging layers on top
 	dialogueZIndex: 12,
 	input: {}, //this copies input contained in inputState for global access
-	frameCounter: 0 
+	frameCounter: 0,
+	drawDiv: 'draw',
+	audioDiv: 'audio',
 }
 
 //If there is not a console then make console.log an empty function
@@ -44,6 +46,9 @@ $(document).ready(function(){
 
 continueReady = function(){
 	
+	//create the div in which to put the output HTML as well as the audio files
+	$('#origins').html('<div id="' + g.drawDiv + '"> </div><div id="' + g.audioDiv + '"> </div>');
+	
 	//setup some of the external css for the dialogueScreen
 	var rule = helper.findCSSRule('.speech');
 	rule.style.width = parseInt($('#origins').css('width')) - 20 + 'px';
@@ -66,7 +71,7 @@ continueReady = function(){
 	var mainScreen1 = new Screen('mainScreen1', g.topZIndex);
 	mainScreen1.activeScreen = true;
 	g.screenCollection[mainScreen1.id] = mainScreen1;
-	
+	9
 	var mainScreen2 = new Screen('mainScreen2', g.bottomZIndex);
 	g.screenCollection[mainScreen2.id] = mainScreen2;
 	
@@ -126,7 +131,7 @@ RunGame = function(){
 	for(x in g.screenCollection) {
 		HTML += g.screenCollection[x].draw();
 	}
-	$('#origins').html(HTML);
+	$('#' + g.drawDiv).html(HTML);
 	g.frameCounter++;
 }
 

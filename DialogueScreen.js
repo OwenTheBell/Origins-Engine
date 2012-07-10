@@ -141,8 +141,9 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			this.activeScreen = false;
 			this.css['z-index'] = g.bottomZIndex;
 			this.css['opacity'] = 0.0;
-			screenCollection[this.activeStatement.nextId].activeScreen = true;
+			//screenCollection[this.activeStatement.nextId].activeScreen = true;
 			this.activeStatement = this.originalActive;
+			this.parent.deActivated();
 		},
 		
 		update: function(){
@@ -341,12 +342,14 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 				if (this.clicked >= 0){
 					this.parent.nextActiveStatement = this.nextStatement;
 				}
+				this.clicked = -1;
 			} else if (this.nextType === 'player'){
 				this.parent.nextActiveStatement = this.nextStatement;
 			} else if (this.nextType === 'exit'){
 				if (this.clicked >= 0){
 					this.parent.deActivate();
 				}
+				this.clicked = -1;
 			} else {
 				this.parent.playerDiv.html("ERROR: " + this.id + " has an invalid nextType");
 			}

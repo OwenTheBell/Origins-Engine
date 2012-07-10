@@ -8,6 +8,7 @@ var g = {
 	Mouse: {},
 	Frames: 0,
 	generate: .5,
+	audioDIV: 'audio'
 }
 
 $(document).ready(function(){
@@ -132,10 +133,11 @@ var Reciever = klass(function(x, y, radius){
 	this.waveForm = null;
 	this.newWave = false;
 	this.nextPulse = null;
-	this.click = document.createElement('audio');
-	this.click.setAttribute('src', '../Audio/click.wav');
-	this.click.setAttribute('type', 'audio/wav');
-	$('#mainDIV').append(this.click);
+	this.click = new audioElement('click', '../Audio/click');
+	// this.click = document.createElement('audio');
+	// this.click.setAttribute('src', '../Audio/click.ogg');
+	// this.click.setAttribute('type', 'audio/ogg');
+	// $('#audioDIV').append(this.click);
 	// this.click = new Audio('../Audio/click.mp3');
 })
 	.methods({
