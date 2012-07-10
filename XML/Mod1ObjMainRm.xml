@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New document created with EditiX at Mon Jun 18 10:03:01 EDT 2012 -->
+
+
+<dialogue>
+
+<item id = "bookshelf">
+
+<overseer id = "bookShelfmod1" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+	<text>The books sit in their compartment so snuggly. So neatly. So innocently. You just know they are plotting something…</text>
+
+</overseer>
+</item> 
+<item id = "bike">
+<overseer id = "bikemod1" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+	<text>The exercise bike stands idly. It still looks like new. Probably from lack of use.</text>
+
+</overseer>
+</item>
+
+<item id = "ladder">
+<overseer id = "laddermod1" nextType = "player" nextId = "playerLaddermod1">
+	<text>It is a ladder and it leads upstairs to a bathroom and to the other modules inside the capsule. What would you like to do?</text>
+
+</overseer>
+<player id = "playerLaddermod1">
+	<option nextType = "overseer" nextId = "laddermod2">
+		<text>Go to other modules.</text>
+	</option>
+	<option nextType = "overseer" nextId = "laddermod3">
+		<text>Go to the bathroom.</text>
+	</option>
+	<option nextType = "overseer" nextId = "laddermod4">
+		<text>Do nothing.</text>
+	</option>
+</player>
+<overseer id = "laddermod2" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+	<text>Where would you like go?</text>
+
+</overseer>
+<overseer id = "laddermod3" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+	<text>You go to the bathroom.</text>
+</overseer>
+<overseer id = "laddermod4" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+	<text>You do nothing.</text>
+</overseer>
+</item>
+<item id = "sleeps">
+<overseer id = "sleepPodmod1"  nextType = "player" nextId = "playerSleepPodmod1">
+	<text>This is your </text>
+	 <text color="hex color value">Sleeping Compartment</text>
+
+	 <text>. Do you want to go to sleep?</text>
+</overseer>
+<player id = "playerSleepPodmod1">
+	<option nextType = "overseer" nextId = "sleepPodmod2">
+		<text>Yes</text>
+	</option>
+	<option nextType = "overseer" nextId = "sleepPodmod3">
+		<text>No</text>
+	</option>
+</player>
+<overseer id = "sleepPodmod2" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+	<text>You try to sleep but something keeps you from your rest. It is almost like you still have something to do before your day is over.</text>
+
+</overseer>
+<overseer id = "sleepPodmod2" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+	<text>You decide not to go to sleep. It is really not comfortable up there anyway.</text>
+
+</overseer>
+</item>
+<item id = "table">
+<overseer id = "tablemod1" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+	<text>You and Arachne use this fold-out table to play chess and other boardgames sometimes. She usually wins.</text>
+	</overseer>
+</item>
+<item id = "water">
+<overseer id = "watermod1" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+	<text>This complex hydro-dispenser is able to reconstitute excess liquids into drinkable though tasteless water.You wish there was something else to drink, but at least the water is cold when it comes out.</text>
+</overseer>
+</item>
+<item id = "Chair">
+<overseer id = "chairmod1" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+	<text>This chair is probably the worst one ever designed by mortal hands. It's probably why it is up here in space with you. So the rest of humanity would not have to suffer this abominable piece of plastic.</text>
+</overseer>
+</item>
+<item id = "Smallmonitor">
+<overseer id = "sMonitormod1" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+	<text>This monitor seems to simply display random waves and charts. You can't tell if they are really monitoring anything and pressing the big buttons has no effect on them. Everything seems normal though.</text>
+</overseer>
+</item>
+<item id = "food">
+<overseer id = "pelletmod1" nextType = "player" nextId = "playerPelletmod1">
+	<text>This machine distributes highly concentrated nutritional supplements that provide the entirety of a day’s recommended intake of vitamins and proteins in a small brown pellet. The machine randomly varies the taste each one has to keep life interesting. Would you like a pellet?</text>
+</overseer>
+<player id = "playerPelletmod1">
+	<option nextType = "overseer" nextId = "pelletmod3">
+		<text>Yes</text>
+	</option>
+	<option nextType = "overseer" nextId = "pelletmod2">
+		<text>No</text>
+	</option>
+</player>
+<overseer id = "pelletmod2" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+	<text>You don't get a pellet.</text>
+
+</overseer>
+<overseer id = "pelletmod3" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+	<text>You get a pellet and eat it. It fills you up quickly. It tastes like oatmeal but it feels really weird eating oatmeal from a pellet.</text>
+
+</overseer>
+<overseer id = "pelletmod4" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+	<text>You get a pellet and eat it. This one tastes like a fancy lobster dinner. Hopefully you won't get an allergic reaction.</text>
+
+</overseer>
+<overseer id = "pelletmod5" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+	<text>The machine refuses to give you a pellet and advises you spend time on the exercise bike.</text>
+
+</overseer>
+</item>
+</dialogue>

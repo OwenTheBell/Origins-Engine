@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New document created with EditiX at Fri Jun 22 13:26:33 EDT 2012 -->
+
+<dialogue>
+<item id = "clothes">
+<overseer id = "clothingCabinetinto1" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+	<text>There are several identical pairs of clothing in this cabinet. Keeping up with the latest fashions will likely be difficult here. There are also lots of socks.</text>
+</overseer>
+</item>
+<item id = "windows">
+<overseer id = "windowopenintro1"  nextType = "player" nextId = "playerwindowintro1">
+	<text>This is your window to the universe. Would you like to close it?</text>
+
+</overseer>
+<overseer id = "windowclosedintro1"  nextType = "player" nextId = "playerwindowintro2">
+	<text>This is your window to the universe. Would you like to open it?</text>
+
+</overseer>
+<player id = "playerwindowintro1">
+	<option nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+		<text>Yes, please.</text>
+	</option>
+	<option nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+		<text>No, leave it open.</text>
+	</option>
+</player>
+<player id = "playerwindowintro2">
+	<option nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+		<text>Yes, open it.</text>
+	</option>
+	<option nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+		<text>No, leave it closed.</text>
+	</option>
+</player>
+</item>
+</dialogue>

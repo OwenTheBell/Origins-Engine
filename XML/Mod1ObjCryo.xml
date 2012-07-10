@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New document created with EditiX at Thu Jul 05 11:45:46 EDT 2012 -->
+
+
+<dialogue>
+
+<item id = "miceCatcher">
+	
+<overseer id = "mineCatchermod1"  nextType = "player" nextId = "playerMiceCatcherMod1">
+		<text>This small remote-controlled device was designed specifically for catching vermin. Would you like to use it now?</text>
+	</overseer>
+
+	<player id = "playerMiceCatcherMod1">
+		<option  nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+			<text>Yes</text>
+		</option>
+		<option nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+			<text>No</text>
+		</option>
+	</player>
+
+</item>
+
+
+<item id = "storageContainer">
+	
+<overseer id = "storageCyroMod1" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+		<text>Something used to be kept in here but it seems to have escaped when the capsule was damaged.</text>
+	</overseer>
+
+</item>
+
+
+
+<item id = "solarPanel">
+	
+<overseer id = "panelCyroMod1" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+		<text>It’s solar panel from the Hubble Space Telescope. It’s like owning a piece of history though you probably wish that this particular piece of history wasn’t currently jutting through your capsule’s hull. </text>
+	</overseer>
+
+</item>
+
+
+
+<item id = "consoleCryo">
+	
+<overseer id = "consoleCyroMod1" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+		<text>This machine monitors the equipment used in the room. It tells you that there are many problems and that you should probably fix them.</text>
+	</overseer>
+
+</item>
+<item id = "ladderCryo">
+	<overseer id = "ladderCryoMod1" nextType = "player" nextId = "playerLadderintro1">
+		<text>This is a ladder. It leads upstairs to the other rooms inside the capsule. What would you like to do?</text>
+	</overseer>
+	<player id = "playerLadderintro1">
+		<option nextType = "overseer" nextId = "upladderCryoMod1">
+			<text>Go to other modules.</text>
+		</option>
+		<option  nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+			<text>Stay here.</text>
+		</option>
+	</player>
+		<overseer id = "upladderCryoMod1" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+			<text>Where would you like go?</text>
+
+		</overseer>
+	</item>
+
+</dialogue>

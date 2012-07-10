@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New document created with EditiX at Fri Jun 22 13:22:27 EDT 2012 -->
+
+
+<dialogue>
+
+<item id = "windows">
+<overseer id = "windowopenmod1"  nextType = "player" nextId = "playerwindowmod1">
+	<text>This is your window to the universe. Would you like to close it?</text>
+
+</overseer>
+<overseer id = "windowclosedmod1"  nextType = "player" nextId = "playerwindowmod2">
+	<text>This is your window to the universe. Would you like to open it?</text>
+
+</overseer>
+<player id = "playerwindowmod1">
+	<option nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+		<text>Yes, please.</text>
+	</option>
+	<option nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+		<text>No, leave it open.</text>
+	</option>
+</player>
+<player id = "playerwindowmod2">
+	<option nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+		<text>Yes, open it.</text>
+	</option>
+	<option nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+		<text>No, leave it closed.</text>
+	</option>
+</player>
+</item>
+<item id = "clothes">
+<overseer id = "clothingCabinemod1" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
+	<text>All the clothing here is the same. It isn’t even all that comfortable.</text>
+</overseer>
+</item>
+
+</dialogue>

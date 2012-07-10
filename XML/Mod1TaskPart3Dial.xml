@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New document created with EditiX at Mon Jun 25 12:16:48 EDT 2012 -->
+
+<dialogue>
+
+
+	<arachne id="mod1AR3" nextType="player" nextId="playermod1PL5">
+		<text>It seems as if the robot is right again, how genuinely surprising.</text>
+	</arachne>
+	<player id="playermod1PL5">
+
+		<option nextType="arachne" nextId="mod1AR3a">
+
+			<text>What are the damages?</text>
+
+		</option>
+
+		<option nextType="arachne" nextId="mod1AR3b">
+
+			<text>We don’t need your sass right now, missy.</text>
+
+		</option>
+
+		<option nextType="overseer" nextId="mod1OS5a">
+
+			<variable id="overseerName" color="hex color value"/>
+
+			<text>! If I die, I am so haunting you for putting me into this mess.</text>
+
+		</option>
+
+	</player>
+
+	<arachne id="mod1AR3a" nextType="overseer" nextId="mod1OS6">
+		<text>Assessing those now.</text>
+	</arachne>
+	<arachne id="mod1AR3b" nextType="overseer" nextId="mod1OS6">
+		<text>Apologies, </text>
+		<variable id="playerName" color="hex color value"/>
+		<text>, I sometimes become frustrated at your organic hubris. I will try to turn my sarcastic levels down for future discussion. Currently assessing damage to the </text>
+		<text color="hex color value">Capsule</text>
+		<text>.</text>
+	</arachne>
+
+	<overseer id="mod1OS5a" nextType="overseer" nextId="mod1OS5b">
+
+		<text>I will pretend that your threat of post-mortem reprisal is meaningful to me. OH MY! HOW FRIGHTENING! If you are now satisfied, would you kindly calm down.</text>
+
+	</overseer>
+
+	<overseer id="mod1OS5b" nextType="arachne" nextId="mod1AR3c">
+		<variable id="arachneName" color="hex color value"/>
+
+		<text>, access the </text>
+
+		<text color="hex color value">Main Computer</text>
+
+		<text> with a wireless signal and assess damage.</text>
+
+	</overseer>
+
+	<arachne id="mod1AR3a" nextType="overseer" nextId="mod1OS6">
+		<text>Assessing those now.</text>
+	</arachne>
+	<overseer id="mod1OS6" nextType="exit" nextId="if nextType is exit then give the id of the screen to eject to">
+
+		<text>While she is compiling, it may be best for you to put on your </text>
+
+		<text color="hex color value">vacuum suit</text>
+
+
+		<text>. You will find it nearby. As further precaution, I am locking down other rooms until I know more information.</text>
+
+	</overseer>
+
+	<overseer id="mod1OS7" nextType="arachne" nextId="mod1AR4">
+
+		<text>Excellent, you are now ready for </text>
+
+		<text color="hex color value">capsule</text>
+
+
+		<text> depressurization and oxygen jettisoning. On the…unlikely…event of such an occurrence.</text>
+
+	</overseer>
+
+	<arachne id="mod1AR4" nextType="overseer" nextId="mod1OS7">
+		<text>Compiling of damages complete. The </text>
+		<text color="hex color value">capsule</text>
+
+		<text> appears to have suffered a hull-breach in the </text>
+		<text color="hex color value">Cryopreservation Room</text>
+
+		<text>. I recommend going to the module and removing the debris manually.</text>
+	</arachne>
+	<overseer id="mod1OS8" nextType="arachne" nextId="mod1AR5">
+		<text color="hex color value">Cryopreservation</text>
+
+
+		<text>? I will unlock that room now. Do you know if any of the </text>
+
+		<text color="hex color value">special specimens</text>
+
+
+		<text> were harmed?</text>
+
+	</overseer>
+
+	<arachne id="mod1AR5" nextType="player" nextId="playermod1PL6">
+		<text>The computer is not able to provide me with that information.</text>
+	</arachne>
+	<player id="playermod1PL6">
+
+		<option nextType="arachne" nextId="mod1AR5a">
+
+			<text>I’ll go and check it out.</text>
+
+		</option>
+
+		<option nextType="arachne" nextId="mod1AR5b">
+
+			<text>What </text>
+
+			<text color="hex color value">specimens</text>
+
+
+			<text>?</text>
+
+		</option>
+
+		<option nextType="arachne" nextId="mod1AR5c">
+
+			<text>Why don’t you go and I’ll stay here?</text>
+
+		</option>
+
+	</player>
+
+	<arachne id="mod1AR5a" nextType="exit" nextId="if nextType is exit then give the id of the screen to eject to">
+		<text>I will meet you there, shortly.</text>
+	</arachne>
+	<arachne id="mod1AR5b" nextType="overseer" nextId="mod1OS8a">
+		<text>Your </text>
+		<text color="hex color value">Overseer</text>
+
+		<text> refers to the genetically-enhanced vacuum-survivable mi…</text>
+	</arachne>
+	<overseer id="mod1OS8a" nextType="exit" nextId="if nextType is exit then give the id of the screen to eject to">
+		<variable id="playerName" color="hex color value"/>
+
+		<text> will find out soon enough, </text>
+
+		<variable id="arachneName" color="hex color value"/>
+
+		<text>. I need our </text>
+
+		<text color="hex color value">occupant</text>
+
+
+		<text> to go to </text>
+
+		<text color="hex color value">Cryopreservation</text>
+
+
+		<text> immediately.</text>
+
+	</overseer>
+
+	<arachne id="mod1AR5b" nextType="player" nextId="playermod1PL6">
+		<text>I have tiny arms,</text>
+		 <variable id="playerName" color="hex color value"/>
+		 <text>, I may be able to cut and weld the hull breach but it will take two of us to dispose of whatever wreckage we find onboard.</text>
+	</arachne>
+
+</dialogue>

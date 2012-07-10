@@ -154,6 +154,7 @@ var Reciever = klass(function(x, y, radius){
 						// this.click.play();
 						this.collided.push(pulse);
 						this.nextPulse = null;
+						//If there is another incoming pulse build the waveform off of that
 						if(g.elements[i+1]){
 							this.nextPulse = g.elements[i+1];
 							distance = getDistance(this.nextPulse.x, this.nextPulse.y, this.x, this.y);
@@ -168,6 +169,7 @@ var Reciever = klass(function(x, y, radius){
 								this.waveForm = new WaveForm(frames, 'recieverCanvas');
 								this.waveForm.points = points;
 							}
+						//Else build the waveform off of the current position of the emitter
 						} else {
 							distance = (g.emitter.x, g.emitter.y, this.x, this.y) - g.emitter.radius;
 							var frames = Math.floor(distance / g.emitter.growth) - 1;
@@ -176,6 +178,7 @@ var Reciever = klass(function(x, y, radius){
 							this.waveForm = new WaveForm(frames, 'recieverCanvas');
 							this.waveForm.points = points;
 						}
+					//If there was not a nextPulse, once there is, adjust the waveform
 					} else if (this.waveForm && !this.nextPulse) {
 						distance -= pulse.radius;
 						var frames = Math.floor(distance / pulse.growth) - 1;

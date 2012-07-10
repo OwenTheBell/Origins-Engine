@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New document created with EditiX at Fri Jul 06 15:29:58 EDT 2012 -->
+
+
+<dialogue>
+<overseer id="mod1OS9" nextType="player" nextId="playermod1PL7">
+		<text>What do you see, </text>
+		<variable id="playerName" color="hex color value"/>
+		<text>? My surveillance systems in that room have been damaged.</text>
+	</overseer>
+	<player id="playermod1PL7">
+		<option nextType="overseer" nextId="mod1OS9a">
+			<text>Looks like a large solar panel cut into the floor of the room.</text>
+		</option>
+		<option nextType="overseer" nextId="mod1OS9b">
+			<text>It’s a mess, </text>
+			<variable id="overseerName" color="hex color value"/>
+			<text>, be happy you can’t see this.</text>
+
+		</option>
+		<option nextType="overseer" nextId="mod1OS9c">
+			<text>So you can’t see what I’m doing right now?</text>
+		</option>
+	</player>
+	<overseer id="mod1OS9a" nextType="arachne" nextId="mod1AR6">
+		<text>…what? </text>
+	</overseer>
+	<overseer id="mod1OS9b" nextType="arachne" nextId="mod1AR6">
+		<text>Yes, because having to depend on you to tell me what occurred is definitely more preferable. </text>
+	</overseer>
+	<overseer id="mod1OS9c" nextType="arachne" nextId="mod1AR6">
+		<text>Correct, so you can now do whatever ridiculous shenanigans you have been waiting to do without me seeing. I am glad to see you take advantage a situation even if it is a serious crisis. </text>
+	</overseer>
+	<arachne id="mod1AR6" nextType="player" nextId="playermod1PL8">
+		<text>It seems that a part of the satellite known as the Hubble Space Telescope has crashed into the </text>
+		<text color="hex color value">Capsule</text>
+		<text>.</text>
+	</arachne>
+	<player id="playermod1PL8">
+		<option nextType="overseer" nextId="mod1OS10a">
+			<text>Any recommendations on what to do next?</text>
+		</option>
+		<option nextType="overseer" nextId="mod1OS10b">
+			<text>How did this happen? Is nothing sacred?!</text>
+		</option>
+		<option nextType="overseer" nextId="mod1OS10c">
+			<text>Wow, that thing is big.</text>
+		</option>
+	</player>
+	<overseer id="mod1OS10a" nextType="arachne" nextId="mod1AR7">
+		<text>…The Hubble?...Well, that is interesting. It was supposed to have safety deorbited…very interesting. </text>
+	</overseer>
+	<overseer id="mod1OS10a" nextType="arachne" nextId="mod1AR7">
+		<text>I am genuinely as surprised as you are. This is…interesting. </text>
+	</overseer>
+
+	<overseer id="mod1OS10a" nextType="arachne" nextId="mod1AR7">
+		<text>The Hubble? Relatively speaking maybe. However, I am less concerned about its size and more concerned about what it is doing on your capsule. Do you know what happened to it? </text>
+	</overseer>
+	<arachne id="mod1AR7" nextType="overseer" nextId="mod1OS10">
+		<text>I cannot be certain of what occurred to the satellite, though it seems it has cut through several internal components. </text>
+	</arachne>
+
+	<overseer id="mod1OS10" nextType="arachne" nextId="mod1AR8">
+		<text>What about the </text>
+		<text color="hex color value">specimens</text>
+		<text>?</text>
+	</overseer>
+	<arachne id="mod1AR8" nextType="player" nextId="playermod1PL9">
+		<text>They seem to have already escaped.</text>
+	</arachne>
+	<player id="playermod1PL9">
+		<option nextType="arachne" nextId="mod1AR8a">
+			<text>What should I do now?</text>
+		</option>
+		<option nextType="arachne" nextId="mod1AR8b">
+			<text>Tell me about these </text>
+			<text color="hex color value">specimens</text>
+			<text>.</text>
+		</option>
+		<option nextType="arachne" nextId="mod1AR8c">
+			<text>Tell me about this room.</text>
+		</option>
+		<option nextType="arachne" nextId="mod1AR8d">
+			<text>Tell me about the Hubble.</text>
+		</option>
+	</player>
+	<arachne id="mod1AR8a" nextType="player" nextId="playermod1PL9">
+		<text>Remain calm while I begin repairs on the hull.</text>
+	</arachne>
+</dialogue>

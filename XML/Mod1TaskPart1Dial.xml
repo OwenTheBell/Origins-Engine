@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New document created with EditiX at Fri Jun 22 13:17:33 EDT 2012 -->
+
+<dialogue>
+	<overseer id="mod1OS1" nextType="player" nextId="playermod1PL1">
+		<text color="hex color value">Occupant </text>
+		<variable id="playerName" color="hex color value"/>
+		<text>, today’s task is an excellent opportunity to admire the astonishing scale and overwhelming power of the cosmos. Soon, your capsule will be approaching the orbital ring that was once home to the </text>
+		<text color="hex color value">Hubble Space Telescope</text>
+		<text>. This is a chance to use our modern telescopes and update some data.</text>
+	</overseer>
+	<player id="playermod1PL1">
+		<option nextType="overseer" nextId="mod1OS2">
+			<text>Will do, </text>
+			<variable id="overseerName" color="hex color value"/>
+			<text>.</text>
+		</option>
+		<option nextType="overseer" nextId="mod1OS1a">
+			<text>What's the </text>
+			<text color="hex color value">Hubble</text>
+			<text>?</text>
+		</option>
+		<option nextType="overseer" nextId="mod1OS1b">
+			<text>Oh boy! Data!</text>
+		</option>
+		<option nextType="overseer" nextId="mod1OS1c">
+			<text>Can’t </text>
+			<variable id="arachneName" color="hex color value"/>
+			<text> do this herself?</text>
+		</option>
+	</player>
+	<overseer id="mod1OS1a" nextType="player" nextId="playermod1PL2">
+		<text>Have you really not heard of it? It was among the most famous early space observation programs.</text>
+	</overseer>
+	<player id="playermod1PL2">
+		<option nextType="overseer" nextId="mod1OS1aa">
+			<text>I just forgot.</text>
+		</option>
+		<option nextType="overseer" nextId="mod1OS1ab">
+			<text>Pshh says you! I speak good and know lots of stuff!</text>
+		</option>
+		<option nextType="overseer" nextId="mod1OS1ac">
+			<text>I was only kidding; of course I know what the Hubble is.</text>
+		</option>
+	</player>
+	<overseer id="mod1OS1aa" nextType="overseer" nextId="mod1OS2">
+		<text>Of course you did. The </text>
+		<text color="hex color value">Hubble</text>
+		<text> was a low orbit satellite launched in the late 20th century that used then state-of-the-art imaging to advance scientific knowledge. If you are interested in a more detailed “reminder” about the satellite ask me at a later moment in time.</text>
+	</overseer>
+	<overseer id="mod1OS1ab" nextType="overseer" nextId="mod1OS2">
+		<text>Sometimes I wonder if you were put on this </text>
+		<text color="hex color value">capsule</text>
+		<text> by mistake, and you are really just someone’s pet ape that we accidentally launched into space.</text>
+	</overseer>
+	<overseer id="mod1OS1ac" nextType="overseer" nextId="mod1OS2">
+		<text>Yes, because feigned ignorance is just so amusing and endearing.</text>
+	</overseer>
+	<overseer id="mod1OS1b" nextType="overseer" nextId="mod1OS2">
+		<text>The collection of scientific data is among one of your most important duties aboard the </text>
+		<text color="hex color value">Perillos</text>
+		<text>. That, obeying my orders, and staying mostly alive are your </text>
+		<text color="hex color value">top priorties</text>
+		<text>. Actually, the order of priorities is as follows: Obey my orders, Collect data, and Stay Alive long enough to complete the other more important priorities.</text>
+	</overseer>
+	<overseer id="mod1OS1c" nextType="player" nextId="playermod1PL3">
+		<text>Now that you mention it, the </text>
+		<text color="hex color value">robot</text>
+		<text>should be able to complete the task much more efficiently than you ever could. You know what, just crawl back into your </text>
+		<text color="hex color value">Sleeping Compartment</text>
+		<text>and take a nap. I will inform </text>
+		<variable id="arachneName" color="hex color value"/>
+		<text>of her promotion to </text>
+		<text color="hex color value">occupant</text>
+		<text>and ask that her first task be getting rid of the capsule’s now needless </text>
+		<text color="hex color value">life-support system</text>
+		<text>.</text>
+	</overseer>
+	<player id="playermod1PL3">
+		<option nextType="overseer" nextId="mod1OS1ca">
+			<text>I was just kidding, </text>
+			<variable id="overseerName" color="hex color value"/>
+			<text>, what do you want me to do?</text>
+		</option>
+		<option nextType="overseer" nextId="mod1OS1cb">
+			<text>Whatever, breathing is boring anyway.</text>
+		</option>
+		<option nextType="overseer" nextId="mod1OS1cc">
+			<text>Someone’s upset today. Bad day at </text>
+			<text color="hex color value">Overseer School</text>
+			<text>?</text>
+		</option>
+	</player>
+	<overseer id="mod1OS1ca" nextType="overseer" nextId="mod1OS2">
+		<text>You know, that option is becoming more attractive the more I consider it. For now, however…</text>
+	</overseer>
+	<overseer id="mod1OS1cb" nextType="overseer" nextId="mod1OS2">
+		<text>Unfortunately, as amusing as my little fantasy may be, I trust </text>
+		<text color="hex color value">sentient spider robots</text>
+		<text> less than I trust other human beings so we are still stuck together for the moment.</text>
+	</overseer>
+	<overseer id="mod1OS1cc" nextType="overseer" nextId="mod1OS2">
+		<text>…quite. Now, if you are done psychoanalyzing my perceived displaced irritation at your insufferable idleness, may we get on to more important subjects?</text>
+	</overseer>
+	<overseer id= "mod1OS2" nextType="exit" nextId="if nextType is exit then give the id of the screen to eject to">
+		<text>Report to the </text>
+		<text color="hex color value">Observation Room</text>
+		<text> and you will receive further instruction.</text>
+	</overseer>
+</dialogue>
