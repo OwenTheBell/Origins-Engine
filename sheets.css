@@ -42,7 +42,13 @@ div {
 	background: #0000FF;
 }
 
+/*
 .clickSprite {
+	cursor: pointer;
+}
+*/
+
+.cursor_pointer {
 	cursor: pointer;
 }
 

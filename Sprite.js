@@ -64,17 +64,24 @@ var clickSprite = Sprite.extend(function(left, top, image, id){
 					if (this.clickMap[x][y] == 1){
 						if(this.clicked){
 							this.onClick();
+						} else if (this.mouseOver){
+							if (this.parent.classes.indexOf('cursor_pointer') == -1){
+								console.log(this.id + ' is setting the cursor');
+								this.parent.classes.push('cursor_pointer');
+								this.css.cursor = 'pointer';
+							}
 						}
-						if (this.mouseOver){
-							this.css.cursor = 'pointer';
-						}
-					} else if (this.css.cursor){
+					} else if (this.parent.classes.indexOf('cursor_pointer') != -1){
+						console.log(this.id + ' removing css cursor');
+						var index = this.parent.classes.indexOf('cursor_pointer');
+						this.parent.classes.splice(index, 1);
 						delete this.css.cursor;
 					}
 					this.clicked = false;
 					this.mouseOver = false;
-				} else if (!this.mouseOver && this.css.cursor){
-					delete this.css.cursor;
+				} else if (!this.mouseOver && this.parent.classes.indexOf('cursor_pointer') != -1){
+					var index = this.parent.classes.indexOf('cursor_pointer');
+					this.parent.classes.splice(index, 1);
 				}
 			}
 		},
@@ -89,7 +96,6 @@ var clickSprite = Sprite.extend(function(left, top, image, id){
 			ctx.drawImage(this.image, 0, 0);
 			
 			var pixels = [];
-			// var that = this;
 			try {
 				pixels = ctx.getImageData(0, 0, this.width(), this.height()).data;
 			} catch (e){
@@ -110,7 +116,6 @@ var screenChangeSprite = clickSprite.extend(function(left, top, image, id, targe
 })
 	.methods({
 		onClick: function(){
-			// console.log('moving from ' + this.parent.id + ' to ' + this.targetScreen.id);
 			this.targetScreen.fadingIn(1);
 			this.parent.fadingOut(1);
 		}
@@ -139,7 +144,6 @@ var triggerSprite = Sprite.extend(function(left, top, image, id){
 })
 	.methods({
 		trigger: function(){
-			
 		}
 	});
 
@@ -178,4 +182,6 @@ var moveSprite = triggerSprite.extend(function(left, top, image, id, x2, y2, fra
 			this.css.top = this.top + 'px';
 			this.css.left = this.left + 'px';
 		}
-	})
+	});
+
+// var swapSprite = triggerSprite

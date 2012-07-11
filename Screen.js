@@ -6,6 +6,7 @@ var Screen = klass(function(id, zIndex) {
 	this.timeIn;
 	this.drawState = 'new'; // new/updated/removed/unchanged
 	this.activeScreen = false;
+	this.classes = [];
 	
 	this.css = {
 		// 'position': 'inherit',
@@ -128,6 +129,12 @@ var Screen = klass(function(id, zIndex) {
 				HTML += '<div id =' + this.id + ' style="';
 				for(x in this.css){
 					HTML += x + ':' + this.css[x] + '; ';
+				}
+				if (this.classes.length > 0){
+					HTML += '" class="';
+					for(x in this.classes){
+						HTML += this.classes[x] + ' ';
+					}
 				}
 				HTML += '" >';
 				for (x in this.spriteArray){
