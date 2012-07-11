@@ -125,11 +125,11 @@
 	<text>You get a pellet and eat it. It fills you up quickly. It tastes like a peanut butter sandwich.</text>
 
 </overseer>
-<overseer id = "pelletintro4" nextType = "exit" nextId = "mainScreen">
+<overseer id = "pelletintro3" nextType = "exit" nextId = "mainScreen">
 	<text>You get a pellet and eat it. Your jumpsuit rips from your significantly increased girth. It tastes like overly-buttered movie popcorn.</text>
 
 </overseer>
-<overseer id = "pelletintro5" nextType = "exit" nextId = "mainScreen">
+<overseer id = "pelletintro3" nextType = "exit" nextId = "mainScreen">
 	<text>The machine refuses to give you a pellet and advises you spend time on the exercise bike.</text>
 
 </overseer>

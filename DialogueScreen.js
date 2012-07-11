@@ -54,10 +54,18 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			// need to capture 'this' so that it can be accessed within subfunctions
 			var that = this;
 			$(xml).find("overseer").each(function(){
-				//only the raw xml is needed to make a new Overseer object
-				var overseer = new OverseerStatement(that, this);
+				var id = $(this).attr('id');
+				
 				//add overseers to overseerContainer sorted by id for easy lookup later
-				overseerContainer[overseer.id] = overseer;
+				if(!overseerContainer[id]){
+					var overseer = new OverseerStatement(that, this);
+					overseerContainer[id] = overseer;
+					if(!that.activeStatement){
+						that.activeStatement = overseer;
+					}
+				} else {
+					overseerContainer[id].addTextBlock(this);
+				}
 				
 				//if there is not a first element of the conversation then set it
 				if (!that.activeStatement){
@@ -281,51 +289,76 @@ var Statement = klass(function(parent, xmlData){
 	this.parent = parent;
 	this.nextType = $(xmlData).attr('nextType');
 	this.nextId = $(xmlData).attr('nextId');
-	this.texts = []; //array of text xml elements, not raw strings
+	this.textBlocks = []; //Holder for the different options that can be displayed by this statement
+	this.block = 0; //Index for which textBlock to display
 	this.drawState = 'new';
 	this.clicked = -1;
 	
 	var that = this;
+	var texts = [];
 	$(xmlData).find('text').each(function(){
-		that.texts.push(this);
+		texts.push(this);
 	});
+	this.textBlocks.push(texts);
 })
 	.methods({
 		setNext: function(nextStatement){
 			this.nextStatement = nextStatement;
 		},
-		addText: function(text){
-			this.texts.push(text);
+		//add text to specified text block, if no block specified then default to the current one
+		addText: function(text, block){
+			if (!block){
+				block = this.block;
+			}
+			this.textBlocks[block].push(text);
+		},
+		//add a new textBlock to textBlocks
+		addTextBlock: function(xml){
+			var texts = [];
+			$(xml).find('text').each(function(){
+				texts.push(this);
+			});
+			this.textBlocks.push(texts);
 		},
 		update: function(){
 		},
 		//Returns all of this.texts as an html string
 		draw: function(){
 			var HTML = '';
-			$(this.texts).each(function(){
-				var color = $(this).attr('color');
-				if (color){
-					if(color === 'hex color value') {
-						color = '#FFOOFF';
+			function drawHTML(xml){
+				$(xml).each(function(){
+					var color = $(this).attr('color');
+					if (color){
+						if(color === 'hex color value') {
+							color = '#FFOOFF';
+						}
+						HTML += '<font color="' + color + '">';
 					}
-					HTML += '<font color="' + color + '">';
-				}
-				//Check to see if there is a declared variable instead of plain text
-				var variable = $(this).find('variable').text();
-				if (variable){
-					//Confirm variable exists
-					if (inputVariables[variable]) {
-						HTML += inputVariables[variable];
+					//Check to see if there is a declared variable instead of plain text
+					var variable = $(this).find('variable').text();
+					if (variable){
+						//Confirm variable exists
+						if (inputVariables[variable]) {
+							HTML += inputVariables[variable];
+						} else {
+							HTML += 'Variable undeclared';
+						}
 					} else {
-						HTML += 'Variable undeclared';
+						HTML += $(this).text();
 					}
-				} else {
-					HTML += $(this).text();
+					if(color){
+						HTML += '</font>';
+					}
+				});
+			}
+			if (this.textBlocks){
+				if (this.block >= this.textBlocks.length) {
+					//Currently don't loop back just always show the last response
+					this.block = this.textBlocks.length - 1;
 				}
-				if(color){
-					HTML += '</font>';
-				}
-			});
+				drawHTML(this.textBlocks[this.block]);
+			}
+			
 			return HTML;
 		},
 	});
@@ -341,13 +374,16 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 			if (this.nextType === 'overseer' || this.nextType === 'popup'){
 				if (this.clicked >= 0){
 					this.parent.nextActiveStatement = this.nextStatement;
+					this.block++;
 				}
 				this.clicked = -1;
 			} else if (this.nextType === 'player'){
 				this.parent.nextActiveStatement = this.nextStatement;
+					this.block++;
 			} else if (this.nextType === 'exit'){
 				if (this.clicked >= 0){
 					this.parent.deActivate();
+					this.block++;
 				}
 				this.clicked = -1;
 			} else {

@@ -144,7 +144,7 @@ var Reciever = klass(function(x, y, radius){
 				 * Every pulse needs to be checked for collision as, depending on emitter speed,
 				 * the reciever may collide with pulses in a different order than they were emitted
 				 */
-				if (pulse instanceof Pulse && this.collided.indexOf(pulse) == -1){
+				if (pulse instanceof Pulse && !this.collided[pulse]){
 					var distance = getDistance(pulse.x, pulse.y, this.x, this.y);
 					if (pulse.radius > (distance - this.radius)){
 						console.log('pulse detected ' + g.Frames);

@@ -26,7 +26,8 @@ try{
 }
 
 $(document).ready(function(){
-	//This entire thing needs to be improved, this is a really brute force way to do things
+	
+	//Eventually everything will be read in via XML/JSON so this brute force coded approach won't be needed
 	preloader('Sprites/Main_View1/Background.png',
 				'Sprites/Main_View1/Bed.png',
 				'Sprites/Main_View1/Water.png',
@@ -131,7 +132,7 @@ continueReady = function(){
 	cryoScreen.addSprite(new dialogueSprite(740, 20, 'Sprites/Cryo_Room/Storage_Container.png', 'storageContainer', dialogueScreens['storageContainer']));
 	cryoScreen.addSprite(new dialogueSprite(799, 49, 'Sprites/Cryo_Room/Solar_Panel.png', 'solarPanel', dialogueScreens['solarPanel']));
 	cryoScreen.addSprite(new dialogueSprite(180, 340, 'Sprites/Cryo_Room/Cryo_Console.png', 'consoleCryo', dialogueScreens['consoleCryo']));
-	// // cryoScreen.addSprite(new dialougeSprite(580, 0, 'Sprites/Cryo_Room/Ladder.png', 'ladderCryo', dialougeScreens['ladderCryo']));
+	// cryoScreen.addSprite(new dialougeSprite(580, 0, 'Sprites/Cryo_Room/Ladder.png', 'ladderCryo', dialougeScreens['ladderCryo']));
 	cryoScreen.addSprite(new screenChangeSprite(580, 0, 'Sprites/Cryo_Room/Ladder.png', 'ladderCryo', mainScreen1));
 	cryoScreen.addSprite(new Sprite(0, 0, 'Sprites/Cryo_Room/Fog.png', 'fog'));
 	
