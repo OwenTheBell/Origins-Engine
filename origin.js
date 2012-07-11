@@ -38,9 +38,11 @@ $(document).ready(function(){
 				'Sprites/Main_View1/Table.png',
 				'Sprites/Main_View1/Chair.png',
 				'Sprites/Main_View1/Thermostat.png',
-				'Sprites/Main_View2/View2BackestBackground.png',
 				'Sprites/Main_View2/View2Background.png',
 				'Sprites/Main_View2/Clothing_Cabinet.png',
+				'Sprites/Main_View2/Shutter.png',
+				'Sprites/Main_View2/Space_Exact.png',
+				'Sprites/Main_View2/Window.png',
 				'Sprites/ArrowObject.png',
 				'Sprites/Cryo_Room/Training_Room_Background.png',
 				'Sprites/Cryo_Room/Fog.png',
@@ -117,8 +119,10 @@ continueReady = function(){
 		g.screenCollection[dialogueScreens[key].id] = dialogueScreens[key];
 	}
 	
-	mainScreen2.addSprite(new Sprite(0, 0, 'Sprites/Main_View2/View2BackestBackground.png', 'window_background'));
+	mainScreen2.addSprite(new Sprite(446, 317, 'Sprites/Main_View2/Space_Exact.png', 'space_exact'));
+	mainScreen2.addSprite(new moveSprite(450, 100, 'Sprites/Main_View2/Shutter.png', 'shutter', 450, 300, 60));
 	mainScreen2.addSprite(new Sprite(0, 0, 'Sprites/Main_View2/View2Background.png', 'background'));
+	mainScreen2.addSprite(new dialogueSprite(400, 300, 'Sprites/Main_View2/Window.png', 'window', dialogueScreens['window']));
 	mainScreen2.addSprite(new dialogueSprite(849, 199, 'Sprites/Main_View2/Clothing_Cabinet.png', 'clothes', dialogueScreens['clothes']));
 	mainScreen2.addSprite(new screenChangeSprite(0, 647, 'Sprites/ArrowObject.png', 'change', mainScreen1));
 	

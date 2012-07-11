@@ -61,5 +61,11 @@ var helper = {
 			}
 		}
 		console.log('ERROR: css rule ' + rule + ' not found');
+	},
+	
+	getDistance: function(x1, y1, x2, y2){
+		var x = Math.pow((x2 - x1), 2);
+		var y = Math.pow((y2 - y1), 2);
+		return Math.sqrt(x + y);
 	}
 }

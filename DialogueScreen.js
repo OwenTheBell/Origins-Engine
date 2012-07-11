@@ -66,11 +66,6 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 				} else {
 					overseerContainer[id].addTextBlock(this);
 				}
-				
-				//if there is not a first element of the conversation then set it
-				if (!that.activeStatement){
-					that.activeStatement = overseer;
-				}
 			});
 			
 			$(xml).find('player').each(function(){
@@ -152,6 +147,10 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			//screenCollection[this.activeStatement.nextId].activeScreen = true;
 			this.activeStatement = this.originalActive;
 			this.parent.deActivated();
+		},
+		
+		target: function(target){
+			this.parent.target(target);
 		},
 		
 		update: function(){
@@ -321,6 +320,13 @@ var Statement = klass(function(parent, xmlData){
 			this.textBlocks.push(texts);
 		},
 		update: function(){
+			if(this.futureBlock){
+				this.block = this.futureBlock;
+				delete this.futureBlock;
+			}
+			if (this.block >= this.textBlocks.length){
+				this.block = this.textBlocks.length - 1;
+			}
 		},
 		//Returns all of this.texts as an html string
 		draw: function(){
@@ -351,13 +357,7 @@ var Statement = klass(function(parent, xmlData){
 					}
 				});
 			}
-			if (this.textBlocks){
-				if (this.block >= this.textBlocks.length) {
-					//Currently don't loop back just always show the last response
-					this.block = this.textBlocks.length - 1;
-				}
-				drawHTML(this.textBlocks[this.block]);
-			}
+			drawHTML(this.textBlocks[this.block]);
 			
 			return HTML;
 		},
@@ -371,6 +371,8 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 })
 	.methods({
 		update: function(){
+			this.supr();
+			
 			if (this.nextType === 'overseer' || this.nextType === 'popup'){
 				if (this.clicked >= 0){
 					this.parent.nextActiveStatement = this.nextStatement;
@@ -379,7 +381,7 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 				this.clicked = -1;
 			} else if (this.nextType === 'player'){
 				this.parent.nextActiveStatement = this.nextStatement;
-					this.block++;
+				this.futureBlock = this.block + 1;
 			} else if (this.nextType === 'exit'){
 				if (this.clicked >= 0){
 					this.parent.deActivate();
@@ -429,6 +431,11 @@ var PlayerOptions = klass(function(parent, xmlData){
 			if((this.clicked >= 0) && (this.clicked < this.availableStatements.length)){
 				
 				var selected = this.availableStatements[this.clicked];
+				
+				if (selected.target){
+					this.parent.target(selected.target);
+				}
+				
 				//console.log(selected);
 				if (selected.nextType === 'exit'){
 					this.parent.deActivate();
@@ -449,17 +456,22 @@ var PlayerOptions = klass(function(parent, xmlData){
 	});
 
 /*
- * NOTE: parent in this case is a DialogueScreen not a PlayerOptions object
+ * NOTE: parent is a DialogueScreen not a PlayerOptions object
  */
 var PlayerStatement = Statement.extend(function(parent, xmlData, id){
 	this.id = id; //id is included as a seperate parameter since there is not id definition in the xml
 	this.set_check = {}; //optional, object containing id and whether or not this statement uses set or check
+	this.target = null;
 	var that = this;
 	if ($(xmlData).attr('set')){
 		that.set_check.set = $(xmlData).attr('set');
 	}
 	if ($(xmlData).attr('check')){
 		that.set_check.check = $(xmlData).attr('check');
+	}
+	if ($(xmlData).attr('target')){
+		that.target = $(xmlData).attr('target');
+		console.log('setting a target as ' + that.target);
 	}
 })
 	.methods({

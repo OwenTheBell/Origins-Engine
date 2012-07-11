@@ -27,34 +27,24 @@ var Screen = klass(function(id, zIndex) {
 	.methods({
 		addSprite: function(newSprite){
 			newSprite.parent = this;
-			this.spriteArray.push(newSprite);
+			this.spriteArray[newSprite.id] = newSprite;
 		},
 			
-	/*
-	 * This method runs into the issue that the sprite has to be removed from
-	 * the DOM. This means that some tracker needs to be put in place that will
-	 * know that the sprite needs to be removed at draw.
-	 * One answer might be to allow the sprite to persist until draw(). At that
-	 * point the sprite removes itself from the DOM and from the screen.
-	 * Alternatively the sprite could handle removal from the DOM and then the
-	 * screen could remove the sprite after completing the draw methods or at
-	 * the beginning of the next update.
-	 */
+		/*
+		 * This method runs into the issue that the sprite has to be removed from
+		 * the DOM. This means that some tracker needs to be put in place that will
+		 * know that the sprite needs to be removed at draw.
+		 * One answer might be to allow the sprite to persist until draw(). At that
+		 * point the sprite removes itself from the DOM and from the screen.
+		 * Alternatively the sprite could handle removal from the DOM and then the
+		 * screen could remove the sprite after completing the draw methods or at
+		 * the beginning of the next update.
+		 */
 		removeSprite: function(id){	
-			var x;
-			for (x in this.spriteArray){
-				if (this.spriteArray[x].id === id){
-					this.spriteArray[x].drawState = 'removed';
-					break;
-				}
-			}
+			this.spriteArray[id] = 'removed';
 		},
 		getSprite: function(id){
-			for (x in this.spriteArray){
-				if (this.spriteArray[x].id === id){
-					return this.spriteArray[x];
-				}
-			}
+			return this.spriteArray[id];
 		},
 		fadingOut: function(seconds){
 			this.fadeOut = true;
@@ -79,7 +69,7 @@ var Screen = klass(function(id, zIndex) {
 					this.fadeOut = false;
 					this.css['z-index'] = g.topZIndex;
 					this.activeScreen = true;
-					console.log(this.id + ' in foreground');
+					// console.log(this.id + ' in foreground');
 				} else {
 					this.css['opacity'] += (1 / this.transitionFrames);
 				}
@@ -104,7 +94,7 @@ var Screen = klass(function(id, zIndex) {
 			if (this.activeScreen){
 				mouse = g.input.mouse;
 			
-				for (var x = 0; x < this.spriteArray.length; x++){
+				for (x in this.spriteArray){
 					var testSprite = this.spriteArray[x];
 					if (testSprite instanceof clickSprite){
 						if ((mouse.X > testSprite.left + parseInt($('#origins').css('left'))) && 
@@ -123,9 +113,12 @@ var Screen = klass(function(id, zIndex) {
 			//update sprites if screen is visible.
 			//Even if the screen is not active animation may be occuring in the background
 			if (this.css['opacity'] > 0.0){
-				$(this.spriteArray).each(function(){
-					this.update();
-				});
+				for (x in this.spriteArray){
+					this.spriteArray[x].update();
+				}
+				// $(this.spriteArray).each(function(){
+					// this.update();
+				// });
 			}
 		},
 		draw: function(){
@@ -137,9 +130,12 @@ var Screen = klass(function(id, zIndex) {
 					HTML += x + ':' + this.css[x] + '; ';
 				}
 				HTML += '" >';
-				$(this.spriteArray).each(function(){
-					HTML += this.draw();
-				});
+				for (x in this.spriteArray){
+					HTML += this.spriteArray[x].draw();
+				}
+				// $(this.spriteArray).each(function(){
+					// HTML += this.draw();
+				// });
 				HTML += '</div>';
 			}
 			return(HTML);

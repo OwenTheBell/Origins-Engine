@@ -42,7 +42,7 @@ var Sprite = klass(function (left, top, image, id) {
 		}
 	});
 
-var clickSprite = Sprite.extend(function(top, left, image, id){
+var clickSprite = Sprite.extend(function(left, top, image, id){
 	this.mouseLoc = null;
 	this.clickMap = [];
 	this.clicked = false;
@@ -75,7 +75,6 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 					this.mouseOver = false;
 				} else if (!this.mouseOver && this.css.cursor){
 					delete this.css.cursor;
-					console.log('reverting cursor');
 				}
 			}
 		},
@@ -106,18 +105,18 @@ var clickSprite = Sprite.extend(function(top, left, image, id){
 		}
 	});
 
-var screenChangeSprite = clickSprite.extend(function(top, left, image, id, targetScreen){
+var screenChangeSprite = clickSprite.extend(function(left, top, image, id, targetScreen){
 	this.targetScreen = targetScreen;
 })
 	.methods({
 		onClick: function(){
-			console.log('moving from ' + this.parent.id + ' to ' + this.targetScreen.id);
+			// console.log('moving from ' + this.parent.id + ' to ' + this.targetScreen.id);
 			this.targetScreen.fadingIn(1);
 			this.parent.fadingOut(1);
 		}
 	});
 	
-var dialogueSprite = clickSprite.extend(function(top, left, image, id, targetDialogue){
+var dialogueSprite = clickSprite.extend(function(left, top, image, id, targetDialogue){
 	this.targetDialogue = targetDialogue;
 	this.targetDialogue.parent = this;
 })
@@ -128,6 +127,55 @@ var dialogueSprite = clickSprite.extend(function(top, left, image, id, targetDia
 		},
 		deActivated: function(){
 			this.parent.activeScreen = true;
-			console.log('Reseting active screen');
+		},
+		target: function(target){
+			this.parent.getSprite(target).trigger();
+		}
+	});
+/*
+ * Sprite with the trigger method which causes some kind of action when called
+ */
+var triggerSprite = Sprite.extend(function(left, top, image, id){
+})
+	.methods({
+		trigger: function(){
+			
+		}
+	});
+
+var moveSprite = triggerSprite.extend(function(left, top, image, id, x2, y2, frames){
+	this.start = {X: left, Y: top}; //sprite starts at it's top and left coordinates
+	this.moveTo = {X: x2, Y: y2}; //coordinates that the sprite will move to
+	this.frames = frames;
+	this.moveCount = 0;
+	this.xMove;
+	this.yMove;
+	this.moving = false;
+})
+	.methods({
+		trigger: function(){
+			this.moving = true;
+			this.moveCount = 0;
+			this.yMove = (this.moveTo.Y - this.top) / this.frames;
+			this.xMove = (this.moveTo.X - this.left) / this.frames;
+		},
+		update: function(){
+			if (this.moving){
+				if (this.moveCount < this.frames){
+					this.top += this.yMove;
+					this.left += this.xMove;
+					this.moveCount++;
+				} else {
+					var temp = {X: this.moveTo.X, Y: this.moveTo.Y};
+					this.moveTo = this.start;
+					this.start = temp;
+					this.moving = false;
+					this.left = this.start.X;
+					this.top = this.start.Y;
+				}
+			}
+			
+			this.css.top = this.top + 'px';
+			this.css.left = this.left + 'px';
 		}
 	})
