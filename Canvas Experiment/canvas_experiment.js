@@ -8,7 +8,8 @@ var g = {
 	Mouse: {},
 	Frames: 0,
 	generate: .5,
-	audioDIV: 'audio'
+	audioDIV: 'audio',
+	waveDict: {}
 }
 
 $(document).ready(function(){
@@ -69,19 +70,18 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond){
 	this.growth = 1;
 	this.circles = [];
 	this.pulsePerSecond = pulsePerSecond;
-	this.waveForm = null;
+	this.waveForm = new WaveForm(g.fps / this.pulsePerSecond, 'emitterCanvas');
 })
 	.methods({
 		update: function() {
-			if (g.Frames % (g.fps / this.pulsePerSecond) == 0){
-				g.elements.push(new Pulse(this.x, this.y, this.radius, this.growth));
-				if (!this.waveForm){
-					this.waveForm = new WaveForm(g.fps / this.pulsePerSecond, 'emitterCanvas');
-				}
-			}
 			
-			if (this.waveForm){
-				this.waveForm.update();
+			this.waveForm.update();
+			var distance = helper.getDistance(this.x, this.y, g.reciever.x, g.reciever.y);
+			var frames = Math.ceil(distance / this.growth);
+			g.waveDict[frames + g.Frames] = this.waveForm.currentY;
+			
+			if (this.waveForm.currentY == 1){
+				g.elements.push(new Pulse (this.x, this.y, this.radius, this.growth));
 			}
 			
 			var moveX = 0, moveY = 0;
@@ -126,79 +126,63 @@ var Reciever = klass(function(x, y, radius){
 	this.x = x;
 	this.y = y;
 	this.radius = radius;
-	this.frameCount = -1;
-	this.pulseFrameCount = 0;
-	this.frameBuffer = [];
-	this.collided = [];
-	this.waveForm = null;
-	this.newWave = false;
-	this.nextPulse = null;
 	this.click = new audioElement('click', '../Audio/click');
+	this.waveFormArray = null;
+	this.canvas = $('#recieverCanvas').get(0);
+	this.context = this.canvas.getContext('2d');
 })
 	.methods({
 		update: function() {
-			//check for collision with the pulses
-			for(var i = 0; i < g.elements.length; i++){
-				var pulse = g.elements[i];
-				/*
-				 * Every pulse needs to be checked for collision as, depending on emitter speed,
-				 * the reciever may collide with pulses in a different order than they were emitted
-				 */
-				if (pulse instanceof Pulse && !this.collided[pulse]){
-					var distance = getDistance(pulse.x, pulse.y, this.x, this.y);
-					if (pulse.radius > (distance - this.radius)){
-						console.log('pulse detected ' + g.Frames);
-						// this.click.play();
-						this.collided.push(pulse);
-						this.nextPulse = null;
-						//If there is another incoming pulse build the waveform off of that
-						if(g.elements[i+1]){
-							this.nextPulse = g.elements[i+1];
-							distance = getDistance(this.nextPulse.x, this.nextPulse.y, this.x, this.y);
-							distance -= this.nextPulse.radius;
-							//subtracting 1 smoothes out the waveform a little bit
-							var frames = Math.floor(distance / this.nextPulse.growth) - 1;
-							if(!this.waveForm){
-								console.log('making a new waveform');
-								this.waveForm = new WaveForm(frames, 'recieverCanvas');
-							} else {
-								var points = this.waveForm.points;
-								this.waveForm = new WaveForm(frames, 'recieverCanvas');
-								this.waveForm.points = points;
-							}
-						//Else build the waveform off of the current position of the emitter
-						} else {
-							distance = (g.emitter.x, g.emitter.y, this.x, this.y) - g.emitter.radius;
-							var frames = Math.floor(distance / g.emitter.growth) - 1;
-							frames += (g.Frames % (g.fps / g.emitter.pulsePerSecond));
-							var points = this.waveForm.points;
-							this.waveForm = new WaveForm(frames, 'recieverCanvas');
-							this.waveForm.points = points;
-						}
-					//If there was not a nextPulse, once there is, adjust the waveform
-					} else if (this.waveForm && !this.nextPulse) {
-						distance -= pulse.radius;
-						var frames = Math.floor(distance / pulse.growth) - 1;
-						this.waveForm.adjustFrames(frames);
-						this.nextPulse = pulse;
-					}
+			
+			if(!this.waveFormArray){
+				if(g.waveDict[g.Frames]){
+					this.waveFormArray = [];
+					var tempY = (this.canvas.height / 2 ) - g.waveDict[g.Frames] * (this.canvas.height / 2);
+					this.waveFormArray.push({X: this.canvas.width, Y: tempY});
+					delete g.waveDict[g.Frames];
 				}
-			}
-			if (this.waveForm){
-				this.waveForm.update();
-				if(this.waveForm.currentY == 1){
-					console.log('waveForm peaked at ' + g.Frames);
+			} else {
+				if (g.waveDict[g.Frames]){
+					var tempY = (this.canvas.height / 2 ) - g.waveDict[g.Frames] * (this.canvas.height / 2);
+					this.waveFormArray.push({X: this.canvas.width, Y: tempY});
+					if (g.waveDict[g.Frames] == 1){
+						this.click.play();
+					}
+					delete g.waveDict[g.Frames];
+				}
+				/*
+				 * Some coordinates will be missed but this is ok since the waveform
+				 * is still acceptably smooth despite the lacking a data point for every
+				 * x coordinate
+				 */
+				if (this.waveFormArray[0].X < 0){
+					this.waveFormArray.splice(0, 1);
 				}
 			}
 		},
 		draw: function() {
+			if (this.waveFormArray){
+				this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+				
+				var prev = null
+				
+				for (var i = 0; i < this.waveFormArray.length; i++){
+					var next = this.waveFormArray[i];
+					if(prev){
+						this.context.beginPath();
+						this.context.moveTo(prev.X, prev.Y);
+						this.context.lineTo(next.X, next.Y);
+						this.context.stroke();
+					}
+					prev = {X: next.X, Y: next.Y};
+					next.X--;
+				}
+			}
+			
 			g.context.beginPath();
 			g.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
 			g.context.closePath();
 			g.context.fill();
-			if(this.waveForm){
-				this.waveForm.draw();
-			}
 		}
 		
 	});
@@ -226,9 +210,6 @@ var Pulse = klass(function(x, y, radius, growth){
 			} else {
 				var index = g.elements.indexOf(this);
 				g.elements.splice(index, 1);
-				//the first element in g.reciever.collided must be this pulse
-				index = g.reciever.collided.indexOf(this);
-				g.reciever.collided.splice(index, 1);
 			}
 		},
 		draw: function() {
@@ -253,7 +234,7 @@ var WaveForm = klass(function(frames, canvas){
 })
 	.methods({
 		update: function(){
-			this.currentY = Math.cos(this.currentX);
+			this.currentY = Math.sin(this.currentX);
 			if (this.currentX >= (Math.PI * 2)){
 				this.currentX -= Math.PI * 2;
 			}

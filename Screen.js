@@ -70,7 +70,6 @@ var Screen = klass(function(id, zIndex) {
 					this.fadeOut = false;
 					this.css['z-index'] = g.topZIndex;
 					this.activeScreen = true;
-					// console.log(this.id + ' in foreground');
 				} else {
 					this.css['opacity'] += (1 / this.transitionFrames);
 				}
@@ -103,23 +102,24 @@ var Screen = klass(function(id, zIndex) {
 							(mouse.Y > testSprite.top + parseInt($('#origins').css('top'))) &&
 							(mouse.Y < testSprite.top + testSprite.height() + parseInt($('#origins').css('top')))){
 							
-							testSprite.mouseOver = true;	
-							if (mouse.click) {
-								testSprite.clicked = true;
-							}
+							mouseOverCheck = testSprite.checkMouse();
 						}
 					}
 				}
 			}
+			
+			if(mouseOverCheck){
+				this.css.cursor = 'pointer';
+			} else {
+				this.css.cursor = 'default';
+			}
+			
 			//update sprites if screen is visible.
 			//Even if the screen is not active animation may be occuring in the background
 			if (this.css['opacity'] > 0.0){
 				for (x in this.spriteArray){
 					this.spriteArray[x].update();
 				}
-				// $(this.spriteArray).each(function(){
-					// this.update();
-				// });
 			}
 		},
 		draw: function(){
@@ -140,9 +140,6 @@ var Screen = klass(function(id, zIndex) {
 				for (x in this.spriteArray){
 					HTML += this.spriteArray[x].draw();
 				}
-				// $(this.spriteArray).each(function(){
-					// HTML += this.draw();
-				// });
 				HTML += '</div>';
 			}
 			return(HTML);

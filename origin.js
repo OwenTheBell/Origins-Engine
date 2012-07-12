@@ -140,8 +140,7 @@ continueReady = function(){
 	cryoScreen.addSprite(new screenChangeSprite(580, 0, 'Sprites/Cryo_Room/Ladder.png', 'ladderCryo', mainScreen1));
 	cryoScreen.addSprite(new Sprite(0, 0, 'Sprites/Cryo_Room/Fog.png', 'fog'));
 	
-	
-	// console.log(screenCollection);
+	delete dialogueScreens;
 	
 	startGame();
 };

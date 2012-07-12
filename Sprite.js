@@ -55,35 +55,26 @@ var clickSprite = Sprite.extend(function(left, top, image, id){
 					this.makeClickMap();
 				}
 				
-				if (this.clicked || this.mouseOver){
-					var mouse = g.input.mouse;
-					//Translate the mouse position so that it is relative to the sprite
-					var x = mouse.X - this.left - parseInt($('#origins').css('left'));
-					var y = mouse.Y - this.top - parseInt($('#origins').css('top'));
-					
-					if (this.clickMap[x][y] == 1){
-						if(this.clicked){
-							this.onClick();
-						} else if (this.mouseOver){
-							if (this.parent.classes.indexOf('cursor_pointer') == -1){
-								// console.log(this.id + ' is setting the cursor');
-								this.parent.classes.push('cursor_pointer');
-								this.css.cursor = 'pointer';
-							}
-						}
-					} else if (this.parent.classes.indexOf('cursor_pointer') != -1){
-						// console.log(this.id + ' removing css cursor');
-						var index = this.parent.classes.indexOf('cursor_pointer');
-						this.parent.classes.splice(index, 1);
-						delete this.css.cursor;
-					}
+				if (this.clicked){
+					this.onClick();
 					this.clicked = false;
-					this.mouseOver = false;
-				} else if (!this.mouseOver && this.parent.classes.indexOf('cursor_pointer') != -1){
-					var index = this.parent.classes.indexOf('cursor_pointer');
-					this.parent.classes.splice(index, 1);
 				}
 			}
+		},
+		checkMouse: function(){
+			var mouse = g.input.mouse;
+			//Translate the mouse position so that it is relative to the sprite
+			var x = mouse.X - this.left - parseInt($('#origins').css('left'));
+			var y = mouse.Y - this.top - parseInt($('#origins').css('top'));
+			
+			if (this.clickMap[x][y] == 1){
+				if(mouse.click){
+					this.clicked = true;
+				}
+				//Return true if the mouse is at least over clickable area
+				return true;
+			}
+			return false;
 		},
 		onClick: function(){
 		},
@@ -122,7 +113,6 @@ var screenChangeSprite = clickSprite.extend(function(left, top, image, id, targe
 	});
 	
 var dialogueSprite = clickSprite.extend(function(left, top, image, id, targetDialogue){
-	console.log(id);
 	this.targetDialogue = targetDialogue;
 	this.targetDialogue.parent = this;
 })
@@ -184,5 +174,3 @@ var moveSprite = triggerSprite.extend(function(left, top, image, id, x2, y2, fra
 			this.css.left = this.left + 'px';
 		}
 	});
-
-// var swapSprite = triggerSprite
