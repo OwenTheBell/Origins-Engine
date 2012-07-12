@@ -66,13 +66,13 @@ var clickSprite = Sprite.extend(function(left, top, image, id){
 							this.onClick();
 						} else if (this.mouseOver){
 							if (this.parent.classes.indexOf('cursor_pointer') == -1){
-								console.log(this.id + ' is setting the cursor');
+								// console.log(this.id + ' is setting the cursor');
 								this.parent.classes.push('cursor_pointer');
 								this.css.cursor = 'pointer';
 							}
 						}
 					} else if (this.parent.classes.indexOf('cursor_pointer') != -1){
-						console.log(this.id + ' removing css cursor');
+						// console.log(this.id + ' removing css cursor');
 						var index = this.parent.classes.indexOf('cursor_pointer');
 						this.parent.classes.splice(index, 1);
 						delete this.css.cursor;
@@ -122,6 +122,7 @@ var screenChangeSprite = clickSprite.extend(function(left, top, image, id, targe
 	});
 	
 var dialogueSprite = clickSprite.extend(function(left, top, image, id, targetDialogue){
+	console.log(id);
 	this.targetDialogue = targetDialogue;
 	this.targetDialogue.parent = this;
 })

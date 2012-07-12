@@ -2,6 +2,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 	//Contains the first statement in a dialogue, this will start off the conversation
 	this.activeStatement = null;
 	this.nextActiveStatement = null;
+	this.previousActiveStatement = null;
 	this.originalActive = null; //Track the original active so it can be reset on exit
 	this.file = file; //url of the xml file with relevant dialogue
 	this.set_check = []; //object to contain the set & check conversation values
@@ -10,6 +11,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 	this.overseerHTML = '';
 	this.playerHTML = '';
 	this.popupHTML = '';
+	this.statements = []; //array of all statements
 	
 	this.overseerCSS = {
 		top: '5px',
@@ -40,65 +42,52 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 })
 
 	.methods({
-		//XML has to be loaded after initialization so that's what this method is for
+		
 		loadXML: function(xml){
 			var count = 0;
 			/*
 			 * Object literals for storing dialogue statements
 			 * These are just for setting up structures 
 			 */
-			var overseerContainer = {};
-			var playerContainer = {};
-			var popupContainer = {};
-			
-			// need to capture 'this' so that it can be accessed within subfunctions
+			var statements = {};
 			var that = this;
+			
 			$(xml).find("overseer").each(function(){
 				var id = $(this).attr('id');
 				
-				//add overseers to overseerContainer sorted by id for easy lookup later
-				if(!overseerContainer[id]){
+				if(!statements[id]){
 					var overseer = new OverseerStatement(that, this);
-					overseerContainer[id] = overseer;
+					statements[id] = overseer;
 					if(!that.activeStatement){
 						that.activeStatement = overseer;
 					}
 				} else {
-					overseerContainer[id].addTextBlock(this);
+					statements[id].addTextBlock(this);
 				}
 			});
 			
-			$(xml).find('player').each(function(){
-				var player = new PlayerOptions(that, this);				
-				playerContainer[player.id] = player;
+			$(xml).find("player").each(function(){
+				var player = new PlayerOptions(that, this);
+				statements[player.id] = player;
 			});
 			
 			$(xml).find('popup').each(function(){
 				var popup = new PopupStatement(that, this);
-				popupContainer[popup.id] = popup;
+				statements[popup.id] = popup
 			});
 			
-			/*
-			 * Now that all the statements have been parsed from the XML they need to 
-			 * be attached together using the linkNext function
-			 */
-			for (x in overseerContainer){
-				var overseer = overseerContainer[x];
-				linkNext(overseer, overseer.id);
-			}
-			
-			for (x in playerContainer){
-				var player = playerContainer[x];
-				for (y in player.statementArray){
-					linkNext(player.statementArray[y], player.id + "statement" + y);
+			for(i in statements){
+				var statement = statements[i];
+				if (statement instanceof PlayerOptions){
+					for (j in statement.statementArray){
+						linkNext(statement.statementArray[j]);
+					}
+				} else {
+					linkNext(statement);
 				}
 			}
 			
-			for (x in popupContainer){
-				var popup = popupContainer[x];
-				linkNext(popup, popup.id);
-			}
-			
+			this.statements = statements;
 			/*
 			 * Function for setting a statement's nextStatement
 			 * ARGS:
@@ -108,25 +97,18 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			 *		to be used instead
 			 */
 			function linkNext(statement){
-				if (statement.nextType === 'overseer'){
-					checkContainer(overseerContainer, 'overseer');
-				} else if (statement.nextType === 'player'){
-					checkContainer(playerContainer, 'player');
-				} else if (statement.nextType === 'popup'){
-					checkContainer(popupContainer, 'popup');
-				} else if (statement.nextType === 'exit'){
-					statement.setNext('exit'); //this is VERY temporary
-				} else {
-					console.log("ERROR: " + statement.id + " has an invalid nextType of " + statement.nextType);
-				}
-				
-				function checkContainer(container, type){
-					var tester = container[statement.nextId];
-					if(!tester){
-						console.log("ERROR: " + statement.nextId + " is not a valid " + type + " id " + statement.id);
+				var next = statement.nextType;
+				if (next === 'exit'){
+					statement.setNext('exit');
+				} else if (next === 'overseer' || next === 'player' || next === 'popup'){
+					var tester = statements[statement.nextId];
+					if (!tester) {
+						console.log("ERROR: " + statement.nextId + " is not a valid " + next + " id " + statement.id);
 					} else {
 						statement.setNext(tester);
 					}
+				} else {
+					console.log("ERROR: " + statement.id + " has an invalid nextType of " + statement.nextType);
 				}
 			};
 		},
@@ -163,6 +145,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 				}
 				
 				if (this.nextActiveStatement){
+					this.previousActiceStatement = this.activeStatement;
 					this.activeStatement = this.nextActiveStatement;
 					this.nextActiveStatement = null;
 				}
@@ -325,7 +308,11 @@ var Statement = klass(function(parent, xmlData){
 				delete this.futureBlock;
 			}
 			if (this.block >= this.textBlocks.length){
-				this.block = this.textBlocks.length - 1;
+				if (this.loop){
+					this.block = 0;
+				} else {
+					this.block = this.textBlocks.length - 1;
+				}
 			}
 		},
 		//Returns all of this.texts as an html string
@@ -365,8 +352,11 @@ var Statement = klass(function(parent, xmlData){
 
 var OverseerStatement = Statement.extend(function(parent, xmlData){
 	this.id = $(xmlData).attr('id');
-	if (!$(xmlData).attr('highlight')){
+	if ($(xmlData).attr('highlight')){
 		this.highlight = $(xmlData).attr('highlight');
+	}
+	if ($(xmlData).attr('loop')){
+		this.loop = true;
 	}
 })
 	.methods({
@@ -381,7 +371,6 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 				this.clicked = -1;
 			} else if (this.nextType === 'player'){
 				this.parent.nextActiveStatement = this.nextStatement;
-				this.futureBlock = this.block + 1;
 			} else if (this.nextType === 'exit'){
 				if (this.clicked >= 0){
 					this.parent.deActivate();
@@ -435,6 +424,9 @@ var PlayerOptions = klass(function(parent, xmlData){
 				if (selected.target){
 					this.parent.target(selected.target);
 				}
+				if (selected.nextTime){
+					this.parent.originalActive = this.parent.statements[selected.nextTime];
+				}
 				
 				//console.log(selected);
 				if (selected.nextType === 'exit'){
@@ -471,7 +463,9 @@ var PlayerStatement = Statement.extend(function(parent, xmlData, id){
 	}
 	if ($(xmlData).attr('target')){
 		that.target = $(xmlData).attr('target');
-		console.log('setting a target as ' + that.target);
+	}
+	if ($(xmlData).attr('nextTime')){
+		that.nextTime = $(xmlData).attr('nextTime');
 	}
 })
 	.methods({

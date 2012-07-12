@@ -7,22 +7,22 @@
 
 <item id = "bookshelf">
 
-<overseer id = "bookShelfintro1" nextType = "exit" nextId = "mainScreen">
+<overseer id = "bookShelfintro1" nextType = "exit" nextId = "mainScreen1">
 	<text>You find your favorite books and magazines inside. It’s party time!</text>
 
 </overseer>
-<overseer id = "bookShelfintro2" nextType = "exit" nextId = "mainScreen">
+<overseer id = "bookShelfintro2" nextType = "exit" nextId = "mainScreen1">
 	<text>Your favorite guilty-pleasure novel stares at you from the space-shelve. You barely resist the urge to stop whatever important thing you were doing and just read this sucker.</text>
 
 </overseer>
-<overseer id = "bookShelfintro3" nextType = "exit" nextId = "mainScreen">
+<overseer id = "bookShelfintro3" nextType = "exit" nextId = "mainScreen1">
 	<text>Finally some peace and quiet. You just now realize though that you left your reading glasses back on earth. That’s not fair. That’s not fair at all.</text>
 
 </overseer>
 
 </item> 
 <item id = "bike">
-<overseer id = "bikeintro1" nextType = "exit" nextId = "mainScreen">
+<overseer id = "bikeintro1" nextType = "exit" nextId = "mainScreen1">
 	<text>It’s an exercise bike.  Way cool. It even has a tv monitor attached to it. It doesn’t have your favorite channel though. </text>
 
 </overseer>
@@ -45,24 +45,29 @@
 		<text>Do nothing.</text>
 	</option>
 </player>
-<overseer id = "ladderintro2" nextType = "exit" nextId = "mainScreen">
+<overseer id = "ladderintro2" nextType = "exit" nextId = "mainScreen1">
 	<text>Where would you like go?</text>
 
 </overseer>
-<overseer id = "ladderintro3" nextType = "exit" nextId = "mainScreen">
+<overseer id = "ladderintro3" nextType = "exit" nextId = "mainScreen1">
 	<text>You go to the bathroom. Nice job!</text>
 
 </overseer>
-<overseer id = "ladderintro4" nextType = "exit" nextId = "mainScreen">
+<overseer id = "ladderintro4" nextType = "exit" nextId = "mainScreen1">
 	<text>You do nothing. Nice job!</text>
 
+</overseer>
+</item>
+<item id = "clothes">
+<overseer id = "clothingCabinetintro1" nextType = "exit" nextId = "mainScreen1">
+	<text>There are several identical pairs of clothing in this cabinet. Keeping up with the latest fashions will likely be difficult here. There are also lots of socks.</text>
 </overseer>
 </item>
 <item id = "sleeps">
 <overseer id = "sleepPodintro1"  nextType = "player" nextId = "playerSleepPodintro1">
 	<text>This is your </text>
 
-	 <text color="hex color value">Sleeping Compartment.</text>
+	 <text color="FFCC00">Sleeping Compartment.</text>
 
 	 <text> It doesn’t look incredibly comfortable. Do you want to go to sleep anyway?</text>
 
@@ -75,32 +80,58 @@
 		<text>No</text>
 	</option>
 </player>
-<overseer id = "sleepPodintro2" nextType = "exit" nextId = "mainScreen">
+<overseer id = "sleepPodintro2" nextType = "exit" nextId = "mainScreen1">
 	<text>You try to sleep but something keeps you from your rest. It is almost like you still have something to do before your day is over.</text>
 
 </overseer>
-<overseer id = "sleepPodintro3" nextType = "exit" nextId = "mainScreen">
+<overseer id = "sleepPodintro3" nextType = "exit" nextId = "mainScreen1">
 	<text>You decide not to go to sleep. You are also not exactly sure how to get up there anyway.</text>
 
 </overseer>
 </item>
+<item id = "windows">
+<overseer id = "windowopenintro1"  nextType = "player" nextId = "playerwindowintro1">
+	<text>This is your window to the universe. Would you like to close it?</text>
+
+</overseer>
+<overseer id = "windowclosedintro1"  nextType = "player" nextId = "playerwindowintro2">
+	<text>This is your window to the universe. Would you like to open it?</text>
+
+</overseer>
+<player id = "playerwindowintro1">
+	<option nextType = "exit" nextId = "mainScreen1">
+		<text>Yes, please.</text>
+	</option>
+	<option nextType = "exit" nextId = "mainScreen1">
+		<text>No, leave it open.</text>
+	</option>
+</player>
+<player id = "playerwindowintro2">
+	<option nextType = "exit" nextId = "mainScreen1">
+		<text>Yes, open it.</text>
+	</option>
+	<option nextType = "exit" nextId = "mainScreen1">
+		<text>No, leave it closed.</text>
+	</option>
+</player>
+</item>
 <item id = "table">
-<overseer id = "tableintro1" nextType = "exit" nextId = "mainScreen">
+<overseer id = "tableintro1" nextType = "exit" nextId = "mainScreen1">
 	<text>This is a nice white folding table which you can use as you please. </text>
 	</overseer>
 </item>
 <item id = "water">
-<overseer id = "waterintro1" nextType = "exit" nextId = "mainScreen">
-	<text>This complex hydro-dispenser is able to reconstitute excess liquids into drinkable though tasteless water.</text>
+<overseer id = "waterintro1" nextType = "exit" nextId = "mainScreen1">
+	<text>This complex hydro-dispenser is able to reconstitute excess liquids intro drinkable though tasteless water.</text>
 </overseer>
 </item>
 <item id = "chair">
-<overseer id = "chairintro1" nextType = "exit" nextId = "mainScreen">
+<overseer id = "chairintro1" nextType = "exit" nextId = "mainScreen1">
 	<text>This chair is specifically designed to make you as uncomfortable as possible. It is a mystery why anyone would build such a thing.</text>
 </overseer>
 </item>
 <item id = "smallmonitor">
-<overseer id = "sMonitorintro1" nextType = "exit" nextId = "mainScreen">
+<overseer id = "sMonitorintro1" nextType = "exit" nextId = "mainScreen1">
 	<text>This monitor seems to simply display random waves and charts. You can't tell if they are really monitoring anything and pressing the big buttons has no effect on them.</text>
 </overseer>
 </item>
@@ -117,19 +148,19 @@
 		<text>No</text>
 	</option>
 </player>
-<overseer id = "pelletintro2" nextType = "exit" nextId = "mainScreen">
+<overseer id = "pelletintro2" nextType = "exit" nextId = "mainScreen1">
 	<text>You don't get a pellet.</text>
 
 </overseer>
-<overseer id = "pelletintro3" nextType = "exit" nextId = "mainScreen">
+<overseer id = "pelletintro3" nextType = "exit" nextId = "mainScreen1">
 	<text>You get a pellet and eat it. It fills you up quickly. It tastes like a peanut butter sandwich.</text>
 
 </overseer>
-<overseer id = "pelletintro3" nextType = "exit" nextId = "mainScreen">
+<overseer id = "pelletintro3" nextType = "exit" nextId = "mainScreen1">
 	<text>You get a pellet and eat it. Your jumpsuit rips from your significantly increased girth. It tastes like overly-buttered movie popcorn.</text>
 
 </overseer>
-<overseer id = "pelletintro3" nextType = "exit" nextId = "mainScreen">
+<overseer id = "pelletintro3" nextType = "exit" nextId = "mainScreen1">
 	<text>The machine refuses to give you a pellet and advises you spend time on the exercise bike.</text>
 
 </overseer>

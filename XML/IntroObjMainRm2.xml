@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- New document created with EditiX at Fri Jun 22 13:26:33 EDT 2012 -->
+<!-- New document created with EditiX at Wed Jul 11 13:44:48 EDT 2012 -->
 
 <dialogue>
-<item id = "clothes">
-<overseer id = "clothingCabinetinto1" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
-	<text>There are several identical pairs of clothing in this cabinet. Keeping up with the latest fashions will likely be difficult here. There are also lots of socks.</text>
-</overseer>
-</item>
+	<item id="clothes">
+	<overseer id="clothingCabinetinto1" nextType="exit" nextId="if nextType is exit then give the id of the screen to eject to">
+		<text>There are several identical pairs of clothing in this cabinet. Keeping up with the latest fashions will be difficult up here.</text>
+	</overseer>
+	</item>
 <item id = "window">
-<overseer id = "window"  nextType = "player" nextId = "playerWindowOpen">
-	<text>This is your window to the universe. Would you like to close it?</text>
-
-</overseer>
-<overseer id = "window"  nextType = "player" nextId = "playerWindowClosed">
-	<text>This is your window to the universe. Would you like to open it?</text>
-
-</overseer>
-<player id = "playerWindowOpen">
-	<option nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to" target="shutter">
-		<text>Yes, please.</text>
-	</option>
-	<option nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
-		<text>No, leave it open.</text>
-	</option>
-</player>
-<player id = "playerWindowClose">
-	<option nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to" target="shutter">
-		<text>Yes, open it.</text>
-	</option>
-	<option nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
-		<text>No, leave it closed.</text>
-	</option>
-</player>
+	<overseer id = "overseerWindowOpen"  nextType = "player" nextId = "playerWindowOpen">
+		<text>This is your window to the universe. Would you like to close it?</text>
+	
+	</overseer>
+	<overseer id = "overseerWindowClosed"  nextType = "player" nextId = "playerWindowClosed">
+		<text>This is your window to the universe. Would you like to open it?</text>
+	
+	</overseer>
+	<player id = "playerWindowOpen">
+		<option nextType = "exit" nextId = "eject to" nextTime="overseerWindowClosed" target="shutter">
+			<text>Yes, please.</text>
+		</option>
+		<option nextType = "exit" nextId = "eject to">
+			<text>No, leave it open.</text>
+		</option>
+	</player>
+	<player id = "playerWindowClosed">
+		<option nextType = "exit" nextId = "eject to" nextTime="overseerWindowOpen" target="shutter">
+			<text>Yes, open it.</text>
+		</option>
+		<option nextType = "exit" nextId = "eject to">
+			<text>No, leave it closed.</text>
+		</option>
+	</player>
 </item>
 </dialogue>
