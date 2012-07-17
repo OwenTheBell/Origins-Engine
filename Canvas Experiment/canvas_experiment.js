@@ -4,6 +4,7 @@ var g = {
 	fps: 60,
 	reciever: {},
 	emitter: {},
+	target: {},
 	elements: [],
 	Mouse: {},
 	Frames: 0,
@@ -21,8 +22,10 @@ $(document).ready(function(){
 	
 	g.emitter = new Emitter(g.canvas.width / 2, g.canvas.height / 2, 5, g.generate);
 	g.reciever = new Reciever(100, 100, 5);
+	g.target = new Target([0, 100, 200, 360]);
 	g.elements.push(g.emitter);
 	g.elements.push(g.reciever);
+	g.elements.push(g.target);
 	
 	startDraw();
 });
@@ -146,7 +149,7 @@ var Reciever = klass(function(x, y, radius){
 					var tempY = (this.canvas.height / 2 ) - g.waveDict[g.Frames] * (this.canvas.height / 2);
 					this.waveFormArray.push({X: this.canvas.width, Y: tempY});
 					if (g.waveDict[g.Frames] == 1){
-						this.click.play();
+						// this.click.play();
 					}
 					delete g.waveDict[g.Frames];
 				}
@@ -185,6 +188,58 @@ var Reciever = klass(function(x, y, radius){
 			g.context.fill();
 		}
 		
+	});
+
+/*
+ * Array of the x-coordinate for which the y-coordinate is at peak
+ */
+var Target = klass(function(highPoints){
+	this.canvas = $('#targetCanvas').get(0);
+	this.context = this.canvas.getContext('2d');
+	this.updated = true;
+	this.waveFormArray = [];
+	
+	for(var i = 0; i < highPoints.length - 1; i++){
+		console.log('generating point ' + i);
+		var peakDif = highPoints[i+1] - highPoints[i];
+		var xPos = highPoints[i];
+		var xInc = Math.PI * 2 / peakDif    
+		for(var j = 0; j < peakDif; j++){
+			var y = (this.canvas.height / 2) - Math.cos(xInc * j) * (this.canvas.height / 2);
+			this.waveFormArray.push({X: xPos + j, Y: y});
+		}
+		//this little bit of code keeps the graph clean by making sure it goes edge to edge
+		if (!highPoints[i+2]){
+			xPos = highPoints[i+1];
+			var varyInc = 0;
+			while(xPos <= this.canvas.width){
+				var y = (this.canvas.height / 2) - Math.cos(xInc * varyInc++) * (this.canvas.height / 2);
+				this.waveFormArray.push({X: xPos++, Y: y});
+			}
+		}
+	}
+})
+	.methods({
+		update: function(){
+		},
+		draw: function(){
+			if (this.updated){
+				this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+				var prev = null;
+				
+				for(var i=0; i < this.waveFormArray.length; i++){
+					var next = this.waveFormArray[i];
+					if(prev){
+						this.context.beginPath();
+						this.context.moveTo(prev.X, prev.Y);
+						this.context.lineTo(next.X, next.Y);
+						this.context.stroke();
+					}
+					prev = next;
+				}
+				this.updated = false;
+			}
+		}
 	});
 
 var Pulse = klass(function(x, y, radius, growth){
