@@ -197,10 +197,10 @@ var Target = klass(function(highPoints){
 	this.canvas = $('#targetCanvas').get(0);
 	this.context = this.canvas.getContext('2d');
 	this.updated = true;
+	this.targetPoints = highPoints;
 	this.waveFormArray = [];
 	
 	for(var i = 0; i < highPoints.length - 1; i++){
-		console.log('generating point ' + i);
 		var peakDif = highPoints[i+1] - highPoints[i];
 		var xPos = highPoints[i];
 		var xInc = Math.PI * 2 / peakDif    
