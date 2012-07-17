@@ -1,3 +1,9 @@
+/*
+ * While DialogueScreens do have a parent screen they are still contained within
+ * the screen collection and their update is handled from their. This is true of
+ * all screens, hence why DialogueScreen update is not handled by its parent
+ */
+
 var DialogueScreen = Screen.extend(function(id, zIndex, file){
 	//Contains the first statement in a dialogue, this will start off the conversation
 	this.activeStatement = null;

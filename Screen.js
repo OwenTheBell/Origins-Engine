@@ -55,7 +55,8 @@ var Screen = klass(function(id, zIndex) {
 		addDialogueScreen: function(dialogue){
 			this.dialogue.screen = dialogue;
 			this.dialogue.active = true;
-			dialogue.parent = this;
+			this.dialogue.screen.parent = this;
+			// console.log(this.dialogue.screen.id + ' added to ' + this.id);
 		},
 		fadingOut: function(seconds){
 			this.fadeOut = true;

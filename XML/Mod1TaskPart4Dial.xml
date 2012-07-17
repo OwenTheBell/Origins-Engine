@@ -6,7 +6,7 @@
 <dialogue>
 <overseer id="mod1OS9" nextType="player" nextId="playermod1PL7">
 		<text>What do you see, </text>
-		<variable id="playerName" color="hex color value"/>
+		<variable id="playerName" color="3399FF"/>
 		<text>? My surveillance systems in that room have been damaged.</text>
 	</overseer>
 	<player id="playermod1PL7">
@@ -15,7 +15,7 @@
 		</option>
 		<option nextType="overseer" nextId="mod1OS9b">
 			<text>It’s a mess, </text>
-			<variable id="overseerName" color="hex color value"/>
+			<variable id="overseerName" color="3399FF"/>
 			<text>, be happy you can’t see this.</text>
 
 		</option>
@@ -34,7 +34,7 @@
 	</overseer>
 	<arachne id="mod1AR6" nextType="player" nextId="playermod1PL8">
 		<text>It seems that a part of the satellite known as the Hubble Space Telescope has crashed into the </text>
-		<text color="hex color value">Capsule</text>
+		<text color="FFCC00">Capsule</text>
 		<text>.</text>
 	</arachne>
 	<player id="playermod1PL8">
@@ -64,7 +64,7 @@
 
 	<overseer id="mod1OS10" nextType="arachne" nextId="mod1AR8">
 		<text>What about the </text>
-		<text color="hex color value">specimens</text>
+		<text color="FFCC00">specimens</text>
 		<text>?</text>
 	</overseer>
 	<arachne id="mod1AR8" nextType="player" nextId="playermod1PL9">
@@ -76,7 +76,7 @@
 		</option>
 		<option nextType="arachne" nextId="mod1AR8b">
 			<text>Tell me about these </text>
-			<text color="hex color value">specimens</text>
+			<text color="FFCC00">specimens</text>
 			<text>.</text>
 		</option>
 		<option nextType="arachne" nextId="mod1AR8c">

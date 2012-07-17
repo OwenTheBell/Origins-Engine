@@ -83,7 +83,7 @@ continueReady = function(){
 	mainScreen1.activeScreen = true;
 	g.screenCollection[mainScreen1.id] = mainScreen1;
 	
-	var talkScreen = new DialogueScreen('talkScreen', g.bottomZIndex, 'XML/IntroDial.xml');
+	var talkScreen = new DialogueScreen('mainScreen1Intro', g.bottomZIndex, 'XML/IntroDial.xml');
 	helper.ajaxGet(talkScreen);
 	mainScreen1.addDialogueScreen(talkScreen);
 	g.screenCollection[talkScreen.id] = talkScreen;
@@ -93,11 +93,6 @@ continueReady = function(){
 	
 	var cryoScreen = new Screen('cryoScreen', g.bottomZIndex);
 	g.screenCollection[cryoScreen.id] = cryoScreen;
-	
-	// var talkScreen = new DialogueScreen('talkScreen', g.bottomZIndex, 'XML/IntroDial.xml');
-	// helper.ajaxGet(talkScreen);
-	// talkScreen.activate();
-	// g.screenCollection[talkScreen.id] = talkScreen;
 	
 	var dialogueScreens = new Array();
 	

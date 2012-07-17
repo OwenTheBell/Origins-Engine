@@ -49,7 +49,7 @@
 <item id = "sleeps">
 <overseer id = "sleepPodmod1"  nextType = "player" nextId = "playerSleepPodmod1">
 	<text>This is your </text>
-	 <text color="hex color value">Sleeping Compartment</text>
+	 <text color="FFCC00">Sleeping Compartment</text>
 
 	 <text>. Do you want to go to sleep?</text>
 </overseer>

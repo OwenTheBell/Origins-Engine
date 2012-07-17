@@ -31,7 +31,7 @@
 
 		<text>Excellent. The </text>
 
-		<text color="hex color value">capsule</text>
+		<text color="FFCC00">capsule</text>
 
 		<text> is on course and should arrive shortly to the correct orbital position.</text>
 
@@ -41,7 +41,7 @@
 
 		<text>Fine. You still have some time before the </text>
 
-		<text color="hex color value">capsule</text>
+		<text color="FFCC00">capsule</text>
 
 		<text> reaches its destination. Just be quick about whatever you are doing.</text>
 
@@ -55,9 +55,9 @@
 
 	<arachne id="mod1AR1" nextType="player" nextId="playermod1PL4">
 
-		<variable id="playerName" color="hex color value"/>
+		<variable id="playerName" color="3399FF"/>
 		<text>, the </text>
-		<text color="hex color value">capsule</text>
+		<text color="FFCC00">capsule</text>
 		<text> is detecting abnormal amounts of debris in this area. Beware.</text>
 	</arachne>
 	<player id="playermod1PL4">
@@ -66,7 +66,7 @@
 
 			<text>Thank you </text>
 
-			<variable id="arachneName" color="hex color value"/>
+			<variable id="arachneName" color="3399FF"/>
 
 			<text>, but I think we’ll be alright.</text>
 
@@ -80,7 +80,7 @@
 
 		<option nextType="overseer" nextId="mod1OS4b">
 
-			<variable id="overseerName" color="hex color value"/>
+			<variable id="overseerName" color="3399FF"/>
 
 			<text>, are you trying to kill me?!</text>
 
@@ -92,7 +92,7 @@
 
 		<text>The hull of the </text>
 
-		<text color="hex color value">Perillos Capsule</text>
+		<text color="FFCC00">Perillos Capsule</text>
 
 		<text> is specifically designed to deflect cosmic fragments and most of the radiation effects. Your robot is overreacting.</text>
 
@@ -102,7 +102,7 @@
 
 		<text>If I wanted you dead, you would already be so. Your robot is just being irrational. The hull of the </text>
 
-		<text color="hex color value">Perillos Capsule</text>
+		<text color="FFCC00">Perillos Capsule</text>
 
 		<text> is specifically designed to deflect cosmic fragments and most of the radiation effects. Your robot is overreacting.</text>
 

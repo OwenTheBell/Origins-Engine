@@ -55,6 +55,9 @@ var clickSprite = Sprite.extend(function(left, top, image, id){
 	var ctx = canvas.getContext('2d');
 	ctx.drawImage(this.image, 0, 0);
 	var pixels = [];
+	
+	
+	
 	try {
 		pixels = ctx.getImageData(0, 0, this.width(), this.height()).data;
 	} catch (e) {
@@ -95,7 +98,6 @@ var clickSprite = Sprite.extend(function(left, top, image, id){
 					return true;
 				}
 			} catch(e) {
-				alert('ERROR: ' + x + ' is not in the clickMap for ' + this.id + '.\nPlease tell Owen');
 				console.log('ERROR: ' + x + ' doesn\'t appear to be in clickMap');
 			}
 			return false;

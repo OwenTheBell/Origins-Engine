@@ -1,11 +1,11 @@
 <dialogue>
 <overseer id = "introOS1" nextType = "player" nextId = "player introPL1">
 	<text> Perillos Capsule</text>
-	<text color= "hex color value"> occupant</text> 
+	<text color= "FFCC00"> occupant</text> 
 	<text>, this is the</text>
-	<text color = "hex color value"> MINOS Overseer</text>
+	<text color = "FFCC00"> MINOS Overseer</text>
 	<text>. Do you copy?</text>
-	<text color = "hex color value"> Occupant</text>
+	<text color = "FFCC00"> Occupant</text>
 	<text>?</text>
 </overseer>
 <player id = "player introPL1">
@@ -17,7 +17,7 @@
 	</option>
 	<option nextType ="overseer" nextId = "introOSc">
 		<text>Perillos Capsule</text>
-		<text color = "hex color value"> occupant</text>
+		<text color = "FFCC00"> occupant</text>
 		<text> is not here right now; would you like to leave a message?</text>
 	</option>
 	<option nextType ="overseer" nextId = "introOSd">
@@ -32,16 +32,16 @@
 </overseer>
 <overseer id = "introOSc" nextType = "player" nextId= "playerintroPL2">
 	<text>Absolutely hilarious,</text>
-	<text color = "hex color value">occupant</text>
+	<text color = "FFCC00">occupant</text>
 	<text>, I can already tell our relationship is destined to blossom. Are you feeling comfortable in your capsule?</text>
 </overseer>
 <overseer id = "introOSd" nextType = "player" nextId= "playerintroPL2">
 	<text>Well it seems you have conveniently forgotten the last dozen hours or so. How fortunate. You are currently aboard a </text>
-	<text color = "hex color value">Project Daedalus Perillos Capsule</text>
+	<text color = "FFCC00">Project Daedalus Perillos Capsule</text>
 	<text>. It is designed for a single</text>
-	<text color = "hex color value"> occupant </text>
+	<text color = "FFCC00"> occupant </text>
 	<text>under the supervision of an</text>
-	<text color = "hex color value"> Overseer </text>
+	<text color = "FFCC00"> Overseer </text>
 	<text>to conduct experiments in Earth’s orbit.</text> 
 </overseer>
 <player id = "playerintroPL2">
@@ -83,7 +83,7 @@
 </player>
 <overseer id = "introOS3" nextType = "player" nextId= "playerintroPL4">
 	<text>You are welcome </text>
-	<text color = "hex color value"> occupant</text>
+	<text color = "FFCC00"> occupant</text>
 	<text>.</text>
 </overseer>
 <player id = "playerintroPL4">
@@ -92,7 +92,7 @@
 	</option>
 	<option id = "introOptionDial2X" nextType ="overseer" nextId = "introOS4b" set = "check2">
 		<text>Calling me</text>
-		<text color = "hex color value"> occupant</text>
+		<text color = "FFCC00"> occupant</text>
 		<text> must get boring.</text>
 	</option>
 	<option nextType = "overseer" nextId = "introOS4c">
@@ -124,18 +124,18 @@
 </popup>
 <overseer id = "introOS5a" nextType = "player" nextId= "playerintroPL6">
 	<text>Alright capsule</text>
-	<text color="hex color value"> occupant </text>
-	<text color="hex color value"><variable>playerName</variable></text>
+	<text color="FFCC00"> occupant </text>
+	<text color="3399FF"><variable>playerName</variable></text>
 	<text>. Is there anything else I can do to make you feel more at home? Perhaps, read you a bed-time story when you go to sleep or, I know, request that your next supply shipment be full of warm milk and stuffed animals? Would you like me to sing you a lullaby now or can I do that after my vitally important briefing?</text>
 </overseer>
 <overseer id = "introOS5b" nextType = "player" nextId= "playerintroPL6">
 	<text>Works for me,</text>
-	<text color="hex color value"> occupant</text>
+	<text color="FFCC00"> occupant</text>
 	<text>. Anything else that you would like to complain about before I begin my briefing.</text>
 </overseer>
 <overseer id = "introOS5c" nextType = "player" nextId= "playerintroPL6">
 	<text>I know it is,</text>
-	<text color="hex color value"> occupant</text>
+	<text color="FFCC00"> occupant</text>
 	<text> I am glad that we agree.</text>
 </overseer>
 <player id = "playerintroPL6">
@@ -151,23 +151,23 @@
 </player>
 <overseer id = "introOS6a" nextType = "overseer" nextId= "introOS7">
 	<text>Yes, it is </text>
-	<text color="hex color value"> Overseer </text>
+	<text color="3399FF"> Overseer </text>
 	<text>. Overseer </text>
-	<text color="hex color value"> Overseer </text>
+	<text color="3399FF"> Overseer </text>
 	<text>. My parents were not overly creative. I am going to start my briefing now.</text>
 </overseer>
 <overseer id = "introOS6b" nextType = "popup" nextId= "overseerPopup1">
 	<text>Does a worm have the right to 'name' an approaching foot? But, I suppose if you MUST for my briefing to begin, you may. We would not want you to feel as if you have been mistreated up in space, correct?</text>
 </overseer>
 <popup id="overseerPopup1" nextType = "overseer" nextId = "introOS7" target = "overseerName">
-			<text color="hex color value">What would you like to call the overseer?</text>
+			<text color="FFCC00">What would you like to call the overseer?</text>
 </popup>
 <overseer id = "introOS6c" nextType = "overseer" nextId= "introOS7">
 	<text>Excellent, I can now begin my briefing. It is quite an exquisite briefing, if I do say so myself. I look forward to briefing you intently and intensely. It is almost oxymoronic, because this briefing is so loaded with information but still brief enough to be a briefing. Allow me a moment to get all my notecards together. Alright, I am ready.</text>
 </overseer>
 <overseer id = "introOS7" nextType = "overseer" nextId= "introOS8">
 	<text>As you may know, this capsule and all projects and experiments contained within it are part of</text>
-	<text color="hex color value">Project Daedalus</text>
+	<text color="FFCC00">Project Daedalus</text>
 	<text>.</text>
 </overseer>
 <overseer id = "introOS8" nextType = "exit" nextId = "mainScreen">
@@ -175,55 +175,55 @@
 </overseer>
 <overseer id = "introOS9" nextType = "exit" nextId = "mainScreen">
 	<text>This capsule, the</text>
-	<text color="hex color value">Perillos Capsule</text>
+	<text color="FFCC00">Perillos Capsule</text>
 	<text>is designed as an isolated environment to test promising individuals and also allow them to expand their scientific pursuits. As part of the testing experience, several areas of the capsule are currently inaccessible to you until your</text>
-	<text color="hex color value">Overseer</text>
+	<text color="FFCC00">Overseer</text>
 	<text> provides clearance.</text>
 </overseer>
 <overseer id = "introOS10" nextType = "exit" nextId = "mainScreen">
 	<text>The room you are currently in is known as the </text>
-	 <text color="hex color value">Main Quarter </text>
+	 <text color="FFCC00">Main Quarter </text>
           <text> and contains all necessary equipment for your continued healthy existence. You may explore the area at your leisure.</text>
 </overseer>
 <overseer id = "introOS11" nextType = "exit" nextId = "mainScreen">
 	<text>This room is known as the </text>
-	<text color="hex color value">Observation Room </text>
+	<text color="FFCC00">Observation Room </text>
 	<text> and will be unlocked now. The room can be accessed by using the hatch-door at the top of the ladder. This room is your primary research Room and operating environment. Report here regularly. The ladder will also serve to take you to other unlocked Rooms.</text>
 </overseer>
 <overseer id = "introOS12" nextType = "exit" nextId = "mainScreen">
 	<text>This room is known as the </text>
-	<text color="hex color value">Observation Room </text>
+	<text color="FFCC00">Observation Room </text>
 	<text> and will be unlocked now. The room can be accessed by using the hatch-door. This room is your primary research Room and operating environment. Report here regularly.</text>
 </overseer>
 <overseer id = "introOS13" nextType = "exit" nextId = "mainScreen">
 	<text>This </text>
-	<text color="hex color value">Main Computer </text>
+	<text color="FFCC00">Main Computer </text>
 	<text> contains commuication software, allowing you to converse with either your </text>
-	<text color="hex color value">Overseer </text>
+	<text color="FFCC00">Overseer </text>
 	<text>or other </text>
-	<text color="hex color value">Perillos Capsule occupants </text>
+	<text color="FFCC00">Perillos Capsule occupants </text>
 	<text>stationed in Earth's orbit. They may provide help during experiments but will more likely distact you with needless social exchanges. You may even access information on the other capsules and review their progress in comarison to yours.</text>
 </overseer>
 <overseer id = "introOS14" nextType = "exit" nextId = "mainScreen" highlight="id of what you wanted highlighted">
 	<text>Here you may see your own progress or change your personal settings </text>
-	<text color="hex color value">Observation Room </text>
+	<text color="FFCC00">Observation Room </text>
 </overseer>
 <overseer id = "introOS15" nextType = "exit" nextId = "mainScreen">
 	<text>With the computer-watch you carry you can also access most of the information on the </text>
-	<text color="hex color value">Main Screen</text>
+	<text color="FFCC00">Main Screen</text>
 	<text> at any time and place aboard you capsule (press button to view Watch Screen)</text>
 </overseer>
 <overseer id = "introOS16" nextType = "player" nextId= "playerintroPL7">
 	<text>I will now allow you some time to familarize yoursef with your capsule. Come back to the  </text>
-	<text color="hex color value">Main Screen </text>
+	<text color="FFCC00">Main Screen </text>
 	<text> once you are satisfied with exploring your surroundings and I will give you your </text>
-	<text color="hex color value">First Task</text>
+	<text color="FFCC00">First Task</text>
 	<text>. </text>
 </overseer>
 <player id = "playerintroPL7">
 	<option nextType = "overseer" nextId = "introOS17a">
 		<text>Thank you, </text>
-		<text color="hex color value"><variable>overseerName</variable></text>
+		<text color="3399FF"><variable>overseerName</variable></text>
 		<text>.</text>
 	</option>
 	<option nextType = "overseer" nextId = "introOS17b">
@@ -231,7 +231,7 @@
 	</option>
 	<option nextType ="overseer" nextId = "introOS17c">
 		<text>I'm ready for the </text>
-		<text color="hex color value">First Task</text>
+		<text color="FFCC00">First Task</text>
 		<text> actually.</text>
 	</option>
 </player>
@@ -288,13 +288,13 @@
 	</option>
 	<option nextType = "overseer" nextId = "firsttaskOS1">
 		<text> I've heard enough. I'm ready for the </text>
-		<text color="hex color value">First Task</text>
+		<text color="FFCC00">First Task</text>
 		<text>.</text>
 	</option>
 </player>
 <overseer id = "introOS20a" nextType = "player" nextId = "playerintroPL10">
 	<text>That is the big question, is it not? But I suppose you are being more specific to your own condition. How selfish! Unfortunately, if you do not know, neither do I. They do not forward the personnel history files of subjects to </text>
-	<text color="hex color value">Overseers</text>
+	<text color="FFCC00">Overseers</text>
 	<text>in order to minimize experimenter bias. I suggest, however, that you use your free-time to concoct an elaborate and facetious backstory to entertain yourself with.</text>
 </overseer>
 <overseer id = "introOS20b" nextType = "player" nextId = "playerintroPL9">
@@ -302,9 +302,9 @@
 </overseer>
 <overseer id = "introOS20c" nextType = "player" nextId = "playerintroPL12">
 	<text>There is a quite simple explanation for that anomaly. You see, the Perillos capsule is rotated continually by the central </text>
-	<text color="hex color value">Core Engine </text>
+	<text color="FFCC00">Core Engine </text>
 	<text>which forms a gravitational force. With the help of this rotation we can maintain a stable gravity. Even though gravity is stable, the relatively small size of the capsule still means that there is significantly smaller force acting on areas closer to the </text>
-	<text color="hex color value">Core Engine </text>
+	<text color="FFCC00">Core Engine </text>
 	<text> and more force acting on areas further away</text>
 </overseer>
 <overseer id = "introOS20d" nextType = "player" nextId = "playerintroPL9">
@@ -366,12 +366,12 @@
 </overseer>
 <overseer id = "introOS23c" nextType = "player" nextId = "playerintroPL9">
 	<text>Again, I blame poor aesthetic engineering. I am sure that the designers of the </text>
-	 <text color="hex color value">Perillos</text>
+	 <text color="FFCC00">Perillos</text>
 	<text> took your needs into consideration when constructing their product.</text>
 </overseer>
 <overseer id = "firsttaskOS1" nextType = "player" nextId = "playerfirsttaskPL1">
 	<text>The first task is simple. You will assemble your </text>
-	 <text color="hex color value">Personal Assistant Robot</text>
+	 <text color="FFCC00">Personal Assistant Robot</text>
 	<text>.</text>
 </overseer>
 <player id = "playerfirsttaskPL1">
@@ -383,18 +383,18 @@
 	</option>
 	<option  nextType = "overseer" nextId = "firsttaskOS2">
 		<text>Look </text>
-		<text color="hex color value"><variable>overseerName</variable></text>
+		<text color="FFCC00"><variable>overseerName</variable></text>
 		<text> I can't even put oil in my car witout taking it to the mechanic. I don't think I'm cut out for this.</text>
 	</option>
 </player>
 <overseer id = "firsttaskOS2" nextType = "exit" nextId = "mainScreen">
 	<text>I have unlocked a storage componet in your </text>
-	 <text color="hex color value">Main Quarter</text>
+	 <text color="FFCC00">Main Quarter</text>
 	<text>. Go up to the componet and I will instruct you further.</text>
 </overseer>
 <overseer id = "firsttaskOS2b" nextType = "player" nextId = "playerfirsttaskPL2">
 	<text>Please open the storage unit, </text>
-	<text color="hex color value"><variable>playerName</variable></text>
+	<text color="3399FF"><variable>playerName</variable></text>
 	<text>.</text>
 </overseer>
 <player id = "playerfirsttaskPL2">
@@ -413,7 +413,7 @@
 </player>
 <overseer id = "firsttaskOS3a" nextType = "exit" nextId = "mainScreen">
 	<text>Only what you take with you...and a small inactive </text>
-	 <text color="hex color value">robot</text>
+	 <text color="FFCC00">robot</text>
 	<text>.</text>
 </overseer>
 <overseer id = "firsttaskOS3b" nextType = "player" nextId = "playerfirsttaskPL2">
@@ -421,12 +421,12 @@
 </overseer>
 <overseer id = "firsttaskOS3c" nextType = "exit" nextId = "mainScreen">
 	<text>I believe in you </text>
-	<text color="hex color value"><variable>playerName</variable></text>
+	<text color="3399FF"><variable>playerName</variable></text>
 	<text>. Mostly becuase it should be quite simple, but if you need a moment to re-think your life and how you've come to be here I will allow it.</text>
 </overseer>
 <overseer id = "firsttaskOS4" nextType = "player" nextId = "playerfirsttaskPL3">
 	<text>The next part is very difficult. Do you see the large button on the surface of the robot? Please press the button,</text>
-	<text color="hex color value"><variable>playerName</variable></text>
+	<text color="3399FF"><variable>playerName</variable></text>
 	<text>.</text>
 </overseer>
 <player id = "playerfirsttaskPL3">
@@ -445,7 +445,7 @@
 </overseer>
 <overseer id = "firsttaskOS6" nextType = "player" nextId = "playerfirsttaskPL4">
 	<text>This is the </text>
-	<text color="hex color value">Arachne Personal Assistant Robot</text>
+	<text color="FFCC00">Arachne Personal Assistant Robot</text>
 	<text>. It is programmed to assist you in your experiments and form rudimentary companship while aboard your capsule.</text>
 </overseer>
 <player id = "playerfirsttaskPL4">
@@ -476,15 +476,15 @@
 </overseer>
 <overseer id = "firsttaskOS8" nextType = "player" nextId = "playerfirsttaskPL5">
 	<text>I will now allow you some time to interact with the </text>
-	<text color="hex color value">Arachne Robot</text>
+	<text color="FFCC00">Arachne Robot</text>
 	<text>. When you are satisfied, use the </text>
-	<text color="hex color value">sleeping compartment</text>
+	<text color="FFCC00">sleeping compartment</text>
 	<text> to get some rest. I will contact you at a later point with your next task. </text>
 </overseer>
 <player id = "playerfirsttaskPL5">
 	<option nextType = "overseer" nextId = "firsttaskOS9a">
 		<text>Copy,</text>
-		<text color="hex color value"><variable>overseerName</variable></text>
+		<text color="3399FF"><variable>overseerName</variable></text>
 		<text>.</text>
 	</option>
 	<option nextType = "overseer" nextId = "firsttaskOS9b">
@@ -495,21 +495,21 @@
 	</option>
 </player>
 <overseer id = "firsttaskOS9a" nextType = "exit" nextId = "mainScreen">
-	<text color="hex color value"><variable>overseerName</variable></text>
+	<text color="3399FF"><variable>overseerName</variable></text>
 	<text> out.</text>
 </overseer>
 <overseer id = "firsttaskOS9b" nextType = "exit" nextId = "mainScreen">
 	<text>...right. </text>
-	<text color="hex color value"><variable>overseerName</variable></text>
+	<text color="3399FF"><variable>overseerName</variable></text>
 	<text> out.</text>
 </overseer>
 <overseer id = "firsttaskOS9c" nextType = "exit" nextId = "mainScreen">
 	<text>Do not worry </text>
-	<text color="hex color value"><variable>playerName</variable></text>
+	<text color="3399FF"><variable>playerName</variable></text>
 	<text> it is a secure space-age </text>
-	<text color="hex color value">sleeping compartment</text>
+	<text color="FFCC00">sleeping compartment</text>
 	<text>. Much better than a coffin and no one needs to bury you, even.</text>
-	<text color="hex color value"><variable>overseerName</variable></text>
+	<text color="3399FF"><variable>overseerName</variable></text>
 	<text> out.</text>
 </overseer>
 </dialogue>
