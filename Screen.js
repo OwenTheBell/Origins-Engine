@@ -102,7 +102,9 @@ var Screen = klass(function(id, zIndex) {
 							(mouse.Y > testSprite.top + parseInt($('#origins').css('top'))) &&
 							(mouse.Y < testSprite.top + testSprite.height() + parseInt($('#origins').css('top')))){
 							
-							mouseOverCheck = testSprite.checkMouse();
+							if(!mouseOverCheck){
+								mouseOverCheck = testSprite.checkMouse();
+							}
 						}
 					}
 				}

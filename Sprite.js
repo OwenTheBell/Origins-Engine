@@ -68,7 +68,7 @@ var clickSprite = Sprite.extend(function(left, top, image, id){
 		if(!this.clickMap[col]) this.clickMap[col] = [];
 		this.clickMap[col][row] = pixels[i+3] == 0 ? 0 : 1;
 	}
-	console.log(this.id + ' has dimensions of (' + col + ', ' + row + ')');
+	// console.log(this.id + ' has dimensions of (' + col + ', ' + row + ')');
 })
 	.methods({
 		update: function(){
