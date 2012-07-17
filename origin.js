@@ -13,6 +13,7 @@ var g = {
 	frameCounter: 0,
 	drawDiv: 'draw',
 	audioDiv: 'audio',
+	playerInput: {}
 }
 
 //If there is not a console then make console.log an empty function
@@ -82,6 +83,11 @@ continueReady = function(){
 	mainScreen1.activeScreen = true;
 	g.screenCollection[mainScreen1.id] = mainScreen1;
 	
+	var talkScreen = new DialogueScreen('talkScreen', g.bottomZIndex, 'XML/IntroDial.xml');
+	helper.ajaxGet(talkScreen);
+	mainScreen1.addDialogueScreen(talkScreen);
+	g.screenCollection[talkScreen.id] = talkScreen;
+	
 	var mainScreen2 = new Screen('mainScreen2', g.bottomZIndex);
 	g.screenCollection[mainScreen2.id] = mainScreen2;
 	
@@ -106,7 +112,7 @@ continueReady = function(){
 	mainScreen1.addSprite(new dialogueSprite(799, 300, 'Sprites/Main_View1/Bike.png', 'Bike', dialogueScreens['bike']));
 	// mainScreen1.addSprite(new dialogueSprite(699, 0, 'Sprites/Main_View1/Ladder.png', 'Ladder', dialogueScreens['ladder']));
 	mainScreen1.addSprite(new screenChangeSprite(699, 0, 'Sprites/Main_View1/Ladder.png', 'Ladder', cryoScreen));
-	mainScreen1.addSprite(new dialogueSprite(99, 99, 'Sprites/Main_View1/Food_Pellets.png', 'Food_Pellets', dialogueScreens['food']));
+	mainScreen1.addSprite(new dialogueSprite(100, 99, 'Sprites/Main_View1/Food_Pellets.png', 'Food_Pellets', dialogueScreens['food']));
 	mainScreen1.addSprite(new dialogueSprite(0, 349, 'Sprites/Main_View1/Drawer.png', 'Drawer', dialogueScreens['bookshelf']));
 	mainScreen1.addSprite(new dialogueSprite(350, 250, 'Sprites/Main_View1/Table.png', 'Table', dialogueScreens['table']));
 	mainScreen1.addSprite(new dialogueSprite(299, 300, 'Sprites/Main_View1/Chair.png', 'Chair', dialogueScreens['chair']));

@@ -119,16 +119,17 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			this.css['opacity'] = 1.0;
 			this.drawState = 'updated';
 			this.originalActive = this.activeStatement;
-			// console.log(this.id + " activated");
 		},
 		
 		deActivate: function(){
 			this.activeScreen = false;
 			this.css['z-index'] = g.bottomZIndex;
 			this.css['opacity'] = 0.0;
-			//screenCollection[this.activeStatement.nextId].activeScreen = true;
 			this.activeStatement = this.originalActive;
-			this.parent.deActivated();
+			if (this.parent instanceof Sprite) this.parent.deActivated();
+			else if (this.parent instanceof Screen) {
+				this.parent.activeScreen = true;
+			}
 		},
 		
 		target: function(target){
@@ -331,8 +332,8 @@ var Statement = klass(function(parent, xmlData){
 					var variable = $(this).find('variable').text();
 					if (variable){
 						//Confirm variable exists
-						if (inputVariables[variable]) {
-							HTML += inputVariables[variable];
+						if (g.playerInput[variable]) {
+							HTML += g.playerInput[variable];
 						} else {
 							HTML += 'Variable undeclared';
 						}
@@ -487,7 +488,7 @@ var PopupStatement = Statement.extend(function(parent, xmlData){
 			if (this.parent.keyValue){
 				var keyValue = this.parent.keyValue;
 				if (keyValue == 13){
-					inputVariables[this.target] = this.collectedInput;
+					g.playerInput[this.target] = this.collectedInput;
 					this.parent.nextActiveStatement = this.nextStatement;
 				}//Only accept lower or uppercase letters
 				else if (((keyValue >= 65) && (keyValue <= 90)) || ((keyValue >= 97) && (keyValue <= 122))){

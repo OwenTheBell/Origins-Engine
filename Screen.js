@@ -7,6 +7,11 @@ var Screen = klass(function(id, zIndex) {
 	this.drawState = 'new'; // new/updated/removed/unchanged
 	this.activeScreen = false;
 	this.classes = [];
+	this.dialogue = {
+		screen: {},
+		active: false
+	}
+	this.parent = null;
 	
 	this.css = {
 		// 'position': 'inherit',
@@ -46,6 +51,11 @@ var Screen = klass(function(id, zIndex) {
 		},
 		getSprite: function(id){
 			return this.spriteArray[id];
+		},
+		addDialogueScreen: function(dialogue){
+			this.dialogue.screen = dialogue;
+			this.dialogue.active = true;
+			dialogue.parent = this;
 		},
 		fadingOut: function(seconds){
 			this.fadeOut = true;
@@ -92,17 +102,23 @@ var Screen = klass(function(id, zIndex) {
 			var mouseOverCheck = false;
 			//Only take input if the screen is not transitioning
 			if (this.activeScreen){
-				mouse = g.input.mouse;
-			
-				for (x in this.spriteArray){
-					var testSprite = this.spriteArray[x];
-					if (testSprite instanceof clickSprite){
-						if ((mouse.X > testSprite.left + parseInt($('#origins').css('left'))) && 
-							(mouse.X < testSprite.left + testSprite.width() + parseInt($('#origins').css('left'))) &&
-							(mouse.Y > testSprite.top + parseInt($('#origins').css('top'))) &&
-							(mouse.Y < testSprite.top + testSprite.height() + parseInt($('#origins').css('top')))){
-							
-							mouseOverCheck = testSprite.checkMouse();
+				if (this.dialogue.active){
+					this.activeScreen = false;
+					this.dialogue.active = false;
+					this.dialogue.screen.activate();
+				} else {
+					mouse = g.input.mouse;
+				
+					for (x in this.spriteArray){
+						var testSprite = this.spriteArray[x];
+						if (testSprite instanceof clickSprite){
+							if ((mouse.X > testSprite.left + parseInt($('#origins').css('left'))) && 
+								(mouse.X < testSprite.left + testSprite.width() + parseInt($('#origins').css('left'))) &&
+								(mouse.Y > testSprite.top + parseInt($('#origins').css('top'))) &&
+								(mouse.Y < testSprite.top + testSprite.height() + parseInt($('#origins').css('top')))){
+								
+								mouseOverCheck = testSprite.checkMouse();
+							}
 						}
 					}
 				}
