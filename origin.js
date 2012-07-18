@@ -51,7 +51,18 @@ $(document).ready(function(){
 				'Sprites/Cryo_Room/Storage_Container.png',
 				'Sprites/Cryo_Room/Solar_Panel.png',
 				'Sprites/Cryo_Room/Cryo_Console.png',
-				'Sprites/Cryo_Room/Ladder.png'
+				'Sprites/Cryo_Room/Ladder.png',
+				'Sprites/Doppler_Screen/Objective_Screen.png',
+				'Sprites/Doppler_Screen/Detected_Screen.png',
+				'Sprites/Doppler_Screen/Emitted_Screen.png',
+				'Sprites/Doppler_Screen/Objective_Screen.png',
+				'Sprites/Doppler_Screen/Mouse_Counter.png',
+				'Sprites/Doppler_Screen/HelpButton_Static.png',
+				'Sprites/Doppler_Screen/UIFill.png',
+				'Sprites/Doppler_Screen/Start_Button.png',
+				'Sprites/Doppler_Screen/Pause_Button.png',
+				'Sprites/Doppler_Screen/Arrow_Up.png',
+				'Sprites/Doppler_Screen/Arrow_Down.png'
 		);
 });
 
@@ -79,8 +90,8 @@ continueReady = function(){
 	$('head').append(importer);
 	*/
 	
-	var mainScreen1 = new Screen('mainScreen1', g.topZIndex);
-	mainScreen1.activeScreen = true;
+	var mainScreen1 = new Screen('mainScreen1', g.bottomZIndex);
+	// mainScreen1.activeScreen = true;
 	g.screenCollection[mainScreen1.id] = mainScreen1;
 	
 	var talkScreen = new DialogueScreen('mainScreen1Intro', g.bottomZIndex, 'XML/IntroDial.xml');
@@ -93,6 +104,10 @@ continueReady = function(){
 	
 	var cryoScreen = new Screen('cryoScreen', g.bottomZIndex);
 	g.screenCollection[cryoScreen.id] = cryoScreen;
+	
+	var dopplerScreen = new DopplerScreen('dopplerScreen', g.topZIndex);
+	dopplerScreen.activeScreen = true;
+	g.screenCollection[dopplerScreen.id] = dopplerScreen;
 	
 	var dialogueScreens = new Array();
 	
@@ -138,9 +153,19 @@ continueReady = function(){
 	cryoScreen.addSprite(new dialogueSprite(799, 49, 'Sprites/Cryo_Room/Solar_Panel.png', 'solarPanel', dialogueScreens['solarPanel']));
 	cryoScreen.addSprite(new dialogueSprite(180, 340, 'Sprites/Cryo_Room/Cryo_Console.png', 'consoleCryo', dialogueScreens['consoleCryo']));
 	// cryoScreen.addSprite(new dialougeSprite(580, 0, 'Sprites/Cryo_Room/Ladder.png', 'ladderCryo', dialougeScreens['ladderCryo']));
-	cryoScreen.addSprite(new screenChangeSprite(580, 0, 'Sprites/Cryo_Room/Ladder.png', 'ladderCryo', mainScreen1));
+	cryoScreen.addSprite(new screenChangeSprite(580, 0, 'Sprites/Cryo_Room/Ladrder.png', 'ladderCryo', mainScreen1));
 	cryoScreen.addSprite(new Sprite(0, 0, 'Sprites/Cryo_Room/Fog.png', 'fog'));
 	
+	dopplerScreen.addSprite(new UISprite(416, 487, 'Sprites/Doppler_Screen/Objective_Screen.png', 'objective', 1));
+	dopplerScreen.addSprite(new UISprite(417, 561, 'Sprites/Doppler_Screen/Detected_Screen.png', 'detected', 1));
+	dopplerScreen.addSprite(new UISprite(417, 634, 'Sprites/Doppler_Screen/Emitted_Screen.png', 'emitted', 1));
+	dopplerScreen.addSprite(new UISprite(0, 480, 'Sprites/Doppler_Screen/Mouse_Counter.png', 'mouse_counter', 1));
+	dopplerScreen.addSprite(new UISprite(254, 594, 'Sprites/Doppler_Screen/HelpButton_Static.png', 'help_button', 1));
+	dopplerScreen.addSprite(new UISprite(0, 0, 'Sprites/Doppler_Screen/UIFill.png', 'UIFill', 3));
+	dopplerScreen.addSprite(new UISprite(870, 589, 'Sprites/Doppler_Screen/Start_Button.png', 'start_button', 4));
+	dopplerScreen.addSprite(new UISprite(870, 520, 'Sprites/Doppler_Screen/Pause_Button.png', 'pause_button', 4));
+	dopplerScreen.addSprite(new UISprite(1175, 524, 'Sprites/Doppler_Screen/Arrow_Up.png', 'arrow_up', 4));
+	dopplerScreen.addSprite(new UISprite(1070, 520, 'Sprites/Doppler_Screen/Arrow_Down.png', 'arrow_down', 4));
 	delete dialogueScreens;
 	
 	startGame();

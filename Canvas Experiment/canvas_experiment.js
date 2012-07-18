@@ -11,7 +11,8 @@ var g = {
 	generate: .5, //this puts 120 pixels horizontally between peaks
 	audioDIV: 'audio',
 	waveDict: {},
-	degError: 3
+	degError: 3,
+	matchedAt: null
 }
 
 $(document).ready(function(){
@@ -22,7 +23,9 @@ $(document).ready(function(){
 	g.context = g.canvas.getContext('2d');
 	
 	g.emitter = new Emitter(g.canvas.width / 2, g.canvas.height / 2, 5, g.generate);
-	g.reciever = new Reciever(100, 100, 5);
+	var randX = Math.floor(Math.random() * (g.canvas.width - 200) + 100);
+	var randY = Math.floor(Math.random() * (g.canvas.height - 200) + 100);
+	g.reciever = new Reciever(randX, randY, 5);
 	g.target = new Target([0, 120, 240, 360]);
 	g.elements.push(g.emitter);
 	g.elements.push(g.reciever);
@@ -38,15 +41,29 @@ function startDraw () {
 function loop() {
 	g.Mouse = inputState.getMouse();
 	
-	$(g.elements).each(function(){
-		this.update();
-	});
-	
-	g.context.clearRect(0, 0, g.canvas.width, g.canvas.height);
-	
-	$(g.elements).each(function(){
-		this.draw();
-	});
+	if (!g.matchedAt){
+		$(g.elements).each(function(){
+			this.update();
+		});
+		
+		g.context.clearRect(0, 0, g.canvas.width, g.canvas.height);
+		
+		$(g.elements).each(function(){
+			this.draw();
+		});
+	} else if (g.Frames - g.matchedAt >= 30){
+		g.elements = [];
+		g.waveDict = {};
+		g.elements.push(g.emitter);
+		g.emitter.waveForm = new WaveForm(g.fps / g.emitter.pulsePerSecond, 'emitterCanvas');
+		var randX = Math.floor(Math.random() * (g.canvas.width - 200) + 100);
+		var randY = Math.floor(Math.random() * (g.canvas.height - 200) + 100);
+		g.reciever = new Reciever(randX, randY, 5);
+		g.elements.push(g.reciever);
+		g.target = new Target([0, 120, 240, 360]);
+		g.elements.push(g.target);
+		g.matchedAt = null;
+	}
 	g.Frames++;
 }
 
@@ -134,6 +151,7 @@ var Reciever = klass(function(x, y, radius){
 	this.waveFormArray = null;
 	this.canvas = $('#recieverCanvas').get(0);
 	this.context = this.canvas.getContext('2d');
+	this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	this.matched = false;
 })
 	.methods({
@@ -165,6 +183,7 @@ var Reciever = klass(function(x, y, radius){
 							matchedPoints++;
 							if (matchedPoints == g.target.targetPoints.length){
 								this.matched = true;
+								g.matchedAt = g.Frames;
 							}
 						} else {
 							//if the first point doesn't match up with the targetPoints

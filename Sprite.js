@@ -55,9 +55,6 @@ var clickSprite = Sprite.extend(function(left, top, image, id){
 	var ctx = canvas.getContext('2d');
 	ctx.drawImage(this.image, 0, 0);
 	var pixels = [];
-	
-	
-	
 	try {
 		pixels = ctx.getImageData(0, 0, this.width(), this.height()).data;
 	} catch (e) {
@@ -177,4 +174,12 @@ var moveSprite = triggerSprite.extend(function(left, top, image, id, x2, y2, fra
 			this.css.top = this.top + 'px';
 			this.css.left = this.left + 'px';
 		}
+	});
+
+var UISprite = Sprite.extend(function(left, top, image, id, zIndex){
+	this.css.zIndex = zIndex;
+	console.log(this.css);
+})
+	.methods({
+		
 	});
