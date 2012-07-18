@@ -8,9 +8,10 @@ var g = {
 	elements: [],
 	Mouse: {},
 	Frames: 0,
-	generate: .5,
+	generate: .5, //this puts 120 pixels horizontally between peaks
 	audioDIV: 'audio',
-	waveDict: {}
+	waveDict: {},
+	degError: 3
 }
 
 $(document).ready(function(){
@@ -22,7 +23,7 @@ $(document).ready(function(){
 	
 	g.emitter = new Emitter(g.canvas.width / 2, g.canvas.height / 2, 5, g.generate);
 	g.reciever = new Reciever(100, 100, 5);
-	g.target = new Target([0, 100, 200, 360]);
+	g.target = new Target([0, 120, 240, 360]);
 	g.elements.push(g.emitter);
 	g.elements.push(g.reciever);
 	g.elements.push(g.target);
@@ -133,6 +134,7 @@ var Reciever = klass(function(x, y, radius){
 	this.waveFormArray = null;
 	this.canvas = $('#recieverCanvas').get(0);
 	this.context = this.canvas.getContext('2d');
+	this.matched = false;
 })
 	.methods({
 		update: function() {
@@ -153,6 +155,25 @@ var Reciever = klass(function(x, y, radius){
 					}
 					delete g.waveDict[g.Frames];
 				}
+				//Now check against the target to see if we've completed the array
+				var matchedPoints = 0;
+				for (x in this.waveFormArray){
+					if (this.waveFormArray[x].Y == 0){
+						if ((this.waveFormArray[x].X >= g.target.targetPoints[matchedPoints] - g.degError) &&
+							(this.waveFormArray[x].X <= g.target.targetPoints[matchedPoints] + g.degError)){
+						
+							matchedPoints++;
+							if (matchedPoints == g.target.targetPoints.length){
+								this.matched = true;
+							}
+						} else {
+							//if the first point doesn't match up with the targetPoints
+							//then there is no need to continue testing for a match
+							break;
+						}
+					}
+				}
+				
 				/*
 				 * Some coordinates will be missed but this is ok since the waveform
 				 * is still acceptably smooth despite the lacking a data point for every
@@ -167,18 +188,27 @@ var Reciever = klass(function(x, y, radius){
 			if (this.waveFormArray){
 				this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 				
-				var prev = null
+				if (this.matched){
+					this.context.beginPath();
+					this.context.rect(0, 0, this.canvas.width, this.canvas.height);
+					this.context.fillStyle = '#00FF00';
+					this.context.fill();
+				}
 				
-				for (var i = 0; i < this.waveFormArray.length; i++){
-					var next = this.waveFormArray[i];
-					if(prev){
-						this.context.beginPath();
-						this.context.moveTo(prev.X, prev.Y);
-						this.context.lineTo(next.X, next.Y);
-						this.context.stroke();
+				else {
+					var prev = null
+					
+					for (var i = 0; i < this.waveFormArray.length; i++){
+						var next = this.waveFormArray[i];
+						if(prev){
+							this.context.beginPath();
+							this.context.moveTo(prev.X, prev.Y);
+							this.context.lineTo(next.X, next.Y);
+							this.context.stroke();
+						}
+						prev = {X: next.X, Y: next.Y};
+						next.X--;
 					}
-					prev = {X: next.X, Y: next.Y};
-					next.X--;
 				}
 			}
 			
