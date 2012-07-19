@@ -131,7 +131,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond){
 			if (this.y + this.radius > g.canvas.height) this.y = g.canvas.height;
 			else if (this.y - this.radius < 0) this.y = 0;
 		},
-		draw: function() {
+		canvasDraw: function() {
 			g.context.beginPath();
 			g.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
 			g.context.closePath();
@@ -203,7 +203,7 @@ var Reciever = klass(function(x, y, radius){
 				}
 			}
 		},
-		draw: function() {
+		canvasDraw: function() {
 			if (this.waveFormArray){
 				this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 				
@@ -271,7 +271,7 @@ var Target = klass(function(highPoints){
 	.methods({
 		update: function(){
 		},
-		draw: function(){
+		canvasDraw: function(){
 			if (this.updated){
 				this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 				var prev = null;
@@ -316,7 +316,7 @@ var Pulse = klass(function(x, y, radius, growth){
 				g.elements.splice(index, 1);
 			}
 		},
-		draw: function() {
+		canvasDraw: function() {
 			if (this.radius < this.maxRadius){
 				g.context.beginPath();
 				g.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
@@ -352,7 +352,7 @@ var WaveForm = klass(function(frames, canvas){
 			}
 			this.currentX += this.Xadjust;
 		},
-		draw: function(){
+		canvasDraw: function(){
 			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 			
 			var prev = null;

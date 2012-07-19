@@ -153,7 +153,7 @@ continueReady = function(){
 	cryoScreen.addSprite(new dialogueSprite(799, 49, 'Sprites/Cryo_Room/Solar_Panel.png', 'solarPanel', dialogueScreens['solarPanel']));
 	cryoScreen.addSprite(new dialogueSprite(180, 340, 'Sprites/Cryo_Room/Cryo_Console.png', 'consoleCryo', dialogueScreens['consoleCryo']));
 	// cryoScreen.addSprite(new dialougeSprite(580, 0, 'Sprites/Cryo_Room/Ladder.png', 'ladderCryo', dialougeScreens['ladderCryo']));
-	cryoScreen.addSprite(new screenChangeSprite(580, 0, 'Sprites/Cryo_Room/Ladrder.png', 'ladderCryo', mainScreen1));
+	cryoScreen.addSprite(new screenChangeSprite(580, 0, 'Sprites/Cryo_Room/Ladder.png', 'ladderCryo', mainScreen1));
 	cryoScreen.addSprite(new Sprite(0, 0, 'Sprites/Cryo_Room/Fog.png', 'fog'));
 	
 	dopplerScreen.addSprite(new UISprite(416, 487, 'Sprites/Doppler_Screen/Objective_Screen.png', 'objective', 1));
@@ -187,6 +187,11 @@ RunGame = function(){
 		HTML += g.screenCollection[x].draw();
 	}
 	$('#' + g.drawDiv).html(HTML);
+	for (x in g.screenCollection) {
+		if(g.screenCollection[x].canvasDraw){
+			g.screenCollection[x].canvasDraw();
+		}
+	}
 	g.frameCounter++;
 }
 

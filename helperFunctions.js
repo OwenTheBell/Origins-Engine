@@ -67,5 +67,15 @@ var helper = {
 		var x = Math.pow((x2 - x1), 2);
 		var y = Math.pow((y2 - y1), 2);
 		return Math.sqrt(x + y);
+	},
+	
+	getMax: function(array){
+		var max = 0;
+		$(array).each(function(){
+			if (this > max){
+				max = this;
+			}
+		});
+		return max;
 	}
 }

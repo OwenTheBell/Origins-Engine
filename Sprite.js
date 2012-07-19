@@ -114,7 +114,7 @@ var screenChangeSprite = clickSprite.extend(function(left, top, image, id, targe
 	});
 	
 var dialogueSprite = clickSprite.extend(function(left, top, image, id, targetDialogue){
-	this.targetDialogue = targetDialogue;
+	this.targetDialogue = targetDialogue
 	this.targetDialogue.parent = this;
 })
 	.methods({
@@ -178,7 +178,6 @@ var moveSprite = triggerSprite.extend(function(left, top, image, id, x2, y2, fra
 
 var UISprite = Sprite.extend(function(left, top, image, id, zIndex){
 	this.css.zIndex = zIndex;
-	console.log(this.css);
 })
 	.methods({
 		
