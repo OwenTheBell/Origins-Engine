@@ -76,6 +76,8 @@ continueReady = function(){
 	rule.style.width = parseInt($('#origins').css('width')) - 20 + 'px';
 	rule.style.height = parseInt($('#origins').css('height'))  / 4 + 'px';
 	
+	helper.addCSSRule('.helloWorld');
+	
 	/*
 	 * Loading scripts this way is ok for production but not for developement
 	 * as all files imported this way don't appear in the debugger

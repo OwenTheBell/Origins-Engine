@@ -5,6 +5,14 @@
  */
 
 var helper = {
+	addCSSRule: function(rule){
+		var mysheet = document.getElementById('extCSS');
+		var mysheet = mysheet.sheet ? mysheet.sheet : mysheet.styleSheet;
+		var myrules = mysheet.cssRules; //all supported browsers should use cssRules
+		var length = myrules.length;
+		mysheet.insertRule(rule + '{}', length);
+		return myrules[length];
+	},
 
 	ajaxGet: function(dialogueScreen){
 		$.ajax({
@@ -53,8 +61,9 @@ var helper = {
 	},
 
 	findCSSRule: function(rule){
-		var mysheet = document.styleSheets[0];
-		var myrules = mysheet.cssRules ? mysheet.cssRules : mysheet.rules;
+		var mysheet = document.getElementById('extCSS');
+		var mysheet = mysheet.sheet ? mysheet.sheet : mysheet.styleSheet;
+		var myrules = mysheet.cssRules;
 		for (i in myrules){
 			if (myrules[i].selectorText && myrules[i].selectorText.toLowerCase() === rule){
 				return myrules[i];
