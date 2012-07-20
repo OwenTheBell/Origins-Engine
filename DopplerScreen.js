@@ -99,8 +99,7 @@ var Canvas = klass(function(id, top, left, width, height){
 		canvasDraw: function(){
 			var tempCanvas = document.getElementById(this.id);
 			var tempContext = tempCanvas.getContext('2d');
-			tempContext = this.context;
-			// document.getElementById(this.id) = this.canvas;
+			tempContext.drawImage(this.canvas, 0, 0);
 		}
 	});
 
