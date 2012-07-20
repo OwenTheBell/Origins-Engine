@@ -19,7 +19,6 @@
          url('Fonts/michroma-webfont.svg#MichromaRegular') format('svg');
     font-weight: normal;
     font-style: normal;
-
 }
 
 div {
@@ -33,6 +32,10 @@ div {
 	background-color: #FFFFFF;
 }
 
+canvas {
+	position: inherit;
+}
+
 /*this rule gets filled in by the javascript*/
 .speech {
 	
@@ -40,16 +43,6 @@ div {
 
 .spriteHover {
 	background: #0000FF;
-}
-
-/*
-.clickSprite {
-	cursor: pointer;
-}
-*/
-
-.cursor_pointer {
-	cursor: pointer;
 }
 
 #tester {

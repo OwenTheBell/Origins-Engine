@@ -176,7 +176,7 @@ var moveSprite = triggerSprite.extend(function(left, top, image, id, x2, y2, fra
 	});
 
 var UISprite = Sprite.extend(function(left, top, image, id, zIndex){
-	this.css.zIndex = zIndex;
+	this.css['z-index'] = zIndex;
 })
 	.methods({
 		

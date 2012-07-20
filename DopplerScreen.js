@@ -74,15 +74,15 @@ var DopplerScreen = Screen.extend(function(id, zIndex){
  * This is both wrapper for a canvas object as well as for generating the necessary
  * HTML to get outed to the DOM for the canvas to display on
  */
-var Canvas = klass(function(id, top, left, width, height){
+var Canvas = klass(function(id, left, top, width, height){
 	this.id = id;
 	this.top = top;
 	this.left = left;
 	this.width = width;
 	this.height = height;
 	this.css = {
-		top: top + 'px',
-		left: left + 'px',
+		top: this.top + 'px',
+		left: this.left + 'px',
 		'z-index': 2 //this is the default canvas layer
 	};
 	this.canvas = document.createElement('canvas');
@@ -366,8 +366,8 @@ var Pulse = klass(function(x, y, radius, growth){
 		
 	});
 
-var WaveForm = klass(function(frames, canvas, top, left, width, height){
-	this.canvas = new Canvas(canvas, top, left, width, height);
+var WaveForm = klass(function(frames, canvas, left, top, width, height){
+	this.canvas = new Canvas(canvas, left, top, width, height);
 	this.points = [];
 	this.currentX = 0; //value varying between 0 and 2*PI
 	this.currentY = 0; //value varying between 1 and -1
@@ -403,7 +403,7 @@ var WaveForm = klass(function(frames, canvas, top, left, width, height){
 					this.canvas.context.beginPath();
 					this.canvas.context.moveTo(prev.X, prev.Y);
 					this.canvas.context.lineTo(next.X, next.Y);
-					this.canvas.context.strokeStlye = 'blue';
+					this.canvas.context.strokeStyle = 'blue';
 					this.canvas.context.stroke();
 				}
 				prev = {X: next.X, Y: next.Y};
