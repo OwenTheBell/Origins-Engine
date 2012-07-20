@@ -4,12 +4,15 @@ var g = {
 	fps: 60,
 	reciever: {},
 	emitter: {},
+	target: {},
 	elements: [],
 	Mouse: {},
 	Frames: 0,
-	generate: .5,
+	generate: .5, //this puts 120 pixels horizontally between peaks
 	audioDIV: 'audio',
-	waveDict: {}
+	waveDict: {},
+	degError: 3,
+	matchedAt: null
 }
 
 $(document).ready(function(){
@@ -20,9 +23,13 @@ $(document).ready(function(){
 	g.context = g.canvas.getContext('2d');
 	
 	g.emitter = new Emitter(g.canvas.width / 2, g.canvas.height / 2, 5, g.generate);
-	g.reciever = new Reciever(100, 100, 5);
+	var randX = Math.floor(Math.random() * (g.canvas.width - 200) + 100);
+	var randY = Math.floor(Math.random() * (g.canvas.height - 200) + 100);
+	g.reciever = new Reciever(randX, randY, 5);
+	g.target = new Target([0, 120, 240, 360]);
 	g.elements.push(g.emitter);
 	g.elements.push(g.reciever);
+	g.elements.push(g.target);
 	
 	startDraw();
 });
@@ -34,15 +41,29 @@ function startDraw () {
 function loop() {
 	g.Mouse = inputState.getMouse();
 	
-	$(g.elements).each(function(){
-		this.update();
-	});
-	
-	g.context.clearRect(0, 0, g.canvas.width, g.canvas.height);
-	
-	$(g.elements).each(function(){
-		this.draw();
-	});
+	if (!g.matchedAt){
+		$(g.elements).each(function(){
+			this.update();
+		});
+		
+		g.context.clearRect(0, 0, g.canvas.width, g.canvas.height);
+		
+		$(g.elements).each(function(){
+			this.draw();
+		});
+	} else if (g.Frames - g.matchedAt >= 30){
+		g.elements = [];
+		g.waveDict = {};
+		g.elements.push(g.emitter);
+		g.emitter.waveForm = new WaveForm(g.fps / g.emitter.pulsePerSecond, 'emitterCanvas');
+		var randX = Math.floor(Math.random() * (g.canvas.width - 200) + 100);
+		var randY = Math.floor(Math.random() * (g.canvas.height - 200) + 100);
+		g.reciever = new Reciever(randX, randY, 5);
+		g.elements.push(g.reciever);
+		g.target = new Target([0, 120, 240, 360]);
+		g.elements.push(g.target);
+		g.matchedAt = null;
+	}
 	g.Frames++;
 }
 
@@ -110,7 +131,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond){
 			if (this.y + this.radius > g.canvas.height) this.y = g.canvas.height;
 			else if (this.y - this.radius < 0) this.y = 0;
 		},
-		draw: function() {
+		canvasDraw: function() {
 			g.context.beginPath();
 			g.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
 			g.context.closePath();
@@ -130,6 +151,8 @@ var Reciever = klass(function(x, y, radius){
 	this.waveFormArray = null;
 	this.canvas = $('#recieverCanvas').get(0);
 	this.context = this.canvas.getContext('2d');
+	this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	this.matched = false;
 })
 	.methods({
 		update: function() {
@@ -146,10 +169,30 @@ var Reciever = klass(function(x, y, radius){
 					var tempY = (this.canvas.height / 2 ) - g.waveDict[g.Frames] * (this.canvas.height / 2);
 					this.waveFormArray.push({X: this.canvas.width, Y: tempY});
 					if (g.waveDict[g.Frames] == 1){
-						this.click.play();
+						// this.click.play();
 					}
 					delete g.waveDict[g.Frames];
 				}
+				//Now check against the target to see if we've completed the array
+				var matchedPoints = 0;
+				for (x in this.waveFormArray){
+					if (this.waveFormArray[x].Y == 0){
+						if ((this.waveFormArray[x].X >= g.target.targetPoints[matchedPoints] - g.degError) &&
+							(this.waveFormArray[x].X <= g.target.targetPoints[matchedPoints] + g.degError)){
+						
+							matchedPoints++;
+							if (matchedPoints == g.target.targetPoints.length){
+								this.matched = true;
+								g.matchedAt = g.Frames;
+							}
+						} else {
+							//if the first point doesn't match up with the targetPoints
+							//then there is no need to continue testing for a match
+							break;
+						}
+					}
+				}
+				
 				/*
 				 * Some coordinates will be missed but this is ok since the waveform
 				 * is still acceptably smooth despite the lacking a data point for every
@@ -160,22 +203,31 @@ var Reciever = klass(function(x, y, radius){
 				}
 			}
 		},
-		draw: function() {
+		canvasDraw: function() {
 			if (this.waveFormArray){
 				this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 				
-				var prev = null
+				if (this.matched){
+					this.context.beginPath();
+					this.context.rect(0, 0, this.canvas.width, this.canvas.height);
+					this.context.fillStyle = '#00FF00';
+					this.context.fill();
+				}
 				
-				for (var i = 0; i < this.waveFormArray.length; i++){
-					var next = this.waveFormArray[i];
-					if(prev){
-						this.context.beginPath();
-						this.context.moveTo(prev.X, prev.Y);
-						this.context.lineTo(next.X, next.Y);
-						this.context.stroke();
+				else {
+					var prev = null
+					
+					for (var i = 0; i < this.waveFormArray.length; i++){
+						var next = this.waveFormArray[i];
+						if(prev){
+							this.context.beginPath();
+							this.context.moveTo(prev.X, prev.Y);
+							this.context.lineTo(next.X, next.Y);
+							this.context.stroke();
+						}
+						prev = {X: next.X, Y: next.Y};
+						next.X--;
 					}
-					prev = {X: next.X, Y: next.Y};
-					next.X--;
 				}
 			}
 			
@@ -185,6 +237,58 @@ var Reciever = klass(function(x, y, radius){
 			g.context.fill();
 		}
 		
+	});
+
+/*
+ * Array of the x-coordinate for which the y-coordinate is at peak
+ */
+var Target = klass(function(highPoints){
+	this.canvas = $('#targetCanvas').get(0);
+	this.context = this.canvas.getContext('2d');
+	this.updated = true;
+	this.targetPoints = highPoints;
+	this.waveFormArray = [];
+	
+	for(var i = 0; i < highPoints.length - 1; i++){
+		var peakDif = highPoints[i+1] - highPoints[i];
+		var xPos = highPoints[i];
+		var xInc = Math.PI * 2 / peakDif    
+		for(var j = 0; j < peakDif; j++){
+			var y = (this.canvas.height / 2) - Math.cos(xInc * j) * (this.canvas.height / 2);
+			this.waveFormArray.push({X: xPos + j, Y: y});
+		}
+		//this little bit of code keeps the graph clean by making sure it goes edge to edge
+		if (!highPoints[i+2]){
+			xPos = highPoints[i+1];
+			var varyInc = 0;
+			while(xPos <= this.canvas.width){
+				var y = (this.canvas.height / 2) - Math.cos(xInc * varyInc++) * (this.canvas.height / 2);
+				this.waveFormArray.push({X: xPos++, Y: y});
+			}
+		}
+	}
+})
+	.methods({
+		update: function(){
+		},
+		canvasDraw: function(){
+			if (this.updated){
+				this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+				var prev = null;
+				
+				for(var i=0; i < this.waveFormArray.length; i++){
+					var next = this.waveFormArray[i];
+					if(prev){
+						this.context.beginPath();
+						this.context.moveTo(prev.X, prev.Y);
+						this.context.lineTo(next.X, next.Y);
+						this.context.stroke();
+					}
+					prev = next;
+				}
+				this.updated = false;
+			}
+		}
 	});
 
 var Pulse = klass(function(x, y, radius, growth){
@@ -212,7 +316,7 @@ var Pulse = klass(function(x, y, radius, growth){
 				g.elements.splice(index, 1);
 			}
 		},
-		draw: function() {
+		canvasDraw: function() {
 			if (this.radius < this.maxRadius){
 				g.context.beginPath();
 				g.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
@@ -248,7 +352,7 @@ var WaveForm = klass(function(frames, canvas){
 			}
 			this.currentX += this.Xadjust;
 		},
-		draw: function(){
+		canvasDraw: function(){
 			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 			
 			var prev = null;

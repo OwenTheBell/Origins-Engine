@@ -36,7 +36,7 @@
 <item id = "solarPanel">
 	
 <overseer id = "panelCyroMod1" nextType = "exit" nextId = "if nextType is exit then give the id of the screen to eject to">
-		<text>It’s solar panel from the Hubble Space Telescope. It’s like owning a piece of history though you probably wish that this particular piece of history wasn’t currently jutting through your capsule’s hull. </text>
+		<text>It’s solar panel from the Hubble Space Telescope. It’s like owning a piece of history though you probably wish that this particular piece of history wasn’t jutting through your capsule’s hull. </text>
 	</overseer>
 
 </item>

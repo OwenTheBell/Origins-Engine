@@ -13,6 +13,7 @@ var g = {
 	frameCounter: 0,
 	drawDiv: 'draw',
 	audioDiv: 'audio',
+	playerInput: {}
 }
 
 //If there is not a console then make console.log an empty function
@@ -50,7 +51,18 @@ $(document).ready(function(){
 				'Sprites/Cryo_Room/Storage_Container.png',
 				'Sprites/Cryo_Room/Solar_Panel.png',
 				'Sprites/Cryo_Room/Cryo_Console.png',
-				'Sprites/Cryo_Room/Ladder.png'
+				'Sprites/Cryo_Room/Ladder.png',
+				'Sprites/Doppler_Screen/Objective_Screen.png',
+				'Sprites/Doppler_Screen/Detected_Screen.png',
+				'Sprites/Doppler_Screen/Emitted_Screen.png',
+				'Sprites/Doppler_Screen/Objective_Screen.png',
+				'Sprites/Doppler_Screen/Mouse_Counter.png',
+				'Sprites/Doppler_Screen/HelpButton_Static.png',
+				'Sprites/Doppler_Screen/UIFill.png',
+				'Sprites/Doppler_Screen/Start_Button.png',
+				'Sprites/Doppler_Screen/Pause_Button.png',
+				'Sprites/Doppler_Screen/Arrow_Up.png',
+				'Sprites/Doppler_Screen/Arrow_Down.png'
 		);
 });
 
@@ -78,9 +90,14 @@ continueReady = function(){
 	$('head').append(importer);
 	*/
 	
-	var mainScreen1 = new Screen('mainScreen1', g.topZIndex);
-	mainScreen1.activeScreen = true;
+	var mainScreen1 = new Screen('mainScreen1', g.bottomZIndex);
+	// mainScreen1.activeScreen = true;
 	g.screenCollection[mainScreen1.id] = mainScreen1;
+	
+	var talkScreen = new DialogueScreen('mainScreen1Intro', g.bottomZIndex, 'XML/IntroDial.xml');
+	helper.ajaxGet(talkScreen);
+	mainScreen1.addDialogueScreen(talkScreen);
+	g.screenCollection[talkScreen.id] = talkScreen;
 	
 	var mainScreen2 = new Screen('mainScreen2', g.bottomZIndex);
 	g.screenCollection[mainScreen2.id] = mainScreen2;
@@ -88,10 +105,9 @@ continueReady = function(){
 	var cryoScreen = new Screen('cryoScreen', g.bottomZIndex);
 	g.screenCollection[cryoScreen.id] = cryoScreen;
 	
-	// var talkScreen = new DialogueScreen('talkScreen', g.bottomZIndex, 'XML/IntroDial.xml');
-	// helper.ajaxGet(talkScreen);
-	// talkScreen.activate();
-	// g.screenCollection[talkScreen.id] = talkScreen;
+	var dopplerScreen = new DopplerScreen('dopplerScreen', g.topZIndex);
+	dopplerScreen.activeScreen = true;
+	g.screenCollection[dopplerScreen.id] = dopplerScreen;
 	
 	var dialogueScreens = new Array();
 	
@@ -106,7 +122,7 @@ continueReady = function(){
 	mainScreen1.addSprite(new dialogueSprite(799, 300, 'Sprites/Main_View1/Bike.png', 'Bike', dialogueScreens['bike']));
 	// mainScreen1.addSprite(new dialogueSprite(699, 0, 'Sprites/Main_View1/Ladder.png', 'Ladder', dialogueScreens['ladder']));
 	mainScreen1.addSprite(new screenChangeSprite(699, 0, 'Sprites/Main_View1/Ladder.png', 'Ladder', cryoScreen));
-	mainScreen1.addSprite(new dialogueSprite(99, 99, 'Sprites/Main_View1/Food_Pellets.png', 'Food_Pellets', dialogueScreens['food']));
+	mainScreen1.addSprite(new dialogueSprite(100, 99, 'Sprites/Main_View1/Food_Pellets.png', 'Food_Pellets', dialogueScreens['food']));
 	mainScreen1.addSprite(new dialogueSprite(0, 349, 'Sprites/Main_View1/Drawer.png', 'Drawer', dialogueScreens['bookshelf']));
 	mainScreen1.addSprite(new dialogueSprite(350, 250, 'Sprites/Main_View1/Table.png', 'Table', dialogueScreens['table']));
 	mainScreen1.addSprite(new dialogueSprite(299, 300, 'Sprites/Main_View1/Chair.png', 'Chair', dialogueScreens['chair']));
@@ -140,6 +156,16 @@ continueReady = function(){
 	cryoScreen.addSprite(new screenChangeSprite(580, 0, 'Sprites/Cryo_Room/Ladder.png', 'ladderCryo', mainScreen1));
 	cryoScreen.addSprite(new Sprite(0, 0, 'Sprites/Cryo_Room/Fog.png', 'fog'));
 	
+	dopplerScreen.addSprite(new UISprite(416, 487, 'Sprites/Doppler_Screen/Objective_Screen.png', 'objective', 1));
+	dopplerScreen.addSprite(new UISprite(417, 561, 'Sprites/Doppler_Screen/Detected_Screen.png', 'detected', 1));
+	dopplerScreen.addSprite(new UISprite(417, 634, 'Sprites/Doppler_Screen/Emitted_Screen.png', 'emitted', 1));
+	dopplerScreen.addSprite(new UISprite(0, 480, 'Sprites/Doppler_Screen/Mouse_Counter.png', 'mouse_counter', 1));
+	dopplerScreen.addSprite(new UISprite(254, 594, 'Sprites/Doppler_Screen/HelpButton_Static.png', 'help_button', 1));
+	dopplerScreen.addSprite(new UISprite(0, 0, 'Sprites/Doppler_Screen/UIFill.png', 'UIFill', 3));
+	dopplerScreen.addSprite(new UISprite(870, 589, 'Sprites/Doppler_Screen/Start_Button.png', 'start_button', 4));
+	dopplerScreen.addSprite(new UISprite(870, 520, 'Sprites/Doppler_Screen/Pause_Button.png', 'pause_button', 4));
+	dopplerScreen.addSprite(new UISprite(1175, 524, 'Sprites/Doppler_Screen/Arrow_Up.png', 'arrow_up', 4));
+	dopplerScreen.addSprite(new UISprite(1070, 520, 'Sprites/Doppler_Screen/Arrow_Down.png', 'arrow_down', 4));
 	delete dialogueScreens;
 	
 	startGame();
@@ -161,6 +187,11 @@ RunGame = function(){
 		HTML += g.screenCollection[x].draw();
 	}
 	$('#' + g.drawDiv).html(HTML);
+	for (x in g.screenCollection) {
+		if(g.screenCollection[x].canvasDraw){
+			g.screenCollection[x].canvasDraw();
+		}
+	}
 	g.frameCounter++;
 }
 

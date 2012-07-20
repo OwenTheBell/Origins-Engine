@@ -4,7 +4,7 @@
 
 <dialogue>
 	<item id="clothes">
-	<overseer id="clothingCabinetinto1" nextType="exit" nextId="if nextType is exit then give the id of the screen to eject to">
+	<overseer id="clothingCabinet" nextType="exit" nextId="if nextType is exit then give the id of the screen to eject to">
 		<text>There are several identical pairs of clothing in this cabinet. Keeping up with the latest fashions will be difficult up here.</text>
 	</overseer>
 	</item>

@@ -48,7 +48,7 @@ var clickSprite = Sprite.extend(function(left, top, image, id){
 	this.mouseOver = false; //detect mouse position over sprite
 
 	this.clickMap = [];
-	
+	//Build the clickMap
 	var canvas = document.createElement('canvas');
 	canvas.width = this.width();
 	canvas.height = this.height();
@@ -68,14 +68,14 @@ var clickSprite = Sprite.extend(function(left, top, image, id){
 		if(!this.clickMap[col]) this.clickMap[col] = [];
 		this.clickMap[col][row] = pixels[i+3] == 0 ? 0 : 1;
 	}
-	// console.log(this.id + ' has dimensions of (' + col + ', ' + row + ')');
+	delete canvas, ctx, pixels;
 })
 	.methods({
 		update: function(){
 			if (this.parent.activeScreen){
 				if (this.clicked){
 					this.onClick();
-					this.clicked = false;
+					this.clicked = false ;
 				}
 			}
 		},
@@ -85,12 +85,16 @@ var clickSprite = Sprite.extend(function(left, top, image, id){
 			var x = mouse.X - this.left - parseInt($('#origins').css('left'));
 			var y = mouse.Y - this.top - parseInt($('#origins').css('top'));
 			
-			if (this.clickMap[x][y] == 1){
-				if(mouse.click){
-					this.clicked = true;
+			try {
+				if (this.clickMap[x][y] == 1){
+					if(mouse.click){
+						this.clicked = true;
+					}
+					//Return true if the mouse is at least over clickable area
+					return true;
 				}
-				//Return true if the mouse is at least over clickable area
-				return true;
+			} catch(e) {
+				console.log('ERROR: ' + x + ' doesn\'t appear to be in clickMap');
 			}
 			return false;
 		},
@@ -109,7 +113,7 @@ var screenChangeSprite = clickSprite.extend(function(left, top, image, id, targe
 	});
 	
 var dialogueSprite = clickSprite.extend(function(left, top, image, id, targetDialogue){
-	this.targetDialogue = targetDialogue;
+	this.targetDialogue = targetDialogue
 	this.targetDialogue.parent = this;
 })
 	.methods({
@@ -169,4 +173,11 @@ var moveSprite = triggerSprite.extend(function(left, top, image, id, x2, y2, fra
 			this.css.top = this.top + 'px';
 			this.css.left = this.left + 'px';
 		}
+	});
+
+var UISprite = Sprite.extend(function(left, top, image, id, zIndex){
+	this.css.zIndex = zIndex;
+})
+	.methods({
+		
 	});
