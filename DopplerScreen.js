@@ -28,6 +28,9 @@ var DopplerScreen = Screen.extend(function(id, zIndex){
 	.methods({
 		update: function(){
 			this.supr();
+			for(i in doppler.elements){
+				doppler.elements[i].update();
+			}
 		},
 		draw: function(){
 			var HTML = '';
@@ -57,9 +60,13 @@ var DopplerScreen = Screen.extend(function(id, zIndex){
 			return(HTML);
 		},
 		canvasDraw: function(){
+			doppler.canvas.clear();
+			//doppler.canvas.context.clearRect(0, 0, this.doppler.width, this.doppler.height);
+
 			for(x in doppler.elements){
 				doppler.elements[x].canvasDraw();
 			}
+			doppler.canvas.canvasDraw();
 		}
 	});
 
@@ -85,9 +92,8 @@ var Canvas = klass(function(id, top, left, width, height){
 })
 	.methods({
 		update: function(){
-			this.css.top = this.top;
-			this.css.left = this.left;
 		},
+		//this just returns the html needed to create a canvas object to draw the canvas to
 		draw: function(){
 			var HTML = '<canvas id=' + this.id + ' width=' + this.width + ' height=' + this.height + ' style="';
 			for(x in this.css){
@@ -96,10 +102,13 @@ var Canvas = klass(function(id, top, left, width, height){
 			HTML += '" > </canvas>';
 			return HTML;
 		},
+		//this function handles the actual canvas rendering
 		canvasDraw: function(){
-			var tempCanvas = document.getElementById(this.id);
-			var tempContext = tempCanvas.getContext('2d');
+			var tempContext = document.getElementById(this.id).getContext('2d');
 			tempContext.drawImage(this.canvas, 0, 0);
+		},
+		clear: function(){
+			this.context.clearRect(0, 0, this.width, this.height);
 		}
 	});
 
@@ -115,8 +124,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond){
 })
 	.methods({
 		update: function() {
-			
-			this.waveForm.update();http://www.youtube.com/watch?v=Bd6YhLk9kyw&feature=relmfu
+			this.waveForm.update();
 			var distance = helper.getDistance(this.x, this.y, doppler.reciever.x, doppler.reciever.y);
 			var frames = Math.ceil(distance / this.growth);
 			doppler.waveDict[frames + doppler.Frames] = this.waveForm.currentY;
@@ -146,6 +154,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond){
 			this.x += moveX;
 			this.y += moveY;
 			
+			//ensure that the emitter cannot leave the bounds of the play area
 			if (this.x + this.radius > doppler.canvas.width) this.x = doppler.canvas.width;
 			else if (this.x - this.radius < 0) this.x = 0;
 			if (this.y + this.radius > doppler.canvas.height) this.y = doppler.canvas.height;
@@ -161,7 +170,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond){
 			doppler.canvas.context.fill();
 			
 			if (this.waveForm){
-				this.waveForm.draw();
+				this.waveForm.canvasDraw();
 			}
 		}
 	});
@@ -229,7 +238,8 @@ var Reciever = klass(function(x, y, radius){
 		},
 		canvasDraw: function() {
 			if (this.waveFormArray){
-				this.canvas.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+				this.canvas.clear();
+				//this.canvas.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 				
 				if (this.matched){
 					this.canvas.context.beginPath();
@@ -300,7 +310,8 @@ var Target = klass(function(highPoints){
 		},
 		canvasDraw: function(){
 			if (this.updated){
-				this.canvas.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+				this.canvas.clear();
+				//this.canvas.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 				var prev = null;
 				
 				for(var i=0; i < this.waveFormArray.length; i++){
@@ -384,14 +395,15 @@ var WaveForm = klass(function(frames, canvas, top, left, width, height){
 			return HTML;
 		},
 		canvasDraw: function(){
-			this.canvas.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+			this.canvas.clear();
 			var prev = null;
 			for(var i = 0; i < this.points.length - 1; i++){
 				var next = this.points[i];
 				if (prev){
 					this.canvas.context.beginPath();
 					this.canvas.context.moveTo(prev.X, prev.Y);
-					this.canvas.ontext.lineTo(next.X, next.Y);
+					this.canvas.context.lineTo(next.X, next.Y);
+					this.canvas.context.strokeStlye = 'blue';
 					this.canvas.context.stroke();
 				}
 				prev = {X: next.X, Y: next.Y};
