@@ -5,13 +5,31 @@
  */
 
 var helper = {
-	addCSSRule: function(rule){
+	addCSSRule: function(rule, styles){
 		var mysheet = document.getElementById('extCSS');
 		var mysheet = mysheet.sheet ? mysheet.sheet : mysheet.styleSheet;
 		var myrules = mysheet.cssRules; //all supported browsers should use cssRules
 		var length = myrules.length;
-		mysheet.insertRule(rule + '{}', length);
+		var ruleStr = rule + '{';
+		if (styles){
+			for(i in styles){
+				ruleStr += i + ': ' + styles[i] + '; ';
+			}
+		}
+		ruleStr += '}';
+		//This part will not work in legacy browsers
+		//anything older than IE 9 is not supported
+		mysheet.insertRule(ruleStr, length);
 		return myrules[length];
+	},
+	
+	//add new parts to an existing cssRule
+	//there is no limit on how much can be added provided it is formatted correctly
+	addToCSSRule: function(rule, toAdd){
+		var myrule = this.findCSSRule(rule);
+		for(j in toAdd){
+			myrule.style[j] = toAdd[j];
+		}
 	},
 
 	ajaxGet: function(dialogueScreen){

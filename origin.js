@@ -71,12 +71,11 @@ continueReady = function(){
 	//create the div in which to put the output HTML as well as the audio files
 	$('#origins').html('<div id="' + g.drawDiv + '"> </div><div id="' + g.audioDiv + '"> </div>');
 	
-	//setup some of the external css for the dialogueScreen
-	var rule = helper.findCSSRule('.speech');
-	rule.style.width = parseInt($('#origins').css('width')) - 20 + 'px';
-	rule.style.height = parseInt($('#origins').css('height'))  / 4 + 'px';
-	
-	helper.addCSSRule('.helloWorld');
+	//setup some of the external css for the dialogueScreens
+	var rule = helper.addCSSRule('.speech', {
+		width: parseInt($('#origins').css('width')) - 20 + 'px',
+		height: parseInt($('#origins').css('height')) / 4 + 'px'
+	});
 	
 	/*
 	 * Loading scripts this way is ok for production but not for developement

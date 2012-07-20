@@ -6,7 +6,6 @@ var doppler = {
 	target: {},
 	elements: [], //nonSprite elemenents, stuff like the emitter
 	Mouse: {},
-	Frames: 0,
 	generate: .5, //this puts 120 pixels horizontally between peaks
 	waveDict: {},
 	degError: 3,
@@ -78,6 +77,8 @@ var Canvas = klass(function(id, left, top, width, height){
 	this.id = id;
 	this.top = top;
 	this.left = left;
+	//these values cannot be put into css the DOM requries them to
+	//render the canvas element properly
 	this.width = width;
 	this.height = height;
 	this.css = {
@@ -127,7 +128,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond){
 			this.waveForm.update();
 			var distance = helper.getDistance(this.x, this.y, doppler.reciever.x, doppler.reciever.y);
 			var frames = Math.ceil(distance / this.growth);
-			doppler.waveDict[frames + doppler.Frames] = this.waveForm.currentY;
+			doppler.waveDict[frames + g.frameCounter] = this.waveForm.currentY;
 			
 			if (this.waveForm.currentY == 1){
 				doppler.elements.push(new Pulse (this.x, this.y, this.radius, this.growth));
@@ -188,20 +189,20 @@ var Reciever = klass(function(x, y, radius){
 		update: function() {
 			
 			if(!this.waveFormArray){
-				if(doppler.waveDict[doppler.Frames]){
+				if(doppler.waveDict[g.frameCounter]){
 					this.waveFormArray = [];
-					var tempY = (this.canvas.height / 2 ) - doppler.waveDict[doppler.Frames] * (this.canvas.height / 2);
+					var tempY = (this.canvas.height / 2 ) - doppler.waveDict[g.frameCounter] * (this.canvas.height / 2);
 					this.waveFormArray.push({X: this.canvas.width, Y: tempY});
-					delete doppler.waveDict[doppler.Frames];
+					delete doppler.waveDict[g.frameCounter];
 				}
 			} else {
-				if (doppler.waveDict[doppler.Frames]){
-					var tempY = (this.canvas.height / 2 ) - doppler.waveDict[doppler.Frames] * (this.canvas.height / 2);
+				if (doppler.waveDict[g.frameCounter]){
+					var tempY = (this.canvas.height / 2 ) - doppler.waveDict[g.frameCounter] * (this.canvas.height / 2);
 					this.waveFormArray.push({X: this.canvas.width, Y: tempY});
-					if (doppler.waveDict[doppler.Frames] == 1){
+					if (doppler.waveDict[g.frameCounter] == 1){
 						// this.click.play();
 					}
-					delete doppler.waveDict[doppler.Frames];
+					delete doppler.waveDict[g.frameCounter];
 				}
 				//Now check against the target to see if we've completed the array
 				var matchedPoints = 0;
@@ -213,7 +214,7 @@ var Reciever = klass(function(x, y, radius){
 							matchedPoints++;
 							if (matchedPoints == doppler.target.targetPoints.length){
 								this.matched = true;
-								doppler.matchedAt = doppler.Frames;
+								doppler.matchedAt = g.frameCounter;
 							}
 						} else {
 							//if the first point doesn't match up with the targetPoints
@@ -239,7 +240,6 @@ var Reciever = klass(function(x, y, radius){
 		canvasDraw: function() {
 			if (this.waveFormArray){
 				this.canvas.clear();
-				//this.canvas.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 				
 				if (this.matched){
 					this.canvas.context.beginPath();
@@ -257,7 +257,8 @@ var Reciever = klass(function(x, y, radius){
 							this.canvas.context.beginPath();
 							this.canvas.context.moveTo(prev.X, prev.Y);
 							this.canvas.context.lineTo(next.X, next.Y);
-							this.canvas.ontext.stroke();
+							this.canvas.context.strokeStyle = 'yellow';
+							this.canvas.context.stroke();
 						}
 						prev = {X: next.X, Y: next.Y};
 						next.X--;
@@ -279,7 +280,7 @@ var Reciever = klass(function(x, y, radius){
  */
 var Target = klass(function(highPoints){
 	this.canvas = new Canvas('targetCanvas', 417, 487, 444, 77);
-	this.updated = true;
+	this.rendered = true;
 	this.targetPoints = highPoints;
 	this.waveFormArray = [];
 	
@@ -309,9 +310,9 @@ var Target = klass(function(highPoints){
 			return this.canvas.draw();
 		},
 		canvasDraw: function(){
-			if (this.updated){
+			if (this.rendered){
 				this.canvas.clear();
-				//this.canvas.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
 				var prev = null;
 				
 				for(var i=0; i < this.waveFormArray.length; i++){
@@ -320,13 +321,16 @@ var Target = klass(function(highPoints){
 						this.canvas.context.beginPath();
 						this.canvas.context.moveTo(prev.X, prev.Y);
 						this.canvas.context.lineTo(next.X, next.Y);
+						this.canvas.context.strokeStyle = 'green';
 						this.canvas.context.stroke();
 					}
 					prev = next;
 				}
-				this.canvas.canvasDraw();
-				this.updated = false;
+				this.rendered = false;
 			}
+			//this has to be out here otherwise the constant DOM render prevents the
+			//canvas from being drawn every frame
+			this.canvas.canvasDraw();
 		}
 	});
 
