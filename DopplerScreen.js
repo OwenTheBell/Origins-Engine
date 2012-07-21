@@ -27,8 +27,10 @@ var DopplerScreen = Screen.extend(function(id, zIndex){
 	.methods({
 		update: function(){
 			this.supr();
-			for(i in doppler.elements){
-				doppler.elements[i].update();
+			if (this.css['opacity'] > 0){
+				for(i in doppler.elements){
+					doppler.elements[i].update();
+				}
 			}
 		},
 		draw: function(){
@@ -59,13 +61,15 @@ var DopplerScreen = Screen.extend(function(id, zIndex){
 			return(HTML);
 		},
 		canvasDraw: function(){
-			doppler.canvas.clear();
-			//doppler.canvas.context.clearRect(0, 0, this.doppler.width, this.doppler.height);
+			if (this.css['opacity'] > 0){
+				doppler.canvas.clear();
+				//doppler.canvas.context.clearRect(0, 0, this.doppler.width, this.doppler.height);
 
-			for(x in doppler.elements){
-				doppler.elements[x].canvasDraw();
+				for(x in doppler.elements){
+					doppler.elements[x].canvasDraw();
+				}
+				doppler.canvas.canvasDraw();
 			}
-			doppler.canvas.canvasDraw();
 		}
 	});
 

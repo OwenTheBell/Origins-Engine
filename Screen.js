@@ -14,11 +14,12 @@ var Screen = klass(function(id, zIndex) {
 	this.parent = null;
 	
 	this.css = {
-		// 'position': 'inherit',
 		'opacity': 0.0,
 		'z-index': zIndex,
 	}
 	
+	this.classes.push('.viewScreen');
+
 	//set opacity based on whether or not this screen is on the top zIndex
 	if (this.css['z-index'] == g.topZIndex) {
 		this.css['opacity'] = 1.0;

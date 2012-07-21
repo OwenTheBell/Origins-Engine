@@ -17,6 +17,7 @@ var helper = {
 			}
 		}
 		ruleStr += '}';
+		//console.log('setting ' + ruleStr);
 		//This part will not work in legacy browsers
 		//anything older than IE 9 is not supported
 		mysheet.insertRule(ruleStr, length);
@@ -83,11 +84,11 @@ var helper = {
 		var mysheet = mysheet.sheet ? mysheet.sheet : mysheet.styleSheet;
 		var myrules = mysheet.cssRules;
 		for (i in myrules){
-			if (myrules[i].selectorText && myrules[i].selectorText.toLowerCase() === rule){
+			if (myrules[i].selectorText && myrules[i].selectorText === rule){
 				return myrules[i];
 			}
 		}
-		console.log('ERROR: css rule ' + rule + ' not found');
+		return false;
 	},
 	
 	getDistance: function(x1, y1, x2, y2){

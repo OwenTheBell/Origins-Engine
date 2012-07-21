@@ -1,6 +1,6 @@
 /*
  * While DialogueScreens do have a parent screen they are still contained within
- * the screen collection and their update is handled from their. This is true of
+	 * the screen collection and their update is handled from their. This is true of
  * all screens, hence why DialogueScreen update is not handled by its parent
  */
 
@@ -18,33 +18,42 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 	this.playerHTML = '';
 	this.popupHTML = '';
 	this.statements = []; //array of all statements
-	
-	this.overseerCSS = {
-		top: '5px',
-		left: '5px',
-	}
-	
-	this.playerCSS = {
-		top: $('#origins').height() - parseInt(helper.findCSSRule('.speech').style.height) - 15 + 'px',
-		left: 5 + 'px',
-	}
-	
-	this.responseHolders = [];
-	for (var i=0; i < 4; i++) {
-		this.responseHolders.push({
-			height: Math.floor(parseInt(helper.findCSSRule('.speech').style.height) / 4) + 'px',
-			width: helper.findCSSRule('.speech').style.width,
+
+	if (!helper.findCSSRule('#OverseerDIV')){
+		this.overseerRule = helper.addCSSRule('#OverseerDIV', {
+			top: '5px', left: '5px'
 		});
-		//This needs to be setup out here so that it can access the height variable
-		this.responseHolders[i].top = parseInt(this.responseHolders[i].height) * i + 'px';
-	};
-	
-	this.popupCSS = {
-		width: $('#origins').width() / 5 + 'px',
-		height: $('#origins').height() / 4 + 'px',
+
+		//if overseerDialogue wasn't there it is reasonable to assume that the other
+		//cssRules aren't there either and should be created
+		this.playerRule = helper.addCSSRule('#PlayerDIV', {
+				top: $('#origins').height() - parseInt(helper.findCSSRule('.speech').style.height) - 15 + 'px',
+				left: 5 + 'px', 
+		});
+
+		this.popupRule = helper.addCSSRule('#PopupDIV', {
+			width: $('#origins').width() / 5 + 'px',
+			height: $('#origins').height() / 4 + 'px',
+			top: ($('#origins').height() - ($('#origins').width() / 5)) / 2 + 'px',
+			left: ($('#origins').width() - ($('#origins').height() / 4)) / 2 + 'px'
+		});
+
+		this.responseRule = helper.addCSSRule('.responseDialogue', {
+			width: helper.findCSSRule('.speech').style.width,
+			height: Math.floor(parseInt(helper.findCSSRule('.speech').style.height) / 4) + 'px'
+		});
+	} else {
+		this.overseerRule = helper.findCSSRule('#OverseerDIV');
+		this.playerRule = helper.findCSSRule('#PlayerDIV');
+		this.popupRule = helper.findCSSRule('#PopupDIV');
+		this.responseRule = helper.findCSSRule('.responseDialogue');
 	}
-	this.popupCSS.top = ($('#origins').height() - parseInt(this.popupCSS.height)) / 2 + 'px';
-	this.popupCSS.left = ($('#origins').width() - parseInt(this.popupCSS.width)) / 2 + 'px';
+
+	this.responseHolders = [];
+	for(var i = 0; i < 4; i++){
+		this.responseHolders[i] = {};
+		this.responseHolders[i].top = parseInt(this.responseRule.style.height) * i + 'px';
+	}
 })
 
 	.methods({
@@ -94,14 +103,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			}
 			
 			this.statements = statements;
-			/*
-			 * Function for setting a statement's nextStatement
-			 * ARGS:
-			 *	statement: the statement itself
-			 *	id: identify what the statement is in case of error. This is needed 
-			 *		as playerStatements do not have ids so a string needs to be passed
-			 *		to be used instead
-			 */
+			//Function for setting a statement's nextStatement
 			function linkNext(statement){
 				var next = statement.nextType;
 				if (next === 'exit'){
@@ -158,12 +160,12 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 				}
 				
 				var mouse = g.input.mouse;
-				mouse.X -= $('#origins').position().left + parseInt(this.playerCSS.left);
-				mouse.Y -= $('#origins').position().top + parseInt(this.playerCSS.top);
+				mouse.X -= $('#origins').position().left + parseInt(this.playerRule.style.left);
+				mouse.Y -= $('#origins').position().top + parseInt(this.playerRule.style.top);
 				if((mouse.X > 0) && (mouse.X <= parseInt(helper.findCSSRule('.speech').style.width))
 					&& (mouse.Y > 0) && (mouse.Y <= parseInt(helper.findCSSRule('.speech').style.height))){
 					
-					var target = Math.floor(mouse.Y / parseInt(this.responseHolders[0].height));
+					var target = Math.floor(mouse.Y / parseInt(this.responseRule.style.height));
 					
 					if (mouse.click) {
 						this.activeStatement.clicked = target;
@@ -196,7 +198,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 				var that = this;
 				function addToPlayer(inputString) {
 					var returnString = '';
-					returnString += '<div id="PlayerDiv" style="';
+					returnString += '<div id="PlayerDIV" style="';
 					for(x in that.playerCSS){
 						returnString += x + ':' + that.playerCSS[x] + '; ';
 					}	
