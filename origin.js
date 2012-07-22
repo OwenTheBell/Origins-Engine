@@ -13,7 +13,8 @@ var g = {
 	frameCounter: 0,
 	drawDiv: 'draw',
 	audioDiv: 'audio',
-	playerInput: {}
+	playerInput: {},
+	id_differ: 0
 }
 
 //If there is not a console then make console.log an empty function

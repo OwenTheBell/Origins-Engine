@@ -4,9 +4,15 @@ var Sprite = klass(function (left, top, image, id) {
 	this.left = left; //x
 	this.image = new Image();
 	this.image.src = image;
-	this.id = id;
+	this.id = id + g.id_differ++;
 	this.drawState = 'new';
 	// this.cssClasses = []; //store names of any applied css classes
+	this.rule = helper.addCSSRule('#' + this.id, {
+		'background-image': "url('" + this.image.src + "')",
+		width: this.image.width + 'px',
+ 		height: this.image.height + 'px'
+	});
+
 	
 	this.css = {
 		top: this.top + 'px',
@@ -16,11 +22,11 @@ var Sprite = klass(function (left, top, image, id) {
 	.methods({
 		changeTop: function(top){
 			this.top = top;
-			this.drawState = 'updated';
+			this.css.top = this.top + 'px';
 		},
 		changeLeft: function(left){
 			this.left = left;
-			this.drawState = 'updated';
+			this.css.left = this.left;
 		},
 		//these two functions just provide a little shorthand
 		width: function(){
@@ -37,7 +43,7 @@ var Sprite = klass(function (left, top, image, id) {
 			for(x in this.css){
 				HTML += x + ':' + this.css[x] + '; ';
 			}
-			HTML += '"><img src="' + this.image.src + '"/></div>';
+			HTML += '"></div>';
 			return(HTML);
 		}
 	});
@@ -157,21 +163,25 @@ var moveSprite = triggerSprite.extend(function(left, top, image, id, x2, y2, fra
 		update: function(){
 			if (this.moving){
 				if (this.moveCount < this.frames){
-					this.top += this.yMove;
-					this.left += this.xMove;
+					this.changeTop(this.top + this.yMove);
+					this.changeLeft(this.left + this.xMove);
+					//this.top += this.yMove;
+					//this.left += this.xMove;
 					this.moveCount++;
 				} else {
 					var temp = {X: this.moveTo.X, Y: this.moveTo.Y};
 					this.moveTo = this.start;
 					this.start = temp;
 					this.moving = false;
-					this.left = this.start.X;
-					this.top = this.start.Y;
+					this.changeLeft(this.start.X);
+					this.changeTop(this.start.Y);
+					//this.left = this.start.X;
+					//this.top = this.start.Y;
 				}
 			}
 			
-			this.css.top = this.top + 'px';
-			this.css.left = this.left + 'px';
+			//this.css.top = this.top + 'px';
+			//this.css.left = this.left + 'px';
 		}
 	});
 
