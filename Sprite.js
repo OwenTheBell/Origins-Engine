@@ -12,7 +12,6 @@ var Sprite = klass(function (left, top, image, id) {
 		width: this.image.width + 'px',
  		height: this.image.height + 'px'
 	});
-
 	
 	this.css = {
 		top: this.top + 'px',

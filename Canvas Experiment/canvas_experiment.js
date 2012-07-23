@@ -12,8 +12,22 @@ var g = {
 	audioDIV: 'audio',
 	waveDict: {},
 	degError: 3,
-	matchedAt: null
+	matchedAt: null,
+	lastFrame: 0,
+	lastFrameTime: null,
+	getTime: function(){
+		var d = new Date();
+		return d.getTime();
+	}
 }
+
+window.requestAnimFrame = (function(){
+		return	window.requestAnimationFrame				||
+						window.webkitRequestAnimationFrame	||
+						window.mozRequestAnimationFrame			||
+						window.oRequestAnimationFrame				||
+						window.msRequestAnimationFrame;
+					})();
 
 $(document).ready(function(){
 	g.canvas = document.getElementById('myCanvas');
@@ -35,13 +49,15 @@ $(document).ready(function(){
 });
 
 function startDraw () {
-	setInterval(loop, 1000/g.fps);
+	requestAnimFrame(startDraw);
+	loop();
+	//setInterval(loop, 1000/g.fps);
 }
 
 function loop() {
 	g.Mouse = inputState.getMouse();
 	
-	if (!g.matchedAt){
+	//if (!g.matchedAt){
 		$(g.elements).each(function(){
 			this.update();
 		});
@@ -49,9 +65,22 @@ function loop() {
 		g.context.clearRect(0, 0, g.canvas.width, g.canvas.height);
 		
 		$(g.elements).each(function(){
-			this.draw();
+			this.canvasDraw();
 		});
-	} else if (g.Frames - g.matchedAt >= 30){
+	if (g.lastFrameTime){
+		if (g.Frames >= g.lastFrame + 60){
+			var newTime = g.getTime();
+			console.log(newTime - g.lastFrameTime);
+			g.lastFrameTime = newTime;
+			g.lastFrame = g.Frames;
+		}
+	} else {
+		g.lastFrameTime = g.getTime();
+		g.lastFrame = g.Frames;
+	}
+
+	/*
+	 } else if (g.Frames - g.matchedAt >= 30){
 		g.elements = [];
 		g.waveDict = {};
 		g.elements.push(g.emitter);
@@ -64,6 +93,7 @@ function loop() {
 		g.elements.push(g.target);
 		g.matchedAt = null;
 	}
+	*/
 	g.Frames++;
 }
 
@@ -138,7 +168,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond){
 			g.context.fill();
 			
 			if (this.waveForm){
-				this.waveForm.draw();
+				this.waveForm.canvasDraw();
 			}
 		}
 	});

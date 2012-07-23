@@ -14,7 +14,13 @@ var g = {
 	drawDiv: 'draw',
 	audioDiv: 'audio',
 	playerInput: {},
-	id_differ: 0
+	id_differ: 0,
+	lastFrame: null,
+	lastFrameTime: 0,
+	getTime: function(){
+		var d = new Date();
+		return d.getTime();
+	}
 }
 
 //If there is not a console then make console.log an empty function
@@ -26,6 +32,15 @@ try{
 	console = {};
 	console.log = function(){};
 }
+
+//Create a browser independent requestAnimationFrame wrapper
+window.requestAnimFrame = (function(){
+		return 	window.requestAnimationFrame 				||
+						window.webkitRequestAnimationFrame	||
+						window.mozRequestAnimationFrame			||
+						window.oRequestAnimationFrame				||
+						window.msRequestAnimationFrame;
+})();
 
 $(document).ready(function(){
 	
@@ -68,7 +83,7 @@ $(document).ready(function(){
 });
 
 continueReady = function(){
-	
+
 	//create the div in which to put the output HTML as well as the audio files
 	$('#origins').html('<div id="' + g.drawDiv + '"> </div><div id="' + g.audioDiv + '"> </div>');
 	
@@ -92,8 +107,8 @@ continueReady = function(){
 	$('head').append(importer);
 	*/
 	
-	var mainScreen1 = new Screen('mainScreen1', g.topZIndex);
-	mainScreen1.activeScreen = true;
+	var mainScreen1 = new Screen('mainScreen1', g.bottomZIndex);
+	//mainScreen1.activeScreen = true;
 	g.screenCollection[mainScreen1.id] = mainScreen1;
 	
 	var talkScreen = new DialogueScreen('mainScreen1Intro', g.bottomZIndex, 'XML/IntroDial.xml');
@@ -107,8 +122,8 @@ continueReady = function(){
 	var cryoScreen = new Screen('cryoScreen', g.bottomZIndex);
 	g.screenCollection[cryoScreen.id] = cryoScreen;
 	
-	var dopplerScreen = new DopplerScreen('dopplerScreen', g.bottomZIndex);
-	//dopplerScreen.activeScreen = true;
+	var dopplerScreen = new DopplerScreen('dopplerScreen', g.topZIndex);
+	dopplerScreen.activeScreen = true;
 	g.screenCollection[dopplerScreen.id] = dopplerScreen;
 	
 	var dialogueScreens = new Array();
@@ -175,7 +190,9 @@ continueReady = function(){
 };
 
 startGame = function() {
-	setInterval(RunGame, 1000 / g.fps);
+	window.requestAnimFrame(startGame);
+	RunGame();
+	//setInterval(RunGame, 1000 / g.fps);
 }
 
 RunGame = function(){
@@ -194,6 +211,13 @@ RunGame = function(){
 		if(g.screenCollection[x].canvasDraw){
 			g.screenCollection[x].canvasDraw();
 		}
+	}
+
+	if (g.frameCounter >= g.lastFrame	+ 60){
+		var newTime = g.getTime();
+		console.log(newTime - g.lastFrameTime);
+		g.lastFrameTime = newTime;
+		g.lastFrame = g.frameCounter;
 	}
 	g.frameCounter++;
 }

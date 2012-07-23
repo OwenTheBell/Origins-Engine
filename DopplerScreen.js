@@ -9,7 +9,7 @@ var doppler = {
 	generate: .5, //this puts 120 pixels horizontally between peaks
 	waveDict: {},
 	degError: 3,
-	matchedAt: null
+	matchedAt: null,
 }
 
 var DopplerScreen = Screen.extend(function(id, zIndex){
@@ -63,8 +63,6 @@ var DopplerScreen = Screen.extend(function(id, zIndex){
 		canvasDraw: function(){
 			if (this.css['opacity'] > 0){
 				doppler.canvas.clear();
-				//doppler.canvas.context.clearRect(0, 0, this.doppler.width, this.doppler.height);
-
 				for(x in doppler.elements){
 					doppler.elements[x].canvasDraw();
 				}
@@ -253,20 +251,20 @@ var Reciever = klass(function(x, y, radius){
 				}
 				
 				else {
+					this.canvas.context.beginPath();
 					var prev = null
 					
 					for (var i = 0; i < this.waveFormArray.length; i++){
 						var next = this.waveFormArray[i];
 						if(prev){
-							this.canvas.context.beginPath();
 							this.canvas.context.moveTo(prev.X, prev.Y);
 							this.canvas.context.lineTo(next.X, next.Y);
-							this.canvas.context.strokeStyle = 'yellow';
-							this.canvas.context.stroke();
 						}
 						prev = {X: next.X, Y: next.Y};
 						next.X--;
 					}
+					this.canvas.context.strokeStyle = 'yellow';
+					this.canvas.context.stroke();
 				}
 				this.canvas.canvasDraw();
 			}
@@ -316,20 +314,19 @@ var Target = klass(function(highPoints){
 		canvasDraw: function(){
 			if (this.rendered){
 				this.canvas.clear();
-
+				this.canvas.context.beginPath();
 				var prev = null;
 				
 				for(var i=0; i < this.waveFormArray.length; i++){
 					var next = this.waveFormArray[i];
 					if(prev){
-						this.canvas.context.beginPath();
 						this.canvas.context.moveTo(prev.X, prev.Y);
 						this.canvas.context.lineTo(next.X, next.Y);
-						this.canvas.context.strokeStyle = 'green';
-						this.canvas.context.stroke();
 					}
 					prev = next;
 				}
+				this.canvas.context.strokeStyle = 'green';
+				this.canvas.context.stroke();
 				this.rendered = false;
 			}
 			//this has to be out here otherwise the constant DOM render prevents the
@@ -404,19 +401,19 @@ var WaveForm = klass(function(frames, canvas, left, top, width, height){
 		},
 		canvasDraw: function(){
 			this.canvas.clear();
+			this.canvas.context.beginPath();
 			var prev = null;
 			for(var i = 0; i < this.points.length - 1; i++){
 				var next = this.points[i];
 				if (prev){
-					this.canvas.context.beginPath();
 					this.canvas.context.moveTo(prev.X, prev.Y);
 					this.canvas.context.lineTo(next.X, next.Y);
-					this.canvas.context.strokeStyle = 'blue';
-					this.canvas.context.stroke();
 				}
 				prev = {X: next.X, Y: next.Y};
 				next.X--;
 			}
+			this.canvas.context.strokeStyle = 'blue';
+			this.canvas.context.stroke();
 			this.canvas.canvasDraw();
 		},
 		adjustFrames: function(newFrames){

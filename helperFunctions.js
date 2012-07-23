@@ -8,7 +8,7 @@ var helper = {
 	addCSSRule: function(rule, styles){
 		var mysheet = document.getElementById('extCSS');
 		var mysheet = mysheet.sheet ? mysheet.sheet : mysheet.styleSheet;
-		var myrules = mysheet.cssRules; //all supported browsers should use cssRules
+		var myrules = mysheet.cssRules ? mysheet.cssRules : mysheet.rules; //all supported browsers should use cssRules
 		var length = myrules.length;
 		var ruleStr = rule + '{';
 		if (styles){
@@ -82,7 +82,7 @@ var helper = {
 	findCSSRule: function(rule){
 		var mysheet = document.getElementById('extCSS');
 		var mysheet = mysheet.sheet ? mysheet.sheet : mysheet.styleSheet;
-		var myrules = mysheet.cssRules;
+		var myrules = mysheet.cssRules ? mysheet.cssRules : mysheet.rules; //all supported browsers should use cssRules
 		for (i in myrules){
 			if (myrules[i].selectorText && myrules[i].selectorText === rule){
 				return myrules[i];
