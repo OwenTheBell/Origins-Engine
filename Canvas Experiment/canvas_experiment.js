@@ -67,6 +67,7 @@ function loop() {
 		$(g.elements).each(function(){
 			this.canvasDraw();
 		});
+	
 	if (g.lastFrameTime){
 		if (g.Frames >= g.lastFrame + 60){
 			var newTime = g.getTime();
@@ -186,16 +187,11 @@ var Reciever = klass(function(x, y, radius){
 })
 	.methods({
 		update: function() {
-			
-			if(!this.waveFormArray){
+			if (!this.matched){
 				if(g.waveDict[g.Frames]){
-					this.waveFormArray = [];
-					var tempY = (this.canvas.height / 2 ) - g.waveDict[g.Frames] * (this.canvas.height / 2);
-					this.waveFormArray.push({X: this.canvas.width, Y: tempY});
-					delete g.waveDict[g.Frames];
-				}
-			} else {
-				if (g.waveDict[g.Frames]){
+					if(!this.waveFormArray){
+						this.waveFormArray = [];
+					}
 					var tempY = (this.canvas.height / 2 ) - g.waveDict[g.Frames] * (this.canvas.height / 2);
 					this.waveFormArray.push({X: this.canvas.width, Y: tempY});
 					if (g.waveDict[g.Frames] == 1){
@@ -222,15 +218,6 @@ var Reciever = klass(function(x, y, radius){
 						}
 					}
 				}
-				
-				/*
-				 * Some coordinates will be missed but this is ok since the waveform
-				 * is still acceptably smooth despite the lacking a data point for every
-				 * x coordinate
-				 */
-				if (this.waveFormArray[0].X < 0){
-					this.waveFormArray.splice(0, 1);
-				}
 			}
 		},
 		canvasDraw: function() {
@@ -245,19 +232,22 @@ var Reciever = klass(function(x, y, radius){
 				}
 				
 				else {
+					this.context.beginPath();
 					var prev = null
 					
 					for (var i = 0; i < this.waveFormArray.length; i++){
 						var next = this.waveFormArray[i];
 						if(prev){
-							this.context.beginPath();
 							this.context.moveTo(prev.X, prev.Y);
 							this.context.lineTo(next.X, next.Y);
-							this.context.stroke();
 						}
 						prev = {X: next.X, Y: next.Y};
 						next.X--;
+						if (next.X < 0){
+							this.waveFormArray.splice(0, i);
+						}
 					}
+					this.context.stroke();
 				}
 			}
 			
@@ -304,18 +294,18 @@ var Target = klass(function(highPoints){
 		canvasDraw: function(){
 			if (this.updated){
 				this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+				this.context.beginPath();
 				var prev = null;
 				
 				for(var i=0; i < this.waveFormArray.length; i++){
 					var next = this.waveFormArray[i];
 					if(prev){
-						this.context.beginPath();
 						this.context.moveTo(prev.X, prev.Y);
 						this.context.lineTo(next.X, next.Y);
-						this.context.stroke();
 					}
 					prev = next;
 				}
+				this.context.stroke();
 				this.updated = false;
 			}
 		}
@@ -335,6 +325,10 @@ var Pulse = klass(function(x, y, radius, growth){
 		distances[i] = getDistance(this.x, this.y, distances[i][0], distances[i][1]);
 	}
 	this.maxRadius = getMax(distances);
+	this.canvas = document.createElement('canvas');
+	this.canvas.width = g.canvas.width;
+	this.canvas.height = g.canvas.height;
+	this.context = this.canvas.getContext('2d');
 	
 })
 	.methods({
@@ -348,10 +342,11 @@ var Pulse = klass(function(x, y, radius, growth){
 		},
 		canvasDraw: function() {
 			if (this.radius < this.maxRadius){
-				g.context.beginPath();
-				g.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-				g.context.closePath();
-				g.context.stroke();
+				//this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+				//this.context.beginPath();
+				//this.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+				//this.context.stroke();
+				//g.context.drawImage(this.canvas, 0, 0);
 			}
 		}
 		
@@ -384,20 +379,19 @@ var WaveForm = klass(function(frames, canvas){
 		},
 		canvasDraw: function(){
 			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-			
+			this.context.beginPath();
 			var prev = null;
 			
 			for(var i = 0; i < this.points.length - 1; i++){
 				var next = this.points[i];
 				if (prev){
-					this.context.beginPath();
 					this.context.moveTo(prev.X, prev.Y);
 					this.context.lineTo(next.X, next.Y);
-					this.context.stroke();
 				}
 				prev = {X: next.X, Y: next.Y};
 				next.X--;
 			}
+			this.context.stroke();
 		},
 		adjustFrames: function(newFrames){
 			var spaceToFill = Math.PI * 2 - this.currentX;

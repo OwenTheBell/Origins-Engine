@@ -173,7 +173,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond){
 			doppler.canvas.context.fill();
 			
 			if (this.waveForm){
-				this.waveForm.canvasDraw();
+				//this.waveForm.canvasDraw();
 			}
 		}
 	});
@@ -189,22 +189,20 @@ var Reciever = klass(function(x, y, radius){
 })
 	.methods({
 		update: function() {
-			
-			if(!this.waveFormArray){
-				if(doppler.waveDict[g.frameCounter]){
-					this.waveFormArray = [];
-					var tempY = (this.canvas.height / 2 ) - doppler.waveDict[g.frameCounter] * (this.canvas.height / 2);
-					this.waveFormArray.push({X: this.canvas.width, Y: tempY});
-					delete doppler.waveDict[g.frameCounter];
-				}
-			} else {
+			if (!this.matched){
 				if (doppler.waveDict[g.frameCounter]){
+					if(!this.waveFormArray){
+						this.waveFormArray = [];
+					}
 					var tempY = (this.canvas.height / 2 ) - doppler.waveDict[g.frameCounter] * (this.canvas.height / 2);
 					this.waveFormArray.push({X: this.canvas.width, Y: tempY});
 					if (doppler.waveDict[g.frameCounter] == 1){
 						// this.click.play();
 					}
 					delete doppler.waveDict[g.frameCounter];
+					if(this.waveFormArray.length > this.canvas.width){
+						//console.log('The reciever waveform is too big at ' + this.waveFormArray.length);
+					}
 				}
 				//Now check against the target to see if we've completed the array
 				var matchedPoints = 0;
@@ -225,15 +223,6 @@ var Reciever = klass(function(x, y, radius){
 						}
 					}
 				}
-				
-				/*
-				 * Some coordinates will be missed but this is ok since the waveform
-				 * is still acceptably smooth despite the lacking a data point for every
-				 * x coordinate
-				 */
-				if (this.waveFormArray[0].X < 0){
-					this.waveFormArray.splice(0, 1);
-				}
 			}
 		},
 		draw: function(){
@@ -245,12 +234,10 @@ var Reciever = klass(function(x, y, radius){
 				
 				if (this.matched){
 					this.canvas.context.beginPath();
-					this.canvas.context.rect(0, 0, this.canvas.width, this.canvas.height);
-					this.canvas.context.fillStyle = '#00FF00';
-					this.canvas.context.fill();
-				}
-				
-				else {
+						this.canvas.context.rect(0, 0, this.canvas.width, this.canvas.height);
+						this.canvas.context.fillStyle = '#00FF00';
+						this.canvas.context.fill();
+				}	else {
 					this.canvas.context.beginPath();
 					var prev = null
 					
@@ -262,11 +249,14 @@ var Reciever = klass(function(x, y, radius){
 						}
 						prev = {X: next.X, Y: next.Y};
 						next.X--;
+						if (next.X < 0){
+							this.waveFormArray.splice(0, i);
+						}
 					}
 					this.canvas.context.strokeStyle = 'yellow';
 					this.canvas.context.stroke();
 				}
-				this.canvas.canvasDraw();
+				//this.canvas.canvasDraw();
 			}
 			
 			doppler.canvas.context.beginPath();
@@ -274,7 +264,6 @@ var Reciever = klass(function(x, y, radius){
 			doppler.canvas.context.closePath();
 			doppler.canvas.context.fill();
 		}
-		
 	});
 
 /*
@@ -331,7 +320,7 @@ var Target = klass(function(highPoints){
 			}
 			//this has to be out here otherwise the constant DOM render prevents the
 			//canvas from being drawn every frame
-			this.canvas.canvasDraw();
+			//this.canvas.canvasDraw();
 		}
 	});
 
