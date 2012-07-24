@@ -107,8 +107,8 @@ continueReady = function(){
 	$('head').append(importer);
 	*/
 	
-	var mainScreen1 = new Screen('mainScreen1', g.bottomZIndex);
-	//mainScreen1.activeScreen = true;
+	var mainScreen1 = new Screen('mainScreen1', g.topZIndex);
+	mainScreen1.activeScreen = true;
 	g.screenCollection[mainScreen1.id] = mainScreen1;
 	
 	var talkScreen = new DialogueScreen('mainScreen1Intro', g.bottomZIndex, 'XML/IntroDial.xml');
@@ -122,8 +122,8 @@ continueReady = function(){
 	var cryoScreen = new Screen('cryoScreen', g.bottomZIndex);
 	g.screenCollection[cryoScreen.id] = cryoScreen;
 	
-	var dopplerScreen = new DopplerScreen('dopplerScreen', g.topZIndex);
-	dopplerScreen.activeScreen = true;
+	var dopplerScreen = new DopplerScreen('dopplerScreen', g.bottomZIndex);
+	//dopplerScreen.activeScreen = true;
 	g.screenCollection[dopplerScreen.id] = dopplerScreen;
 	
 	var dialogueScreens = new Array();

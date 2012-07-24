@@ -44,6 +44,16 @@ var helper = {
 			}
 		});
 	},
+
+	countElements: function(object){
+		var count = 0;
+		for(i in object){
+			if(object.hasOwnProperty(i)){
+				count++;
+			}
+		}
+		return count;
+	},
 	
 	groupItemAjaxGet: function(dialogueScreens, file){
 		var extData;
