@@ -13,11 +13,15 @@ var doppler = {
 }
 
 var DopplerScreen = Screen.extend(function(id, zIndex){
-	doppler.canvas = new Canvas('mainCanvas', 0, 0, 1280, 480);
+	doppler.canvas = new Canvas('mainCanvas', 0, 0, 1280, 600, 2);
 	doppler.elements.push(doppler.canvas);
-	doppler.emitter = new Emitter(doppler.canvas.width / 2, doppler.canvas.height / 2, 5, doppler.generate);
+	doppler.pulseCanvas = new Canvas('pulseCanvas', 0, 0, doppler.canvas.width, doppler.canvas.height, 1);
+	doppler.elements.push(doppler.pulseCanvas);
+	doppler.emitter = new Emitter(20, 20, 5, doppler.generate, 1.5);
 	var randX = Math.floor(Math.random() * (doppler.canvas.width - 200) + 100);
 	var randY = Math.floor(Math.random() * (doppler.canvas.height - 200) + 100);
+	randX = 200;
+	randY = 200;
 	doppler.reciever = new Reciever(randX, randY, 5);
 	doppler.target = new Target([0, 120, 240, 360]);
 	doppler.elements.push(doppler.emitter);
@@ -68,6 +72,7 @@ var DopplerScreen = Screen.extend(function(id, zIndex){
 		canvasDraw: function(){
 			if (this.css['opacity'] > 0){
 				doppler.canvas.clear();
+				doppler.pulseCanvas.clear();
 				for(x in doppler.elements){
 					doppler.elements[x].canvasDraw();
 				}
@@ -80,7 +85,7 @@ var DopplerScreen = Screen.extend(function(id, zIndex){
  * This is both wrapper for a canvas object as well as for generating the necessary
  * HTML to get outed to the DOM for the canvas to display on
  */
-var Canvas = klass(function(id, left, top, width, height){
+var Canvas = klass(function(id, left, top, width, height, zIndex){
 	this.id = id;
 	this.top = top;
 	this.left = left;
@@ -91,7 +96,7 @@ var Canvas = klass(function(id, left, top, width, height){
 	this.css = {
 		top: this.top + 'px',
 		left: this.left + 'px',
-		'z-index': 2 //this is the default canvas layer
+		'z-index': zIndex //this is the default canvas layer
 	};
 	this.canvas = document.createElement('canvas');
 	this.canvas.width = this.width;
@@ -120,15 +125,19 @@ var Canvas = klass(function(id, left, top, width, height){
 		}
 	});
 
-var Emitter = klass(function(x, y, radius, pulsePerSecond){
+var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
 	this.x = x;
 	this.y = y;
 	this.radius = radius;
-	this.move = .5;
-	this.growth = 1;
+	this.move = speed;
+	this.growth = 2;
 	this.circles = [];
 	this.pulsePerSecond = pulsePerSecond;
 	this.waveForm = new WaveForm(g.fps / this.pulsePerSecond, 'emitterCanvas', 417, 634, 444, 84);
+	this.image = new Image();
+	this.image.src = 'Sprites/Doppler_Screen/Robot_Blue_light.png';
+	this.centerX = this.x + this.image.width / 2;
+	this.centerY = this.y + this.image.height / 2;
 })
 	.methods({
 		update: function() {
@@ -138,7 +147,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond){
 			doppler.waveDict[frames + g.frameCounter] = this.waveForm.currentY;
 			
 			if (this.waveForm.currentY == 1){
-				doppler.elements.push(new Pulse (this.x, this.y, this.radius, this.growth));
+				doppler.elements.push(new Pulse (this.x + this.image.width / 2, this.y + this.image.height / 2, this.radius, this.growth));
 			}
 			
 			var moveX = 0, moveY = 0;
@@ -163,19 +172,21 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond){
 			this.y += moveY;
 			
 			//ensure that the emitter cannot leave the bounds of the play area
-			if (this.x + this.radius > doppler.canvas.width) this.x = doppler.canvas.width;
-			else if (this.x - this.radius < 0) this.x = 0;
-			if (this.y + this.radius > doppler.canvas.height) this.y = doppler.canvas.height;
-			else if (this.y - this.radius < 0) this.y = 0;
+			//TODO: bounds are currently hardcoded which should perhaps change at somepoint in the future
+			if ((this.centerX + this.radius) > (doppler.canvas.width - 20)) this.centerX = doppler.canvas.width - this.radius - 20;
+			else if ((this.centerX - this.radius) < 20) this.centerX = this.radius + 20;
+			if ((this.centerY + this.radius) > (doppler.canvas.height - 120)) this.centerY = doppler.canvas.height - this.radius - 120;
+			else if ((this.centerY - this.radius) < 20) this.centerY = this.radius + 20;
 		},
 		draw: function(){
 			return this.waveForm.draw();
 		},
 		canvasDraw: function() {
-			doppler.canvas.context.beginPath();
-			doppler.canvas.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-			doppler.canvas.context.closePath();
-			doppler.canvas.context.fill();
+			doppler.canvas.context.drawImage(this.image, this.x, this.y);
+			// doppler.canvas.context.beginPath();
+			// doppler.canvas.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+			// doppler.canvas.context.closePath();
+			// doppler.canvas.context.fill();
 			
 			if (this.waveForm){
 				this.waveForm.canvasDraw();
@@ -189,8 +200,14 @@ var Reciever = klass(function(x, y, radius){
 	this.radius = radius;
 	this.click = new audioElement('click', 'Audio/click');
 	this.waveFormArray = null;
-	this.canvas = new Canvas('recieverCanvas', 417, 561, 444, 77);
+	this.canvas = new Canvas('recieverCanvas', 417, 561, 444, 77, 4);
 	this.matched = false;
+	this.image = new Image();
+	this.image.src = 'Sprites/Doppler_Screen/Grey_Maus_sprite_sheet.png';
+	this.spriteH = this.image.height;
+	this.spriteW = this.image.height;
+	this.centerX = this.x + this.spriteW / 2;
+	this.centerY = this.y + this.spriteH / 2;
 })
 	.methods({
 		update: function() {
@@ -205,9 +222,6 @@ var Reciever = klass(function(x, y, radius){
 						// this.click.play();
 					}
 					delete doppler.waveDict[g.frameCounter];
-					if(this.waveFormArray.length > this.canvas.width){
-						//console.log('The reciever waveform is too big at ' + this.waveFormArray.length);
-					}
 				}
 				//Now check against the target to see if we've completed the array
 				var matchedPoints = 0;
@@ -254,9 +268,6 @@ var Reciever = klass(function(x, y, radius){
 						}
 						prev = {X: next.X, Y: next.Y};
 						next.X--;
-						if (next.X < 0){
-							this.waveFormArray.splice(0, i);
-						}
 					}
 					this.canvas.context.strokeStyle = 'yellow';
 					this.canvas.context.stroke();
@@ -264,10 +275,7 @@ var Reciever = klass(function(x, y, radius){
 				this.canvas.canvasDraw();
 			}
 			
-			doppler.canvas.context.beginPath();
-			doppler.canvas.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-			doppler.canvas.context.closePath();
-			doppler.canvas.context.fill();
+			doppler.canvas.context.drawImage(this.image, 0, 0, this.spriteW, this.spriteH, this.x, this.y, this.spriteW, this.spriteH);
 		}
 	});
 
@@ -275,7 +283,7 @@ var Reciever = klass(function(x, y, radius){
  * Array of the x-coordinate for which the y-coordinate is at peak
  */
 var Target = klass(function(highPoints){
-	this.canvas = new Canvas('targetCanvas', 417, 487, 444, 77);
+	this.canvas = new Canvas('targetCanvas', 417, 487, 444, 77, 4);
 	this.rendered = true;
 	this.targetPoints = highPoints;
 	this.waveFormArray = [];
@@ -356,17 +364,17 @@ var Pulse = klass(function(x, y, radius, growth){
 		},
 		canvasDraw: function() {
 			if (this.radius < this.maxRadius){
-				doppler.canvas.context.beginPath();
-				doppler.canvas.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-				doppler.canvas.context.closePath();
-				doppler.canvas.context.stroke();
+				doppler.pulseCanvas.context.beginPath();
+				doppler.pulseCanvas.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+				doppler.pulseCanvas.context.closePath();
+				doppler.pulseCanvas.context.stroke();
 			}
 		}
 		
 	});
 
 var WaveForm = klass(function(frames, canvas, left, top, width, height){
-	this.canvas = new Canvas(canvas, left, top, width, height);
+	this.canvas = new Canvas(canvas, left, top, width, height, 4);
 	this.points = [];
 	this.currentX = 0; //value varying between 0 and 2*PI
 	this.currentY = 0; //value varying between 1 and -1

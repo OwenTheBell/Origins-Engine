@@ -4,7 +4,7 @@
  */
 var g = {
 	screenCollection: new Array(),
-	fps: 60,
+	fps: 30,
 	topZIndex: 10,
 	bottomZIndex: 9,
 	transZIndex: 11, //this zIndex is used to place emerging layers on top
@@ -17,6 +17,7 @@ var g = {
 	id_differ: 0,
 	lastFrame: null,
 	lastFrameTime: 0,
+	evaluationFrame: false,
 	getTime: function(){
 		var d = new Date();
 		return d.getTime();
@@ -35,11 +36,11 @@ try{
 
 //Create a browser independent requestAnimationFrame wrapper
 window.requestAnimFrame = (function(){
-		return 	window.requestAnimationFrame 				||
-						window.webkitRequestAnimationFrame	||
-						window.mozRequestAnimationFrame			||
-						window.oRequestAnimationFrame				||
-						window.msRequestAnimationFrame;
+		return 	window.requestAnimationFrame 		||
+				window.webkitRequestAnimationFrame	||
+				window.mozRequestAnimationFrame		||
+				window.oRequestAnimationFrame		||
+				window.msRequestAnimationFrame;
 })();
 
 $(document).ready(function(){
@@ -78,7 +79,8 @@ $(document).ready(function(){
 				'Sprites/Doppler_Screen/Start_Button.png',
 				'Sprites/Doppler_Screen/Pause_Button.png',
 				'Sprites/Doppler_Screen/Arrow_Up.png',
-				'Sprites/Doppler_Screen/Arrow_Down.png'
+				'Sprites/Doppler_Screen/Arrow_Down.png',
+				'Sprites/Doppler_Screen/Game_Background.png'
 		);
 });
 
@@ -86,6 +88,7 @@ continueReady = function(){
 
 	//create the div in which to put the output HTML as well as the audio files
 	$('#origins').html('<div id="' + g.drawDiv + '"> </div><div id="' + g.audioDiv + '"> </div>');
+	g.lastFrame = g.getTime();
 	
 	//setup some of the external css for the dialogueScreens
 	var rule = helper.addCSSRule('.speech', {
@@ -173,16 +176,17 @@ continueReady = function(){
 	cryoScreen.addSprite(new screenChangeSprite(580, 0, 'Sprites/Cryo_Room/Ladder.png', 'ladderCryo', mainScreen1));
 	cryoScreen.addSprite(new Sprite(0, 0, 'Sprites/Cryo_Room/Fog.png', 'fog'));
 	
-	dopplerScreen.addSprite(new UISprite(416, 487, 'Sprites/Doppler_Screen/Objective_Screen.png', 'objective', 1));
-	dopplerScreen.addSprite(new UISprite(417, 561, 'Sprites/Doppler_Screen/Detected_Screen.png', 'detected', 1));
-	dopplerScreen.addSprite(new UISprite(417, 634, 'Sprites/Doppler_Screen/Emitted_Screen.png', 'emitted', 1));
-	dopplerScreen.addSprite(new UISprite(0, 480, 'Sprites/Doppler_Screen/Mouse_Counter.png', 'mouse_counter', 1));
-	dopplerScreen.addSprite(new UISprite(254, 594, 'Sprites/Doppler_Screen/HelpButton_Static.png', 'help_button', 1));
-	dopplerScreen.addSprite(new UISprite(0, 0, 'Sprites/Doppler_Screen/UIFill.png', 'UIFill', 3));
-	dopplerScreen.addSprite(new UISprite(870, 589, 'Sprites/Doppler_Screen/Start_Button.png', 'start_button', 4));
-	dopplerScreen.addSprite(new UISprite(870, 520, 'Sprites/Doppler_Screen/Pause_Button.png', 'pause_button', 4));
-	dopplerScreen.addSprite(new UISprite(1175, 524, 'Sprites/Doppler_Screen/Arrow_Up.png', 'arrow_up', 4));
-	dopplerScreen.addSprite(new UISprite(1070, 520, 'Sprites/Doppler_Screen/Arrow_Down.png', 'arrow_down', 4));
+	dopplerScreen.addSprite(new UISprite(0, 0, 'Sprites/Doppler_Screen/Game_Background.png', 'background', 1));
+	dopplerScreen.addSprite(new UISprite(416, 487, 'Sprites/Doppler_Screen/Objective_Screen.png', 'objective', 3));
+	dopplerScreen.addSprite(new UISprite(417, 561, 'Sprites/Doppler_Screen/Detected_Screen.png', 'detected', 3));
+	dopplerScreen.addSprite(new UISprite(417, 634, 'Sprites/Doppler_Screen/Emitted_Screen.png', 'emitted', 3));
+	dopplerScreen.addSprite(new UISprite(0, 480, 'Sprites/Doppler_Screen/Mouse_Counter.png', 'mouse_counter', 3));
+	dopplerScreen.addSprite(new UISprite(254, 594, 'Sprites/Doppler_Screen/HelpButton_Static.png', 'help_button', 3));
+	dopplerScreen.addSprite(new UISprite(0, 0, 'Sprites/Doppler_Screen/UIFill.png', 'UIFill', 5));
+	dopplerScreen.addSprite(new UISprite(870, 589, 'Sprites/Doppler_Screen/Start_Button.png', 'start_button', 6));
+	dopplerScreen.addSprite(new UISprite(870, 520, 'Sprites/Doppler_Screen/Pause_Button.png', 'pause_button', 6));
+	dopplerScreen.addSprite(new UISprite(1175, 524, 'Sprites/Doppler_Screen/Arrow_Up.png', 'arrow_up', 6));
+	dopplerScreen.addSprite(new UISprite(1070, 520, 'Sprites/Doppler_Screen/Arrow_Down.png', 'arrow_down', 6));
 	
 	delete dialogueScreens;
 	
@@ -190,9 +194,9 @@ continueReady = function(){
 };
 
 startGame = function() {
-	window.requestAnimFrame(startGame);
+	//window.requestAnimFrame(startGame);
 	RunGame();
-	//setInterval(RunGame, 1000 / g.fps);
+	setInterval(RunGame, 1000 / g.fps);
 }
 
 RunGame = function(){
@@ -214,10 +218,13 @@ RunGame = function(){
 	}
 
 	if (g.frameCounter >= g.lastFrame + g.fps){
+		g.evaluationFrame = true;
 		var newTime = g.getTime();
 		console.log(newTime - g.lastFrameTime);
 		g.lastFrameTime = newTime;
 		g.lastFrame = g.frameCounter;
+	} else if (g.evaluationFrame){
+		g.evaluationFrame = false;
 	}
 	g.frameCounter++;
 }

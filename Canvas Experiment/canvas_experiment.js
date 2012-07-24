@@ -58,19 +58,17 @@ function startDraw () {
 
 function loop() {
 	g.Mouse = inputState.getMouse();
+
+	$(g.elements).each(function(){
+		this.update();
+	});
 	
-	//if (!g.matchedAt){
-		
-		$(g.elements).each(function(){
-			this.update();
-		});
-		
-		g.context.clearRect(0, 0, g.canvas.width, g.canvas.height);
-		
-		$(g.elements).each(function(){
-			this.canvasDraw();
-		});
-		g.context.stroke();
+	g.context.clearRect(0, 0, g.canvas.width, g.canvas.height);
+	
+	$(g.elements).each(function(){
+		this.canvasDraw();
+	});
+	g.context.stroke();
 		
 
 	if (g.lastFrameTime){
@@ -93,23 +91,6 @@ function loop() {
 			delete g.waveDict[i];
 		}
 	}
-	
-
-	/*
-	 } else if (g.Frames - g.matchedAt >= 30){
-		g.elements = [];
-		g.waveDict = {};
-		g.elements.push(g.emitter);
-		g.emitter.waveForm = new WaveForm(g.fps / g.emitter.pulsePerSecond, 'emitterCanvas');
-		var randX = Math.floor(Math.random() * (g.canvas.width - 200) + 100);
-		var randY = Math.floor(Math.random() * (g.canvas.height - 200) + 100);
-		g.reciever = new Reciever(randX, randY, 5);
-		g.elements.push(g.reciever);
-		g.target = new Target([0, 120, 240, 360]);
-		g.elements.push(g.target);
-		g.matchedAt = null;
-	}
-	*/
 	g.Frames++;
 }
 
@@ -362,7 +343,6 @@ var Pulse = klass(function(x, y, radius, growth){
 				g.context.stroke();
 			}
 		}
-		
 	});
 
 var WaveForm = klass(function(frames, canvas){
