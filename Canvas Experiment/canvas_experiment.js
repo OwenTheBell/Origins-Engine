@@ -1,7 +1,7 @@
 var g = {
 	canvas: {},
 	context: {},
-	fps: 30,
+	fps: 60,
 	reciever: {},
 	emitter: {},
 	target: {},
@@ -14,8 +14,6 @@ var g = {
 	degError: 3,
 	matchedAt: null,
 	lastFrame: 0,
-	lastFrameTime: null,
-	loopFrame: 0,
 	lastLoopFrame: 0,
 	getTime: function(){
 		var d = new Date();
@@ -24,12 +22,12 @@ var g = {
 }
 
 window.requestAnimFrame = (function(){
-		return	window.requestAnimationFrame				||
-						window.webkitRequestAnimationFrame	||
-						window.mozRequestAnimationFrame			||
-						window.oRequestAnimationFrame				||
-						window.msRequestAnimationFrame;
-					})();
+		return	window.requestAnimationFrame		||
+				window.webkitRequestAnimationFrame	||
+				window.mozRequestAnimationFrame		||
+				window.oRequestAnimationFrame		||
+				window.msRequestAnimationFrame;
+})();
 
 $(document).ready(function(){
 	g.canvas = document.getElementById('myCanvas');
@@ -56,43 +54,27 @@ function startDraw () {
 	//requestAnimFrame(startDraw);
 	//loop();
 	setInterval(loop, 1000/g.fps);
-	/*
-	g.lastLoopFrame = g.getTime();
-	while(g.lastLoopFrame > 0){
-		var newTime = g.getTime();
-		if ((newTime - g.lastLoopFrame) >= (1000 / g.fps)){
-			loop();
-			g.lastLoopFrame = newTime;
-		}
-	}
-	*/
 }
 
 function loop() {
 	g.Mouse = inputState.getMouse();
 	
 	//if (!g.matchedAt){
-		for(i in g.elements){
-			//g.elements[i].update();
-		}
-		/*
+		
 		$(g.elements).each(function(){
-			//this.update();
+			this.update();
 		});
-		*/
-		//g.context.clearRect(0, 0, g.canvas.width, g.canvas.height);
-		for(i in g.elements){
-			//g.elements[i].draw();
-		}
-		/*
+		
+		g.context.clearRect(0, 0, g.canvas.width, g.canvas.height);
+		
 		$(g.elements).each(function(){
-			//this.canvasDraw();
+			this.canvasDraw();
 		});
-		//g.context.stroke();
-		*/
+		g.context.stroke();
+		
 
 	if (g.lastFrameTime){
-		if (g.Frames >= g.lastFrame + 60){
+		if (g.Frames >= g.lastFrame + g.fps){
 			var newTime = g.getTime();
 			$('#fpsTracker').html((newTime - g.lastFrameTime) + ' ' + (g.Frames - g.lastFrame));
 			//console.log('Elapsed time in last 60 frames: ' + (newTime - g.lastFrameTime));
@@ -104,13 +86,14 @@ function loop() {
 		g.lastFrameTime = g.getTime();
 		g.lastFrame = g.Frames;
 	}
-	/*
+	
+	//cleanup g.waveDict
 	for (i in g.waveDict){
 		if(i < g.Frames){
 			delete g.waveDict[i];
 		}
 	}
-	*/
+	
 
 	/*
 	 } else if (g.Frames - g.matchedAt >= 30){
@@ -162,10 +145,10 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond){
 			this.waveForm.update();
 			var distance = helper.getDistance(this.x, this.y, g.reciever.x, g.reciever.y);
 			var frames = Math.ceil(distance / this.growth);
-			//g.waveDict[frames + g.Frames] = this.waveForm.currentY;
+			g.waveDict[frames + g.Frames] = this.waveForm.currentY;
 			
 			if (this.waveForm.currentY == 1){
-				//g.elements.push(new Pulse (this.x, this.y, this.radius, this.growth));
+				g.elements.push(new Pulse (this.x, this.y, this.radius, this.growth));
 			}
 			
 			var moveX = 0, moveY = 0;
@@ -201,7 +184,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond){
 			g.context.fill();
 			
 			if (this.waveForm){
-				//this.waveForm.canvasDraw();
+				this.waveForm.canvasDraw();
 			}
 		}
 	});
@@ -275,9 +258,6 @@ var Reciever = klass(function(x, y, radius){
 						}
 						prev = {X: next.X, Y: next.Y};
 						next.X--;
-						if (next.X < 0){
-							this.waveFormArray.splice(0, i);
-						}
 					}
 					this.context.closePath();
 					this.context.stroke();

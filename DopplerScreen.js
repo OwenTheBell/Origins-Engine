@@ -32,6 +32,11 @@ var DopplerScreen = Screen.extend(function(id, zIndex){
 					doppler.elements[i].update();
 				}
 			}
+			for(i in doppler.waveDict){
+				if (doppler.waveDict[i].X < 0){
+					delete doppler.waveDict[i];
+				}
+			}
 		},
 		draw: function(){
 			var HTML = '';
@@ -173,7 +178,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond){
 			doppler.canvas.context.fill();
 			
 			if (this.waveForm){
-				//this.waveForm.canvasDraw();
+				this.waveForm.canvasDraw();
 			}
 		}
 	});
@@ -256,7 +261,7 @@ var Reciever = klass(function(x, y, radius){
 					this.canvas.context.strokeStyle = 'yellow';
 					this.canvas.context.stroke();
 				}
-				//this.canvas.canvasDraw();
+				this.canvas.canvasDraw();
 			}
 			
 			doppler.canvas.context.beginPath();
@@ -320,7 +325,7 @@ var Target = klass(function(highPoints){
 			}
 			//this has to be out here otherwise the constant DOM render prevents the
 			//canvas from being drawn every frame
-			//this.canvas.canvasDraw();
+			this.canvas.canvasDraw();
 		}
 	});
 
