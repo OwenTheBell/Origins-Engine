@@ -4,29 +4,31 @@ var doppler = {
 	reciever: {},
 	emitter: {},
 	target: {},
+	mouseCount: {}, //textbox object that stores and prints the number of caught mice
 	elements: [], //nonSprite elemenents, stuff like the emitter
 	Mouse: {},
 	generate: .5, //this puts 120 pixels horizontally between peaks
 	waveDict: {},
 	degError: 3,
 	matchedAt: null,
+	matchedDelay: 30, //num of frames to delay until reseting after a successful match
+	recieverH: 250,
+	recieverW: 200
 }
 
 var DopplerScreen = Screen.extend(function(id, zIndex){
-	doppler.canvas = new Canvas('mainCanvas', 0, 0, 1280, 600, 2);
+	doppler.canvas = new Canvas('mainCanvas', 0, 0, 1280, 600, 3);
 	doppler.elements.push(doppler.canvas);
-	doppler.pulseCanvas = new Canvas('pulseCanvas', 0, 0, doppler.canvas.width, doppler.canvas.height, 1);
+	doppler.pulseCanvas = new Canvas('pulseCanvas', 0, 0, doppler.canvas.width, doppler.canvas.height, 2);
 	doppler.elements.push(doppler.pulseCanvas);
 	doppler.emitter = new Emitter(20, 20, 5, doppler.generate, 1.5);
 	var randX = Math.floor(Math.random() * (doppler.canvas.width - 200) + 100);
-	var randY = Math.floor(Math.random() * (doppler.canvas.height - 200) + 100);
-	randX = 200;
-	randY = 200;
+	var randY = Math.floor(Math.random() * (doppler.canvas.height - 300) + 100);
 	doppler.reciever = new Reciever(randX, randY, 5);
 	doppler.target = new Target([0, 120, 240, 360]);
-	doppler.elements.push(doppler.emitter);
-	doppler.elements.push(doppler.reciever);
-	doppler.elements.push(doppler.target);
+	doppler.elements.push(doppler.emitter, doppler.reciever, doppler.target);
+	g.mouseCount = new textBox('0', 160, 660, '#00ff00', 6, '20px');
+	this.addSprite(g.mouseCount);
 })
 	.methods({
 		update: function(){
@@ -40,6 +42,20 @@ var DopplerScreen = Screen.extend(function(id, zIndex){
 				if (doppler.waveDict[i].X < 0){
 					delete doppler.waveDict[i];
 				}
+			}
+			if(doppler.matchedAt && g.frameCounter >= doppler.matchedAt + 30){
+				doppler.canvas = new Canvas('mainCanvas', 0, 0, 1280, 600, 3);
+				doppler.pulseCanvas = new Canvas('pulseCanvas', 0, 0, doppler.canvas.width, doppler.canvas.height, 2);
+				doppler.elements = [];
+				doppler.waveDict = {};
+				doppler.elements.push(doppler.canvas, doppler.pulseCanvas);
+				doppler.elements.push(doppler.emitter);
+				var randX = Math.floor(Math.random() * (doppler.canvas.width - 200) + 100);
+				var randY = Math.floor(Math.random() * (doppler.canvas.height - 200) + 100);
+				doppler.reciever = new Reciever(randX, randY, 5);
+				doppler.target = new Target([0, 120, 240, 360]);
+				doppler.elements.push(doppler.reciever, doppler.target);
+				doppler.matchedAt = null;
 			}
 		},
 		draw: function(){
@@ -145,12 +161,12 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
 	.methods({
 		update: function() {
 			this.waveForm.update();
-			var distance = helper.getDistance(this.x, this.y, doppler.reciever.x, doppler.reciever.y);
+			var distance = helper.getDistance(this.x, this.y, doppler.reciever.centerX, doppler.reciever.centerY);
 			var frames = Math.ceil(distance / this.growth);
 			doppler.waveDict[frames + g.frameCounter] = this.waveForm.currentY;
 			
 			if (this.waveForm.currentY == 1){
-				doppler.elements.push(new Pulse (this.x + this.image.width / 2, this.y + this.image.height / 2, this.radius, this.growth));
+				doppler.elements.push(new Pulse(this.centerX, this.centerY, this.radius, this.growth));
 			}
 			
 			var moveX = 0, moveY = 0;
@@ -200,12 +216,6 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
 				context.drawImage(this.image, -(this.image.width / 2), -(this.image.height / 2));
 			context.restore();
 			
-			//doppler.canvas.context.drawImage(this.image, this.x, this.y);
-			// doppler.canvas.context.beginPath();
-			// doppler.canvas.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-			// doppler.canvas.context.closePath();
-			// doppler.canvas.context.fill();
-			
 			if (this.waveForm){
 				this.waveForm.canvasDraw();
 			}
@@ -218,14 +228,14 @@ var Reciever = klass(function(x, y, radius){
 	this.radius = radius;
 	this.click = new audioElement('click', 'Audio/click');
 	this.waveFormArray = null;
-	this.canvas = new Canvas('recieverCanvas', 417, 561, 444, 77, 4);
+	this.canvas = new Canvas('recieverCanvas', 417, 561, 444, 77, 5);
 	this.matched = false;
 	this.image = new Image();
 	this.image.src = 'Sprites/Doppler_Screen/Grey_Maus_sprite_sheet.png';
-	this.spriteH = this.image.height;
-	this.spriteW = this.image.height;
-	this.centerX = this.x + this.spriteW / 2;
-	this.centerY = this.y + this.spriteH / 2;
+	this.spriteH = doppler.recieverH;
+	this.spriteW = doppler.recieverW;
+	this.centerX = this.x + doppler.recieverW / 2;
+	this.centerY = this.y + doppler.recieverH / 2;
 })
 	.methods({
 		update: function() {
@@ -252,6 +262,7 @@ var Reciever = klass(function(x, y, radius){
 							if (matchedPoints == doppler.target.targetPoints.length){
 								this.matched = true;
 								doppler.matchedAt = g.frameCounter;
+								doppler.mouseCount.text = '' + (parseInt(doppler.mouseCount.text) + 1);
 							}
 						} else {
 							//if the first point doesn't match up with the targetPoints
@@ -301,7 +312,7 @@ var Reciever = klass(function(x, y, radius){
  * Array of the x-coordinate for which the y-coordinate is at peak
  */
 var Target = klass(function(highPoints){
-	this.canvas = new Canvas('targetCanvas', 417, 487, 444, 77, 4);
+	this.canvas = new Canvas('targetCanvas', 417, 487, 444, 77, 5);
 	this.rendered = true;
 	this.targetPoints = highPoints;
 	this.waveFormArray = [];
@@ -349,8 +360,8 @@ var Target = klass(function(highPoints){
 				this.canvas.context.stroke();
 				this.rendered = false;
 			}
-			//this has to be out here otherwise the constant DOM render prevents the
-			//canvas from being drawn every frame
+			//call canvasDraw to ensure that the canvas is always added through
+			//DOM changes
 			this.canvas.canvasDraw();
 		}
 	});
@@ -382,17 +393,17 @@ var Pulse = klass(function(x, y, radius, growth){
 		},
 		canvasDraw: function() {
 			if (this.radius < this.maxRadius){
-				doppler.pulseCanvas.context.beginPath();
-				doppler.pulseCanvas.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-				doppler.pulseCanvas.context.closePath();
-				doppler.pulseCanvas.context.stroke();
+				doppler.canvas.context.beginPath();
+				doppler.canvas.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+				doppler.canvas.context.closePath();
+				doppler.canvas.context.stroke();
 			}
 		}
 		
 	});
 
 var WaveForm = klass(function(frames, canvas, left, top, width, height){
-	this.canvas = new Canvas(canvas, left, top, width, height, 4);
+	this.canvas = new Canvas(canvas, left, top, width, height, 5);
 	this.points = [];
 	this.currentX = 0; //value varying between 0 and 2*PI
 	this.currentY = 0; //value varying between 1 and -1

@@ -1,7 +1,7 @@
 var audioElement = klass(function (id, path) {
 	this.id = id;
 	this.element = document.createElement('audio');
-	if ($.browser.webit || $.browser.msie){ //covers Safari, Chrome, and IE
+	if ($.browser.webkit || $.browser.msie){ //covers Safari, Chrome, and IE
 		this.element.setAttribute('src', path + '.mp3');
 		this.element.setAttribute('type', 'audio/mp3');
 	} else if ($.browser.mozilla || $.browser.opera){ //Firefox & Opera
