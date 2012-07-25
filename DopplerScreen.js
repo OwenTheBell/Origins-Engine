@@ -83,7 +83,9 @@ var DopplerScreen = Screen.extend(function(id, zIndex){
 
 /*
  * This is both wrapper for a canvas object as well as for generating the necessary
- * HTML to get outed to the DOM for the canvas to display on
+ * HTML to get outed to the DOM for the canvas to display on. Actual rendering is
+ * handered by prerendering to a canvas object in memory and then using drawImage
+ * to actually put that canvas object on the DIV
  */
 var Canvas = klass(function(id, left, top, width, height, zIndex){
 	this.id = id;
@@ -138,6 +140,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
 	this.image.src = 'Sprites/Doppler_Screen/Robot_Blue_light.png';
 	this.centerX = this.x + this.image.width / 2;
 	this.centerY = this.y + this.image.height / 2;
+	this.transAngle = 0;
 })
 	.methods({
 		update: function() {
@@ -154,7 +157,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
 			
 			if(g.input.mouse.down){
 				//if the mouse is less than a move away in both dimensions don't update position
-				if (Math.abs(g.input.mouse.X - this.x) >= this.move || Math.abs(g.input.mouse.Y - this.y) >= this.move){
+				if (Math.abs(g.input.mouse.X - this.centerX) >= this.move || Math.abs(g.input.mouse.Y - this.centerY) >= this.move){
 					if((g.input.mouse.Y >= 0) && (g.input.mouse.Y < doppler.canvas.height) && (g.input.mouse.X >= 0) && (g.input.mouse.X < doppler.canvas.width)){
 						function findMove(y, x){
 							var temp = Math.atan2(y, x);
@@ -162,14 +165,21 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
 							temp = 90 - Math.abs(temp);
 							return temp / 90;
 						}
-						moveX = this.move * findMove(g.input.mouse.Y - this.y, g.input.mouse.X - this.x);
-						moveY = this.move * findMove(g.input.mouse.X - this.x, g.input.mouse.Y - this.y);
+						var Xadjust = findMove(g.input.mouse.Y - this.centerY, g.input.mouse.X - this.centerX);
+						var Yadjust = findMove(g.input.mouse.X - this.centerX, g.input.mouse.Y - this.centerY);
+						moveX = this.move * Xadjust;
+						moveY = this.move * Yadjust;
+						var tempX = g.input.mouse.X - this.centerX;
+						var tempY = g.input.mouse.Y - this.centerY;
+						this.transAngle = Math.atan2(tempX, -tempY);
 					}
 				}
 			}
 			
 			this.x += moveX;
 			this.y += moveY;
+			this.centerY = this.y + this.image.height / 2;
+			this.centerX = this.x + this.image.width / 2;
 			
 			//ensure that the emitter cannot leave the bounds of the play area
 			//TODO: bounds are currently hardcoded which should perhaps change at somepoint in the future
@@ -182,7 +192,15 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
 			return this.waveForm.draw();
 		},
 		canvasDraw: function() {
-			doppler.canvas.context.drawImage(this.image, this.x, this.y);
+			var context = doppler.canvas.context;
+			context.save();
+				context.translate(this.x, this.y);
+				context.translate(this.image.width / 2, this.image.height / 2);
+				context.rotate(this.transAngle);
+				context.drawImage(this.image, -(this.image.width / 2), -(this.image.height / 2));
+			context.restore();
+			
+			//doppler.canvas.context.drawImage(this.image, this.x, this.y);
 			// doppler.canvas.context.beginPath();
 			// doppler.canvas.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
 			// doppler.canvas.context.closePath();
