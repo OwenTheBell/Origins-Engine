@@ -25,7 +25,7 @@ var DopplerScreen = Screen.extend(function(id, zIndex){
 	var randX = Math.floor(Math.random() * (doppler.canvas.width - 200) + 100);
 	var randY = Math.floor(Math.random() * (doppler.canvas.height - 300) + 100);
 	doppler.reciever = new Reciever(randX, randY, 5);
-	doppler.target = new Target([0, 120, 240, 360]);
+	doppler.target = new Target([0, 60, 120, 180, 240]);
 	doppler.elements.push(doppler.emitter, doppler.reciever, doppler.target);
 	g.mouseCount = new textBox('0', 160, 660, '#00ff00', 6, '20px');
 	this.addSprite(g.mouseCount);
