@@ -161,9 +161,12 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
 	.methods({
 		update: function() {
 			this.waveForm.update();
-			var distance = helper.getDistance(this.x, this.y, doppler.reciever.centerX, doppler.reciever.centerY);
+			var distance = helper.getDistance(this.centerX, this.centerY, doppler.reciever.centerX, doppler.reciever.centerY);
 			var frames = Math.ceil(distance / this.growth);
-			doppler.waveDict[frames + g.frameCounter] = this.waveForm.currentY;
+			//only add to the waveDict if the point has not been created or a peak will not be overwritten
+			if(!doppler.waveDict[frames + g.frameCounter] || doppler.waveDict[frames + g.frameCounter] != 1){
+				doppler.waveDict[frames + g.frameCounter] = this.waveForm.currentY;
+			}
 			
 			if (this.waveForm.currentY == 1){
 				doppler.elements.push(new Pulse(this.centerX, this.centerY, this.radius, this.growth));
@@ -282,10 +285,10 @@ var Reciever = klass(function(x, y, radius){
 				
 				if (this.matched){
 					this.canvas.context.beginPath();
-						this.canvas.context.rect(0, 0, this.canvas.width, this.canvas.height);
-						this.canvas.context.fillStyle = '#00FF00';
-						this.canvas.context.fill();
-				}	else {
+					this.canvas.context.rect(0, 0, this.canvas.width, this.canvas.height);
+					this.canvas.context.fillStyle = '#00FF00';
+					this.canvas.context.fill();
+				} else {
 					this.canvas.context.beginPath();
 					var prev = null
 					
