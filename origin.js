@@ -206,6 +206,9 @@ RunGame = function(){
 	for(x in g.screenCollection) {
 		g.screenCollection[x].update();
 	}
+
+	//Empty the drawDiv to remove all pointers to DOM elements, preventing memory leaks
+	$('#' + g.drawDiv).empty();
 	var HTML = '';
 	for(x in g.screenCollection) {
 		HTML += g.screenCollection[x].draw();
