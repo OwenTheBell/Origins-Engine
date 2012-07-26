@@ -1,0 +1,143 @@
+{
+	"mainScreen1": {
+		"screenFunction": "CreateScreen(json)",
+		"zIndex": 10,
+		"interactiveXML": "XML/IntroObjMainRm.xml",
+		"sprites": {
+			"background": {
+				"type": "Sprites",
+				"sprite": "Sprites/Main_View1/Background.png",
+				"x": 0,
+				"y": 0,
+			},
+			"bed": {
+				"type": "dialogueSprite",
+				"sprite": "Sprites/Main_View1/Bed.png",
+				"x": 999,
+				"y": 0,
+				"dialogue": "sleeps"
+			},
+			"water": {
+				"type": "dialogueSprite",
+				"sprite": "Sprites/Main_View1/Water.png",
+				"x": 199,
+				"y": 100,
+				"dialogue": "water"
+			},
+			"bike": {
+				"type": "dialogueSprite",
+				"sprite": "Sprites/Main_View1/Bike.png",
+				"x": 799,
+				"y": 100,
+				"dialogue": "bike"
+			},
+			"food": {
+				"type": "dialogueSprite",
+				"sprite": "Sprites/Main_View1/Food_Pellets.png",
+				"x": 100,
+				"y": 99,
+				"dialogue": "food"
+			},
+			"drawer": {
+				"type": "dialogueSprite",
+				"sprite": "Sprites/Main_View1/Drawer.png",
+				"x": 0,
+				"y": 349,
+				"dialogue": "bookshelf"
+			},
+			"table": {
+				"type": "dialogueSprite",
+				"sprite": "Sprites/Main_View1/Table.png",
+				"x": 350,
+				"y": 250,
+				"dialogue": "table"
+			},
+			"chair": {
+				"type": "dialogueSprite",
+				"id": "chair",
+				"sprite": "Sprites/Main_View1/chair.png",
+				"x": 299,
+				"y": 30",
+				"dialogue": "chair"
+			},
+			"thermostat": {
+				"type": "dialogueSprite",
+				"sprite": "Sprites/Main_View1/Thermostat.png",
+				"x": 0,
+				"y": 49,
+				"dialogue": "smallmonitor"
+			},
+			"ladder": {
+				"type": "screenChangeSprite",
+				"sprite": "Sprites/Main_View1/Ladder.png",
+				"x": 699,
+				"y": 0,
+				"screen": "cryoScreen"
+			},
+			"change": {
+				"type": "screenChangeSprite",
+				"sprite": "Sprites/ArrowObject.png",
+				"x": 0,
+				"y": 647,
+				"screen": "mainScreen2"
+			}
+		}
+	}
+
+	"mainScreen2": {
+		"screenFunction": "CreateScreen(json)",
+		"zIndex": 9,
+		"interactiveXML": "XML/IntroObjMainRm2.xml",
+		"sprites": {
+			"space_exact": {
+				"type": "Sprite",
+				"sprite": "Sprites/Main_View2/Space_Exact.png",
+				"x": 446,
+				"y": 317
+			},
+			"shutter": {
+				"type": "moveSprite",
+				"sprite": "Sprites/Main_View2/Shutter.png",
+				"x": 450,
+				"y": 100,
+				"targetX": 450,
+				"targetY": 300,
+				"frames": 30
+			},
+			"background": {
+				"type": "Sprite",
+				"sprite": "Sprites/Main_View2/View2Background.png",
+				"x": 0,
+				"y": 0
+			},
+			"window": {
+				"type": "dialogueSprite",
+				"sprite": "Sprites/Main_View2/Window.png",
+				"x": 400,
+				"y": 300,
+				"dialogue": "window"
+			},
+			"clothes": {
+				"type": "dialogueSprite",
+				"sprite": "Sprites/Main_View2/Clothing_Cabinet.png",
+				"x": 849,
+				"y": 199,
+				"dialogue": "clothes"
+			},
+			"change": {
+				"type": "screenChangeSprite",
+				"sprite": "Sprites/ArrowObject.png",
+				"x": 0,
+				"y": 647,
+				"screen": "mainScreen1"
+			},
+		}
+	}
+	
+	"mainScreen1Intro": {
+		"screenFunction": "createDialogueScreen(json)",
+		"zIndex": 9,
+		"xml": "XML/IntroDial.xml",
+		"parent": "mainScreen1"
+	}
+}
