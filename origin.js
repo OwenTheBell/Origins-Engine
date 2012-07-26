@@ -46,42 +46,44 @@ window.requestAnimFrame = (function(){
 $(document).ready(function(){
 	
 	//Eventually everything will be read in via XML/JSON so this brute force coded approach won't be needed
-	preloader('Sprites/Main_View1/Background.png',
-				'Sprites/Main_View1/Bed.png',
-				'Sprites/Main_View1/Water.png',
-				'Sprites/Main_View1/Ladder.png',
-				'Sprites/Main_View1/Bike.png',
-				'Sprites/Main_View1/Food_Pellets.png',
-				'Sprites/Main_View1/Drawer.png',
-				'Sprites/Main_View1/Table.png',
-				'Sprites/Main_View1/Chair.png',
-				'Sprites/Main_View1/Thermostat.png',
-				'Sprites/Main_View2/View2Background.png',
-				'Sprites/Main_View2/Clothing_Cabinet.png',
-				'Sprites/Main_View2/Shutter.png',
-				'Sprites/Main_View2/Space_Exact.png',
-				'Sprites/Main_View2/Window.png',
-				'Sprites/ArrowObject.png',
-				'Sprites/Cryo_Room/Training_Room_Background.png',
-				'Sprites/Cryo_Room/Fog.png',
-				'Sprites/Cryo_Room/Robot.png',
-				'Sprites/Cryo_Room/Storage_Container.png',
-				'Sprites/Cryo_Room/Solar_Panel.png',
-				'Sprites/Cryo_Room/Cryo_Console.png',
-				'Sprites/Cryo_Room/Ladder.png',
-				'Sprites/Doppler_Screen/Objective_Screen.png',
-				'Sprites/Doppler_Screen/Detected_Screen.png',
-				'Sprites/Doppler_Screen/Emitted_Screen.png',
-				'Sprites/Doppler_Screen/Objective_Screen.png',
-				'Sprites/Doppler_Screen/Mouse_Counter.png',
-				'Sprites/Doppler_Screen/HelpButton_Static.png',
-				'Sprites/Doppler_Screen/UIFill.png',
-				'Sprites/Doppler_Screen/Start_Button.png',
-				'Sprites/Doppler_Screen/Pause_Button.png',
-				'Sprites/Doppler_Screen/Arrow_Up.png',
-				'Sprites/Doppler_Screen/Arrow_Down.png',
-				'Sprites/Doppler_Screen/Game_Background.png'
-		);
+	// preloader(
+		// 'Sprites/Main_View1/Background.png',
+		// 'Sprites/Main_View1/Bed.png',
+		// 'Sprites/Main_View1/Water.png',
+		// 'Sprites/Main_View1/Ladder.png',
+		// 'Sprites/Main_View1/Bike.png',
+		// 'Sprites/Main_View1/Food_Pellets.png',
+		// 'Sprites/Main_View1/Drawer.png',
+		// 'Sprites/Main_View1/Table.png',
+		// 'Sprites/Main_View1/Chair.png',
+		// 'Sprites/Main_View1/Thermostat.png',
+		// 'Sprites/Main_View2/View2Background.png',
+		// 'Sprites/Main_View2/Clothing_Cabinet.png',
+		// 'Sprites/Main_View2/Shutter.png',
+		// 'Sprites/Main_View2/Space_Exact.png',
+		// 'Sprites/Main_View2/Window.png',
+		// 'Sprites/ArrowObject.png',
+		// 'Sprites/Cryo_Room/Training_Room_Background.png',
+		// 'Sprites/Cryo_Room/Fog.png',
+		// 'Sprites/Cryo_Room/Robot.png',
+		// 'Sprites/Cryo_Room/Storage_Container.png',
+		// 'Sprites/Cryo_Room/Solar_Panel.png',
+		// 'Sprites/Cryo_Room/Cryo_Console.png',
+		// 'Sprites/Cryo_Room/Ladder.png',
+		// 'Sprites/Doppler_Screen/Objective_Screen.png',
+		// 'Sprites/Doppler_Screen/Detected_Screen.png',
+		// 'Sprites/Doppler_Screen/Emitted_Screen.png',
+		// 'Sprites/Doppler_Screen/Objective_Screen.png',
+		// 'Sprites/Doppler_Screen/Mouse_Counter.png',
+		// 'Sprites/Doppler_Screen/HelpButton_Static.png',
+		// 'Sprites/Doppler_Screen/UIFill.png',
+		// 'Sprites/Doppler_Screen/Start_Button.png',
+		// 'Sprites/Doppler_Screen/Pause_Button.png',
+		// 'Sprites/Doppler_Screen/Arrow_Up.png',
+		// 'Sprites/Doppler_Screen/Arrow_Down.png',
+		// 'Sprites/Doppler_Screen/Game_Background.png'
+	// );
+	continueReady();
 });
 
 continueReady = function(){
@@ -108,17 +110,16 @@ continueReady = function(){
 	$('head').append(importer);
 	*/
 	
-	CreateMainScreen1('mainScreen1', false, g.bottomZIndex)
+	CreateMainScreen1('mainScreen1', true, g.topZIndex)
 	CreateDialogueScreen('mainScreen1Intro', 'mainScreen1', 'XML/IntroDial.xml');
 	CreateMainScreen2('mainScreen2', false, g.bottomZIndex);
 	CreateCryoScreen('cryoScreen', false, g.bottomZIndex);
-	CreateDopplerScreen('dopplerScreen', true, g.topZIndex);
+	//CreateDopplerScreen('dopplerScreen', true, g.topZIndex);
 	
 	startGame();
 };
 
 startGame = function() {
-	//window.requestAnimFrame(startGame);
 	RunGame();
 	setInterval(RunGame, 1000 / g.fps);
 }

@@ -115,5 +115,26 @@ var helper = {
 			}
 		});
 		return max;
+	},
+	
+	preloader: function(files, callback){
+		//this function makes it easier to do recursion
+		var escapevar = false;
+		var internal = function(){
+			var img = new Image();
+			img.src = files[0];
+			
+			$(img).load(function(){
+				if (files.length > 1){
+					files.splice(0, 1);
+					internal();
+				} else {
+					callback();
+					escapevar = true;
+				}
+			});
+		}
+		internal();
+		while(!escapevar){}
 	}
 }
