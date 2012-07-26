@@ -111,7 +111,6 @@ var CreateMainScreen2 = function(id, active, zIndex){
 		var mainScreen2 = new Screen(id, zIndex);
 		mainScreen2.activeScreen = active;
 		g.screenCollection[mainScreen2.id] = mainScreen2;
-		
 		dialogueScreens = new Array();
 		helper.groupItemAjaxGet(dialogueScreens, 'XML/IntroObjMainRm2.xml');
 		for(key in dialogueScreens){
