@@ -151,7 +151,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
 	this.growth = 2;
 	this.circles = [];
 	this.pulsePerSecond = pulsePerSecond;
-	this.waveForm = new WaveForm(g.fps / this.pulsePerSecond, 'emitterCanvas', 417, 634, 444, 84);
+	this.waveForm = new WaveForm(g.fps / this.pulsePerSecond, 'emitterCanvas', 421, 639, 434, 73);
 	this.image = new Image();
 	this.image.src = 'Sprites/Doppler_Screen/Robot_Blue_light.png';
 	this.centerX = this.x + this.image.width / 2;
@@ -231,7 +231,7 @@ var Reciever = klass(function(x, y, radius){
 	this.radius = radius;
 	this.click = new audioElement('click', 'Audio/click');
 	this.waveFormArray = null;
-	this.canvas = new Canvas('recieverCanvas', 417, 561, 444, 77, 5);
+	this.canvas = new Canvas('recieverCanvas', 421, 566, 434, 68, 5);
 	this.matched = false;
 	this.image = new Image();
 	this.image.src = 'Sprites/Doppler_Screen/Grey_Maus_sprite_sheet.png';
@@ -315,7 +315,7 @@ var Reciever = klass(function(x, y, radius){
  * Array of the x-coordinate for which the y-coordinate is at peak
  */
 var Target = klass(function(highPoints){
-	this.canvas = new Canvas('targetCanvas', 417, 487, 444, 77, 5);
+	this.canvas = new Canvas('targetCanvas', 421, 492, 434, 68, 5);
 	this.rendered = true;
 	this.targetPoints = highPoints;
 	this.waveFormArray = [];

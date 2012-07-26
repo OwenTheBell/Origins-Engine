@@ -112,7 +112,8 @@ var screenChangeSprite = clickSprite.extend(function(left, top, image, id, targe
 })
 	.methods({
 		onClick: function(){
-			this.targetScreen.fadingIn(1);
+			g.screenCollection[this.targetScreen].fadingIn(1);
+			//this.targetScreen.fadingIn(1);
 			this.parent.fadingOut(1);
 		}
 	});
