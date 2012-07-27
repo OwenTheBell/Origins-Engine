@@ -1,14 +1,15 @@
 {
 	"mainScreen1": {
-		"screenFunction": "CreateScreen(json)",
+		"screenType": "Screen",
+		"active": "false",
 		"zIndex": 10,
 		"interactiveXML": "XML/IntroObjMainRm.xml",
 		"sprites": {
 			"background": {
-				"type": "Sprites",
+				"type": "Sprite",
 				"sprite": "Sprites/Main_View1/Background.png",
 				"x": 0,
-				"y": 0,
+				"y": 0
 			},
 			"bed": {
 				"type": "dialogueSprite",
@@ -57,7 +58,7 @@
 				"id": "chair",
 				"sprite": "Sprites/Main_View1/chair.png",
 				"x": 299,
-				"y": 30",
+				"y": 30,
 				"dialogue": "chair"
 			},
 			"thermostat": {
@@ -82,10 +83,11 @@
 				"screen": "mainScreen2"
 			}
 		}
-	}
+	},
 
 	"mainScreen2": {
-		"screenFunction": "CreateScreen(json)",
+		"screenType": "Screen",
+		"active": "false",
 		"zIndex": 9,
 		"interactiveXML": "XML/IntroObjMainRm2.xml",
 		"sprites": {
@@ -130,12 +132,12 @@
 				"x": 0,
 				"y": 647,
 				"screen": "mainScreen1"
-			},
+			}
 		}
-	}
+	},
 	
 	"mainScreen1Intro": {
-		"screenFunction": "createDialogueScreen(json)",
+		"screenType": "dialogueScreen",
 		"zIndex": 9,
 		"xml": "XML/IntroDial.xml",
 		"parent": "mainScreen1"

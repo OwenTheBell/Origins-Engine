@@ -38,18 +38,43 @@ var CreateDopplerScreen = function(id, active, zIndex){
 	});
 }
 
-var CreateScreen = function(active, zIndex){
-	
+var CreateScreen = function(id, json){
+	var screen = new Screen(id, json.zIndex);
+	for(i in json.sprites){
+		screen.addSprite(CreateSprite(i, json.sprites[i]));
+	}
+	g.screenCollection.push(screen);
 }
 
-/*
- * parent: the id of the parent screen of the dialogueScreen
- */
-var CreateDialogueScreen = function(id, parent, xmlFile){
-	var talkScreen = new DialogueScreen(id, g.bottomZIndex, xmlFile);
+var CreateDialougeScreen = function(id, json){
+	var talkScreen = new DialogueScreen(id, json.zIndex, json.xml);
 	helper.ajaxGet(talkScreen);
-	g.screenCollection[parent].addDialogueScreen(talkScreen);
+	g.screenCollection[json.parent].addDialogueScreen(talkScreen);
 	g.screenCollection[talkScreen.id] = talkScreen;
+}
+
+var CreateSprite= function(id, json){
+	var sprite = {};
+	switch(json.type){
+		case 'Sprite':
+			sprite = new Sprite(json.x, json.y, json.sprite, id);
+			break;
+		case 'dialogueSprite':
+			sprite = new dialogueSprite(json.x, json.y, json.sprite, id, dialogueSprite);
+			break;
+		case 'screenChangeSprite':
+			sprite = new screenChangeSprite(json.x, json.y, json.sprite, id, json.screen);
+			break;
+		case 'UISprite':
+			sprite = new screenChangeSprite(json.x, json.y, json.sprite, id, json.zIndex);
+			break;
+		case 'moveSprite':
+			sprite = new moveSprite(json.x, json.y, json.sprite, id, json.targetX, json.targetY, json.frames);
+			break;
+		default:
+			console.log("ERROR: " + id + ' is set to an invalid sprite type');
+	}
+	return sprite;
 }
 
 /*

@@ -55,6 +55,21 @@ var helper = {
 		return count;
 	},
 	
+	evalScreen: function(id, json){
+		switch(json.screenType){
+			case 'Screen':
+				console.log('creating Screen ' + id);
+				CreateScreen(id, json);
+				break;
+			case 'dialogueScreen':
+				console.log('creating DialogueScreen ' + id);
+				// CreateDialogueScreen(id, json);
+				break;
+			default:
+				console.log('ERROR: ' + id + ' has the invalid screenType of: ' + json.screenType);
+		}
+	},
+	
 	groupItemAjaxGet: function(dialogueScreens, file){
 		var extData;
 		$.ajax({
