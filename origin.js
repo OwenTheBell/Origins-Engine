@@ -35,15 +35,6 @@ try{
 	console.log = function(){};
 }
 
-//Create a browser independent requestAnimationFrame wrapper
-window.requestAnimFrame = (function(){
-		return 	window.requestAnimationFrame 		||
-				window.webkitRequestAnimationFrame	||
-				window.mozRequestAnimationFrame		||
-				window.oRequestAnimationFrame		||
-				window.msRequestAnimationFrame;
-})();
-
 $(document).ready(function(){
 	
 	//read in the json file and send all images to the preloader
@@ -68,7 +59,6 @@ continueReady = function(){
 		var json = g.jsonObj[i];
 		helper.evalScreen(id, json);
 	}
-	
 	
 	//create the div in which to put the output HTML as well as the audio files
 	$('#origins').html('<div id="' + g.drawDiv + '"> </div><div id="' + g.audioDiv + '"> </div>');
