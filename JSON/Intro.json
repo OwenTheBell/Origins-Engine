@@ -29,7 +29,7 @@
 				"type": "dialogueSprite",
 				"sprite": "Sprites/Main_View1/Bike.png",
 				"x": 799,
-				"y": 100,
+				"y": 300,
 				"dialogue": "bike"
 			},
 			"food": {

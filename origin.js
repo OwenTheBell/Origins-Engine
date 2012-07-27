@@ -70,34 +70,27 @@ continueReady = function(){
 	}
 	
 	
-	// //create the div in which to put the output HTML as well as the audio files
-	// $('#origins').html('<div id="' + g.drawDiv + '"> </div><div id="' + g.audioDiv + '"> </div>');
-// 	
-	// //setup some of the external css for the dialogueScreens
-	// var rule = helper.addCSSRule('.speech', {
-		// width: parseInt($('#origins').css('width')) - 20 + 'px',
-		// height: parseInt($('#origins').css('height')) / 4 + 'px'
-	// });
-	// /*
-	 // * Loading scripts this way is ok for production but not for developement
-	 // * as all files imported this way don't appear in the debugger
-	 // */
-	// /*
-	// var importer = ["<script type='text/javascript' src='klass.min.js'></script>",
-					// "<script type='text/javascript' src='Screen.js'></script>",
-					// "<script type='text/javascript' src='Sprite.js'></script>",
-					// "<script type='text/javascript' src='input.js'></script>",
-					// "<script type='text/javascript' src='DialogueScreen.js'></script>"].join("\n");
-// 	
-	// $('head').append(importer);
-	// */
-// 	
-	// CreateMainScreen1('mainScreen1', true, g.topZIndex)
-	// CreateDialogueScreen('mainScreen1Intro', 'mainScreen1', 'XML/IntroDial.xml');
-	// CreateMainScreen2('mainScreen2', false, g.bottomZIndex);
-	// CreateCryoScreen('cryoScreen', false, g.bottomZIndex);
-	// //CreateDopplerScreen('dopplerScreen', true, g.topZIndex);
-// 	
+	//create the div in which to put the output HTML as well as the audio files
+	$('#origins').html('<div id="' + g.drawDiv + '"> </div><div id="' + g.audioDiv + '"> </div>');
+	
+	//setup some of the external css for the dialogueScreens
+	var rule = helper.addCSSRule('.speech', {
+		width: parseInt($('#origins').css('width')) - 20 + 'px',
+		height: parseInt($('#origins').css('height')) / 4 + 'px'
+	});
+	/*
+	 * Loading scripts this way is ok for production but not for developement
+	 * as all files imported this way don't appear in the debugger
+	 */
+	/*
+	var importer = ["<script type='text/javascript' src='klass.min.js'></script>",
+					"<script type='text/javascript' src='Screen.js'></script>",
+					"<script type='text/javascript' src='Sprite.js'></script>",
+					"<script type='text/javascript' src='input.js'></script>",
+					"<script type='text/javascript' src='DialogueScreen.js'></script>"].join("\n");
+	$('head').append(importer);
+	*/
+	
 	startGame();
 };
 
