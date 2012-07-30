@@ -77,7 +77,7 @@ var clickSprite = Sprite.extend(function(left, top, image, id){
 })
 	.methods({
 		update: function(){
-			if (this.parent.id = g.activeScreen){
+			if (this.parent.id == g.activeScreen){
 				if (this.clicked){
 					this.onClick();
 					this.clicked = false ;
@@ -112,6 +112,7 @@ var screenChangeSprite = clickSprite.extend(function(left, top, image, id, targe
 })
 	.methods({
 		onClick: function(){
+			console.log(this.id + ' is triggering a screen change');
 			g.screenCollection[g.activeScreen].fadingOut(1);
 			g.screenCollection[this.targetScreen].fadingIn(1);
 		}

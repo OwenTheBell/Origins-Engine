@@ -1,5 +1,5 @@
 var Screen = klass(function(id, zIndex) {
-	this.id = id
+	this.id = id;
 	this.spriteArray = [];
 	this.fadeOut = false;
 	this.fadeIn = false;
@@ -34,17 +34,6 @@ var Screen = klass(function(id, zIndex) {
 			newSprite.parent = this;
 			this.spriteArray[newSprite.id] = newSprite;
 		},
-			
-		/*
-		 * This method runs into the issue that the sprite has to be removed from
-		 * the DOM. This means that some tracker needs to be put in place that will
-		 * know that the sprite needs to be removed at draw.
-		 * One answer might be to allow the sprite to persist until draw(). At that
-		 * point the sprite removes itself from the DOM and from the screen.
-		 * Alternatively the sprite could handle removal from the DOM and then the
-		 * screen could remove the sprite after completing the draw methods or at
-		 * the beginning of the next update.
-		 */
 		removeSprite: function(id){	
 			this.spriteArray[id] = 'removed';
 		},
@@ -63,7 +52,7 @@ var Screen = klass(function(id, zIndex) {
 			this.fadeOut = true;
 			this.transitionFrames = seconds*g.fps;
 			this.transitionFramesCount = 0;
-			console.log(this.id + ' moving to background');
+			g.activeScreen = null;
 		},
 		//seconds: the number of seconds for the transition
 		fadingIn: function(seconds){
@@ -78,9 +67,8 @@ var Screen = klass(function(id, zIndex) {
 				if (this.css['opacity'] >= 1.0){
 					this.css['opacity'] = 1.0;
 					this.fadeIn = false;
-					this.fadeOut = false;
 					this.css['z-index'] = g.topZIndex;
-					this.activeScreen = this.id;
+					g.activeScreen = this.id;
 				} else {
 					this.css['opacity'] += (1 / this.transitionFrames);
 				}
@@ -89,7 +77,6 @@ var Screen = klass(function(id, zIndex) {
 				if (this.css['opacity'] <= 0.0){
 					this.css['opacity'] = 0.0;
 					this.fadeOut = false;
-					this.fadeIn = false;
 					this.css['z-index'] = g.bottomZIndex;
 				} else {
 					this.css['opacity'] -= (1 / this.transitionFrames);
@@ -103,11 +90,10 @@ var Screen = klass(function(id, zIndex) {
 			if (g.activeScreen == this.id){
 				if(this.dialogue.active){
 					this.dialogue.active = false;
-					g.activeDialogue = this.dialogue.screen;
 					g.screenCollection[this.dialogue.screen].activate();
 				}
 				//only update if there is not currently a dialogue screen active
-				if (!g.acitveDialogue){
+				if (!g.activeDialogue){
 					mouse = g.input.mouse;
 				
 					for (x in this.spriteArray){

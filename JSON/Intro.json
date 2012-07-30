@@ -3,8 +3,6 @@
 		"screenType": "Screen",
 		"active": "true",
 		"zIndex": 10,
-		"dialogue": "mainScreen1Intro",
-		"interactiveXML": "XML/IntroObjMainRm.xml",
 		"sprites": {
 			"background": {
 				"type": "Sprite",
@@ -57,7 +55,7 @@
 			"chair": {
 				"type": "dialogueSprite",
 				"id": "chair",
-				"sprite": "Sprites/Main_View1/chair.png",
+				"sprite": "Sprites/Main_View1/Chair.png",
 				"x": 299,
 				"y": 300,
 				"dialogue": "chair"
@@ -70,11 +68,11 @@
 				"dialogue": "smallmonitor"
 			},
 			"ladder": {
-				"type": "screenChangeSprite",
+				"type": "dialogueSprite",
 				"sprite": "Sprites/Main_View1/Ladder.png",
 				"x": 699,
 				"y": 0,
-				"screen": "cryoScreen"
+				"dialogue": "ladder"
 			},
 			"change": {
 				"type": "screenChangeSprite",
@@ -138,7 +136,16 @@
 	
 	"mainScreen1Intro": {
 		"screenType": "dialogueScreen",
-		"zIndex": 9,
 		"xml": "XML/IntroDial.xml"
+	},
+	
+	"IntroObjMainRm1": {
+		"screenType": "interactiveDialogue",
+		"xml": "XML/IntroObjMainRm.xml"
+	},
+	
+	"IntroObjMainRm2": {
+		"screenType": "interactiveDialogue",
+		"xml": "XML/IntroObjMainRm2.xml"
 	}
 }

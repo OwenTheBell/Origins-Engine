@@ -58,12 +58,13 @@ var helper = {
 	evalScreen: function(id, json){
 		switch(json.screenType){
 			case 'Screen':
-				//console.log('creating Screen ' + id);
 				CreateScreen(id, json);
 				break;
 			case 'dialogueScreen':
-				//console.log('creating DialogueScreen ' + id);
 				CreateDialogueScreen(id, json);
+				break;
+			case 'interactiveDialogue':
+				CreateInteractiveDialogueScreens(json);
 				break;
 			default:
 				console.log('ERROR: ' + id + ' has the invalid screenType of: ' + json.screenType);
@@ -82,7 +83,6 @@ var helper = {
 					var temp = new DialogueScreen($(this).attr('id'), g.bottomZIndex);
 					temp.loadXML(this);
 					g.screenCollection[temp.id] = temp;
-					console.log('dialogue screen ' + temp.id + ' created');
 				});
 			}
 		});
