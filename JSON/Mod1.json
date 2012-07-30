@@ -1,14 +1,13 @@
 {
 	"mainScreen1": {
-		"screenFunction": "CreateScreen(json)",
-		"zIndex": 10,
-		"interactiveXML": "XML/Mod1ObjMainRm.xml",
+		"screenType": "Screen",
+		"active": "true",
 		"sprites": {
 			"background": {
-				"type": "Sprites",
+				"type": "Sprite",
 				"sprite": "Sprites/Main_View1/Background.png",
 				"x": 0,
-				"y": 0,
+				"y": 0
 			},
 			"bed": {
 				"type": "dialogueSprite",
@@ -28,7 +27,7 @@
 				"type": "dialogueSprite",
 				"sprite": "Sprites/Main_View1/Bike.png",
 				"x": 799,
-				"y": 100,
+				"y": 300,
 				"dialogue": "bike"
 			},
 			"food": {
@@ -55,9 +54,9 @@
 			"chair": {
 				"type": "dialogueSprite",
 				"id": "chair",
-				"sprite": "Sprites/Main_View1/chair.png",
+				"sprite": "Sprites/Main_View1/Chair.png",
 				"x": 299,
-				"y": 30",
+				"y": 300,
 				"dialogue": "chair"
 			},
 			"thermostat": {
@@ -82,12 +81,10 @@
 				"screen": "mainScreen2"
 			}
 		}
-	}
+	},
 
 	"mainScreen2": {
-		"screenFunction": "CreateScreen(json)",
-		"zIndex": 9,
-		"interactiveXML": "XML/Mod1ObjMainRm2.xml",
+		"screenType": "Screen",
 		"sprites": {
 			"space_exact": {
 				"type": "Sprite",
@@ -130,35 +127,33 @@
 				"x": 0,
 				"y": 647,
 				"screen": "mainScreen1"
-			},
+			}
 		}
-	}
+	},
 	
 	"cryoScreen": {
-		"screenFunction": "CreateScreen(json)",
-		"zIndex": 9,
-		"interactiveXML": "XML/Mod1Cryo.xml",
+		"screenType": "Screen",
 		"sprites": {
 			"background": {
 				"type": "Sprite",
 				"sprite": "Sprites/Cryo_Room/Training_Room_Background.png",
 				"x": 0,
-				"y": 0,
+				"y": 0
 			},
 			"miceCatcher": {
-				"type": "dialogueSprite",
+				"type": "screenChangeSprite",
 				"sprite": "Sprites/Cryo_Room/Robot.png",
 				"x": 313,
 				"y": 513,
-				"dialogue": "miceCatcher"
+				"screen": "DopplerScreen"
 			},
 			"storageContainer": {
-				"type": "dialougeSprite",
+				"type": "dialogueSprite",
 				"sprite": "Sprites/Cryo_Room/Storage_Container.png",
 				"x": 740,
 				"y": 20,
 				"dialogue": "storageContainer"
-			}
+			},
 			"solarPanel": {
 				"type": "dialogueSprite",
 				"sprite": "Sprites/Cryo_Room/Solar_Panel.png",
@@ -184,8 +179,106 @@
 				"type": "Sprite",
 				"sprite": "Sprites/Cryo_Room/Fog.png",
 				"x": 0,
-				"y": 0,
-			},
+				"y": 0
+			}
 		}
+	},
+	
+	"DopplerScreen": {
+		"screenType": "dopplerScreen",
+		"sprites": {
+			"background": {
+				"type": "UISprite",
+				"sprite": "Sprites/Doppler_Screen/Game_Background.png",
+				"x": 0,
+				"y": 0,
+				"zIndex": 1
+			},
+			"objective": {
+				"type": "UISprite",
+				"sprite": "Sprites/Doppler_Screen/Objective_Screen.png",
+				"x": 416,
+				"y": 487,
+				"zIndex": 4
+			},
+			"detected": {
+				"type": "UISprite",
+				"sprite": "Sprites/Doppler_Screen/Detected_Screen.png",
+				"x": 417,
+				"y": 561,
+				"zIndex": 4
+			},
+			"emitted": {
+				"type": "UISprite",
+				"sprite": "Sprites/Doppler_Screen/Emitted_Screen.png",
+				"x": 416,
+				"y": 634,
+				"zIndex": 4
+			},
+			"mouse_counter": {
+				"type": "UISprite",
+				"sprite": "Sprites/Doppler_Screen/Mouse_Counter.png",
+				"x": 0,
+				"y": 480,
+				"zIndex": 4
+			},
+			"help_button": {
+				"type": "UISprite",
+				"sprite": "Sprites/Doppler_Screen/HelpButton_Static.png",
+				"x": 254,
+				"y": 594,
+				"zIndex": 4
+			},
+			"UIFill": {
+				"type": "UISprite",
+				"sprite": "Sprites/Doppler_Screen/UIFill.png",
+				"x": 0,
+				"y": 0,
+				"zIndex": 6
+			},
+			"start_button": {
+				"type": "UISprite",
+				"sprite": "Sprites/Doppler_Screen/Start_Button.png",
+				"x": 870,
+				"y": 589,
+				"zIndex": 7
+			},
+			"pause_button": {
+				"type": "UISprite",
+				"sprite": "Sprites/Doppler_Screen/Pause_Button.png",
+				"x": 870,
+				"y": 520,
+				"zIndex": 7
+			},
+			"arrow_up": {
+				"type": "UISprite",
+				"sprite": "Sprites/Doppler_Screen/Arrow_Up.png",
+				"x": 1175,
+				"y": 524,
+				"zIndex": 7
+			},
+			"arrow_down": {
+				"type": "UISprite",
+				"sprite": "Sprites/Doppler_Screen/Arrow_Down.png",
+				"x": 1070,
+				"y": 520,
+				"zIndex": 7
+			}
+		}
+	},
+	
+	"Mod1ObjCryo": {
+		"screenType": "interactiveDialogue",
+		"xml": "XML/Mod1ObjCryo.xml"
+	},
+	
+	"Mod1ObjMainRm": {
+		"screenType": "interactiveDialogue",
+		"xml": "XML/Mod1ObjMainRm.xml"
+	},
+	
+	"Mod1ObjMainRm2": {
+		"screenType": "interactiveDialogue",
+		"xml": "XML/Mod1ObjMainRm2.xml"
 	}
 }

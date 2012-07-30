@@ -5,47 +5,34 @@
  * There is one of these functions for every screen class
  */
 
-var CreateDopplerScreen = function(id, active, zIndex){
-	helper.preloader([
-		'Sprites/Doppler_Screen/Objective_Screen.png',
-		'Sprites/Doppler_Screen/Detected_Screen.png',
-		'Sprites/Doppler_Screen/Emitted_Screen.png',
-		'Sprites/Doppler_Screen/Objective_Screen.png',
-		'Sprites/Doppler_Screen/Mouse_Counter.png',
-		'Sprites/Doppler_Screen/HelpButton_Static.png',
-		'Sprites/Doppler_Screen/UIFill.png',
-		'Sprites/Doppler_Screen/Start_Button.png',
-		'Sprites/Doppler_Screen/Pause_Button.png',
-		'Sprites/Doppler_Screen/Arrow_Up.png',
-		'Sprites/Doppler_Screen/Arrow_Down.png',
-		'Sprites/Doppler_Screen/Game_Background.png'
-	], function(){
-		var dopplerScreen = new DopplerScreen(id, zIndex);
-		dopplerScreen.activeScreen = active;
-		g.screenCollection[dopplerScreen.id] = dopplerScreen;
-		
-		dopplerScreen.addSprite(new UISprite(0, 0, 'Sprites/Doppler_Screen/Game_Background.png', 'background', 1));
-		dopplerScreen.addSprite(new UISprite(416, 487, 'Sprites/Doppler_Screen/Objective_Screen.png', 'objective', 4));
-		dopplerScreen.addSprite(new UISprite(417, 561, 'Sprites/Doppler_Screen/Detected_Screen.png', 'detected', 4));
-		dopplerScreen.addSprite(new UISprite(417, 634, 'Sprites/Doppler_Screen/Emitted_Screen.png', 'emitted', 4));
-		dopplerScreen.addSprite(new UISprite(0, 480, 'Sprites/Doppler_Screen/Mouse_Counter.png', 'mouse_counter', 4));
-		dopplerScreen.addSprite(new UISprite(254, 594, 'Sprites/Doppler_Screen/HelpButton_Static.png', 'help_button', 4));
-		dopplerScreen.addSprite(new UISprite(0, 0, 'Sprites/Doppler_Screen/UIFill.png', 'UIFill', 6));
-		dopplerScreen.addSprite(new UISprite(870, 589, 'Sprites/Doppler_Screen/Start_Button.png', 'start_button', 7));
-		dopplerScreen.addSprite(new UISprite(870, 520, 'Sprites/Doppler_Screen/Pause_Button.png', 'pause_button', 7));
-		dopplerScreen.addSprite(new UISprite(1175, 524, 'Sprites/Doppler_Screen/Arrow_Up.png', 'arrow_up', 7));
-		dopplerScreen.addSprite(new UISprite(1070, 520, 'Sprites/Doppler_Screen/Arrow_Down.png', 'arrow_down', 7));
-	});
+var CreateDopplerScreen = function(id, json){
+	var screen = {};
+	if (json.active == 'true'){
+		screen = new DopplerScreen(id, g.topZIndex);
+		g.activeScreen = id;
+	} else {
+		screen = new DopplerScreen(id, g.bottomZIndex);
+	}
+	for (i in json.sprites){
+		screen.addSprite(CreateSprite(i, json.sprites[i]));
+	}
+	if (json.dialogue){
+		screen.addDialogue(json.dialogue);
+	}
+	g.screenCollection[id] = screen;
 }
 
 var CreateScreen = function(id, json){
-	var screen = new Screen(id, json.zIndex);
+	var screen = {};
+	if (json.active == "true"){
+		screen = new Screen(id, g.topZIndex);
+		g.activeScreen = id;
+	} else {
+		screen = new Screen(id, g.bottomZIndex);
+	}
 	console.log('creating Screen ' + id);
 	for(i in json.sprites){
 		screen.addSprite(CreateSprite(i, json.sprites[i]));
-	}
-	if (json.active === 'true'){
-		g.activeScreen = id;
 	}
 	if (json.dialogue){
 		screen.addDialogue(json.dialogue);
@@ -76,7 +63,7 @@ var CreateSprite= function(id, json){
 			sprite = new screenChangeSprite(json.x, json.y, json.sprite, id, json.screen);
 			break;
 		case 'UISprite':
-			sprite = new screenChangeSprite(json.x, json.y, json.sprite, id, json.zIndex);
+			sprite = new UISprite(json.x, json.y, json.sprite, id, json.zIndex);
 			break;
 		case 'moveSprite':
 			sprite = new moveSprite(json.x, json.y, json.sprite, id, json.targetX, json.targetY, json.frames);

@@ -2,7 +2,6 @@
 	"mainScreen1": {
 		"screenType": "Screen",
 		"active": "true",
-		"zIndex": 10,
 		"sprites": {
 			"background": {
 				"type": "Sprite",
@@ -86,8 +85,6 @@
 
 	"mainScreen2": {
 		"screenType": "Screen",
-		"zIndex": 9,
-		"interactiveXML": "XML/IntroObjMainRm2.xml",
 		"sprites": {
 			"space_exact": {
 				"type": "Sprite",
@@ -139,7 +136,7 @@
 		"xml": "XML/IntroDial.xml"
 	},
 	
-	"IntroObjMainRm1": {
+	"IntroObjMainRm": {
 		"screenType": "interactiveDialogue",
 		"xml": "XML/IntroObjMainRm.xml"
 	},

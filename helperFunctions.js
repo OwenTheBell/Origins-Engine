@@ -66,6 +66,9 @@ var helper = {
 			case 'interactiveDialogue':
 				CreateInteractiveDialogueScreens(json);
 				break;
+			case 'dopplerScreen':
+				CreateDopplerScreen(id, json);
+				break;
 			default:
 				console.log('ERROR: ' + id + ' has the invalid screenType of: ' + json.screenType);
 		}
