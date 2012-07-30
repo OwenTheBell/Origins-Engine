@@ -89,32 +89,6 @@
 
 </overseer>
 </item>
-<item id = "windows">
-<overseer id = "windowopen1"  nextType = "player" nextId = "playerwindow1">
-	<text>This is your window to the universe. Would you like to close it?</text>
-
-</overseer>
-<overseer id = "windowclosed1"  nextType = "player" nextId = "playerwindow2">
-	<text>This is your window to the universe. Would you like to open it?</text>
-
-</overseer>
-<player id = "playerwindow1">
-	<option nextType = "exit" nextId = "mainScreen1">
-		<text>Yes, please.</text>
-	</option>
-	<option nextType = "exit" nextId = "mainScreen1">
-		<text>No, leave it open.</text>
-	</option>
-</player>
-<player id = "playerwindow2">
-	<option nextType = "exit" nextId = "mainScreen1">
-		<text>Yes, open it.</text>
-	</option>
-	<option nextType = "exit" nextId = "mainScreen1">
-		<text>No, leave it closed.</text>
-	</option>
-</player>
-</item>
 <item id = "table">
 <overseer id = "table" nextType = "exit" nextId = "mainScreen1">
 	<text>This is a nice white folding table which you can use as you please. </text>

@@ -3,7 +3,7 @@
 		"screenType": "Screen",
 		"active": "true",
 		"sprites": {
-			"background": {
+			"mainScreen1Background": {
 				"type": "Sprite",
 				"sprite": "Sprites/Main_View1/Background.png",
 				"x": 0,
@@ -101,7 +101,7 @@
 				"targetY": 300,
 				"frames": 30
 			},
-			"background": {
+			"mainScreen2Background": {
 				"type": "Sprite",
 				"sprite": "Sprites/Main_View2/View2Background.png",
 				"x": 0,
@@ -134,7 +134,7 @@
 	"cryoScreen": {
 		"screenType": "Screen",
 		"sprites": {
-			"background": {
+			"cryoScreenBackground": {
 				"type": "Sprite",
 				"sprite": "Sprites/Cryo_Room/Training_Room_Background.png",
 				"x": 0,
@@ -187,7 +187,7 @@
 	"DopplerScreen": {
 		"screenType": "dopplerScreen",
 		"sprites": {
-			"background": {
+			"DopplerScreenBackground": {
 				"type": "UISprite",
 				"sprite": "Sprites/Doppler_Screen/Game_Background.png",
 				"x": 0,

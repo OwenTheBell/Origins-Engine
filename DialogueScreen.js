@@ -428,11 +428,11 @@ var PlayerOptions = klass(function(parent, xmlData){
 					for(i in g.screenCollection){
 						var sprite = g.screenCollection[i].getSprite(selected.target);
 						if(sprite){
+							console.log(sprite.id);
 							sprite.trigger();
 							break;
 						}
 					}
-					//this.parent.target(selected.target);
 				}
 				if (selected.nextTime){
 					this.parent.originalActive = this.parent.statements[selected.nextTime];

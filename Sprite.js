@@ -4,7 +4,7 @@ var Sprite = klass(function (left, top, image, id) {
 	this.left = left; //x
 	this.image = new Image();
 	this.image.src = image;
-	this.id = id + g.id_differ++;
+	this.id = id;
 	this.drawState = 'new';
 	// this.cssClasses = []; //store names of any applied css classes
 	this.rule = helper.addCSSRule('#' + this.id, {
@@ -25,7 +25,7 @@ var Sprite = klass(function (left, top, image, id) {
 		},
 		changeLeft: function(left){
 			this.left = left;
-			this.css.left = this.left;
+			this.css.left = this.left + 'px';
 		},
 		//these two functions just provide a little shorthand
 		width: function(){
@@ -112,7 +112,6 @@ var screenChangeSprite = clickSprite.extend(function(left, top, image, id, targe
 })
 	.methods({
 		onClick: function(){
-			console.log(this.id + ' is triggering a screen change');
 			g.screenCollection[g.activeScreen].fadingOut(1);
 			g.screenCollection[this.targetScreen].fadingIn(1);
 		}
@@ -147,6 +146,7 @@ var moveSprite = triggerSprite.extend(function(left, top, image, id, x2, y2, fra
 })
 	.methods({
 		trigger: function(){
+			console.log(this.id + ' has been triggered');
 			this.moving = true;
 			this.moveCount = 0;
 			this.yMove = (this.moveTo.Y - this.top) / this.frames;
@@ -157,8 +157,6 @@ var moveSprite = triggerSprite.extend(function(left, top, image, id, x2, y2, fra
 				if (this.moveCount < this.frames){
 					this.changeTop(this.top + this.yMove);
 					this.changeLeft(this.left + this.xMove);
-					//this.top += this.yMove;
-					//this.left += this.xMove;
 					this.moveCount++;
 				} else {
 					var temp = {X: this.moveTo.X, Y: this.moveTo.Y};
@@ -167,13 +165,9 @@ var moveSprite = triggerSprite.extend(function(left, top, image, id, x2, y2, fra
 					this.moving = false;
 					this.changeLeft(this.start.X);
 					this.changeTop(this.start.Y);
-					//this.left = this.start.X;
-					//this.top = this.start.Y;
+					console.log(this.id + ' has stopped moving at ' + this.css.top);
 				}
 			}
-			
-			//this.css.top = this.top + 'px';
-			//this.css.left = this.left + 'px';
 		}
 	});
 

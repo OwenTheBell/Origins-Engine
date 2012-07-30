@@ -3,7 +3,7 @@
 		"screenType": "Screen",
 		"active": "true",
 		"sprites": {
-			"background": {
+			"mainScreen1Background": {
 				"type": "Sprite",
 				"sprite": "Sprites/Main_View1/Background.png",
 				"x": 0,
@@ -101,7 +101,7 @@
 				"targetY": 300,
 				"frames": 30
 			},
-			"background": {
+			"mainScreen2Background": {
 				"type": "Sprite",
 				"sprite": "Sprites/Main_View2/View2Background.png",
 				"x": 0,
