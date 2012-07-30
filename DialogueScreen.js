@@ -4,7 +4,7 @@
  * all screens, hence why DialogueScreen update is not handled by its parent
  */
 
-var DialogueScreen = Screen.extend(function(id, zIndex, file){
+var DialogueScreen = Screen.extend(function(id, file){
 	//Contains the first statement in a dialogue, this will start off the conversation
 	this.activeStatement = null;
 	this.nextActiveStatement = null;
@@ -18,6 +18,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 	this.playerHTML = '';
 	this.popupHTML = '';
 	this.statements = []; //array of all statements
+	this.classes = ['dialogueWrapper']; //override the standard screen css class and add a different one
 
 	if (!helper.findCSSRule('#OverseerDIV')){
 		this.overseerRule = helper.addCSSRule('#OverseerDIV', {
@@ -123,7 +124,6 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		
 		activate: function(){
 			g.activeDialogue = this.id;
-			this.css['z-index'] = g.dialogueZIndex;
 			this.css['opacity'] = 1.0;
 			this.drawState = 'updated';
 			this.originalActive = this.activeStatement;
@@ -131,7 +131,6 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		
 		deActivate: function(){
 			g.activeDialogue = null;
-			this.css['z-index'] = g.bottomZIndex;
 			this.css['opacity'] = 0.0;
 			this.activeStatement = this.originalActive;
 		},
@@ -250,6 +249,10 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 				HTML = '<div id =' + this.id + 'Dialouge' + ' style="';
 				for(x in this.css){
 					HTML += x + ':' + this.css[x] + '; ';
+				}
+				HTML += '" class="';
+				for(x in this.classes){
+					HTML += this.classes[x] + ' ';
 				}
 				HTML += '">' + this.overseerHTML + this.playerHTML + this.popupHTML + '</div>';
 			}

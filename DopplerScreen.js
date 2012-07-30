@@ -16,7 +16,7 @@ var doppler = {
 	recieverW: 200
 }
 
-var DopplerScreen = Screen.extend(function(id, zIndex){
+var DopplerScreen = Screen.extend(function(id){
 	doppler.canvas = new Canvas('mainCanvas', 0, 0, 1280, 600, 3);
 	doppler.elements.push(doppler.canvas);
 	doppler.pulseCanvas = new Canvas('pulseCanvas', 0, 0, doppler.canvas.width, doppler.canvas.height, 2);

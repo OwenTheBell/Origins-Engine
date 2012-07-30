@@ -8,10 +8,10 @@
 var CreateScreen = function(id, json){
 	var screen = {};
 	if (json.active == "true"){
-		screen = new Screen(id, g.topZIndex);
+		screen = new Screen(id);
 		g.activeScreen = id;
 	} else {
-		screen = new Screen(id, g.bottomZIndex);
+		screen = new Screen(id);
 	}
 	for(i in json.sprites){
 		screen.addSprite(CreateSprite(i, json.sprites[i]));
@@ -25,10 +25,10 @@ var CreateScreen = function(id, json){
 var CreateDopplerScreen = function(id, json){
 	var screen = {};
 	if (json.active == 'true'){
-		screen = new DopplerScreen(id, g.topZIndex);
+		screen = new DopplerScreen(id);
 		g.activeScreen = id;
 	} else {
-		screen = new DopplerScreen(id, g.bottomZIndex);
+		screen = new DopplerScreen(id);
 	}
 	for (i in json.sprites){
 		screen.addSprite(CreateSprite(i, json.sprites[i]));
@@ -40,7 +40,7 @@ var CreateDopplerScreen = function(id, json){
 }
 
 var CreateDialogueScreen = function(id, json){
-	var talkScreen = new DialogueScreen(id, g.bottomZIndex, json.xml);
+	var talkScreen = new DialogueScreen(id, json.xml);
 	helper.ajaxGet(talkScreen);
 	g.screenCollection[talkScreen.id] = talkScreen;
 }

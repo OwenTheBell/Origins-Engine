@@ -1,12 +1,11 @@
-var Screen = klass(function(id, zIndex) {
+var Screen = klass(function(id) {
 	this.id = id;
 	this.spriteArray = [];
 	this.fadeOut = false;
 	this.fadeIn = false;
 	this.timeIn;
 	this.drawState = 'new'; // new/updated/removed/unchanged
-	this.activeScreen = false;
-	this.classes = [];
+	this.classes = ['interactive'];
 	this.dialogue = {
 		screens: [],
 		active: false,
@@ -15,13 +14,7 @@ var Screen = klass(function(id, zIndex) {
 	this.parent = null;
 	
 	this.css = {
-		'opacity': 0.0,
-		'z-index': zIndex,
-	}
-	
-	//set opacity based on whether or not this screen is on the top zIndex
-	if (this.css['z-index'] == g.topZIndex) {
-		this.css['opacity'] = 1.0;
+		'opacity': 0.0
 	}
 	
 	this.transitionFrames = 0;
@@ -45,7 +38,6 @@ var Screen = klass(function(id, zIndex) {
 		addDialogue: function(dialogue){
 			this.dialogue.screens = dialogue;
 			this.dialogue.active = true;
-			console.log(this.dialogue.screens);
 		},
 		fadingOut: function(seconds){
 			this.fadeOut = true;
@@ -57,7 +49,7 @@ var Screen = klass(function(id, zIndex) {
 		fadingIn: function(seconds){
 			this.fadeIn = true;
 			this.transitionFrames = seconds*g.fps;
-			this.css['z-index'] = g.transZIndex;
+			//this.css['z-index'] = g.transZIndex;
 			this.drawState = 'updated';
 		},
 		update: function(){
@@ -66,7 +58,7 @@ var Screen = klass(function(id, zIndex) {
 				if (this.css['opacity'] >= 1.0){
 					this.css['opacity'] = 1.0;
 					this.fadeIn = false;
-					this.css['z-index'] = g.topZIndex;
+					//this.css['z-index'] = g.topZIndex;
 					g.activeScreen = this.id;
 				} else {
 					this.css['opacity'] += (1 / this.transitionFrames);
@@ -76,7 +68,7 @@ var Screen = klass(function(id, zIndex) {
 				if (this.css['opacity'] <= 0.0){
 					this.css['opacity'] = 0.0;
 					this.fadeOut = false;
-					this.css['z-index'] = g.bottomZIndex;
+					//this.css['z-index'] = g.bottomZIndex;
 				} else {
 					this.css['opacity'] -= (1 / this.transitionFrames);
 				}
@@ -87,6 +79,7 @@ var Screen = klass(function(id, zIndex) {
 			var mouseOverCheck = false;
 			//Only take input if the screen is not transitioning
 			if (g.activeScreen == this.id){
+				if (this.css['opacity'] != 1.0) this.css['opacity'] = 1.0;
 				//only update if there is not currently a dialogue screen active
 				if (!g.activeDialogue){
 					if(this.dialogue.active){
