@@ -8,7 +8,7 @@ var Screen = klass(function(id, zIndex) {
 	this.activeScreen = false;
 	this.classes = [];
 	this.dialogue = {
-		screen: {},
+		screen: '',
 		active: false
 	}
 	this.parent = null;
@@ -48,21 +48,22 @@ var Screen = klass(function(id, zIndex) {
 		removeSprite: function(id){	
 			this.spriteArray[id] = 'removed';
 		},
+		//returns the sprite with the associated id, if there is no such sprite return null
 		getSprite: function(id){
-			return this.spriteArray[id];
+			if (this.spriteArray[id]){
+				return this.spriteArray[id];
+			}
+			return null;
 		},
-		addDialogueScreen: function(dialogue){
+		addDialogue: function(dialogue){
 			this.dialogue.screen = dialogue;
 			this.dialogue.active = true;
-			this.dialogue.screen.parent = this;
-			// console.log(this.dialogue.screen.id + ' added to ' + this.id);
 		},
 		fadingOut: function(seconds){
 			this.fadeOut = true;
 			this.transitionFrames = seconds*g.fps;
 			this.transitionFramesCount = 0;
 			console.log(this.id + ' moving to background');
-			this.activeScreen = false;
 		},
 		//seconds: the number of seconds for the transition
 		fadingIn: function(seconds){
@@ -79,7 +80,7 @@ var Screen = klass(function(id, zIndex) {
 					this.fadeIn = false;
 					this.fadeOut = false;
 					this.css['z-index'] = g.topZIndex;
-					this.activeScreen = true;
+					this.activeScreen = this.id;
 				} else {
 					this.css['opacity'] += (1 / this.transitionFrames);
 				}
@@ -90,23 +91,23 @@ var Screen = klass(function(id, zIndex) {
 					this.fadeOut = false;
 					this.fadeIn = false;
 					this.css['z-index'] = g.bottomZIndex;
-					this.activeScreen = false;
 				} else {
 					this.css['opacity'] -= (1 / this.transitionFrames);
 				}
 				
 				this.drawState = 'updated';
 			}
-			
 			var mouse = {};
 			var mouseOverCheck = false;
 			//Only take input if the screen is not transitioning
-			if (this.activeScreen){
-				if (this.dialogue.active){
-					this.activeScreen = false;
+			if (g.activeScreen == this.id){
+				if(this.dialogue.active){
 					this.dialogue.active = false;
-					this.dialogue.screen.activate();
-				} else {
+					g.activeDialogue = this.dialogue.screen;
+					g.screenCollection[this.dialogue.screen].activate();
+				}
+				//only update if there is not currently a dialogue screen active
+				if (!g.acitveDialogue){
 					mouse = g.input.mouse;
 				
 					for (x in this.spriteArray){

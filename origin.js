@@ -19,6 +19,8 @@ var g = {
 	lastFrameTime: 0,
 	evaluationFrame: false,
 	jsonObj: {},
+	activeScreen: null,
+	activeDialogue: null,
 	getTime: function(){
 		var d = new Date();
 		return d.getTime();
@@ -37,7 +39,16 @@ try{
 
 $(document).ready(function(){
 	
-	//read in the json file and send all images to the preloader
+	//create the div in which to put the output HTML as well as the audio files
+	$('#origins').html('<div id="' + g.drawDiv + '"> </div><div id="' + g.audioDiv + '"> </div>');
+	
+	//setup some of the external css for the dialogueScreens
+	var rule = helper.addCSSRule('.speech', {
+		width: parseInt($('#origins').css('width')) - 20 + 'px',
+		height: parseInt($('#origins').css('height')) / 4 + 'px'
+	});
+
+	//loop over the JSON file and find all sprites so that they can be preloaded
 	$.getJSON('JSON/Intro.json', function(data){
 		$('#JSONstorage').html(data);
 		$('head').append('<script id="JSONstorage" type="application/json" >' + JSON.stringify(data) + '</script>');
@@ -59,28 +70,9 @@ continueReady = function(){
 		var json = g.jsonObj[i];
 		helper.evalScreen(id, json);
 	}
-	
-	//create the div in which to put the output HTML as well as the audio files
-	$('#origins').html('<div id="' + g.drawDiv + '"> </div><div id="' + g.audioDiv + '"> </div>');
-	
-	//setup some of the external css for the dialogueScreens
-	var rule = helper.addCSSRule('.speech', {
-		width: parseInt($('#origins').css('width')) - 20 + 'px',
-		height: parseInt($('#origins').css('height')) / 4 + 'px'
-	});
-	/*
-	 * Loading scripts this way is ok for production but not for developement
-	 * as all files imported this way don't appear in the debugger
-	 */
-	/*
-	var importer = ["<script type='text/javascript' src='klass.min.js'></script>",
-					"<script type='text/javascript' src='Screen.js'></script>",
-					"<script type='text/javascript' src='Sprite.js'></script>",
-					"<script type='text/javascript' src='input.js'></script>",
-					"<script type='text/javascript' src='DialogueScreen.js'></script>"].join("\n");
-	$('head').append(importer);
-	*/
-	
+	//once all data has been gathered from the JSON, remove it so that it does not consume extra space
+	$('#JSONstorage').remove();
+
 	startGame();
 };
 
@@ -126,7 +118,7 @@ RunGame = function(){
  * Caches all images in memory before moving on with the rest of setting up the game
  */
 preloader = function(arguments){
-	$('#origins').html('LOADING');
+	$('#' + g.drawDiv).html('LOADING');
 	var img = new Image();
 	img.src = arguments[0];
 	

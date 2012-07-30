@@ -43,14 +43,26 @@ var CreateScreen = function(id, json){
 	for(i in json.sprites){
 		screen.addSprite(CreateSprite(i, json.sprites[i]));
 	}
-	g.screenCollection.push(screen);
+	if (json.active === 'true'){
+		g.activeScreen = id;
+	}
+	if (json.dialogue){
+		screen.addDialogue(json.dialogue);
+	}
+	if (json.interactiveXML){
+		CreateInteractiveDialogueScreens(json.interactiveXML);
+	}
+	g.screenCollection[id] = screen;
 }
 
-var CreateDialougeScreen = function(id, json){
+var CreateDialogueScreen = function(id, json){
 	var talkScreen = new DialogueScreen(id, json.zIndex, json.xml);
 	helper.ajaxGet(talkScreen);
-	g.screenCollection[json.parent].addDialogueScreen(talkScreen);
 	g.screenCollection[talkScreen.id] = talkScreen;
+}
+
+var CreateInteractiveDialogueScreens = function(url){
+	helper.groupItemAjaxGet(url);
 }
 
 var CreateSprite= function(id, json){
@@ -60,7 +72,7 @@ var CreateSprite= function(id, json){
 			sprite = new Sprite(json.x, json.y, json.sprite, id);
 			break;
 		case 'dialogueSprite':
-			sprite = new dialogueSprite(json.x, json.y, json.sprite, id, dialogueSprite);
+			sprite = new dialogueSprite(json.x, json.y, json.sprite, id, json.dialogue);
 			break;
 		case 'screenChangeSprite':
 			sprite = new screenChangeSprite(json.x, json.y, json.sprite, id, json.screen);

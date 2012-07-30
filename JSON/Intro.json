@@ -1,8 +1,9 @@
 {
 	"mainScreen1": {
 		"screenType": "Screen",
-		"active": "false",
+		"active": "true",
 		"zIndex": 10,
+		"dialogue": "mainScreen1Intro",
 		"interactiveXML": "XML/IntroObjMainRm.xml",
 		"sprites": {
 			"background": {
@@ -58,7 +59,7 @@
 				"id": "chair",
 				"sprite": "Sprites/Main_View1/chair.png",
 				"x": 299,
-				"y": 30,
+				"y": 300,
 				"dialogue": "chair"
 			},
 			"thermostat": {
@@ -87,7 +88,6 @@
 
 	"mainScreen2": {
 		"screenType": "Screen",
-		"active": "false",
 		"zIndex": 9,
 		"interactiveXML": "XML/IntroObjMainRm2.xml",
 		"sprites": {
@@ -139,7 +139,6 @@
 	"mainScreen1Intro": {
 		"screenType": "dialogueScreen",
 		"zIndex": 9,
-		"xml": "XML/IntroDial.xml",
-		"parent": "mainScreen1"
+		"xml": "XML/IntroDial.xml"
 	}
 }

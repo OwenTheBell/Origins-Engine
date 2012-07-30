@@ -122,7 +122,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		},
 		
 		activate: function(){
-			this.activeScreen = true;
+			g.activeDialogue = this.id;
 			this.css['z-index'] = g.dialogueZIndex;
 			this.css['opacity'] = 1.0;
 			this.drawState = 'updated';
@@ -130,23 +130,15 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 		},
 		
 		deActivate: function(){
-			this.activeScreen = false;
+			g.activeDialogue = null;
 			this.css['z-index'] = g.bottomZIndex;
 			this.css['opacity'] = 0.0;
 			this.activeStatement = this.originalActive;
-			if (this.parent instanceof Sprite) this.parent.deActivated();
-			else if (this.parent instanceof Screen) {
-				this.parent.activeScreen = true;
-			}
-		},
-		
-		target: function(target){
-			this.parent.target(target);
 		},
 		
 		update: function(){
 			
-			if (this.activeScreen) {
+			if (g.activeDialogue == this.id) {
 				if (g.input.key.press){
 					this.keyValue = g.input.key.value;
 				} else {
@@ -188,7 +180,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 			//So the new drawing approach is just going to be to create the individual
 			//divs for overseer and player and then just directly insert the return text
 			var HTML = '';
-			if(this.activeScreen){
+			if(this.id == g.activeDialogue){
 				var newOverseerHTML = [];
 				var newPlayerHTML = [];
 				var newPopupHTML = [];
@@ -431,7 +423,16 @@ var PlayerOptions = klass(function(parent, xmlData){
 				var selected = this.availableStatements[this.clicked];
 				
 				if (selected.target){
-					this.parent.target(selected.target);
+					//If a target option has been picked then search through all screens for 
+					//the sprite with the id of the target and call its trigger method
+					for(i in g.screenCollection){
+						var sprite = g.screenCollection[i].getSprite(selected.target);
+						if(sprite){
+							sprite.trigger();
+							break;
+						}
+					}
+					//this.parent.target(selected.target);
 				}
 				if (selected.nextTime){
 					this.parent.originalActive = this.parent.statements[selected.nextTime];

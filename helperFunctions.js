@@ -58,19 +58,19 @@ var helper = {
 	evalScreen: function(id, json){
 		switch(json.screenType){
 			case 'Screen':
-				console.log('creating Screen ' + id);
+				//console.log('creating Screen ' + id);
 				CreateScreen(id, json);
 				break;
 			case 'dialogueScreen':
-				console.log('creating DialogueScreen ' + id);
-				// CreateDialogueScreen(id, json);
+				//console.log('creating DialogueScreen ' + id);
+				CreateDialogueScreen(id, json);
 				break;
 			default:
 				console.log('ERROR: ' + id + ' has the invalid screenType of: ' + json.screenType);
 		}
 	},
 	
-	groupItemAjaxGet: function(dialogueScreens, file){
+	groupItemAjaxGet: function(file){
 		var extData;
 		$.ajax({
 			async: false,
@@ -81,7 +81,8 @@ var helper = {
 				$(data).find('item').each(function(){
 					var temp = new DialogueScreen($(this).attr('id'), g.bottomZIndex);
 					temp.loadXML(this);
-					dialogueScreens[temp.id] = temp;
+					g.screenCollection[temp.id] = temp;
+					console.log('dialogue screen ' + temp.id + ' created');
 				});
 			}
 		});

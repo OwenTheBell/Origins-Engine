@@ -77,7 +77,7 @@ var clickSprite = Sprite.extend(function(left, top, image, id){
 })
 	.methods({
 		update: function(){
-			if (this.parent.activeScreen){
+			if (this.parent.id = g.activeScreen){
 				if (this.clicked){
 					this.onClick();
 					this.clicked = false ;
@@ -112,27 +112,18 @@ var screenChangeSprite = clickSprite.extend(function(left, top, image, id, targe
 })
 	.methods({
 		onClick: function(){
+			g.screenCollection[g.activeScreen].fadingOut(1);
 			g.screenCollection[this.targetScreen].fadingIn(1);
-			//this.targetScreen.fadingIn(1);
-			this.parent.fadingOut(1);
 		}
 	});
 	
-var dialogueSprite = clickSprite.extend(function(left, top, image, id, targetDialogue){
-	this.targetDialogue = targetDialogue
-	this.targetDialogue.parent = this;
+var dialogueSprite = clickSprite.extend(function(left, top, image, id, dialogue){
+	this.dialogue = dialogue; //this is the id of a dialogue screen
 })
 	.methods({
 		onClick: function(){
-			this.targetDialogue.activate();
-			this.parent.activeScreen = false;
+			g.screenCollection[this.dialogue].activate();
 		},
-		deActivated: function(){
-			this.parent.activeScreen = true;
-		},
-		target: function(target){
-			this.parent.getSprite(target).trigger();
-		}
 	});
 /*
  * Sprite with the trigger method which causes some kind of action when called
