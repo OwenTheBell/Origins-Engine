@@ -11,11 +11,9 @@
 <item id = "window">
 	<overseer id = "overseerWindowOpen"  nextType = "player" nextId = "playerWindowOpen">
 		<text>This is your window to the universe. Would you like to close it?</text>
-	
 	</overseer>
 	<overseer id = "overseerWindowClosed"  nextType = "player" nextId = "playerWindowClosed">
 		<text>This is your window to the universe. Would you like to open it?</text>
-	
 	</overseer>
 	<player id = "playerWindowOpen">
 		<option nextType = "exit" nextId = "eject to" nextTime="overseerWindowClosed" target="shutter">

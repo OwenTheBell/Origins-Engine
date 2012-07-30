@@ -247,7 +247,7 @@ var DialogueScreen = Screen.extend(function(id, zIndex, file){
 					newPopupHTML += '</div>' ;
 					this.popupHTML = newPopupHTML;
 				}
-				HTML = '<div id =' + this.id + ' style="';
+				HTML = '<div id =' + this.id + 'Dialouge' + ' style="';
 				for(x in this.css){
 					HTML += x + ':' + this.css[x] + '; ';
 				}
@@ -375,6 +375,11 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 			} else if (this.nextType === 'exit'){
 				if (this.clicked >= 0){
 					this.parent.deActivate();
+					//if the screen to exit to is not the current active screen then switch it
+					if (this.nextId != g.activeScreen){
+						g.screenCollection[g.activeScreen].fadingOut(1);
+						g.screenCollection[this.nextId].fadingIn(1);
+					}
 					this.block++;
 				}
 				this.clicked = -1;

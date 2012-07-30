@@ -17,9 +17,6 @@ var helper = {
 			}
 		}
 		ruleStr += '}';
-		//console.log('setting ' + ruleStr);
-		//This part will not work in legacy browsers
-		//anything older than IE 9 is not supported
 		mysheet.insertRule(ruleStr, length);
 		return myrules[length];
 	},

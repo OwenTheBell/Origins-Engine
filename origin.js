@@ -70,7 +70,7 @@ continueReady = function(){
 		var json = g.jsonObj[i];
 		helper.evalScreen(id, json);
 	}
-	//once all data has been gathered from the JSON, remove it so that it does not consume extra space
+	//remove the JSON after it has been processed so that it does not use up cache
 	$('#JSONstorage').remove();
 
 	startGame();

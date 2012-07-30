@@ -5,6 +5,23 @@
  * There is one of these functions for every screen class
  */
 
+var CreateScreen = function(id, json){
+	var screen = {};
+	if (json.active == "true"){
+		screen = new Screen(id, g.topZIndex);
+		g.activeScreen = id;
+	} else {
+		screen = new Screen(id, g.bottomZIndex);
+	}
+	for(i in json.sprites){
+		screen.addSprite(CreateSprite(i, json.sprites[i]));
+	}
+	if (json.dialogue){
+		screen.addDialogue(json.dialogue);
+	}
+	g.screenCollection[id] = screen;
+}
+
 var CreateDopplerScreen = function(id, json){
 	var screen = {};
 	if (json.active == 'true'){
@@ -14,24 +31,6 @@ var CreateDopplerScreen = function(id, json){
 		screen = new DopplerScreen(id, g.bottomZIndex);
 	}
 	for (i in json.sprites){
-		screen.addSprite(CreateSprite(i, json.sprites[i]));
-	}
-	if (json.dialogue){
-		screen.addDialogue(json.dialogue);
-	}
-	g.screenCollection[id] = screen;
-}
-
-var CreateScreen = function(id, json){
-	var screen = {};
-	if (json.active == "true"){
-		screen = new Screen(id, g.topZIndex);
-		g.activeScreen = id;
-	} else {
-		screen = new Screen(id, g.bottomZIndex);
-	}
-	console.log('creating Screen ' + id);
-	for(i in json.sprites){
 		screen.addSprite(CreateSprite(i, json.sprites[i]));
 	}
 	if (json.dialogue){

@@ -2,6 +2,7 @@
 	"mainScreen1": {
 		"screenType": "Screen",
 		"active": "true",
+		"dialogue": ["mainScreen1Intro"],
 		"sprites": {
 			"mainScreen1Background": {
 				"type": "Sprite",

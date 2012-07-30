@@ -170,32 +170,32 @@
 	<text color="FFCC00">Project Daedalus</text>
 	<text>.</text>
 </overseer>
-<overseer id = "introOS8" nextType = "exit" nextId = "mainScreen">
+<overseer id = "introOS8" nextType = "exit" nextId = "mainScreen1">
 	<text>The Project is what we see as the evolution of the scientific process. By physically isolating promising individuals and providing incentives and advanced equipment, we hope to produce breakthroughs faster and encourage exploration of cutting-edge ideas.</text>
 </overseer>
-<overseer id = "introOS9" nextType = "exit" nextId = "mainScreen">
+<overseer id = "introOS9" nextType = "exit" nextId = "mainScreen1">
 	<text>This capsule, the</text>
 	<text color="FFCC00">Perillos Capsule</text>
 	<text>is designed as an isolated environment to test promising individuals and also allow them to expand their scientific pursuits. As part of the testing experience, several areas of the capsule are currently inaccessible to you until your</text>
 	<text color="FFCC00">Overseer</text>
 	<text> provides clearance.</text>
 </overseer>
-<overseer id = "introOS10" nextType = "exit" nextId = "mainScreen">
+<overseer id = "introOS10" nextType = "exit" nextId = "mainScreen1">
 	<text>The room you are currently in is known as the </text>
 	 <text color="FFCC00">Main Quarter </text>
           <text> and contains all necessary equipment for your continued healthy existence. You may explore the area at your leisure.</text>
 </overseer>
-<overseer id = "introOS11" nextType = "exit" nextId = "mainScreen">
+<overseer id = "introOS11" nextType = "exit" nextId = "mainScreen1">
 	<text>This room is known as the </text>
 	<text color="FFCC00">Observation Room </text>
 	<text> and will be unlocked now. The room can be accessed by using the hatch-door at the top of the ladder. This room is your primary research Room and operating environment. Report here regularly. The ladder will also serve to take you to other unlocked Rooms.</text>
 </overseer>
-<overseer id = "introOS12" nextType = "exit" nextId = "mainScreen">
+<overseer id = "introOS12" nextType = "exit" nextId = "mainScreen1">
 	<text>This room is known as the </text>
 	<text color="FFCC00">Observation Room </text>
 	<text> and will be unlocked now. The room can be accessed by using the hatch-door. This room is your primary research Room and operating environment. Report here regularly.</text>
 </overseer>
-<overseer id = "introOS13" nextType = "exit" nextId = "mainScreen">
+<overseer id = "introOS13" nextType = "exit" nextId = "mainScreen1">
 	<text>This </text>
 	<text color="FFCC00">Main Computer </text>
 	<text> contains commuication software, allowing you to converse with either your </text>
@@ -204,11 +204,11 @@
 	<text color="FFCC00">Perillos Capsule occupants </text>
 	<text>stationed in Earth's orbit. They may provide help during experiments but will more likely distact you with needless social exchanges. You may even access information on the other capsules and review their progress in comarison to yours.</text>
 </overseer>
-<overseer id = "introOS14" nextType = "exit" nextId = "mainScreen" highlight="id of what you wanted highlighted">
+<overseer id = "introOS14" nextType = "exit" nextId = "mainScreen1" highlight="id of what you wanted highlighted">
 	<text>Here you may see your own progress or change your personal settings </text>
 	<text color="FFCC00">Observation Room </text>
 </overseer>
-<overseer id = "introOS15" nextType = "exit" nextId = "mainScreen">
+<overseer id = "introOS15" nextType = "exit" nextId = "mainScreen1">
 	<text>With the computer-watch you carry you can also access most of the information on the </text>
 	<text color="FFCC00">Main Screen</text>
 	<text> at any time and place aboard you capsule (press button to view Watch Screen)</text>
@@ -235,10 +235,10 @@
 		<text> actually.</text>
 	</option>
 </player>
-<overseer id = "introOS17a" nextType = "exit" nextId = "mainScreen">
+<overseer id = "introOS17a" nextType = "exit" nextId = "mainScreen1">
 	<text>Just be quick about it.</text>
 </overseer>
-<overseer id = "introOS17b" nextType = "exit" nextId = "mainScreen">
+<overseer id = "introOS17b" nextType = "exit" nextId = "mainScreen1">
 	<text>'Like a chimp' is probably more accurate. Enjoy your stay in your cage.</text>
 </overseer>
 <overseer id = "introOS17c" nextType = "overseer" nextId = "firsttaskOS1">
@@ -261,7 +261,7 @@
 		<text>Why is the bathroom over my water and food dispenser?</text>
 	</option>
 </player>
-<overseer id = "introOS19a" nextType = "exit" nextId = "mainScreen">
+<overseer id = "introOS19a" nextType = "exit" nextId = "mainScreen1">
 	<text>I can see that you enjoy wasting my time. Finish quickly, please.</text>
 </overseer>
 <overseer id = "introOS19b" nextType = "overseer" nextId = "firsttaskOS1">
@@ -387,7 +387,7 @@
 		<text> I can't even put oil in my car witout taking it to the mechanic. I don't think I'm cut out for this.</text>
 	</option>
 </player>
-<overseer id = "firsttaskOS2" nextType = "exit" nextId = "mainScreen">
+<overseer id = "firsttaskOS2" nextType = "exit" nextId = "mainScreen1">
 	<text>I have unlocked a storage componet in your </text>
 	 <text color="FFCC00">Main Quarter</text>
 	<text>. Go up to the componet and I will instruct you further.</text>
@@ -411,7 +411,7 @@
 		<text>I'm not ready for this responsibility.</text>
 	</option>
 </player>
-<overseer id = "firsttaskOS3a" nextType = "exit" nextId = "mainScreen">
+<overseer id = "firsttaskOS3a" nextType = "exit" nextId = "mainScreen1">
 	<text>Only what you take with you...and a small inactive </text>
 	 <text color="FFCC00">robot</text>
 	<text>.</text>
@@ -419,7 +419,7 @@
 <overseer id = "firsttaskOS3b" nextType = "player" nextId = "playerfirsttaskPL2">
 	<text>No just do it</text>
 </overseer>
-<overseer id = "firsttaskOS3c" nextType = "exit" nextId = "mainScreen">
+<overseer id = "firsttaskOS3c" nextType = "exit" nextId = "mainScreen1">
 	<text>I believe in you </text>
 	<text color="3399FF"><variable>playerName</variable></text>
 	<text>. Mostly becuase it should be quite simple, but if you need a moment to re-think your life and how you've come to be here I will allow it.</text>
@@ -494,16 +494,16 @@
 		<text>I'm sleeping in that coffin?</text>
 	</option>
 </player>
-<overseer id = "firsttaskOS9a" nextType = "exit" nextId = "mainScreen">
+<overseer id = "firsttaskOS9a" nextType = "exit" nextId = "mainScreen1">
 	<text color="3399FF"><variable>overseerName</variable></text>
 	<text> out.</text>
 </overseer>
-<overseer id = "firsttaskOS9b" nextType = "exit" nextId = "mainScreen">
+<overseer id = "firsttaskOS9b" nextType = "exit" nextId = "mainScreen1">
 	<text>...right. </text>
 	<text color="3399FF"><variable>overseerName</variable></text>
 	<text> out.</text>
 </overseer>
-<overseer id = "firsttaskOS9c" nextType = "exit" nextId = "mainScreen">
+<overseer id = "firsttaskOS9c" nextType = "exit" nextId = "mainScreen1">
 	<text>Do not worry </text>
 	<text color="3399FF"><variable>playerName</variable></text>
 	<text> it is a secure space-age </text>

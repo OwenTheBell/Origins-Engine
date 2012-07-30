@@ -8,8 +8,9 @@ var Screen = klass(function(id, zIndex) {
 	this.activeScreen = false;
 	this.classes = [];
 	this.dialogue = {
-		screen: '',
-		active: false
+		screens: [],
+		active: false,
+		position: 0
 	}
 	this.parent = null;
 	
@@ -25,9 +26,6 @@ var Screen = klass(function(id, zIndex) {
 	
 	this.transitionFrames = 0;
 	this.transitionFramesCount = 0;
-	
-
-	
 })
 	.methods({
 		addSprite: function(newSprite){
@@ -45,8 +43,9 @@ var Screen = klass(function(id, zIndex) {
 			return null;
 		},
 		addDialogue: function(dialogue){
-			this.dialogue.screen = dialogue;
+			this.dialogue.screens = dialogue;
 			this.dialogue.active = true;
+			console.log(this.dialogue.screens);
 		},
 		fadingOut: function(seconds){
 			this.fadeOut = true;
@@ -88,12 +87,17 @@ var Screen = klass(function(id, zIndex) {
 			var mouseOverCheck = false;
 			//Only take input if the screen is not transitioning
 			if (g.activeScreen == this.id){
-				if(this.dialogue.active){
-					this.dialogue.active = false;
-					g.screenCollection[this.dialogue.screen].activate();
-				}
 				//only update if there is not currently a dialogue screen active
 				if (!g.activeDialogue){
+					if(this.dialogue.active){
+						g.screenCollection[this.dialogue.screens[this.dialogue.position]].activate();
+						//if there is more dialogue then leave dialogue active and update the position
+						if (this.dialogue.screens[this.dialogue.postion+1]){
+							this.dialogue.postion++;
+						} else {
+							this.dialogue.active = false;
+						}
+					}
 					mouse = g.input.mouse;
 				
 					for (x in this.spriteArray){
