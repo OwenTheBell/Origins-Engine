@@ -21,6 +21,7 @@ var g = {
 	jsonObj: {},
 	activeScreen: null,
 	activeDialogue: null,
+	availableScreens: [], //list of screens that can be accessed via ladder
 	getTime: function(){
 		var d = new Date();
 		return d.getTime();
@@ -38,7 +39,6 @@ try{
 }
 
 $(document).ready(function(){
-	
 	//create the div in which to put the output HTML as well as the audio files
 	$('#origins').html('<div id="' + g.drawDiv + '"> </div><div id="' + g.audioDiv + '"> </div>');
 	
@@ -49,7 +49,7 @@ $(document).ready(function(){
 	});
 
 	//loop over the JSON file and find all sprites so that they can be preloaded
-	$.getJSON('JSON/Intro.json', function(data){
+	$.getJSON('JSON/Mod1.json', function(data){
 		$('head').append('<script id="JSONstorage" type="application/json" >' + JSON.stringify(data) + '</script>');
 		var preloaderArray = [];
 		for(i in data){

@@ -27,7 +27,7 @@
 
 	</player>
 
-	<overseer id="mod1OS3a" nextType="overseer" nextId="mod1OS4">
+	<overseer id="mod1OS3a" nextType="arachne" nextId="mod1AR1">
 
 		<text>Excellent. The </text>
 
@@ -37,19 +37,13 @@
 
 	</overseer>
 
-	<overseer id="mod1OS3b" nextType="exit" nextId="if nextType is exit then give the id of the screen to eject to">
+	<overseer id="mod1OS3b" nextType="exit" nextId="observationScreen">
 
 		<text>Fine. You still have some time before the </text>
 
 		<text color="FFCC00">capsule</text>
 
 		<text> reaches its destination. Just be quick about whatever you are doing.</text>
-
-	</overseer>
-
-	<overseer id="mod1OS4" nextType="arachne" nextId="mod1AR1">
-
-		<text>Are you ready to begin?</text>
 
 	</overseer>
 
@@ -108,7 +102,7 @@
 
 	</overseer>
 
-	<arachne id="mod1AR1" nextType="exit" nextId="if nextType is exit then give the id of the screen to eject to">
+	<arachne id="mod1AR1" nextType="exit" nextId="observationScreen">
 		<text>Under normal conditions, I would agree. However, the velocity of the debris and its size might be cause for concern…</text>
 	</arachne>
 

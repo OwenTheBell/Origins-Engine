@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New document created with EditiX at Tue Jul 31 10:57:19 EDT 2012 -->
+
+
+<dialogue>
+	<overseer id="mod1OS16" nextType="player" nextId="playermod1PL11">
+		<text>Well done </text>
+		<variable id="playerName" color="3399FF"/>
+		 <text>. With our little pest problem taken care of we may finally move on to more important and scientific matters. Report to the </text>
+		  <text color="FFCC00"> 
+Observation Room</text>
+		  <text>.</text>
+	</overseer>
+	<player id="playermod1PL11">
+		<option nextType="overseer" nextId="mod1OS16a">
+			<text>Will do.</text>
+		</option>
+		<option nextType="overseer" nextId="mod1OS16b">
+			<text>Give me a break, </text>
+			<variable id="overseerName" color="3399FF"/>
+			<text>!</text>
+		</option>
+		<option nextType="overseer" nextId="mod1OS16c">
+			<text>You’re not telling me everything.</text>
+		</option>
+		<option nextType="overseer" nextId="mod1OS16d">
+			<text>What will happen to the mice, now? </text>
+		</option>
+	</player>
+	<overseer id="mod1OS16a" nextType = "exit" nextId = "mainScreen2">
+		<text>I wil contact you shortly.</text>
+	</overseer>
+	<overseer id="mod1OS16b" nextType = "exit" nextId = "mainScreen2">
+		<text>Oh, very well. Report to the </text>
+		 <text color="FFCC00">
+Observation Room</text>
+		<text> once you are finished with your little “break”</text>
+	</overseer>
+	<overseer id="mod1OS16c" nextType="player" nextId="playermod1PL12">
+		<text>Of course I am not.</text>
+	</overseer>
+	<player id="playermod1PL12">
+		<option nextType="overseer" nextId="mod1OS16ca">
+			<text>Well, why not?!</text>
+		</option>
+		<option nextType="overseer" nextId="mod1OS16ca">
+			<text>At least you are honest about it.</text>
+		</option>
+	</player>
+	<overseer id="mod1OS16ca" nextType="player" nextId="playermod1PL12">
+		<text>There are many dark secrets left in this universe, </text>
+		<text color="FFCC00">
+occupant</text>
+		<text> . Some are nature’s own, yet others are made by more fallible beings. My apologizes, but there are things that must be kept hidden just as there are things that must be discovered. We will not discuss this again.</text>
+	</overseer>
+	<overseer id="mod1OS16d" nextType="player" nextId="playermod1PL11">
+		<variable id="arachneName" color="3399FF"/>
+		<text> will return them to their containment units when she repairs the damages to the </text>
+		 <text color="FFCC00">
+Cryo-Preservation Room</text>
+		 <text>. Meanwhile, I advise that you use this time to collect data at the </text>
+		  <text color="FFCC00">
+Observation Room</text>
+		  <text>. It is unlikely that anyone will return to this location in quite some time.</text>
+	</overseer>
+
+</dialogue>

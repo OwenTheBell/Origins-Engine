@@ -59,7 +59,8 @@ var DialogueScreen = Screen.extend(function(id, file){
 
 	.methods({
 		
-		loadXML: function(xml){
+		//Pass the file name so it can be outputted on error for easy debugging
+		loadXML: function(xml, fileName){
 			var count = 0;
 			/*
 			 * Object literals for storing dialogue statements
@@ -112,12 +113,12 @@ var DialogueScreen = Screen.extend(function(id, file){
 				} else if (next === 'overseer' || next === 'player' || next === 'popup'){
 					var tester = statements[statement.nextId];
 					if (!tester) {
-						console.log("ERROR: " + statement.nextId + " is not a valid " + next + " id " + statement.id);
+						console.log("ERROR: " + statement.id + " tried to access the invalid " + next + " id " + statement.nextId + " in the file " + fileName);
 					} else {
 						statement.setNext(tester);
 					}
 				} else {
-					console.log("ERROR: " + statement.id + " has an invalid nextType of " + statement.nextType);
+					console.log("ERROR: " + statement.id + " has an invalid nextType of " + statement.nextType + " in the file " + fileName);
 				}
 			};
 		},
@@ -380,8 +381,12 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 					this.parent.deActivate();
 					//if the screen to exit to is not the current active screen then switch it
 					if (this.nextId != g.activeScreen){
-						g.screenCollection[g.activeScreen].fadingOut(1);
-						g.screenCollection[this.nextId].fadingIn(1);
+						if(g.screenCollection[this.nextId]){
+							g.screenCollection[g.activeScreen].fadingOut(1);
+							g.screenCollection[this.nextId].fadingIn(1);
+						} else {
+							console.log(this.nextId + ' is not a screen in the screen collection');
+						}
 					}
 					this.block++;
 				}

@@ -11,7 +11,6 @@ var Screen = klass(function(id) {
 		active: false,
 		position: 0
 	}
-	this.parent = null;
 	
 	this.css = {
 		'opacity': 0.0
@@ -42,15 +41,12 @@ var Screen = klass(function(id) {
 		fadingOut: function(seconds){
 			this.fadeOut = true;
 			this.transitionFrames = seconds*g.fps;
-			this.transitionFramesCount = 0;
+			//prevent any screen interaction during the transition
 			g.activeScreen = null;
 		},
-		//seconds: the number of seconds for the transition
 		fadingIn: function(seconds){
 			this.fadeIn = true;
 			this.transitionFrames = seconds*g.fps;
-			//this.css['z-index'] = g.transZIndex;
-			this.drawState = 'updated';
 		},
 		update: function(){
 			//Check if any sprites have been clicked
@@ -58,7 +54,6 @@ var Screen = klass(function(id) {
 				if (this.css['opacity'] >= 1.0){
 					this.css['opacity'] = 1.0;
 					this.fadeIn = false;
-					//this.css['z-index'] = g.topZIndex;
 					g.activeScreen = this.id;
 				} else {
 					this.css['opacity'] += (1 / this.transitionFrames);
@@ -68,7 +63,6 @@ var Screen = klass(function(id) {
 				if (this.css['opacity'] <= 0.0){
 					this.css['opacity'] = 0.0;
 					this.fadeOut = false;
-					//this.css['z-index'] = g.bottomZIndex;
 				} else {
 					this.css['opacity'] -= (1 / this.transitionFrames);
 				}

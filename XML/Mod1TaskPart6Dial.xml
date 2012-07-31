@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New document created with EditiX at Tue Jul 31 10:00:40 EDT 2012 -->
+
+<dialogue>
+	<arachne id="mod1AR12" nextType="arachne" nextId="mod1AR13">
+		<variable id="playerName" color="3399FF"/>
+		<text>, I will need you to guide me in recovering the </text>
+		<text color="FFCC00">specimens</text>
+		 <text>. Due to some further gene modifications in the rodents, they glow a </text>
+		 <text color="FFCC00">bright green</text>
+		 <text>. We can use their glow to find them in space.</text>
+	</arachne>
+	<arachne id="mod1AR13" nextType="arachne" nextId="mod1AR14">
+		<text>My analysis shows that they </text>
+		<text color="FFCC00">emit light at very standardized quantities</text>
+		 <text>. Due to this, we can easily determine how far away from the </text>
+		 <text color="FFCC00">capsule</text>
+		 <text> they are by examining how they glow. The dimmer a specimen, the farther it is. Conversely, the brighter the closer.</text>
+	</arachne>
+	<arachne id="mod1AR14" nextType="player" nextId="playermod1PL10">
+		<text>For me to recover them successfully, I will need you to find the mice and order them from </text>
+		<text color="FFCC00">farthest to closest</text>
+		 <text>. Are you ready to begin?</text>
+	</arachne>
+	<player id="playermod1PL10">
+		<option nextType="arachne" nextId="mod1AR14a">
+			<text>Yes. (Begin the mission)</text>
+		</option>
+		<option nextType="arachne" nextId="mod1AR12">
+			<text>No, could you explain what I am doing again?</text>
+		</option>
+		<option nextType="arachne" nextId="mod1AR14c">
+			<text>How does this work?</text>
+		</option>
+		<option nextType="arachne" nextId="mod1AR14d">
+			<text>No, I need a moment to prepare. (Exit conversation)</text>
+		</option>
+		<option nextType="arachne" nextId="mod1AR14e">
+			<text>Why do they glow?</text>
+		</option>
+	</player>
+	<arachne id="mod1AR14a" nextType = "exit" nextId = "determine Screen Name">
+		<text>If you forget your instructions, use the </text>
+		<text color="FFCC00">HELP </text>
+		 <text> icon.</text>
+	</arachne>
+	<arachne id="mod1AR14c" nextType="player" nextId="playermod1PL10">
+		<text>The mice glow at a standard rate. If we measure its luminosity, we can measure how far the object is from us.  This is similar to how astronomers use certain celestial bodies to determine the distance of objects far away in space. These objects are called </text>
+		<text color="FFCC00">Standard Candles</text>
+		 <text>.</text>
+	</arachne>
+	<arachne id="mod1AR14d" nextType = "exit" nextId = "mainScreen2">
+		<text>Very well, but please hurry.</text>
+	</arachne>
+	<arachne id="mod1AR14e" nextType="player" nextId="playermod1PL10">
+		<text>The official explanation is that it makes them easier to track though I have reason to believe it might have been because the researchers thought </text>
+		<text color="FFCC00">
+glowing supermice</text>
+		<text> were “adorable”. </text>
+	</arachne>
+</dialogue>

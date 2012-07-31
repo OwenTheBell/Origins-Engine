@@ -53,19 +53,16 @@ var CreateSprite= function(id, json){
 	var sprite = {};
 	switch(json.type){
 		case 'Sprite':
-			sprite = new Sprite(json.x, json.y, json.sprite, id);
+			sprite = new Sprite(id, json.x, json.y, json.sprite, json.zIndex);
 			break;
 		case 'dialogueSprite':
-			sprite = new dialogueSprite(json.x, json.y, json.sprite, id, json.dialogue);
+			sprite = new dialogueSprite(id, json.x, json.y, json.sprite, json.zIndex, json.dialogue);
 			break;
 		case 'screenChangeSprite':
-			sprite = new screenChangeSprite(json.x, json.y, json.sprite, id, json.screen);
-			break;
-		case 'UISprite':
-			sprite = new UISprite(json.x, json.y, json.sprite, id, json.zIndex);
+			sprite = new screenChangeSprite(id, json.x, json.y, json.sprite, json.zIndex, json.screen);
 			break;
 		case 'moveSprite':
-			sprite = new moveSprite(json.x, json.y, json.sprite, id, json.targetX, json.targetY, json.frames);
+			sprite = new moveSprite(id, json.x, json.y, json.sprite, json.zIndex, json.targetX, json.targetY, json.frames);
 			break;
 		default:
 			console.log("ERROR: " + id + ' is set to an invalid sprite type');

@@ -31,7 +31,7 @@
 		</option>
 	</player>
 	<overseer id="mod1OS1a" nextType="player" nextId="playermod1PL2">
-		<text>…Really? The state of education from wherever you are from must be absolutely deplorable.</text>
+		<text>…Really? Did you just not pay attention in whatever school you went to?</text>
 	</overseer>
 	<player id="playermod1PL2">
 		<option nextType="overseer" nextId="mod1OS1aa">
@@ -62,18 +62,18 @@
 		<text color="FFCC00">Perillos</text>
 		<text>. That, obeying my orders, and staying mostly alive are your </text>
 		<text color="FFCC00">top priorties</text>
-		<text>. Actually, the order of priorities is as follows: Obey my orders, Collect data, and Stay Alive long enough to complete the other more important priorities.</text>
+		<text>. Actually, the order of priorities is as follows: obey my orders, collect data, and stay alive long enough to complete the other more important priorities.</text>
 	</overseer>
 	<overseer id="mod1OS1c" nextType="player" nextId="playermod1PL3">
 		<text>Now that you mention it, the </text>
 		<text color="FFCC00">robot</text>
-		<text>should be able to complete the task much more efficiently than you ever could. You know what, just crawl back into your </text>
+		<text> should be able to complete the task much more efficiently than you ever could. You know what, just crawl back into your </text>
 		<text color="FFCC00">Sleeping Compartment</text>
-		<text>and take a nap. I will inform </text>
+		<text> and take a nap. I will inform </text>
 		<variable id="arachneName" color="3399FF"/>
 		<text>of her promotion to </text>
 		<text color="FFCC00">occupant</text>
-		<text>and ask that her first task be getting rid of the capsule’s now needless </text>
+		<text> and ask that her first task be getting rid of the capsule’s now needless </text>
 		<text color="FFCC00">life-support system</text>
 		<text>.</text>
 	</overseer>
@@ -97,13 +97,13 @@
 	</overseer>
 	<overseer id="mod1OS1cb" nextType="overseer" nextId="mod1OS2">
 		<text>Unfortunately, as amusing as my little fantasy may be, I trust </text>
-		<text color="FFCC00">sentient spider robots</text>
-		<text> less than I trust other human beings so we are still stuck together for the moment.</text>
+		<text color="FFCC00">sentient spider-robots</text>
+		<text> less than I trust other human beings. We are stuck together for the moment.</text>
 	</overseer>
 	<overseer id="mod1OS1cc" nextType="overseer" nextId="mod1OS2">
-		<text>…quite. Now, if you are done psychoanalyzing my perceived displaced irritation at your insufferable idleness, may we get on to more important subjects?</text>
+		<text>…Quite. Now, if you are done psychoanalyzing my perceived displaced irritation at your insufferable idleness, may we get on to more important subjects?</text>
 	</overseer>
-	<overseer id= "mod1OS2" nextType="exit" nextId="if nextType is exit then give the id of the screen to eject to">
+	<overseer id= "mod1OS2" nextType="exit" nextId="mainScreen2">
 		<text>Report to the </text>
 		<text color="FFCC00">Observation Room</text>
 		<text> and you will receive further instruction.</text>

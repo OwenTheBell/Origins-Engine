@@ -49,7 +49,7 @@
 		</option>
 	</player>
 	<overseer id="mod1OS10a" nextType="arachne" nextId="mod1AR7">
-		<text>…The Hubble?...Well, that is interesting. It was supposed to have safety deorbited…very interesting. </text>
+		<text>…The Hubble?...Well, that is interesting. It was supposed to have safety deorbited…Very interesting...</text>
 	</overseer>
 	<overseer id="mod1OS10a" nextType="arachne" nextId="mod1AR7">
 		<text>I am genuinely as surprised as you are. This is…interesting. </text>
@@ -59,7 +59,7 @@
 		<text>The Hubble? Relatively speaking maybe. However, I am less concerned about its size and more concerned about what it is doing on your capsule. Do you know what happened to it? </text>
 	</overseer>
 	<arachne id="mod1AR7" nextType="overseer" nextId="mod1OS10">
-		<text>I cannot be certain of what occurred to the satellite, though it seems it has cut through several internal components. </text>
+		<text>I cannot be certain of what occurred to the satellite, though it seems it has cut through several of our internal components.</text>
 	</arachne>
 
 	<overseer id="mod1OS10" nextType="arachne" nextId="mod1AR8">
@@ -86,7 +86,42 @@
 			<text>Tell me about the Hubble.</text>
 		</option>
 	</player>
-	<arachne id="mod1AR8a" nextType="player" nextId="playermod1PL9">
+	<arachne id="mod1AR8a" nextType="overseer" nextId="mod1OS11">
 		<text>Remain calm while I begin repairs on the hull.</text>
 	</arachne>
+	<arachne id="mod1AR8b" nextType="player" nextId="playermod1PL9b">
+		<text>The </text>
+		<text color="FFCC00">
+specimens</text>
+		<text> that the </text>
+		<text color="FFCC00">
+Overseer</text>
+		<text> and I have been referring to are a species of genetically-enhanced mice that have been bred to survive unassisted in space.</text>  
+		<text>As you can imagine, this adaptation has a great amount of potential for future scientific research and, as such, a brood of the </text>
+		<text color="FFCC00">
+specimens</text>
+		 <text> is inserted into every</text> 
+		<text color="FFCC00"> 
+Perillos Capsule</text>
+		<text> in cryogenic storage.</text>
+	</arachne>
+	<arachne id="mod1AR8c" nextType="player" nextId="playermod1PL9">
+		<text>This room is used to keep organic material at extreme low temperatures to keep them from perishing or, in the case of the </text>
+		<text color="FFCC00">
+specimens</text>
+		 <text>, arrest biological activity for easy containment.</text>
+	</arachne>
+	<arachne id="mod1AR8d" nextType="player" nextId="playermod1PL9">
+		<text>The </text>
+		<text color="FFCC00">Hubble</text>
+		<text> is a space telescope that operated during the late 20th century to the mid 2010’s. Its main purpose was to observe celestial phenomena without atmospheric interference. It was named after </text>
+		<text color="FFCC00">Edwin Hubble</text>
+		<text> who is credited with the discovering the continued expansion of the universe.</text>
+	</arachne>
+	<overseer id="mod1OS11"  nextType = "exit" nextId = "cryoScreen">
+		<text>If you would like to make yourself useful, there should be a disc-like device nearby. This is a state-of-the-art, remote controlled, </text>
+		<text color="FFCC00">
+mouse-catcher</text>
+		 <text>. It produces a frequency that tries to match those of the target object, attracting the mice to it. Go use it now.</text>
+	</overseer>
 </dialogue>

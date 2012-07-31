@@ -1,4 +1,4 @@
-var Sprite = klass(function (left, top, image, id) {
+var Sprite = klass(function (id, left, top, image, zIndex) {
 	this.parent;
 	this.top = top; //y
 	this.left = left; //x
@@ -10,12 +10,13 @@ var Sprite = klass(function (left, top, image, id) {
 	this.rule = helper.addCSSRule('#' + this.id, {
 		'background-image': "url('" + this.image.src + "')",
 		width: this.image.width + 'px',
- 		height: this.image.height + 'px'
+ 		height: this.image.height + 'px',
+		'z-index': zIndex
 	});
 	
 	this.css = {
 		top: this.top + 'px',
-		left: this.left + 'px',
+		left: this.left + 'px'
 	}
 })
 	.methods({
@@ -47,7 +48,7 @@ var Sprite = klass(function (left, top, image, id) {
 		}
 	});
 
-var clickSprite = Sprite.extend(function(left, top, image, id){
+var clickSprite = Sprite.extend(function(id, left, top, image, zIndex){
 	this.mouseLoc = null;
 	this.clicked = false;
 	this.mouseOver = false; //detect mouse position over sprite
@@ -107,7 +108,7 @@ var clickSprite = Sprite.extend(function(left, top, image, id){
 		},
 	});
 
-var screenChangeSprite = clickSprite.extend(function(left, top, image, id, targetScreen){
+var screenChangeSprite = clickSprite.extend(function(id, left, top, image, zIndex, targetScreen){
 	this.targetScreen = targetScreen;
 })
 	.methods({
@@ -117,7 +118,7 @@ var screenChangeSprite = clickSprite.extend(function(left, top, image, id, targe
 		}
 	});
 	
-var dialogueSprite = clickSprite.extend(function(left, top, image, id, dialogue){
+var dialogueSprite = clickSprite.extend(function(id, left, top, image, zIndex, dialogue){
 	this.dialogue = dialogue; //this is the id of a dialogue screen
 })
 	.methods({
@@ -128,14 +129,14 @@ var dialogueSprite = clickSprite.extend(function(left, top, image, id, dialogue)
 /*
  * Sprite with the trigger method which causes some kind of action when called
  */
-var triggerSprite = Sprite.extend(function(left, top, image, id){
+var triggerSprite = Sprite.extend(function(id, left, top, image, zIndex){
 })
 	.methods({
 		trigger: function(){
 		}
 	});
 
-var moveSprite = triggerSprite.extend(function(left, top, image, id, x2, y2, frames){
+var moveSprite = triggerSprite.extend(function(id, left, top, image, zIndex, x2, y2, frames){
 	this.start = {X: left, Y: top}; //sprite starts at it's top and left coordinates
 	this.moveTo = {X: x2, Y: y2}; //coordinates that the sprite will move to
 	this.frames = frames;
@@ -169,11 +170,4 @@ var moveSprite = triggerSprite.extend(function(left, top, image, id, x2, y2, fra
 				}
 			}
 		}
-	});
-
-var UISprite = Sprite.extend(function(left, top, image, id, zIndex){
-	this.css['z-index'] = zIndex;
-})
-	.methods({
-		
 	});

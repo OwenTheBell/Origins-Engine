@@ -4,16 +4,18 @@
 
 <dialogue>
 	<item id="clothes">
-	<overseer id="clothingCabinet" nextType="exit" nextId="if nextType is exit then give the id of the screen to eject to">
+	<overseer id="clothingCabinet" nextType="exit" nextId="mainScreen2">
 		<text>All the clothing here is the same. It isn’t even all that comfortable.</text>
 	</overseer>
 	</item>
 <item id = "window">
 	<overseer id = "overseerWindowOpen"  nextType = "player" nextId = "playerWindowOpen">
 		<text>This is your window to the universe. Would you like to close it?</text>
+	
 	</overseer>
 	<overseer id = "overseerWindowClosed"  nextType = "player" nextId = "playerWindowClosed">
 		<text>This is your window to the universe. Would you like to open it?</text>
+	
 	</overseer>
 	<player id = "playerWindowOpen">
 		<option nextType = "exit" nextId = "eject to" nextTime="overseerWindowClosed" target="shutter">

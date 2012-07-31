@@ -27,7 +27,7 @@ var DopplerScreen = Screen.extend(function(id){
 	doppler.reciever = new Reciever(randX, randY, 5);
 	doppler.target = new Target([0, 60, 120, 180, 240]);
 	doppler.elements.push(doppler.emitter, doppler.reciever, doppler.target);
-	g.mouseCount = new textBox('0', 160, 660, '#00ff00', 6, '20px');
+	g.mouseCount = new textBox('mouseCount', '0', 160, 660, '#00ff00', 6, '20px');
 	this.addSprite(g.mouseCount);
 })
 	.methods({
@@ -93,53 +93,8 @@ var DopplerScreen = Screen.extend(function(id){
 					doppler.elements[x].canvasDraw();
 				}
 				doppler.canvas.canvasDraw();
+				doppler.pulseCanvas.canvasDraw();
 			}
-		}
-	});
-
-/*
- * This is both wrapper for a canvas object as well as for generating the necessary
- * HTML to get outed to the DOM for the canvas to display on. Actual rendering is
- * handered by prerendering to a canvas object in memory and then using drawImage
- * to actually put that canvas object on the DIV
- */
-var Canvas = klass(function(id, left, top, width, height, zIndex){
-	this.id = id;
-	this.top = top;
-	this.left = left;
-	//these values cannot be put into css the DOM requries them to
-	//render the canvas element properly
-	this.width = width;
-	this.height = height;
-	this.css = {
-		top: this.top + 'px',
-		left: this.left + 'px',
-		'z-index': zIndex //this is the default canvas layer
-	};
-	this.canvas = document.createElement('canvas');
-	this.canvas.width = this.width;
-	this.canvas.height = this.height
-	this.context = this.canvas.getContext('2d');
-})
-	.methods({
-		update: function(){
-		},
-		//this just returns the html needed to create a canvas object to draw the canvas to
-		draw: function(){
-			var HTML = '<canvas id=' + this.id + ' width=' + this.width + ' height=' + this.height + ' style="';
-			for(x in this.css){
-				HTML += x + ':' + this.css[x] + '; ';
-			}
-			HTML += '" > </canvas>';
-			return HTML;
-		},
-		//this function handles the actual canvas rendering
-		canvasDraw: function(){
-			var tempContext = document.getElementById(this.id).getContext('2d');
-			tempContext.drawImage(this.canvas, 0, 0);
-		},
-		clear: function(){
-			this.context.clearRect(0, 0, this.width, this.height);
 		}
 	});
 
@@ -151,7 +106,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
 	this.growth = 2;
 	this.circles = [];
 	this.pulsePerSecond = pulsePerSecond;
-	this.waveForm = new WaveForm(g.fps / this.pulsePerSecond, 'emitterCanvas', 421, 639, 434, 73);
+	this.waveForm = new WaveForm(g.fps / this.pulsePerSecond, 'emitterCanvas', 421, 639, 434, 73, 'blue');
 	this.image = new Image();
 	this.image.src = 'Sprites/Doppler_Screen/Robot_Blue_light.png';
 	this.centerX = this.x + this.image.width / 2;
@@ -169,7 +124,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
 			}
 			
 			if (this.waveForm.currentY == 1){
-				doppler.elements.push(new Pulse(this.centerX, this.centerY, this.radius, this.growth));
+				//doppler.elements.push(new Pulse(this.centerX, this.centerY, this.radius, this.growth));
 			}
 			
 			var moveX = 0, moveY = 0;
@@ -232,6 +187,7 @@ var Reciever = klass(function(x, y, radius){
 	this.click = new audioElement('click', 'Audio/click');
 	this.waveFormArray = null;
 	this.canvas = new Canvas('recieverCanvas', 421, 566, 434, 68, 5);
+	this.canvas.context.strokeStyle = 'yellow';
 	this.matched = false;
 	this.image = new Image();
 	this.image.src = 'Sprites/Doppler_Screen/Grey_Maus_sprite_sheet.png';
@@ -301,7 +257,6 @@ var Reciever = klass(function(x, y, radius){
 						prev = {X: next.X, Y: next.Y};
 						next.X--;
 					}
-					this.canvas.context.strokeStyle = 'yellow';
 					this.canvas.context.stroke();
 				}
 				this.canvas.canvasDraw();
@@ -316,6 +271,7 @@ var Reciever = klass(function(x, y, radius){
  */
 var Target = klass(function(highPoints){
 	this.canvas = new Canvas('targetCanvas', 421, 492, 434, 68, 5);
+	this.canvas.context.strokeStyle = 'green';
 	this.rendered = true;
 	this.targetPoints = highPoints;
 	this.waveFormArray = [];
@@ -359,7 +315,6 @@ var Target = klass(function(highPoints){
 					}
 					prev = next;
 				}
-				this.canvas.context.strokeStyle = 'green';
 				this.canvas.context.stroke();
 				this.rendered = false;
 			}
@@ -405,8 +360,9 @@ var Pulse = klass(function(x, y, radius, growth){
 		
 	});
 
-var WaveForm = klass(function(frames, canvas, left, top, width, height){
+var WaveForm = klass(function(frames, canvas, left, top, width, height, color){
 	this.canvas = new Canvas(canvas, left, top, width, height, 5);
+	this.canvas.context.strokeStyle = color;
 	this.points = [];
 	this.currentX = 0; //value varying between 0 and 2*PI
 	this.currentY = 0; //value varying between 1 and -1
@@ -446,7 +402,6 @@ var WaveForm = klass(function(frames, canvas, left, top, width, height){
 				prev = {X: next.X, Y: next.Y};
 				next.X--;
 			}
-			this.canvas.context.strokeStyle = 'blue';
 			this.canvas.context.stroke();
 			this.canvas.canvasDraw();
 		},

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New document created with EditiX at Mon Jul 16 16:06:27 EDT 2012 -->
+
+<dialogue>
+	<overseer id="mod1OS12"  nextType = "exit" nextId = "cryoScreen">
+		<text>The </text>
+		<text color="FFCC00">
+mouse-catcher</text>
+		 <text> will go down into the panels were the mice have fled to. Use can control it from your wrist-computer. Match the frequency that the catcher produces to those of the target mice to catch them. Placing and movement of the </text>
+		 <text color="FFCC00">
+mouse-catcher</text>
+		 <text> is key. Remember that waves produced while moving towards an object have smaller wavelengths and waves produced while moving away have longer ones.</text>
+	</overseer>
+	<arachne id="mod1AR9" nextType="overseer" nextId="mod1OS13">
+		<text>I have discovered another potential problem. It seems a number of the </text>
+		<text color="FFCC00">specimens</text>
+		 <text> have managed to escape from the capsule through a hull breach. I have sealed the breach but the </text>
+		 <text color="FFCC00">specimens</text>
+		 <text> are now free floating in space. </text>
+	</arachne>
+	<overseer id="mod1OS13"  nextType="overseer" nextId="mod1OS14">
+		<text>Cheeky little…</text>
+	</overseer>
+	<overseer id="mod1OS14"  nextType="arachne" nextId="mod1AR10">
+		<text>Can you recover them, </text>
+		<variable id="arachneName" color="3399FF"/>
+		<text>?</text>
+	</overseer>
+	<arachne id="mod1AR10" nextType="overseer" nextId="mod1OS15">
+		<text>Possibly. I am equipped with thrusters for </text>
+		<text color="FFCC00">extra vehicular activity </text>
+		 <text> but I may require help in prioritizing targets.</text>
+	</arachne>
+	<overseer id="mod1OS15" nextType="arachne" nextId="mod1AR11" >
+		<variable id="playerName" color="3399FF"/>
+		<text>, go help your robot recover those rodents. They are very valuable to us.</text>
+	</overseer>
+	<arachne id="mod1AR11"  nextType = "exit" nextId = "cryoScreen">
+		<text>I recommend using the window in the </text>
+		<text color="FFCC00">Main Quarter </text>
+		 <text> to coordinate our efforts. I will go access the </text>
+		 <text color="FFCC00">capsule</text>
+		 <text> airlock and prepare for specimen recovery. If you have any questions I will answer them once you are in position.</text>
+	</arachne>
+</dialogue>
+

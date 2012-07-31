@@ -37,7 +37,7 @@ var helper = {
 			url: dialogueScreen.file,
 			dataType: "xml",
 			success: function(data){
-				dialogueScreen.loadXML(data);
+				dialogueScreen.loadXML(data, dialogueScreen.file);
 			}
 		});
 	},
@@ -80,8 +80,8 @@ var helper = {
 			dataType: 'xml',
 			success: function(data){
 				$(data).find('item').each(function(){
-					var temp = new DialogueScreen($(this).attr('id'), g.bottomZIndex);
-					temp.loadXML(this);
+					var temp = new DialogueScreen($(this).attr('id'));
+					temp.loadXML(this, file);
 					g.screenCollection[temp.id] = temp;
 				});
 			}

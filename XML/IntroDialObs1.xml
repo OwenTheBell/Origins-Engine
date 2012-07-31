@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New document created with EditiX at Mon Jul 30 16:49:36 EDT 2012 -->
+
+<dialogue>
+
+	<overseer id = "introOS12" nextType = "exit" nextId = "mainScreen2">
+	<text>This room is known as the </text>
+	<text color="FFCC00">Observation Room </text>
+	<text>and will be unlocked now. The room can be accessed by using the hatch-door. This room is your primary research Room and operating environment. Report here regularly.</text>
+	</overseer>
+</dialogue>
+
