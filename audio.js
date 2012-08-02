@@ -11,7 +11,8 @@ var audioElement = klass(function (id, path) {
 		console.log('WTF browser are you using?!');
 	}
 	this.element.load();
-	$('#' + g.audioDiv).append(this.element);
+	g.audioDiv.appendChild(this.element);
+	// $('#' + g.audioDiv).append(this.element);
 })
 	.methods({
 		play: function(){

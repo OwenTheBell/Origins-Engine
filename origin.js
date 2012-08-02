@@ -4,7 +4,7 @@
  */
 var g = {
 	screenCollection: new Array(),
-	fps: 30,
+	fps: 60,
 	input: {}, //this copies input contained in inputState for global access
 	frameCounter: 0,
 	drawDiv: {},
@@ -36,7 +36,7 @@ try{
 
 $(document).ready(function(){
 	//create the div in which to put the output HTML as well as the audio files
-	$('#origins').html('<div id="draw"> </div> <div id="audio"> </div>');
+	document.getElementById('origins').innerHTML = '<div id="draw"> </div> <div id="audio"> </div>';
 	g.drawDiv = document.getElementById("draw");
 	g.audioDiv = document.getElementById("audio");
 	

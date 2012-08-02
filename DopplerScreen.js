@@ -88,15 +88,23 @@ var DopplerScreen = Screen.extend(function(id){
 		},
 		canvasDraw: function(){
 			if (this.css['opacity'] > 0){
+				var fragment = document.createDocumentFragment();
+				var div = document.getElementById(this.id);
+				
+				
 				doppler.canvas.clear();
 				doppler.pulseCanvas.clear();
 				for(x in doppler.elements){
 					if (!(doppler.elements[x] instanceof Canvas)){
-						doppler.elements[x].canvasDraw();
+						var temp = doppler.elements[x].canvasDraw();
+						if(temp){
+							fragment.appendChild(temp);
+						}
 					}
 				}
-				doppler.canvas.canvasDraw();
-				doppler.pulseCanvas.canvasDraw();
+				fragment.appendChild(doppler.canvas.canvasDraw());
+				fragment.appendChild(doppler.pulseCanvas.canvasDraw());
+				div.appendChild(fragment);
 			}
 		}
 	});
@@ -178,7 +186,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
 			context.restore();
 			
 			if (this.waveForm){
-				this.waveForm.canvasDraw();
+				return this.waveForm.canvasDraw();
 			}
 		}
 	});
@@ -262,10 +270,10 @@ var Reciever = klass(function(x, y, radius){
 					}
 					this.canvas.context.stroke();
 				}
-				this.canvas.canvasDraw();
 			}
 			
 			doppler.canvas.context.drawImage(this.image, 0, 0, this.spriteW, this.spriteH, this.x, this.y, this.spriteW, this.spriteH);
+			return this.canvas.canvasDraw();
 		}
 	});
 
@@ -323,7 +331,7 @@ var Target = klass(function(highPoints){
 			}
 			//call canvasDraw to ensure that the canvas is always added through
 			//DOM changes
-			this.canvas.canvasDraw();
+			return this.canvas.canvasDraw();
 		}
 	});
 
@@ -407,7 +415,7 @@ var WaveForm = klass(function(frames, canvas, left, top, width, height, color){
 				next.X--;
 			}
 			this.canvas.context.stroke();
-			this.canvas.canvasDraw();
+			return this.canvas.canvasDraw();
 		},
 		adjustFrames: function(newFrames){
 			var spaceToFill = Math.PI * 2 - this.currentX;

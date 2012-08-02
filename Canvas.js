@@ -8,18 +8,17 @@ var Canvas = klass(function(id, left, top, width, height, zIndex){
 	this.id = id;
 	this.top = top;
 	this.left = left;
-	//these values cannot be put into css the DOM requries them to
+	//these values cannot be put into css as the DOM requries them to
 	//render the canvas element properly
 	this.width = width;
 	this.height = height;
-	this.css = {
-		top: this.top + 'px',
-		left: this.left + 'px',
-		'z-index': zIndex //this is the default canvas layer
-	};
 	this.canvas = document.createElement('canvas');
 	this.canvas.width = this.width;
 	this.canvas.height = this.height
+	this.canvas.setAttribute('id', this.id);
+	this.canvas.style.zIndex = zIndex;
+	this.canvas.style.top = this.top + 'px';
+	this.canvas.style.left = this.left + 'px';
 	this.context = this.canvas.getContext('2d');
 })
 	.methods({
@@ -27,17 +26,11 @@ var Canvas = klass(function(id, left, top, width, height, zIndex){
 		},
 		//this just returns the html needed to create a canvas object to draw the canvas to
 		draw: function(){
-			var HTML = '<canvas id=' + this.id + ' width=' + this.width + ' height=' + this.height + ' style="';
-			for(x in this.css){
-				HTML += x + ':' + this.css[x] + '; ';
-			}
-			HTML += '" > </canvas>';
-			return HTML;
+			return '';
 		},
 		//this function handles the actual canvas rendering
 		canvasDraw: function(){
-			var tempContext = document.getElementById(this.id).getContext('2d');
-			tempContext.drawImage(this.canvas, 0, 0);
+			return this.canvas;
 		},
 		clear: function(){
 			this.context.clearRect(0, 0, this.width, this.height);
