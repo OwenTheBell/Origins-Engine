@@ -150,7 +150,6 @@ var moveSprite = triggerSprite.extend(function(id, left, top, image, zIndex, x2,
 })
 	.methods({
 		trigger: function(){
-			console.log(this.id + ' has been triggered');
 			this.moving = true;
 			this.moveCount = 0;
 			this.yMove = (this.moveTo.Y - this.top) / this.frames;
@@ -169,7 +168,6 @@ var moveSprite = triggerSprite.extend(function(id, left, top, image, zIndex, x2,
 					this.moving = false;
 					this.changeLeft(this.start.X);
 					this.changeTop(this.start.Y);
-					console.log(this.id + ' has stopped moving at ' + this.css.top);
 				}
 			}
 		}

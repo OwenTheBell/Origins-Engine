@@ -157,10 +157,11 @@
 		"dialogue": ["observationScreenIntro"],
 		"sprites": {
 			"computer": {
-				"type": "Sprite",
+				"type": "dialogueSprite",
 				"sprite": "Sprites/Observatory/Computer.png",
 				"x": 940,
 				"y": 262,
+				"dialogue": "obsCompy",
 				"zIndex": 4
 			},
 			"gantry": {
@@ -195,31 +196,35 @@
 				"zIndex": 2
 			},
 			"telescope": {
-				"type": "Sprite",
+				"type": "dialogueSprite",
 				"sprite": "Sprites/Observatory/Telescope.png",
 				"x": 0,
 				"y": 217,
+				"dialogue": "spaceTelescope",
 				"zIndex": 4
 			}, 
 			"observatory_window": {
-				"type": "Sprite",
+				"type": "dialogueSprite",
 				"sprite": "Sprites/Observatory/Window.png",
 				"x": 518,
 				"y": 291,
+				"dialogue": "windowObs",
 				"zIndex": 4
 			}, 
 			"space_suit": {
-				"type": "Sprite",
+				"type": "dialogueSprite",
 				"sprite": "Sprites/Observatory/Space_Suit.png",
 				"x": 834,
 				"y": 278,
+				"dialogueSprite": "spaceSuit",
 				"zIndex": 4
 			},
 			"observatory_ladder": {
-				"type": "Sprite",
+				"type": "dialogueSprite",
 				"sprite": "Sprites/Observatory/Ladder.png",
 				"x": 727,
 				"y": 0,
+				"dialogue": "ladderObs",
 				"zIndex": 4
 			}
 		}
@@ -248,5 +253,10 @@
 	"IntroObjMainRm2": {
 		"screenType": "interactiveDialogue",
 		"xml": "XML/IntroObjMainRm2.xml"
+	}
+	
+	"IntroObjObs": {
+		"screenType": "interactiveDialogue",
+		"xml": "XML/IntroObjObs.xml"
 	}
 }

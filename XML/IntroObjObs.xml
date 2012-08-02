@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New document created with EditiX at Wed Aug 01 11:21:53 EDT 2012 -->
+
+
+<dialogue>
+
+<item id = "spaceSuit">
+	
+<overseer id = "spaceSuitIntro1"   nextType = "exit" nextId = "observationScreen">
+		<text>The </text>
+		 <text color="FFCC00">Project Daedalus</text>
+		<text> standard-issue </text>
+		 <text color="FFCC00">Vacuum Suit</text>
+		<text>. Put it on and you’ll be ready to handle the harshness of space.</text>
+	</overseer>
+
+	<overseer id = "spaceSuitIntro1"   nextType = "exit" nextId = "observationScreen">
+		<text>Please note: </text>
+		 <text color="FFCC00">Project Daedalus Vacuum Suits</text>
+		<text> should NOT be used to combat extra-dimensional aliens. Please refrain from using equipment inappropriately. </text>
+	</overseer>
+
+</item>
+<item id = "spaceTelescope">
+	
+<overseer id = "spaceTelescopeIntro1" nextType = "exit" nextId = "observationScreen">
+		<text>o	This is your giant on-board </text>
+		 <text color="FFCC00">telescope</text>
+		<text>. With it you can observe the stars with unparalleled clarity. Take care of it, as it seems pretty expensive.</text>
+	</overseer>
+</item>
+
+<item id = "obsCompy">
+<overseer id = "obsCompyIntro1" nextType = "exit" nextId = "observationScreen">
+	<text>This is monitor displays a physical map of the capsule. Unfortunately, it seems you still don’t know what the sealed rooms hold.</text>
+
+</overseer>
+</item>
+
+<item id = "ladderObs">
+	<overseer id = "ladderObsIntro1" nextType = "player" nextId = "playerLadderIntro1">
+		<text>This is a ladder. It leads upstairs to the other rooms inside the capsule. What would you like to do?</text>
+	</overseer>
+	<player id = "playerLadderIntro1">
+		<option nextType = "overseer" nextId = "upladderObsIntro1">
+			<text>Go to other modules.</text>
+		</option>
+		<option  nextType = "exit" nextId = "observationScreen">
+			<text>Stay here.</text>
+		</option>
+	</player>
+		<overseer id = "upladderObsIntro1" nextType = "exit" nextId = "observationScreen">
+			<text>Where would you like go?</text>
+
+		</overseer>
+	</item>
+
+<item id = "windowObs">
+	<overseer id = "obsWindowOpen"  nextType = "player" nextId = "playerObsWindowOpen">
+		<text>This is your window to the universe. Would you like to close it?</text>
+	
+	</overseer>
+	<overseer id = "obsWindowClosed"  nextType = "player" nextId = "playerObsWindowClosed">
+		<text>This is your window to the universe. Would you like to open it?</text>
+	
+	</overseer>
+	<player id = "playerObsWindowOpen">
+		<option nextType = "exit" nextId = "eject to" nextTime="obsWindowClosed" target="shutter">
+			<text>Yes, please.</text>
+		</option>
+		<option nextType = "exit" nextId = "eject to">
+			<text>No, leave it open.</text>
+		</option>
+	</player>
+	<player id = "playerObsWindowClosed">
+		<option nextType = "exit" nextId = "eject to" nextTime="overseerWindowOpen" target="shutter">
+			<text>Yes, open it.</text>
+		</option>
+		<option nextType = "exit" nextId = "eject to">
+			<text>No, leave it closed.</text>
+		</option>
+	</player>
+</item>
+</dialogue>
+
