@@ -1,6 +1,6 @@
 var g = {
+	mainDiv: {},
 	canvas: {},
-	context: {},
 	fps: 60,
 	reciever: {},
 	emitter: {},
@@ -21,21 +21,17 @@ var g = {
 	}
 }
 
-window.requestAnimFrame = (function(){
-		return	window.requestAnimationFrame		||
-				window.webkitRequestAnimationFrame	||
-				window.mozRequestAnimationFrame		||
-				window.oRequestAnimationFrame		||
-				window.msRequestAnimationFrame;
-})();
-
 $(document).ready(function(){
+	g.mainDIV = document.getElementById('mainDIV');
+	g.canvas = new Canvas('mainCanvas', 1280, 500, 2);
+	/* 
 	g.canvas = document.getElementById('myCanvas');
 	//append these values to canvas since it doesn't normally have them
 	g.canvas.left = $('#myCanvas').position().left;
 	g.canvas.top = $('#myCanvas').position().top;
-	g.context = g.canvas.getContext('2d');
-	
+	g.canvas.context = g.canvas.getContext('2d');
+	*/
+	g.elements.push(g.canvas);
 	g.emitter = new Emitter(g.canvas.width / 2, g.canvas.height / 2, 5, g.generate);
 	var randX = Math.floor(Math.random() * (g.canvas.width - 200) + 100);
 	var randY = Math.floor(Math.random() * (g.canvas.height - 200) + 100);
@@ -43,40 +39,67 @@ $(document).ready(function(){
 	randY = g.canvas.height / 2 + 40;
 	g.reciever = new Reciever(randX, randY, 5);
 	g.target = new Target([0, 120, 240, 360]);
-	g.elements.push(g.emitter);
-	g.elements.push(g.reciever);
-	g.elements.push(g.target);
+	g.elements.push(g.emitter, g.reciever, g.target);
 	
 	startDraw();
 });
 
 function startDraw () {
-	//requestAnimFrame(startDraw);
-	//loop();
 	setInterval(loop, 1000/g.fps);
 }
 
 function loop() {
 	g.Mouse = inputState.getMouse();
 
+	var i = g.elements.length;
+
+	do{
+		g.elements[i-1].update();
+	} while(--i);
+	/*
 	$(g.elements).each(function(){
 		this.update();
 	});
+	*/
+	//if(g.mainDIV.innerHTML == ' '){
+		var HTML = '';
+		while(g.mainDIV.firstChild){
+			g.mainDIV.removeChild(g.mainDIV.firstChild);
+		}
+		//set this again as some elements may have been removed
+		i = g.elements.length;
+		do{
+			if(g.elements[i-1].draw){
+				HTML += g.elements[i-1].draw();
+			}
+		} while (--i);
+		/*
+		$(g.elements).each(function(){
+			if (this.draw){
+				HTML += this.draw();
+			}
+		});
+		*/
+		g.mainDIV.innerHTML = HTML;
+		//$('#mainDIV').html(HTML);
+	//}
 	
-	g.context.clearRect(0, 0, g.canvas.width, g.canvas.height);
-	
-	$(g.elements).each(function(){
-		this.canvasDraw();
-	});
-	g.context.stroke();
-		
+	/*	 
+	g.canvas.clear();
+	//g.canvas.context.clearRect(0, 0, g.canvas.width, g.canvas.height);
+	i = g.elements.length;
+	do{
+		if(!(g.elements[i-1] instanceof Canvas)){
+			g.elements[i-1].canvasDraw();
+		}
+	} while(--i);
+	g.canvas.canvasDraw();
+	*/	
 
 	if (g.lastFrameTime){
 		if (g.Frames >= g.lastFrame + g.fps){
 			var newTime = g.getTime();
 			$('#fpsTracker').html((newTime - g.lastFrameTime) + ' ' + (g.Frames - g.lastFrame));
-			//console.log('Elapsed time in last 60 frames: ' + (newTime - g.lastFrameTime));
-			//console.log('Number of elements in waveDict: ' + helper.countElements(g.waveDict));
 			g.lastFrameTime = newTime;
 			g.lastFrame = g.Frames;
 		}
@@ -118,7 +141,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond){
 	this.growth = 1;
 	this.circles = [];
 	this.pulsePerSecond = pulsePerSecond;
-	this.waveForm = new WaveForm(g.fps / this.pulsePerSecond, 'emitterCanvas');
+	this.waveForm = new WaveForm(g.fps / this.pulsePerSecond, new Canvas('emitterCanvas', 400, 80, 2));
 })
 	.methods({
 		update: function() {
@@ -158,11 +181,14 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond){
 			if (this.y + this.radius > g.canvas.height) this.y = g.canvas.height;
 			else if (this.y - this.radius < 0) this.y = 0;
 		},
+		draw: function(){
+			return this.waveForm.draw();
+		},
 		canvasDraw: function() {
-			g.context.beginPath();
-			g.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-			g.context.closePath();
-			g.context.fill();
+			g.canvas.context.beginPath();
+			g.canvas.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+			g.canvas.context.closePath();
+			g.canvas.context.fill();
 			
 			if (this.waveForm){
 				this.waveForm.canvasDraw();
@@ -176,9 +202,12 @@ var Reciever = klass(function(x, y, radius){
 	this.radius = radius;
 	this.click = new audioElement('click', '../Audio/click');
 	this.waveFormArray = null;
+	this.canvas = new Canvas('recieverCanvas', 400, 80, 2);
+	/* 
 	this.canvas = $('#recieverCanvas').get(0);
 	this.context = this.canvas.getContext('2d');
 	this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	*/
 	this.matched = false;
 })
 	.methods({
@@ -216,39 +245,44 @@ var Reciever = klass(function(x, y, radius){
 				}
 			}
 		},
+		draw: function(){
+			return this.canvas.draw();
+		},
 		canvasDraw: function() {
 			if (this.waveFormArray){
-				this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+				var context = this.canvas.context;
+				context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 				
 				if (this.matched){
-					this.context.beginPath();
-					this.context.rect(0, 0, this.canvas.width, this.canvas.height);
-					this.context.fillStyle = '#00FF00';
-					this.context.fill();
+					context.beginPath();
+					context.rect(0, 0, this.canvas.width, this.canvas.height);
+					context.fillStyle = '#00FF00';
+					context.fill();
 				}
 				
 				else {
-					this.context.beginPath();
+					context.beginPath();
 					var prev = null
 					
 					for (var i = 0; i < this.waveFormArray.length; i++){
 						var next = this.waveFormArray[i];
 						if(prev){
-							this.context.moveTo(prev.X, prev.Y);
-							this.context.lineTo(next.X, next.Y);
+							context.moveTo(prev.X, prev.Y);
+							context.lineTo(next.X, next.Y);
 						}
 						prev = {X: next.X, Y: next.Y};
 						next.X--;
 					}
-					this.context.closePath();
-					this.context.stroke();
+					context.closePath();
+					context.stroke();
 				}
 			}
-			
-			g.context.beginPath();
-			g.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-			g.context.closePath();
-			g.context.fill();
+			this.canvas.canvasDraw();
+				
+			g.canvas.context.beginPath();
+			g.canvas.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+			g.canvas.context.closePath();
+			g.canvas.context.fill();
 		}
 		
 	});
@@ -257,8 +291,11 @@ var Reciever = klass(function(x, y, radius){
  * Array of the x-coordinate for which the y-coordinate is at peak
  */
 var Target = klass(function(highPoints){
+	this.canvas = new Canvas('targetCanvas', 400, 80, 2);
+	/*
 	this.canvas = $('#targetCanvas').get(0);
 	this.context = this.canvas.getContext('2d');
+	*/
 	this.updated = true;
 	this.targetPoints = highPoints;
 	this.waveFormArray = [];
@@ -285,24 +322,29 @@ var Target = klass(function(highPoints){
 	.methods({
 		update: function(){
 		},
+		draw: function(){
+			return this.canvas.draw();
+		},
 		canvasDraw: function(){
 			if (this.updated){
-				this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-				this.context.beginPath();
+				var context = this.canvas.context;
+				context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+				context.beginPath();
 				var prev = null;
 				
 				for(var i=0; i < this.waveFormArray.length; i++){
 					var next = this.waveFormArray[i];
 					if(prev){
-						this.context.moveTo(prev.X, prev.Y);
-						this.context.lineTo(next.X, next.Y);
+						context.moveTo(prev.X, prev.Y);
+						context.lineTo(next.X, next.Y);
 					}
 					prev = next;
 				}
-				this.context.closePath();
-				this.context.stroke();
+				context.closePath();
+				context.stroke();
 				this.updated = false;
 			}
+			this.canvas.canvasDraw();
 		}
 	});
 
@@ -320,11 +362,6 @@ var Pulse = klass(function(x, y, radius, growth){
 		distances[i] = getDistance(this.x, this.y, distances[i][0], distances[i][1]);
 	}
 	this.maxRadius = getMax(distances);
-	this.canvas = document.createElement('canvas');
-	this.canvas.width = g.canvas.width;
-	this.canvas.height = g.canvas.height;
-	this.context = this.canvas.getContext('2d');
-	
 })
 	.methods({
 		update: function(){
@@ -337,17 +374,20 @@ var Pulse = klass(function(x, y, radius, growth){
 		},
 		canvasDraw: function() {
 			if (this.radius < this.maxRadius){
-				g.context.beginPath();
-				g.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-				g.context.closePath();
-				g.context.stroke();
+				g.canvas.context.beginPath();
+				g.canvas.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+				g.canvas.context.closePath();
+				g.canvas.context.stroke();
 			}
 		}
 	});
 
 var WaveForm = klass(function(frames, canvas){
+	this.canvas = canvas;
+	/*
 	this.canvas = $('#' + canvas).get(0);
 	this.context = this.canvas.getContext('2d');
+	*/
 	this.points = [];
 	this.currentX = 0; //value varying between 0 and 2*PI
 	this.currentY = 0; //value varying between 1 and -1
@@ -370,22 +410,27 @@ var WaveForm = klass(function(frames, canvas){
 			}
 			this.currentX += this.Xadjust;
 		},
+		draw: function(){
+			return this.canvas.draw();
+		},
 		canvasDraw: function(){
-			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-			this.context.beginPath();
+			var context = this.canvas.context;
+			context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+			context.beginPath();
 			var prev = null;
 			
 			for(var i = 0; i < this.points.length - 1; i++){
 				var next = this.points[i];
 				if (prev){
-					this.context.moveTo(prev.X, prev.Y);
-					this.context.lineTo(next.X, next.Y);
+					context.moveTo(prev.X, prev.Y);
+					context.lineTo(next.X, next.Y);
 				}
 				prev = {X: next.X, Y: next.Y};
 				next.X--;
 			}
-			this.context.closePath();
-			this.context.stroke();
+			context.closePath();
+			context.stroke();
+			this.canvas.canvasDraw();
 		},
 		adjustFrames: function(newFrames){
 			var spaceToFill = Math.PI * 2 - this.currentX;

@@ -5,10 +5,6 @@
 var g = {
 	screenCollection: new Array(),
 	fps: 30,
-	topZIndex: 10,
-	bottomZIndex: 9,
-	transZIndex: 11, //this zIndex is used to place emerging layers on top
-	dialogueZIndex: 12,
 	input: {}, //this copies input contained in inputState for global access
 	frameCounter: 0,
 	drawDiv: 'draw',
@@ -100,7 +96,8 @@ RunGame = function(){
 			g.screenCollection[x].canvasDraw();
 		}
 	}
-
+	
+	//calculate and display the current framerate
 	if (g.frameCounter >= g.lastFrame + g.fps){
 		g.evaluationFrame = true;
 		var newTime = g.getTime();

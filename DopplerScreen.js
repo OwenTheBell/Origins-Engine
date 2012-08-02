@@ -5,15 +5,15 @@ var doppler = {
 	emitter: {},
 	target: {},
 	mouseCount: {}, //textbox object that stores and prints the number of caught mice
-	elements: [], //nonSprite elemenents, stuff like the emitter
+	elements: [], //nonSprite elemenents, stuff like the emitter or canvases
 	Mouse: {},
 	generate: .5, //this puts 120 pixels horizontally between peaks
-	waveDict: {},
+	waveDict: {}, //stores all the waves that the emitter will draw
 	degError: 3,
 	matchedAt: null,
 	matchedDelay: 30, //num of frames to delay until reseting after a successful match
 	recieverH: 250,
-	recieverW: 200
+	recieverW: 200,
 }
 
 var DopplerScreen = Screen.extend(function(id){
@@ -27,8 +27,8 @@ var DopplerScreen = Screen.extend(function(id){
 	doppler.reciever = new Reciever(randX, randY, 5);
 	doppler.target = new Target([0, 60, 120, 180, 240]);
 	doppler.elements.push(doppler.emitter, doppler.reciever, doppler.target);
-	g.mouseCount = new textBox('mouseCount', '0', 160, 660, '#00ff00', 6, '20px');
-	this.addSprite(g.mouseCount);
+	doppler.mouseCount = new textBox('mouseCount', '0', 160, 660, '#00ff00', 6, '20px');
+	this.addSprite(doppler.mouseCount);
 })
 	.methods({
 		update: function(){
@@ -37,25 +37,26 @@ var DopplerScreen = Screen.extend(function(id){
 				for(i in doppler.elements){
 					doppler.elements[i].update();
 				}
-			}
-			for(i in doppler.waveDict){
-				if (doppler.waveDict[i].X < 0){
-					delete doppler.waveDict[i];
+				for(i in doppler.waveDict){
+					if (doppler.waveDict[i].X < 0){
+						delete doppler.waveDict[i];
+					}
 				}
-			}
-			if(doppler.matchedAt && g.frameCounter >= doppler.matchedAt + 30){
-				doppler.canvas = new Canvas('mainCanvas', 0, 0, 1280, 600, 3);
-				doppler.pulseCanvas = new Canvas('pulseCanvas', 0, 0, doppler.canvas.width, doppler.canvas.height, 2);
-				doppler.elements = [];
-				doppler.waveDict = {};
-				doppler.elements.push(doppler.canvas, doppler.pulseCanvas);
-				doppler.elements.push(doppler.emitter);
-				var randX = Math.floor(Math.random() * (doppler.canvas.width - 200) + 100);
-				var randY = Math.floor(Math.random() * (doppler.canvas.height - 200) + 100);
-				doppler.reciever = new Reciever(randX, randY, 5);
-				doppler.target = new Target([0, 120, 240, 360]);
-				doppler.elements.push(doppler.reciever, doppler.target);
-				doppler.matchedAt = null;
+				if(doppler.matchedAt && g.frameCounter >= doppler.matchedAt + 30){
+					doppler.canvas = new Canvas('mainCanvas', 0, 0, 1280, 600, 3);
+					doppler.pulseCanvas = new Canvas('pulseCanvas', 0, 0, doppler.canvas.width, doppler.canvas.height, 2);
+					doppler.elements = [];
+					doppler.waveDict = {};
+					doppler.elements.push(doppler.canvas, doppler.pulseCanvas);
+					doppler.elements.push(doppler.emitter);
+					var randX = Math.floor(Math.random() * (doppler.canvas.width - 200) + 100);
+					var randY = Math.floor(Math.random() * (doppler.canvas.height - 200) + 100);
+					doppler.reciever = new Reciever(randX, randY, 5);
+					doppler.target = new Target([0, 120, 240, 360]);
+					doppler.elements.push(doppler.reciever, doppler.target);
+					doppler.mouseCount = parseInt(doppler.mouseCount.text) + 1;
+					doppler.matchedAt = null;
+				}
 			}
 		},
 		draw: function(){
@@ -90,7 +91,9 @@ var DopplerScreen = Screen.extend(function(id){
 				doppler.canvas.clear();
 				doppler.pulseCanvas.clear();
 				for(x in doppler.elements){
-					doppler.elements[x].canvasDraw();
+					if (!(doppler.elements[x] instanceof Canvas)){
+						doppler.elements[x].canvasDraw();
+					}
 				}
 				doppler.canvas.canvasDraw();
 				doppler.pulseCanvas.canvasDraw();
@@ -124,7 +127,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
 			}
 			
 			if (this.waveForm.currentY == 1){
-				//doppler.elements.push(new Pulse(this.centerX, this.centerY, this.radius, this.growth));
+				doppler.elements.push(new Pulse(this.centerX, this.centerY, this.radius, this.growth));
 			}
 			
 			var moveX = 0, moveY = 0;
@@ -350,11 +353,12 @@ var Pulse = klass(function(x, y, radius, growth){
 			}
 		},
 		canvasDraw: function() {
+			var context = doppler.pulseCanvas.context;
 			if (this.radius < this.maxRadius){
-				doppler.canvas.context.beginPath();
-				doppler.canvas.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-				doppler.canvas.context.closePath();
-				doppler.canvas.context.stroke();
+				context.beginPath();
+				context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+				context.closePath();
+				context.stroke();
 			}
 		}
 		
