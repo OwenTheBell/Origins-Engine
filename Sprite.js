@@ -6,7 +6,6 @@ var Sprite = klass(function (id, left, top, image, zIndex) {
 	this.image.src = image;
 	this.id = id;
 	this.drawState = 'new';
-	// this.cssClasses = []; //store names of any applied css classes
 	this.rule = helper.addCSSRule('#' + this.id, {
 		'background-image': "url('" + this.image.src + "')",
 		width: this.image.width + 'px',
@@ -38,16 +37,11 @@ var Sprite = klass(function (id, left, top, image, zIndex) {
 		update: function(){
 		},
 		draw: function(HTML){
-			// var HTML = '';
 			HTML.push('<div id="', this.id, '" style="');
-			// HTML += '<div id="' + this.id +'" style="';
 			for(x in this.css){
 				HTML.push(x, ': ', this.css[x], '; ');
-				// HTML += x + ':' + this.css[x] + '; ';
 			}
 			HTML.push('"> </div>');
-			// HTML += '"></div>';
-			// return(HTML);
 		}
 	});
 
