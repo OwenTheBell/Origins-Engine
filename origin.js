@@ -60,7 +60,7 @@ $(document).ready(function(){
 });
 
 continueReady = function(){
-	g.jsonObj = $.parseJSON($('#JSONstorage').html());
+	g.jsonObj = $.parseJSON(document.getElementById('JSONstorage').innerHTML);
 	
 	for(i in g.jsonObj){
 		var id = i;
@@ -68,7 +68,8 @@ continueReady = function(){
 		helper.evalScreen(id, json);
 	}
 	//remove the JSON after it has been processed so that it does not use up cache
-	$('#JSONstorage').remove();
+	var storage = document.getElementById('JSONstorage');
+	storage.parentNode.removeChild(storage);
 
 	startGame();
 };

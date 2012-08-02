@@ -19,8 +19,6 @@ var doppler = {
 var DopplerScreen = Screen.extend(function(id){
 	doppler.canvas = new Canvas('mainCanvas', 0, 0, 1280, 600, 3);
 	doppler.elements.push(doppler.canvas);
-	doppler.pulseCanvas = new Canvas('pulseCanvas', 0, 0, doppler.canvas.width, doppler.canvas.height, 2);
-	doppler.elements.push(doppler.pulseCanvas);
 	doppler.emitter = new Emitter(20, 20, 5, doppler.generate, 1.5);
 	var randX = Math.floor(Math.random() * (doppler.canvas.width - 200) + 100);
 	var randY = Math.floor(Math.random() * (doppler.canvas.height - 300) + 100);
@@ -44,10 +42,9 @@ var DopplerScreen = Screen.extend(function(id){
 				}
 				if(doppler.matchedAt && g.frameCounter >= doppler.matchedAt + 30){
 					doppler.canvas = new Canvas('mainCanvas', 0, 0, 1280, 600, 3);
-					doppler.pulseCanvas = new Canvas('pulseCanvas', 0, 0, doppler.canvas.width, doppler.canvas.height, 2);
 					doppler.elements = [];
 					doppler.waveDict = {};
-					doppler.elements.push(doppler.canvas, doppler.pulseCanvas);
+					doppler.elements.push(doppler.canvas);
 					doppler.elements.push(doppler.emitter);
 					var randX = Math.floor(Math.random() * (doppler.canvas.width - 200) + 100);
 					var randY = Math.floor(Math.random() * (doppler.canvas.height - 200) + 100);
@@ -93,7 +90,6 @@ var DopplerScreen = Screen.extend(function(id){
 				
 				
 				doppler.canvas.clear();
-				doppler.pulseCanvas.clear();
 				for(x in doppler.elements){
 					if (!(doppler.elements[x] instanceof Canvas)){
 						var temp = doppler.elements[x].canvasDraw();
@@ -103,7 +99,6 @@ var DopplerScreen = Screen.extend(function(id){
 					}
 				}
 				fragment.appendChild(doppler.canvas.canvasDraw());
-				fragment.appendChild(doppler.pulseCanvas.canvasDraw());
 				div.appendChild(fragment);
 			}
 		}
@@ -361,7 +356,7 @@ var Pulse = klass(function(x, y, radius, growth){
 			}
 		},
 		canvasDraw: function() {
-			var context = doppler.pulseCanvas.context;
+			var context = doppler.canvas.context;
 			if (this.radius < this.maxRadius){
 				context.beginPath();
 				context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
