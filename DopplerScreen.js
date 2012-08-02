@@ -88,7 +88,6 @@ var DopplerScreen = Screen.extend(function(id){
 				var fragment = document.createDocumentFragment();
 				var div = document.getElementById(this.id);
 				
-				
 				doppler.canvas.clear();
 				for(x in doppler.elements){
 					if (!(doppler.elements[x] instanceof Canvas)){
