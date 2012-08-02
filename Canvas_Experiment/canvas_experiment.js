@@ -22,6 +22,17 @@ var g = {
 	}
 }
 
+window.requestAnimFrame = (function(){
+  return  window.requestAnimationFrame       || 
+          window.webkitRequestAnimationFrame || 
+          window.mozRequestAnimationFrame    || 
+          window.oRequestAnimationFrame      || 
+          window.msRequestAnimationFrame     || 
+          function( callback ){
+            window.setTimeout(callback, 1000 / 60);
+          };
+})();
+
 $(document).ready(function(){
 	g.mainDIV = document.getElementById('mainDIV');
 	g.canvas = new Canvas('mainCanvas', 1280, 500, 2);
@@ -46,7 +57,9 @@ $(document).ready(function(){
 });
 
 function startDraw () {
-	setInterval(loop, 1000/g.fps);
+	requestAnimFrame(startDraw);
+	loop();
+	//setInterval(loop, 1000/g.fps);
 }
 
 function loop() {
