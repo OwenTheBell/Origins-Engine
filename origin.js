@@ -7,8 +7,8 @@ var g = {
 	fps: 30,
 	input: {}, //this copies input contained in inputState for global access
 	frameCounter: 0,
-	drawDiv: 'draw',
-	audioDiv: 'audio',
+	drawDiv: {},
+	audioDiv: {},
 	playerInput: {},
 	id_differ: 0,
 	lastFrame: null,
@@ -36,7 +36,9 @@ try{
 
 $(document).ready(function(){
 	//create the div in which to put the output HTML as well as the audio files
-	$('#origins').html('<div id="' + g.drawDiv + '"> </div><div id="' + g.audioDiv + '"> </div>');
+	$('#origins').html('<div id="draw"> </div> <div id="audio"> </div>');
+	g.drawDiv = document.getElementById("draw");
+	g.audioDiv = document.getElementById("audio");
 	
 	//setup some of the external css for the dialogueScreens
 	var rule = helper.addCSSRule('.speech', {
@@ -85,12 +87,14 @@ RunGame = function(){
 	}
 
 	//Empty the drawDiv to remove all pointers to DOM elements, preventing memory leaks
-	$('#' + g.drawDiv).empty();
+	while(g.drawDiv.firstChild){
+		g.drawDiv.removeChild(g.drawDiv.firstChild);
+	}
 	var HTML = '';
 	for(x in g.screenCollection) {
 		HTML += g.screenCollection[x].draw();
 	}
-	$('#' + g.drawDiv).html(HTML);
+	g.drawDiv.innerHTML = HTML;
 	for (x in g.screenCollection) {
 		if(g.screenCollection[x].canvasDraw){
 			g.screenCollection[x].canvasDraw();
@@ -114,7 +118,7 @@ RunGame = function(){
  * Caches all images in memory before moving on with the rest of setting up the game
  */
 preloader = function(arguments){
-	$('#' + g.drawDiv).html('LOADING');
+	g.drawDiv.innerHTML = 'LOADING';
 	var img = new Image();
 	img.src = arguments[0];
 	

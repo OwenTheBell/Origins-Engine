@@ -1,6 +1,7 @@
 var g = {
 	mainDiv: {},
 	canvas: {},
+	canvasNodes: [],
 	fps: 60,
 	reciever: {},
 	emitter: {},
@@ -56,45 +57,35 @@ function loop() {
 	do{
 		g.elements[i-1].update();
 	} while(--i);
-	/*
-	$(g.elements).each(function(){
-		this.update();
-	});
-	*/
-	//if(g.mainDIV.innerHTML == ' '){
-		var HTML = '';
-		while(g.mainDIV.firstChild){
-			g.mainDIV.removeChild(g.mainDIV.firstChild);
+	var HTML = '';
+	while(g.mainDIV.firstChild){
+		g.mainDIV.removeChild(g.mainDIV.firstChild);
+	}
+	//set this again as some elements may have been removed
+	i = g.elements.length;
+	do{
+		if(g.elements[i-1].draw){
+			HTML += g.elements[i-1].draw();
 		}
-		//set this again as some elements may have been removed
-		i = g.elements.length;
-		do{
-			if(g.elements[i-1].draw){
-				HTML += g.elements[i-1].draw();
-			}
-		} while (--i);
-		/*
-		$(g.elements).each(function(){
-			if (this.draw){
-				HTML += this.draw();
-			}
-		});
-		*/
-		g.mainDIV.innerHTML = HTML;
-		//$('#mainDIV').html(HTML);
-	//}
+	} while (--i);
+	g.mainDIV.innerHTML = HTML;
 	
-	/*	 
+	
+	var fragment = document.createDocumentFragment();
 	g.canvas.clear();
-	//g.canvas.context.clearRect(0, 0, g.canvas.width, g.canvas.height);
 	i = g.elements.length;
 	do{
 		if(!(g.elements[i-1] instanceof Canvas)){
-			g.elements[i-1].canvasDraw();
+			var temp = g.elements[i-1].canvasDraw();
+			//if there is a returned value it will be a canvas object that can be appended to the DOM
+			if(temp){
+				fragment.appendChild(temp);
+			}
 		}
 	} while(--i);
-	g.canvas.canvasDraw();
-	*/	
+	fragment.appendChild(g.canvas.canvasDraw());
+	g.mainDIV.appendChild(fragment);
+	
 
 	if (g.lastFrameTime){
 		if (g.Frames >= g.lastFrame + g.fps){
@@ -191,7 +182,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond){
 			g.canvas.context.fill();
 			
 			if (this.waveForm){
-				this.waveForm.canvasDraw();
+				return this.waveForm.canvasDraw();
 			}
 		}
 	});
@@ -277,12 +268,13 @@ var Reciever = klass(function(x, y, radius){
 					context.stroke();
 				}
 			}
-			this.canvas.canvasDraw();
 				
 			g.canvas.context.beginPath();
 			g.canvas.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
 			g.canvas.context.closePath();
 			g.canvas.context.fill();
+			
+			return this.canvas.canvasDraw();
 		}
 		
 	});
@@ -344,7 +336,7 @@ var Target = klass(function(highPoints){
 				context.stroke();
 				this.updated = false;
 			}
-			this.canvas.canvasDraw();
+			return this.canvas.canvasDraw();
 		}
 	});
 
@@ -430,7 +422,7 @@ var WaveForm = klass(function(frames, canvas){
 			}
 			context.closePath();
 			context.stroke();
-			this.canvas.canvasDraw();
+			return this.canvas.canvasDraw();
 		},
 		adjustFrames: function(newFrames){
 			var spaceToFill = Math.PI * 2 - this.currentX;
