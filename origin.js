@@ -91,11 +91,13 @@ RunGame = function(){
 	while(g.drawDiv.firstChild){
 		g.drawDiv.removeChild(g.drawDiv.firstChild);
 	}
-	var HTML = '';
+	// var HTML = '';
+	var HTML = [];
 	for(x in g.screenCollection) {
-		HTML += g.screenCollection[x].draw();
+		// HTML += g.screenCollection[x].draw();
+		g.screenCollection[x].draw(HTML);
 	}
-	g.drawDiv.innerHTML = HTML;
+	g.drawDiv.innerHTML = HTML.join('');
 	for (x in g.screenCollection) {
 		if(g.screenCollection[x].canvasDraw){
 			g.screenCollection[x].canvasDraw();

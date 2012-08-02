@@ -176,55 +176,56 @@ var DialogueScreen = Screen.extend(function(id, file){
 			}
 		},
 		
-		draw: function(){
+		draw: function(HTML){
 			//So the new drawing approach is just going to be to create the individual
 			//divs for overseer and player and then just directly insert the return text
-			var HTML = '';
+			
+			// var HTML = '';
 			if(this.id == g.activeDialogue){
-				var newOverseerHTML = [];
-				var newPlayerHTML = [];
-				var newPopupHTML = [];
 				this.popupHTML = ''; //Value must be reset as popup should only appear when active
 				
 				//Function to handle creating the PlayerDiv
 				var that = this;
 				function addToPlayer(inputString) {
-					var returnString = '';
-					returnString += '<div id="PlayerDIV" style="';
+					returnString = ['<div id="PlayerDIV" style="'];
 					for(x in that.playerCSS){
-						returnString += x + ':' + that.playerCSS[x] + '; ';
+						returnString.push(x, ':', that.playerCSS[x], '; ');
 					}	
-					returnString += '" class="dialogue speech" >';
+					returnString.push('" class="dialogue speech" >');
 					if (inputString instanceof Array){
 						var iter = 0; //This should never go greater than 3
 						if (iter > 3) console.log('Too many input options');
 						$(inputString).each(function(){
-							returnString += '<div style="';
+							returnString.push('<div style="');
 							for (x in that.responseHolders[iter]) {
-								returnString += x + ':' + that.responseHolders[iter][x] + '; ';
+								returnString.push(x, ':', that.responseHolders[iter][x], '; ');
 							};
-							returnString += '" >' + this.draw() + '</div>';
+							returnString.push('" >');
+							this.draw(returnString);
+							returnString.push('</div>');
 							iter++;
 						});
-						returnString += '</div>';
+						returnString.push('</div>');
 					} else {
-						returnString += '<div style="';
+						returnString.push('<div style="');
 						for (x in that.responseHolders[0]) {
-							returnString += x + ':' + that.responseHolders[0][x] + '; ';
+							returnString.push(x, ':', that.responseHolders[0][x], '; ');
 						};
-						returnString += '" >' + inputString + '</div></div>';
+						returnString.push('" >', inputString, '</div></div>');
 					}
-					return returnString;
+					return returnString.join('');
 				};
 				
 				//When the overseerDiv needs to be updated
-				if (this.activeStatement instanceof OverseerStatement){ 
-					newOverseerHTML += '<div id="OverseerDIV" style="';
+				if (this.activeStatement instanceof OverseerStatement){
+					var newOverseerHTML = ['<div id="OverseerDIV" style="'];
 					for(x in this.overseerCSS){
-						newOverseerHTML += x + ':' + this.overseerCSS[x] + '; ';
+						newOverseerHTML.push(x,':', this.overseerCSS[x], '; ');
 					}
-					newOverseerHTML += '" class="dialogue speech" >' + this.activeStatement.draw() + '</div>';
-					this.overseerHTML = newOverseerHTML;
+					newOverseerHTML.push('" class="dialogue speech" >');
+					this.activeStatement.draw(newOverseerHTML)
+					newOverseerHTML.push('</div>');
+					this.overseerHTML = newOverseerHTML.join('');
 					if (this.activeStatement.nextType === 'overseer'){
 						this.playerHTML = addToPlayer('Click to continue');
 					}
@@ -236,28 +237,31 @@ var DialogueScreen = Screen.extend(function(id, file){
 				} else if (this.activeStatement instanceof PlayerOptions){
 					this.playerHTML = addToPlayer(this.activeStatement.availableStatements);
 				} else if (this.activeStatement instanceof PopupStatement){
-					newPopupHTML += '<div id="PopupDIV" style="';
+					var newPopupHTML = ['<div id="PopupDIV" style="'];
 					for (x in this.popupCSS){
-						newPopupHTML += x + ':' + this.popupCSS[x] + '; ';
+						newPopupHTML.push(x, ':', this.popupCSS[x], '; ');
 					}
-					newPopupHTML += '" class="dialogue" ><table>';
-					newPopupHTML += '<tr><td>' + this.activeStatement.draw() + '</td></tr>';
-					newPopupHTML += '<tr><td><center> ' + this.activeStatement.collectedInput + '</center></td></tr>';
-					newPopupHTML += '<tr><td>Press Enter when Done</td></tr>';
-					newPopupHTML += '</div>' ;
-					this.popupHTML = newPopupHTML;
+					newPopupHTML.push('" class="dialogue" ><table><tr><td>');
+					this.activeStatement.draw(newPopupHTML);
+					newPopupHTML.push('</td></tr><tr><td><center>', this.activeStatement.collectedInput);
+					newPopupHTML.push('</center></td></tr><tr><td>Press Enter when Done</td></tr></div>');
+					// newPopupHTML += '<tr><td>' + this.activeStatement.draw() + '</td></tr>';
+					// newPopupHTML += '<tr><td><center> ' + this.activeStatement.collectedInput + '</center></td></tr>';
+					// newPopupHTML += '<tr><td>Press Enter when Done</td></tr>';
+					// newPopupHTML += '</div>' ;
+					this.popupHTML = newPopupHTML.join('');
 				}
-				HTML = '<div id =' + this.id + 'Dialouge' + ' style="';
+				HTML.push('<div id =', this.id, 'Dialouge', ' style="');
 				for(x in this.css){
-					HTML += x + ':' + this.css[x] + '; ';
+					HTML.push(x, ':', this.css[x], '; ');
 				}
-				HTML += '" class="';
+				HTML.push('" class="');
 				for(x in this.classes){
-					HTML += this.classes[x] + ' ';
+					HTML.push(this.classes[x], ' ');
 				}
-				HTML += '">' + this.overseerHTML + this.playerHTML + this.popupHTML + '</div>';
+				HTML.push('">', this.overseerHTML, this.playerHTML, this.popupHTML, '</div>');
 			}
-			return HTML;
+			// return HTML;
 		}
 	});
 
@@ -321,8 +325,8 @@ var Statement = klass(function(parent, xmlData){
 			}
 		},
 		//Returns all of this.texts as an html string
-		draw: function(){
-			var HTML = '';
+		draw: function(HTML){
+			// var HTML = '';
 			function drawHTML(xml){
 				$(xml).each(function(){
 					var color = $(this).attr('color');
@@ -330,28 +334,29 @@ var Statement = klass(function(parent, xmlData){
 						if(color === 'hex color value') {
 							color = '#FFOOFF';
 						}
-						HTML += '<font color="' + color + '">';
+						HTML.push('<font color="', color, '">');
 					}
 					//Check to see if there is a declared variable instead of plain text
 					var variable = $(this).find('variable').text();
 					if (variable){
 						//Confirm variable exists
 						if (g.playerInput[variable]) {
-							HTML += g.playerInput[variable];
+							HTML.push(g.playerInput[variable]);
 						} else {
-							HTML += 'Variable undeclared';
+							HTML.push('Variable undeclared');
 						}
 					} else {
-						HTML += $(this).text();
+						//otherwise just grab the xml text
+						HTML.push($(this).text());
 					}
 					if(color){
-						HTML += '</font>';
+						HTML.push('</font>');
 					}
 				});
 			}
 			drawHTML(this.textBlocks[this.block]);
 			
-			return HTML;
+			// return HTML;
 		},
 	});
 

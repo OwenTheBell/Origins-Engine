@@ -37,14 +37,17 @@ var Sprite = klass(function (id, left, top, image, zIndex) {
 		},
 		update: function(){
 		},
-		draw: function(){
-			var HTML = '';
-			HTML += '<div id="' + this.id +'" style="';
+		draw: function(HTML){
+			// var HTML = '';
+			HTML.push('<div id="', this.id, '" style="');
+			// HTML += '<div id="' + this.id +'" style="';
 			for(x in this.css){
-				HTML += x + ':' + this.css[x] + '; ';
+				HTML.push(x, ': ', this.css[x], '; ');
+				// HTML += x + ':' + this.css[x] + '; ';
 			}
-			HTML += '"></div>';
-			return(HTML);
+			HTML.push('"> </div>');
+			// HTML += '"></div>';
+			// return(HTML);
 		}
 	});
 

@@ -56,32 +56,30 @@ var DopplerScreen = Screen.extend(function(id){
 				}
 			}
 		},
-		draw: function(){
-			var HTML = '';
+		draw: function(HTML){
 			//only bother rendering if we can actually see this screen
 			if (this.css['opacity'] > 0){
-				HTML += '<div id =' + this.id + ' style="';
+				HTML.push('<div id=', this.id, ' style="');
 				for(x in this.css){
-					HTML += x + ':' + this.css[x] + '; ';
+					HTML.push(x, ': ', this.css[x], '; ');
 				}
 				if (this.classes.length > 0){
-					HTML += '" class="';
+					HTML.push('" class="');
 					for(x in this.classes){
-						HTML += this.classes[x] + ' ';
+						HTML.push(this.classes[x], ' ');
 					}
 				}
-				HTML += '" >';
+				HTML.push('" >');
 				for (x in this.spriteArray){
-					HTML += this.spriteArray[x].draw();
+					this.spriteArray[x].draw(HTML);
 				}
 				for (x in doppler.elements){
 					if(doppler.elements[x].draw){
-						HTML += doppler.elements[x].draw();
+						doppler.elements[x].draw(HTML);
 					}
 				}
-				HTML += '</div>';
+				HTML.push('</div>');
 			}
-			return(HTML);
 		},
 		canvasDraw: function(){
 			if (this.css['opacity'] > 0){
@@ -167,8 +165,8 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
 			if ((this.centerY + this.radius) > (doppler.canvas.height - 120)) this.centerY = doppler.canvas.height - this.radius - 120;
 			else if ((this.centerY - this.radius) < 20) this.centerY = this.radius + 20;
 		},
-		draw: function(){
-			return this.waveForm.draw();
+		draw: function(HTML){
+			return this.waveForm.draw(HTML);
 		},
 		canvasDraw: function() {
 			var context = doppler.canvas.context;
@@ -180,7 +178,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
 			context.restore();
 			
 			if (this.waveForm){
-				return this.waveForm.canvasDraw();
+				this.waveForm.canvasDraw();
 			}
 		}
 	});
@@ -237,8 +235,8 @@ var Reciever = klass(function(x, y, radius){
 				}
 			}
 		},
-		draw: function(){
-			return this.canvas.draw();
+		draw: function(HTML){
+			this.canvas.draw(HTML);
 		},
 		canvasDraw: function() {
 			if (this.waveFormArray){
@@ -303,8 +301,8 @@ var Target = klass(function(highPoints){
 	.methods({
 		update: function(){
 		},
-		draw: function(){
-			return this.canvas.draw();
+		draw: function(HTML){
+			this.canvas.draw(HTML);
 		},
 		canvasDraw: function(){
 			if (this.rendered){
@@ -391,9 +389,8 @@ var WaveForm = klass(function(frames, canvas, left, top, width, height, color){
 			}
 			this.currentX += this.Xadjust;
 		},
-		draw: function(){
-			var HTML = this.canvas.draw();
-			return HTML;
+		draw: function(HTML){
+			this.canvas.draw(HTML);
 		},
 		canvasDraw: function(){
 			this.canvas.clear();

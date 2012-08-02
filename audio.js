@@ -12,7 +12,6 @@ var audioElement = klass(function (id, path) {
 	}
 	this.element.load();
 	g.audioDiv.appendChild(this.element);
-	// $('#' + g.audioDiv).append(this.element);
 })
 	.methods({
 		play: function(){

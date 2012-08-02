@@ -116,25 +116,24 @@ var Screen = klass(function(id) {
 				}
 			}
 		},
-		draw: function(){
-			var HTML = '';
+		draw: function(HTML){
 			//only bother rendering if we can actually see this screen
 			if (this.css['opacity'] > 0){
-				HTML += '<div id =' + this.id + ' style="';
+				HTML.push('<div id=', this.id, ' style="');
 				for(x in this.css){
-					HTML += x + ':' + this.css[x] + '; ';
+					HTML.push(x, ': ', this.css[x], '; ');
 				}
 				if (this.classes.length > 0){
-					HTML += '" class="';
+					HTML.push('" class="');
 					for(x in this.classes){
-						HTML += this.classes[x] + ' ';
+						HTML.push(this.classes[x], ' ');
 					}
 				}
-				HTML += '" >';
+				HTML.push('" >');
 				for (x in this.spriteArray){
-					HTML += this.spriteArray[x].draw();
+					this.spriteArray[x].draw(HTML);
 				}
-				HTML += '</div>';
+				HTML.push('</div>');
 			}
 			return(HTML);
 		}
