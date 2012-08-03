@@ -326,11 +326,12 @@
 				"zIndex": 4
 			},
 			"help_button": {
-				"type": "Sprite",
-				"sprite": "Sprites/Doppler_Screen/HelpButton_Static.png",
+				"type": "toggleSprite",
+				"sprite": "Sprites/Doppler_Screen/help_button.png",
 				"x": 254,
 				"y": 594,
-				"zIndex": 4
+				"zIndex": 4,
+				"width": 166
 			},
 			"UIFill": {
 				"type": "Sprite",
@@ -340,32 +341,36 @@
 				"zIndex": 6
 			},
 			"start_button": {
-				"type": "Sprite",
-				"sprite": "Sprites/Doppler_Screen/Start_Button.png",
+				"type": "toggleSprite",
+				"sprite": "Sprites/Doppler_Screen/start_button.png",
 				"x": 870,
 				"y": 589,
-				"zIndex": 7
+				"zIndex": 7,
+				"width": 187
 			},
 			"pause_button": {
-				"type": "Sprite",
-				"sprite": "Sprites/Doppler_Screen/Pause_Button.png",
+				"type": "toggleSprite",
+				"sprite": "Sprites/Doppler_Screen/pause_botton.png",
 				"x": 870,
 				"y": 520,
-				"zIndex": 7
+				"zIndex": 7,
+				"width": 187
 			},
 			"arrow_up": {
-				"type": "Sprite",
-				"sprite": "Sprites/Doppler_Screen/Arrow_Up.png",
+				"type": "toggleSprite",
+				"sprite": "Sprites/Doppler_Screen/arrow_up.png",
 				"x": 1175,
 				"y": 524,
-				"zIndex": 7
+				"zIndex": 7,
+				"width": 89
 			},
 			"arrow_down": {
-				"type": "Sprite",
-				"sprite": "Sprites/Doppler_Screen/Arrow_Down.png",
+				"type": "toggleSprite",
+				"sprite": "Sprites/Doppler_Screen/arrow_down.png",
 				"x": 1070,
 				"y": 520,
-				"zIndex": 7
+				"zIndex": 7,
+				"width": 89
 			}
 		}
 	},

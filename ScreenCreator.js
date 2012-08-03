@@ -73,6 +73,8 @@ var CreateSprite= function(id, json){
 		case 'moveSprite':
 			sprite = new moveSprite(id, json.x, json.y, json.sprite, json.zIndex, json.targetX, json.targetY, json.frames);
 			break;
+		case 'toggleSprite':
+			sprite = new toggleSprite(id, json.x, jsom.y. json.sprite, json.zIndex, json.width, json.height);
 		default:
 			console.log("ERROR: " + id + ' is set to an invalid sprite type');
 	}

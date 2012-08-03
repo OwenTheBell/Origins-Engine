@@ -27,6 +27,7 @@ var Sprite = klass(function (id, left, top, image, zIndex) {
 			this.left = left;
 			this.css.left = this.left + 'px';
 		},
+		/*
 		//these two functions just provide a little shorthand
 		width: function(){
 			return this.image.width;
@@ -34,6 +35,7 @@ var Sprite = klass(function (id, left, top, image, zIndex) {
 		height: function(){
 			return this.image.height;
 		},
+		*/
 		update: function(){
 		},
 		draw: function(HTML){
@@ -49,24 +51,26 @@ var clickSprite = Sprite.extend(function(id, left, top, image, zIndex){
 	this.mouseLoc = null;
 	this.clicked = false;
 	this.mouseOver = false; //detect mouse position over sprite
+	this.width = this.image.width;
+	this.height = this.image.height;
 
 	this.clickMap = [];
 	var canvas = document.createElement('canvas');
-	canvas.width = this.image.width;
-	canvas.height = this.image.height;
+	canvas.width = this.width;
+	canvas.height = this.height;
 	var ctx = canvas.getContext('2d');
 	ctx.drawImage(this.image, 0, 0);
 	var pixels = [];
 	try {
-		pixels = ctx.getImageData(0, 0, this.image.width, this.image.height).data;
+		pixels = ctx.getImageData(0, 0, this.width, this.height).data;
 	} catch (e) {
 		console.log('ERROR: ' + this.id + ' failed to load image');
 	}
 	var col = 0, row = 0;
 	
 	for (var i = 0; i < pixels.length; i += 4){
-		row = Math.floor((i / 4) / this.image.width);
-		col = (i/4)	- (row * this.image.width);
+		row = Math.floor((i / 4) / this.width);
+		col = (i/4)	- (row * this.width);
 		if(!this.clickMap[col]) this.clickMap[col] = [];
 		this.clickMap[col][row] = pixels[i+3] == 0 ? 0 : 1;
 	}
@@ -164,4 +168,11 @@ var moveSprite = triggerSprite.extend(function(id, left, top, image, zIndex, x2,
 				}
 			}
 		}
+	});
+
+var toggleSprite = clickSprite.extend(function(id, left, top, image, zIndex, width){
+	this.width = width;
+})
+	.methods({
+		
 	});
