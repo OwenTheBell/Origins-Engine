@@ -46,7 +46,7 @@ $(document).ready(function(){
 	});
 
 	//loop over the JSON file and find all sprites so that they can be preloaded
-	$.getJSON('JSON/Intro.json', function(data){
+	$.getJSON('JSON/Mod1.json', function(data){
 		$('head').append('<script id="JSONstorage" type="application/json" >' + JSON.stringify(data) + '</script>');
 		var preloaderArray = [];
 		for(i in data){

@@ -77,11 +77,11 @@
 				"zIndex": 2
 			},
 			"mainScreen1_ladder": {
-				"type": "screenChangeSprite",
+				"type": "dialogueSprite",
 				"sprite": "Sprites/Main_View1/Ladder.png",
 				"x": 699,
 				"y": 0,
-				"screen": "cryoScreen",
+				"dialogue": "SwitchScreen",
 				"zIndex": 2
 			},
 			"goto_mainScreen2": {
@@ -193,11 +193,11 @@
 				"zIndex": 2
 			},
 			"cryo_ladder": {
-				"type": "screenChangeSprite",
-				"sprite": "Sprites/Cryo_Room/Solar_Panel.png",
+				"type": "dialogueSprite",
+				"sprite": "Sprites/Cryo_Room/Ladder.png",
 				"x": 580,
 				"y": 0,
-				"screen": "mainScreen1",
+				"dialogue": "SwitchScreen",
 				"zIndex": 2
 			},
 			"fog": {
@@ -281,7 +281,7 @@
 				"sprite": "Sprites/Observatory/Ladder.png",
 				"x": 727,
 				"y": 0,
-				"dialogue": "ladderObs",
+				"dialogue": "SwitchScreen",
 				"zIndex": 4
 			}
 		}
@@ -368,6 +368,10 @@
 				"zIndex": 7
 			}
 		}
+	},
+	
+	"SwitchScreen": {
+		"screenType": "switchScreen"
 	},
 	
 	"Mod1ObjCryo": {

@@ -82,7 +82,7 @@
 				"sprite": "Sprites/Main_View1/Ladder.png",
 				"x": 699,
 				"y": 0,
-				"dialogue": "ladder",
+				"dialogue": "ScreenSwitch",
 				"zIndex": 2
 			},
 			"goto_mainScreen2": {
@@ -228,6 +228,10 @@
 				"zIndex": 4
 			}
 		}
+	},
+	
+	"switchScreen": {
+		"screenType": "switchScreen",
 	},
 
 	"mainScreen1Intro": {

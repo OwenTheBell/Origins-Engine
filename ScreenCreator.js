@@ -14,11 +14,14 @@ var CreateScreen = function(id, json){
 		screen = new Screen(id);
 	}
 	for(i in json.sprites){
+		//search the spriteCache for the previously created sprite object
 		screen.addSprite(g.spriteCache[i]);
-		// screen.addSprite(CreateSprite(i, json.sprites[i]));
 	}
 	if (json.dialogue){
 		screen.addDialogue(json.dialogue);
+	}
+	if (json.available){
+		g.availableScreens.push(id);
 	}
 	g.screenCollection[id] = screen;
 }
@@ -37,6 +40,11 @@ var CreateDopplerScreen = function(id, json){
 	if (json.dialogue){
 		screen.addDialogue(json.dialogue);
 	}
+	g.screenCollection[id] = screen;
+}
+
+var CreateSwitchScreen = function(id, json){
+	var screen = new SwitchScreen(id);
 	g.screenCollection[id] = screen;
 }
 

@@ -19,6 +19,7 @@ var DialogueScreen = Screen.extend(function(id, file){
 	this.popupHTML = '';
 	this.statements = []; //array of all statements
 	this.classes = ['dialogueWrapper']; //override the standard screen css class and add a different one
+	this.activateBlock = false;
 
 	if (!helper.findCSSRule('#OverseerDIV')){
 		this.overseerRule = helper.addCSSRule('#OverseerDIV', {
@@ -124,6 +125,7 @@ var DialogueScreen = Screen.extend(function(id, file){
 		},
 		
 		activate: function(){
+			this.activateBlock = true;
 			g.activeDialogue = this.id;
 			this.css['opacity'] = 1.0;
 			this.drawState = 'updated';
@@ -138,7 +140,7 @@ var DialogueScreen = Screen.extend(function(id, file){
 		
 		update: function(){
 			
-			if (g.activeDialogue == this.id) {
+			if (g.activeDialogue == this.id && !this.activateBlock) {
 				if (g.input.key.press){
 					this.keyValue = g.input.key.value;
 				} else {
@@ -174,6 +176,7 @@ var DialogueScreen = Screen.extend(function(id, file){
 				
 				this.activeStatement.update();
 			}
+			this.activateBlock = false;
 		},
 		
 		draw: function(HTML){
@@ -431,7 +434,6 @@ var PlayerOptions = klass(function(parent, xmlData){
 					for(i in g.screenCollection){
 						var sprite = g.screenCollection[i].getSprite(selected.target);
 						if(sprite){
-							console.log(sprite.id);
 							sprite.trigger();
 							break;
 						}
@@ -443,6 +445,15 @@ var PlayerOptions = klass(function(parent, xmlData){
 				
 				if (selected.nextType === 'exit'){
 					this.parent.deActivate();
+					//if the screen to exit to is not the current active screen then switch it
+					if (this.nextId != g.activeScreen){
+						if(g.screenCollection[this.nextId]){
+							g.screenCollection[g.activeScreen].fadingOut(1);
+							g.screenCollection[this.nextId].fadingIn(1);
+						} else {
+							console.log(this.nextId + ' is not a screen in the screen collection');
+						}
+					}
 				} else if (selected.nextType === 'popup'){
 					this.parent.nextActiveStatement = selected.nextStatement;
 				} else {

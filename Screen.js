@@ -4,7 +4,6 @@ var Screen = klass(function(id) {
 	this.fadeOut = false;
 	this.fadeIn = false;
 	this.timeIn;
-	this.drawState = 'new'; // new/updated/removed/unchanged
 	this.classes = ['interactive'];
 	this.dialogue = {
 		screens: [],
