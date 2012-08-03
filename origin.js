@@ -26,8 +26,6 @@ var g = {
 }
 
 //If there is not a console then make console.log an empty function
-//Consider a boolean to force console.log to be an empty statement
-//This would be useful to speed up production code runtimes
 try{
 	console;
 } catch(e) {
@@ -54,7 +52,6 @@ $(document).ready(function(){
 		for(i in data){
 			for(j in data[i].sprites){
 				preloaderArray.push({id: j, json: data[i].sprites[j]});
-				// console.log(data[i].sprites[j]);
 			}
 		}
 		preloader(preloaderArray);
@@ -121,7 +118,8 @@ RunGame = function(){
 }
 
 /*
- * Caches all images in memory before moving on with the rest of setting up the game
+ * Creates all the sprite objects ahead of screen creation
+ * This ensures that sprites are only created after their image data has been loaded
  */
 preloader = function(sprites){
 	g.drawDiv.innerHTML = 'LOADING';

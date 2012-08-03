@@ -177,10 +177,6 @@ var DialogueScreen = Screen.extend(function(id, file){
 		},
 		
 		draw: function(HTML){
-			//So the new drawing approach is just going to be to create the individual
-			//divs for overseer and player and then just directly insert the return text
-			
-			// var HTML = '';
 			if(this.id == g.activeDialogue){
 				this.popupHTML = ''; //Value must be reset as popup should only appear when active
 				
@@ -245,10 +241,6 @@ var DialogueScreen = Screen.extend(function(id, file){
 					this.activeStatement.draw(newPopupHTML);
 					newPopupHTML.push('</td></tr><tr><td><center>', this.activeStatement.collectedInput);
 					newPopupHTML.push('</center></td></tr><tr><td>Press Enter when Done</td></tr></div>');
-					// newPopupHTML += '<tr><td>' + this.activeStatement.draw() + '</td></tr>';
-					// newPopupHTML += '<tr><td><center> ' + this.activeStatement.collectedInput + '</center></td></tr>';
-					// newPopupHTML += '<tr><td>Press Enter when Done</td></tr>';
-					// newPopupHTML += '</div>' ;
 					this.popupHTML = newPopupHTML.join('');
 				}
 				HTML.push('<div id =', this.id, 'Dialouge', ' style="');
@@ -261,7 +253,6 @@ var DialogueScreen = Screen.extend(function(id, file){
 				}
 				HTML.push('">', this.overseerHTML, this.playerHTML, this.popupHTML, '</div>');
 			}
-			// return HTML;
 		}
 	});
 
@@ -326,7 +317,6 @@ var Statement = klass(function(parent, xmlData){
 		},
 		//Returns all of this.texts as an html string
 		draw: function(HTML){
-			// var HTML = '';
 			function drawHTML(xml){
 				$(xml).each(function(){
 					var color = $(this).attr('color');
@@ -355,8 +345,6 @@ var Statement = klass(function(parent, xmlData){
 				});
 			}
 			drawHTML(this.textBlocks[this.block]);
-			
-			// return HTML;
 		},
 	});
 
@@ -403,11 +391,8 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 	});
 
 /*
- * Not a statement but still important. Since all player statements
- * are choice driven we need a class that contains each set of player
- * statements that are available as a reply to anything said to the player.
- * Nonplayer statements will point to a playerOptions that contains
- * reply statements
+ * This class wraps sets of player statements. Nonplayer statements
+ * point to this rather than specific player statements
  */
 var PlayerOptions = klass(function(parent, xmlData){
 	this.parent = parent;
@@ -456,7 +441,6 @@ var PlayerOptions = klass(function(parent, xmlData){
 					this.parent.originalActive = this.parent.statements[selected.nextTime];
 				}
 				
-				//console.log(selected);
 				if (selected.nextType === 'exit'){
 					this.parent.deActivate();
 				} else if (selected.nextType === 'popup'){
