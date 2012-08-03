@@ -14,7 +14,8 @@ var CreateScreen = function(id, json){
 		screen = new Screen(id);
 	}
 	for(i in json.sprites){
-		screen.addSprite(CreateSprite(i, json.sprites[i]));
+		screen.addSprite(g.spriteCache[i]);
+		// screen.addSprite(CreateSprite(i, json.sprites[i]));
 	}
 	if (json.dialogue){
 		screen.addDialogue(json.dialogue);

@@ -253,7 +253,7 @@
 	"IntroObjMainRm2": {
 		"screenType": "interactiveDialogue",
 		"xml": "XML/IntroObjMainRm2.xml"
-	}
+	},
 	
 	"IntroObjObs": {
 		"screenType": "interactiveDialogue",

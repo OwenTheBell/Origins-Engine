@@ -5,18 +5,18 @@ var Sprite = klass(function (id, left, top, image, zIndex) {
 	this.image = new Image();
 	this.image.src = image;
 	this.id = id;
-	this.drawState = 'new';
+	
+	this.css = {
+		top: this.top + 'px',
+		left: this.left + 'px'
+	}
+	
 	this.rule = helper.addCSSRule('#' + this.id, {
 		'background-image': "url('" + this.image.src + "')",
 		width: this.image.width + 'px',
  		height: this.image.height + 'px',
 		'z-index': zIndex
 	});
-	
-	this.css = {
-		top: this.top + 'px',
-		left: this.left + 'px'
-	}
 })
 	.methods({
 		changeTop: function(top){
@@ -51,23 +51,22 @@ var clickSprite = Sprite.extend(function(id, left, top, image, zIndex){
 	this.mouseOver = false; //detect mouse position over sprite
 
 	this.clickMap = [];
-	//Build the clickMap
 	var canvas = document.createElement('canvas');
-	canvas.width = this.width();
-	canvas.height = this.height();
+	canvas.width = this.image.width;
+	canvas.height = this.image.height;
 	var ctx = canvas.getContext('2d');
 	ctx.drawImage(this.image, 0, 0);
 	var pixels = [];
 	try {
-		pixels = ctx.getImageData(0, 0, this.width(), this.height()).data;
+		pixels = ctx.getImageData(0, 0, this.image.width, this.image.height).data;
 	} catch (e) {
 		console.log('ERROR: ' + this.id + ' failed to load image');
 	}
 	var col = 0, row = 0;
 	
 	for (var i = 0; i < pixels.length; i += 4){
-		row = Math.floor((i / 4) / this.width());
-		col = (i/4)	- (row * this.width());
+		row = Math.floor((i / 4) / this.image.width);
+		col = (i/4)	- (row * this.image.width);
 		if(!this.clickMap[col]) this.clickMap[col] = [];
 		this.clickMap[col][row] = pixels[i+3] == 0 ? 0 : 1;
 	}

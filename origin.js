@@ -18,6 +18,7 @@ var g = {
 	activeScreen: null,
 	activeDialogue: null,
 	availableScreens: [], //list of screens that can be accessed via ladder
+	spriteCache: [],
 	getTime: function(){
 		var d = new Date();
 		return d.getTime();
@@ -47,12 +48,13 @@ $(document).ready(function(){
 	});
 
 	//loop over the JSON file and find all sprites so that they can be preloaded
-	$.getJSON('JSON/Mod1.json', function(data){
+	$.getJSON('JSON/Intro.json', function(data){
 		$('head').append('<script id="JSONstorage" type="application/json" >' + JSON.stringify(data) + '</script>');
 		var preloaderArray = [];
 		for(i in data){
 			for(j in data[i].sprites){
-				preloaderArray.push(data[i].sprites[j].sprite);
+				preloaderArray.push({id: j, json: data[i].sprites[j]});
+				// console.log(data[i].sprites[j]);
 			}
 		}
 		preloader(preloaderArray);
@@ -70,7 +72,10 @@ continueReady = function(){
 	//remove the JSON after it has been processed so that it does not use up cache
 	var storage = document.getElementById('JSONstorage');
 	storage.parentNode.removeChild(storage);
-
+	
+	//now that all screens have been created there is no more need for this object
+	delete g.spriteCache;
+	
 	startGame();
 };
 
@@ -91,10 +96,8 @@ RunGame = function(){
 	while(g.drawDiv.firstChild){
 		g.drawDiv.removeChild(g.drawDiv.firstChild);
 	}
-	// var HTML = '';
 	var HTML = [];
 	for(x in g.screenCollection) {
-		// HTML += g.screenCollection[x].draw();
 		g.screenCollection[x].draw(HTML);
 	}
 	g.drawDiv.innerHTML = HTML.join('');
@@ -120,17 +123,20 @@ RunGame = function(){
 /*
  * Caches all images in memory before moving on with the rest of setting up the game
  */
-preloader = function(arguments){
+preloader = function(sprites){
 	g.drawDiv.innerHTML = 'LOADING';
 	var img = new Image();
-	img.src = arguments[0];
+	img.src = sprites[0].json.sprite;
 	
-	$(img).load(function(){
-		if (arguments.length > 1){
-			arguments.splice(0, 1);
-			preloader(arguments);
+	var that = this;
+	img.onload = function(){
+		var sprite = CreateSprite(sprites[0].id, sprites[0].json);
+		g.spriteCache[sprite.id] = sprite;
+		if (sprites.length > 1){
+			sprites.splice(0, 1);
+			preloader(sprites);
 		} else {
 			continueReady();
 		}
-	});
+	};
 }
