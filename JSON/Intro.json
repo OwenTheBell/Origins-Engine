@@ -231,7 +231,7 @@
 	},
 	
 	"switchScreen": {
-		"screenType": "switchScreen",
+		"screenType": "switchScreen"
 	},
 
 	"mainScreen1Intro": {

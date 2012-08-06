@@ -73,7 +73,7 @@
 
 </overseer>
 <player id = "playerSleepPod1">
-	<option nextType = "overseer" nextId = "sleepPod2">
+	<option nextType = "endMod" nextId = "sleepPod2">
 		<text>Yes</text>
 	</option>
 	<option nextType = "overseer" nextId = "sleepPod3">

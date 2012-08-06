@@ -20,6 +20,8 @@ var g = {
 	activeDialogue: null,
 	availableScreens: [], //list of screens that can be accessed via ladder
 	spriteCache: [],
+	interval: {},
+	endMod: false, //set to true to signal game to load next module
 	getTime: function(){
 		var d = new Date();
 		return d.getTime();
@@ -53,7 +55,7 @@ $(document).ready(function(){
 		height: g.origins.height / 4 + 'px'
 	});
 
-	loadJSON('JSON/Mod1.json');
+	loadJSON('JSON/Intro.json');
 });
 
 loadJSON = function(json){
@@ -73,6 +75,9 @@ loadJSON = function(json){
 continueReady = function(){
 	g.jsonObj = $.parseJSON(document.getElementById('JSONstorage').innerHTML);
 	
+	//make sure that the screen array is emptied while the the 
+	g.screenCollection = new Array();
+	
 	for(i in g.jsonObj){
 		var id = i;
 		var json = g.jsonObj[i];
@@ -83,14 +88,15 @@ continueReady = function(){
 	storage.parentNode.removeChild(storage);
 	
 	//now that all screens have been created there is no more need for this object
-	delete g.spriteCache;
+	g.spriteCache = new Array();
+	g.endMod = false;
 	
 	startGame();
 }
 
 startGame = function() {
 	RunGame();
-	setInterval(RunGame, 1000 / g.fps);
+	g.interval = setInterval(RunGame, 1000 / g.fps);
 }
 
 RunGame = function(){
@@ -114,6 +120,11 @@ RunGame = function(){
 		if(g.screenCollection[x].canvasDraw){
 			g.screenCollection[x].canvasDraw();
 		}
+	}
+	
+	if(g.drawDiv.innerHTML === '' && g.endMod){
+		clearInterval(g.interval);
+		loadJSON('JSON/Mod1.json');
 	}
 	
 	//calculate and display the current framerate

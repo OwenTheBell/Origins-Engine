@@ -109,7 +109,7 @@ var DialogueScreen = Screen.extend(function(id, file){
 			//Function for setting a statement's nextStatement
 			function linkNext(statement){
 				var next = statement.nextType;
-				if (next === 'exit'){
+				if (next === 'exit' || next === 'endMod'){
 					statement.setNext('exit');
 				} else if (next === 'overseer' || next === 'player' || next === 'popup'){
 					var tester = statements[statement.nextId];
@@ -387,6 +387,10 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
 					this.block++;
 				}
 				this.clicked = -1;
+			} else if (this.nextType === 'endMod'){
+				this.parent.deActivate();
+				g.screenCollection[g.activeScreen].fadingOut(1);
+				g.endMod = true;
 			} else {
 				this.parent.playerDiv.html("ERROR: " + this.id + " has an invalid nextType");
 			}
@@ -456,6 +460,10 @@ var PlayerOptions = klass(function(parent, xmlData){
 					}
 				} else if (selected.nextType === 'popup'){
 					this.parent.nextActiveStatement = selected.nextStatement;
+				} else if (selected.nextType === 'endMod'){
+					this.parent.deActivate();
+					g.screenCollection[g.activeScreen].fadingOut(1);
+					g.endMod = true;
 				} else {
 					this.parent.nextActiveStatement = selected.nextStatement;
 					var set = selected.set();
