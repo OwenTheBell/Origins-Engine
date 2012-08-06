@@ -5,6 +5,7 @@
 var g = {
 	screenCollection: new Array(),
 	fps: 60,
+	origins: {}, //contains a DOM node of the overall container div
 	input: {}, //this copies input contained in inputState for global access
 	frameCounter: 0,
 	drawDiv: {},
@@ -34,19 +35,30 @@ try{
 }
 
 $(document).ready(function(){
+	g.origins = document.getElementById('origins');
 	//create the div in which to put the output HTML as well as the audio files
-	document.getElementById('origins').innerHTML = '<div id="draw"> </div> <div id="audio"> </div>';
+	g.origins.innerHTML = '<div id="draw"> </div> <div id="audio"> </div>';
 	g.drawDiv = document.getElementById("draw");
 	g.audioDiv = document.getElementById("audio");
 	
+	//add these values to g.origins to simplify retrieving them later
+	g.origins.width = $('#origins').width();
+	g.origins.height = $('#origins').height();
+	g.origins.top = parseInt($('#origins').css('top'));
+	g.origins.left = parseInt($('#origins').css('left'));
+	
 	//setup some of the external css for the dialogueScreens
 	var rule = helper.addCSSRule('.speech', {
-		width: parseInt($('#origins').css('width')) - 20 + 'px',
-		height: parseInt($('#origins').css('height')) / 4 + 'px'
+		width: g.origins.width - 20 + 'px',
+		height: g.origins.height / 4 + 'px'
 	});
 
+	loadJSON('JSON/Mod1.json');
+});
+
+loadJSON = function(json){
 	//loop over the JSON file and find all sprites so that they can be preloaded
-	$.getJSON('JSON/Mod1.json', function(data){
+	$.getJSON(json, function(data){
 		$('head').append('<script id="JSONstorage" type="application/json" >' + JSON.stringify(data) + '</script>');
 		var preloaderArray = [];
 		for(i in data){
@@ -56,7 +68,7 @@ $(document).ready(function(){
 		}
 		preloader(preloaderArray);
 	});
-});
+}
 
 continueReady = function(){
 	g.jsonObj = $.parseJSON(document.getElementById('JSONstorage').innerHTML);
@@ -74,7 +86,7 @@ continueReady = function(){
 	delete g.spriteCache;
 	
 	startGame();
-};
+}
 
 startGame = function() {
 	RunGame();

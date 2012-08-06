@@ -114,7 +114,7 @@
 				"y": 100,
 				"targetX": 450,
 				"targetY": 300,
-				"frames": 30,
+				"seconds": ".5",
 				"zIndex": 2
 			},
 			"mainScreen2_background": {

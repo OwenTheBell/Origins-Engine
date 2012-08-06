@@ -29,15 +29,15 @@ var DialogueScreen = Screen.extend(function(id, file){
 		//if overseerDialogue wasn't there it is reasonable to assume that the other
 		//cssRules aren't there either and should be created
 		this.playerRule = helper.addCSSRule('#PlayerDIV', {
-				top: $('#origins').height() - parseInt(helper.findCSSRule('.speech').style.height) - 15 + 'px',
+				top: g.origins.height - parseInt(helper.findCSSRule('.speech').style.height) - 15 + 'px',
 				left: 5 + 'px', 
 		});
 
 		this.popupRule = helper.addCSSRule('#PopupDIV', {
-			width: $('#origins').width() / 5 + 'px',
-			height: $('#origins').height() / 4 + 'px',
-			top: ($('#origins').height() - ($('#origins').width() / 5)) / 2 + 'px',
-			left: ($('#origins').width() - ($('#origins').height() / 4)) / 2 + 'px'
+			width: g.origins.width / 5 + 'px',
+			height: g.origins.height / 4 + 'px',
+			top: (g.origins.height - (g.origins.width / 5)) / 2 + 'px',
+			left: (g.origins.width - (g.origins.height / 4)) / 2 + 'px'
 		});
 
 		this.responseRule = helper.addCSSRule('.responseDialogue', {
@@ -154,8 +154,8 @@ var DialogueScreen = Screen.extend(function(id, file){
 				}
 				
 				var mouse = g.input.mouse;
-				mouse.X -= $('#origins').position().left + parseInt(this.playerRule.style.left);
-				mouse.Y -= $('#origins').position().top + parseInt(this.playerRule.style.top);
+				mouse.X -= g.origins.left + parseInt(this.playerRule.style.left);
+				mouse.Y -= g.origins.top + parseInt(this.playerRule.style.top);
 				if((mouse.X > 0) && (mouse.X <= parseInt(helper.findCSSRule('.speech').style.width))
 					&& (mouse.Y > 0) && (mouse.Y <= parseInt(helper.findCSSRule('.speech').style.height))){
 					
@@ -446,12 +446,12 @@ var PlayerOptions = klass(function(parent, xmlData){
 				if (selected.nextType === 'exit'){
 					this.parent.deActivate();
 					//if the screen to exit to is not the current active screen then switch it
-					if (this.nextId != g.activeScreen){
-						if(g.screenCollection[this.nextId]){
+					if (selected.nextId != g.activeScreen){
+						if(g.screenCollection[selected.nextId]){
 							g.screenCollection[g.activeScreen].fadingOut(1);
-							g.screenCollection[this.nextId].fadingIn(1);
+							g.screenCollection[selected.nextId].fadingIn(1);
 						} else {
-							console.log(this.nextId + ' is not a screen in the screen collection');
+							console.log(selected.nextId + ' is not a screen in the screen collection');
 						}
 					}
 				} else if (selected.nextType === 'popup'){

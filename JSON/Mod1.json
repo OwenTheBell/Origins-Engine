@@ -112,7 +112,7 @@
 				"y": 100,
 				"targetX": 450,
 				"targetY": 300,
-				"frames": 30,
+				"seconds": ".5",
 				"zIndex": 2
 			},
 			"mainScreen2_background": {
@@ -227,7 +227,7 @@
 				"sprite": "Sprites/Observatory/Gantry.png",
 				"x": 0,
 				"y": 403,
-				"zIndex": 4
+				"zIndex": 5
 			},
 			"observation_background": {
 				"type": "Sprite",
@@ -250,7 +250,7 @@
 				"y": 301,
 				"targetX": 533,
 				"targetY": 200,
-				"frames": 30,
+				"seconds": ".5",
 				"zIndex": 2
 			},
 			"telescope": {
@@ -400,5 +400,10 @@
 	"Mod1ObjMainRm2": {
 		"screenType": "interactiveDialogue",
 		"xml": "XML/Mod1ObjMainRm2.xml"
+	},
+	
+	"Mod1ObjObsRm": {
+		"screenType": "interactiveDialogue",
+		"xml": "XML/Mod1ObjObsRm.xml"
 	}
 }

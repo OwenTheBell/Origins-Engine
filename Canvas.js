@@ -24,10 +24,9 @@ var Canvas = klass(function(id, left, top, width, height, zIndex){
 	.methods({
 		update: function(){
 		},
-		//this just returns the html needed to create a canvas object to draw the canvas to
 		draw: function(HTML){
 		},
-		//this function handles the actual canvas rendering
+		//return the wrapped canvas so that it can be appended to the DOM
 		canvasDraw: function(){
 			return this.canvas;
 		},

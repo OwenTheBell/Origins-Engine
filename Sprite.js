@@ -73,8 +73,8 @@ var clickSprite = Sprite.extend(function(id, left, top, image, zIndex){
 		checkMouse: function(){
 			var mouse = g.input.mouse;
 			//Translate the mouse position so that it is relative to the sprite
-			var x = mouse.X - this.left - parseInt($('#origins').css('left'));
-			var y = mouse.Y - this.top - parseInt($('#origins').css('top'));
+			var x = mouse.X - this.left - g.origins.left;
+			var y = mouse.Y - this.top - g.origins.top;
 			
 			try {
 				if (this.clickMap[x][y] == 1){
@@ -138,7 +138,11 @@ var dialogueSprite = clickSprite.extend(function(id, left, top, image, zIndex, d
 })
 	.methods({
 		onClick: function(){
-			g.screenCollection[this.dialogue].activate();
+			try {
+				g.screenCollection[this.dialogue].activate();
+			} catch(e){
+				console.log('could not find the dialogue %s', this.dialogue);
+			}
 		},
 	});
 /*
@@ -151,10 +155,10 @@ var triggerSprite = Sprite.extend(function(id, left, top, image, zIndex){
 		}
 	});
 
-var moveSprite = triggerSprite.extend(function(id, left, top, image, zIndex, x2, y2, frames){
+var moveSprite = triggerSprite.extend(function(id, left, top, image, zIndex, x2, y2, seconds){
 	this.start = {X: left, Y: top}; //sprite starts at it's top and left coordinates
 	this.moveTo = {X: x2, Y: y2}; //coordinates that the sprite will move to
-	this.frames = frames;
+	this.frames = seconds * g.fps;
 	this.moveCount = 0;
 	this.xMove;
 	this.yMove;
@@ -168,6 +172,7 @@ var moveSprite = triggerSprite.extend(function(id, left, top, image, zIndex, x2,
 			this.xMove = (this.moveTo.X - this.left) / this.frames;
 		},
 		update: function(){
+			this.supr();
 			if (this.moving){
 				if (this.moveCount < this.frames){
 					this.changeTop(this.top + this.yMove);

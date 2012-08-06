@@ -96,10 +96,10 @@ var Screen = klass(function(id) {
 					for (x in this.spriteArray){
 						var testSprite = this.spriteArray[x];
 						if (testSprite instanceof clickSprite){
-							if ((mouse.X > testSprite.left + parseInt($('#origins').css('left'))) && 
-								(mouse.X < testSprite.left + testSprite.width + parseInt($('#origins').css('left'))) &&
-								(mouse.Y > testSprite.top + parseInt($('#origins').css('top'))) &&
-								(mouse.Y < testSprite.top + testSprite.height + parseInt($('#origins').css('top')))){
+							if ((mouse.X > testSprite.left + g.origins.left) && 
+								(mouse.X < testSprite.left + testSprite.width + g.origins.left) &&
+								(mouse.Y > testSprite.top + g.origins.top) &&
+								(mouse.Y < testSprite.top + testSprite.height + g.origins.top)){
 								
 								mouseOverCheck = testSprite.checkMouse();
 							}

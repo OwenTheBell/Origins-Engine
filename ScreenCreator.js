@@ -71,7 +71,7 @@ var CreateSprite= function(id, json){
 			sprite = new screenChangeSprite(id, json.x, json.y, json.sprite, json.zIndex, json.screen);
 			break;
 		case 'moveSprite':
-			sprite = new moveSprite(id, json.x, json.y, json.sprite, json.zIndex, json.targetX, json.targetY, json.frames);
+			sprite = new moveSprite(id, json.x, json.y, json.sprite, json.zIndex, json.targetX, json.targetY, parseFloat(json.seconds));
 			break;
 		case 'toggleSprite':
 			sprite = new toggleSprite(id, json.x, json.y, json.sprite, json.zIndex, json.width, json.height);

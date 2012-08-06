@@ -5,8 +5,8 @@
 var SwitchScreen = Screen.extend(function(id){
 	this.screenArray = g.availableScreens;
 	this.classes = ['dialogue'];
-	var centerX = parseInt($('#origins').width()) / 2;
-	var centerY = parseInt($('#origins').height()) / 2;
+	var centerX = g.origins.width / 2;
+	var centerY = g.origins.height / 2;
 	this.width = 300; //arbitrary size here
 	this.height = this.screenArray.length * 50; //provide 50px per entry
 	this.top = centerY - (this.height / 2);
@@ -26,8 +26,8 @@ var SwitchScreen = Screen.extend(function(id){
 			//need to do mouse detection here
 			if(g.activeDialogue == this.id && !this.activateBlock){
 				var mouse = g.input.mouse;
-				mouse.X -= $('#origins').position().left + this.left;
-				mouse.Y -= $('#origins').position().top + this.top;
+				mouse.X -= g.origins.left + this.left;
+				mouse.Y -= g.origins.top + this.top;
 				if((mouse.X > 0) && (mouse.X <= this.width)
 					&& (mouse.Y > 0) && (mouse.Y <= this.height)){
 					
