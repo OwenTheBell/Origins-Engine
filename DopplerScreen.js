@@ -14,6 +14,7 @@ var doppler = {
 	matchedDelay: 30, //num of frames to delay until reseting after a successful match
 	recieverH: 250,
 	recieverW: 200,
+	pulsing: false
 }
 
 var DopplerScreen = Screen.extend(function(id){
@@ -32,6 +33,12 @@ var DopplerScreen = Screen.extend(function(id){
 		update: function(){
 			this.supr();
 			if (this.css['opacity'] > 0){
+				if(this.spriteArray['start_button'].mouseClicked){
+					doppler.pulsing = true;
+				}
+				if(this.spriteArray['pause_button'].mouseClicked){
+					doppler.pulsing = false;
+				}
 				for(i in doppler.elements){
 					doppler.elements[i].update();
 				}
@@ -119,17 +126,18 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
 	.methods({
 		update: function() {
 			this.waveForm.update();
-			var distance = helper.getDistance(this.centerX, this.centerY, doppler.reciever.centerX, doppler.reciever.centerY);
-			var frames = Math.ceil(distance / this.growth);
-			//only add to the waveDict if the point has not been created or a peak will not be overwritten
-			if(!doppler.waveDict[frames + g.frameCounter] || doppler.waveDict[frames + g.frameCounter] != 1){
-				doppler.waveDict[frames + g.frameCounter] = this.waveForm.currentY;
+			if(doppler.pulsing){
+				var distance = helper.getDistance(this.centerX, this.centerY, doppler.reciever.centerX, doppler.reciever.centerY);
+				var frames = Math.ceil(distance / this.growth);
+				//only add to the waveDict if the point has not been created
+				if(!doppler.waveDict[frames + g.frameCounter]){
+					doppler.waveDict[frames + g.frameCounter] = this.waveForm.currentY;
+				}
+				
+				if (this.waveForm.currentY == 1){
+					doppler.elements.push(new Pulse(this.centerX, this.centerY, this.radius, this.growth));
+				}
 			}
-			
-			if (this.waveForm.currentY == 1){
-				doppler.elements.push(new Pulse(this.centerX, this.centerY, this.radius, this.growth));
-			}
-			
 			var moveX = 0, moveY = 0;
 			
 			if(g.input.mouse.down){
@@ -178,7 +186,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
 			context.restore();
 			
 			if (this.waveForm){
-				this.waveForm.canvasDraw();
+				return this.waveForm.canvasDraw();
 			}
 		}
 	});
@@ -321,8 +329,6 @@ var Target = klass(function(highPoints){
 				this.canvas.context.stroke();
 				this.rendered = false;
 			}
-			//call canvasDraw to ensure that the canvas is always added through
-			//DOM changes
 			return this.canvas.canvasDraw();
 		}
 	});

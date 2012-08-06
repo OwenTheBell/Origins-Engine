@@ -48,7 +48,14 @@ var Screen = klass(function(id) {
 			this.transitionFrames = seconds*g.fps;
 		},
 		update: function(){
-			//Check if any sprites have been clicked
+			//update sprites if screen is visible.
+			//Even if the screen is not active animation may be occuring in the background
+			if (this.css['opacity'] > 0.0){
+				for (x in this.spriteArray){
+					this.spriteArray[x].update();
+				}
+			}
+			
 			if (this.fadeIn){
 				if (this.css['opacity'] >= 1.0){
 					this.css['opacity'] = 1.0;
@@ -105,14 +112,6 @@ var Screen = klass(function(id) {
 				this.css.cursor = 'pointer';
 			} else {
 				this.css.cursor = 'default';
-			}
-			
-			//update sprites if screen is visible.
-			//Even if the screen is not active animation may be occuring in the background
-			if (this.css['opacity'] > 0.0){
-				for (x in this.spriteArray){
-					this.spriteArray[x].update();
-				}
 			}
 		},
 		draw: function(HTML){

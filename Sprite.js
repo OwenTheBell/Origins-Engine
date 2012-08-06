@@ -63,7 +63,7 @@ var clickSprite = Sprite.extend(function(id, left, top, image, zIndex){
 			if (this.parent.id == g.activeScreen){
 				if (this.mouseClicked){
 					this.onClick();
-					this.mouseClicked = false ;
+					this.mouseClicked = false;
 				} else if (this.mouseDown && !g.input.mouse.down){
 					this.mouseDown = false;
 					this.offClick();
@@ -80,8 +80,6 @@ var clickSprite = Sprite.extend(function(id, left, top, image, zIndex){
 				if (this.clickMap[x][y] == 1){
 					if(mouse.click){
 						this.mouseClicked = true;
-					}
-					if(mouse.down){
 						this.mouseDown = true;
 					}
 					//Return true if the mouse is at least over clickable area
@@ -112,7 +110,7 @@ var clickSprite = Sprite.extend(function(id, left, top, image, zIndex){
 				pixels = ctx.getImageData(0, 0, this.width, this.height).data;
 			} catch (e) {
 				console.log('ERROR: ' + this.id + ' failed to load image');
-			}
+			} 
 			var col = 0, row = 0;
 			
 			for (var i = 0; i < pixels.length; i += 4){
