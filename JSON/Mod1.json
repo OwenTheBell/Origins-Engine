@@ -371,6 +371,14 @@
 				"y": 520,
 				"zIndex": 7,
 				"width": 89
+			},
+			"goto_cryoScreen": {
+				"type": "screenChangeSprite",
+				"sprite": "Sprites/ArrowObject.png",
+				"x": 1175,
+				"y": 647,
+				"screen": "cryoScreen",
+				"zIndex": 7
 			}
 		}
 	},

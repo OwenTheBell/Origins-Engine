@@ -133,6 +133,5 @@ var Screen = klass(function(id) {
 				}
 				HTML.push('</div>');
 			}
-			return(HTML);
 		}
 	});

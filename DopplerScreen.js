@@ -174,7 +174,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
 			else if ((this.centerY - this.radius) < 20) this.centerY = this.radius + 20;
 		},
 		draw: function(HTML){
-			return this.waveForm.draw(HTML);
+			this.waveForm.draw(HTML);
 		},
 		canvasDraw: function() {
 			var context = doppler.canvas.context;
