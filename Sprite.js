@@ -5,18 +5,16 @@ var Sprite = klass(function (id, left, top, image, zIndex) {
 	this.image = new Image();
 	this.image.src = image;
 	this.id = id;
+	this.width = this.image.width;
+	this.height = this.image.height;
+	this.zIndex = zIndex;
 	
 	this.css = {
 		top: this.top + 'px',
-		left: this.left + 'px'
+		left: this.left + 'px',
 	}
 	
-	this.rule = helper.addCSSRule('#' + this.id, {
-		'background-image': "url('" + this.image.src + "')",
-		width: this.image.width + 'px',
- 		height: this.image.height + 'px',
-		'z-index': zIndex
-	});
+	this.rule = null;
 })
 	.methods({
 		changeTop: function(top){
@@ -27,16 +25,10 @@ var Sprite = klass(function (id, left, top, image, zIndex) {
 			this.left = left;
 			this.css.left = this.left + 'px';
 		},
-		/*
-		//these two functions just provide a little shorthand
-		width: function(){
-			return this.image.width;
-		},
-		height: function(){
-			return this.image.height;
-		},
-		*/
 		update: function(){
+			if (!this.rule){
+				this.createCSSRule();
+			}
 		},
 		draw: function(HTML){
 			HTML.push('<div id="', this.id, '" style="');
@@ -44,44 +36,37 @@ var Sprite = klass(function (id, left, top, image, zIndex) {
 				HTML.push(x, ': ', this.css[x], '; ');
 			}
 			HTML.push('"> </div>');
+		},
+		createCSSRule: function(){
+			this.rule = helper.addCSSRule('#' + this.id, {
+				'background-image': "url('" + this.image.src + "')",
+				width: this.image.width + 'px',
+				height: this.image.height + 'px',
+				'z-index': this.zIndex
+			});
 		}
 	});
 
 var clickSprite = Sprite.extend(function(id, left, top, image, zIndex){
 	this.mouseLoc = null;
-	this.clicked = false;
+	this.mouseClicked = false;
+	this.mouseDown = false;
 	this.mouseOver = false; //detect mouse position over sprite
-	this.width = this.image.width;
-	this.height = this.image.height;
-
-	this.clickMap = [];
-	var canvas = document.createElement('canvas');
-	canvas.width = this.width;
-	canvas.height = this.height;
-	var ctx = canvas.getContext('2d');
-	ctx.drawImage(this.image, 0, 0);
-	var pixels = [];
-	try {
-		pixels = ctx.getImageData(0, 0, this.width, this.height).data;
-	} catch (e) {
-		console.log('ERROR: ' + this.id + ' failed to load image');
-	}
-	var col = 0, row = 0;
-	
-	for (var i = 0; i < pixels.length; i += 4){
-		row = Math.floor((i / 4) / this.width);
-		col = (i/4)	- (row * this.width);
-		if(!this.clickMap[col]) this.clickMap[col] = [];
-		this.clickMap[col][row] = pixels[i+3] == 0 ? 0 : 1;
-	}
-	delete canvas, ctx, pixels;
+	this.clickMap = null;
 })
 	.methods({
 		update: function(){
+			this.supr();
+			if (!this.clickMap){
+				this.createClickMap();
+			}
 			if (this.parent.id == g.activeScreen){
-				if (this.clicked){
+				if (this.mouseClicked){
 					this.onClick();
-					this.clicked = false ;
+					this.mouseClicked = false ;
+				} else if (this.mouseDown && !g.input.mouse.down){
+					this.mouseDown = false;
+					this.offClick();
 				}
 			}
 		},
@@ -94,7 +79,10 @@ var clickSprite = Sprite.extend(function(id, left, top, image, zIndex){
 			try {
 				if (this.clickMap[x][y] == 1){
 					if(mouse.click){
-						this.clicked = true;
+						this.mouseClicked = true;
+					}
+					if(mouse.down){
+						this.mouseDown = true;
 					}
 					//Return true if the mouse is at least over clickable area
 					return true;
@@ -106,6 +94,35 @@ var clickSprite = Sprite.extend(function(id, left, top, image, zIndex){
 		},
 		onClick: function(){
 		},
+		offClick: function(){
+		},
+		/*
+		 * Click map requires a seperate create function as some sprites require that
+		 * certain parameters be changed before the clickMap is created
+		 */
+		createClickMap: function(){
+			this.clickMap = [];
+			var canvas = document.createElement('canvas');
+			canvas.width = this.width;
+			canvas.height = this.height;
+			var ctx = canvas.getContext('2d');
+			ctx.drawImage(this.image, 0, 0);
+			var pixels = [];
+			try {
+				pixels = ctx.getImageData(0, 0, this.width, this.height).data;
+			} catch (e) {
+				console.log('ERROR: ' + this.id + ' failed to load image');
+			}
+			var col = 0, row = 0;
+			
+			for (var i = 0; i < pixels.length; i += 4){
+				row = Math.floor((i / 4) / this.width);
+				col = (i/4)	- (row * this.width);
+				if(!this.clickMap[col]) this.clickMap[col] = [];
+				this.clickMap[col][row] = pixels[i+3] == 0 ? 0 : 1;
+			}
+				
+		}
 	});
 
 var screenChangeSprite = clickSprite.extend(function(id, left, top, image, zIndex, targetScreen){
@@ -172,7 +189,22 @@ var moveSprite = triggerSprite.extend(function(id, left, top, image, zIndex, x2,
 
 var toggleSprite = clickSprite.extend(function(id, left, top, image, zIndex, width){
 	this.width = width;
+	this.css['background-postion'] = '0px 0px';
 })
 	.methods({
-		
+		createCSSRule: function(){
+			this.rule = helper.addCSSRule('#' + this.id, {
+				'background-image': "url('" + this.image.src + "')",
+				overflow: 'hidden',
+				width: this.width + 'px',
+				height: this.height + 'px',
+				'z-index': this.zIndex
+			});
+		},
+		onClick: function(){
+			this.css['background-position'] = this.width + 'px 0px';
+		},
+		offClick: function(){
+			this.css['background-position'] = '0px 0px';
+		}
 	});
