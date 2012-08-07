@@ -61,7 +61,6 @@
 			},
 			"chair": {
 				"type": "dialogueSprite",
-				"id": "chair",
 				"sprite": "Sprites/Main_View1/Chair.png",
 				"x": 299,
 				"y": 300,

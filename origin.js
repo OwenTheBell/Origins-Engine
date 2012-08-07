@@ -73,7 +73,7 @@ loadJSON = function(json){
 }
 
 continueReady = function(){
-	g.jsonObj = $.parseJSON(document.getElementById('JSONstorage').innerHTML);
+	g.jsonObj = JSON.parse(document.getElementById('JSONstorage').innerHTML);
 	
 	//make sure that the screen array is emptied while the the 
 	g.screenCollection = new Array();
