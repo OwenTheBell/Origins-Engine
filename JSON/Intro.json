@@ -5,7 +5,7 @@
 		"dialogue": ["mainScreen1Intro"],
 		"available": "true",
 		"sprites": {
-			"mainScreen1Background": {
+			"mainScreen1_background": {
 				"type": "Sprite",
 				"sprite": "Sprites/Main_View1/Background.png",
 				"x": 0,

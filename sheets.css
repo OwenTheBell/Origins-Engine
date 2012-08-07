@@ -51,7 +51,7 @@ canvas {
 	top: 1280px;
 }
 
-#mainScreen1Background {
+#mainScreen1_background {
 	background-image: url("Sprites/Main_View1/Background.png");
 	z-index: 1;
 	width: 1280px;
@@ -170,6 +170,55 @@ canvas {
 	height: 73px;
 }
 
+#cryoScreenBackground {
+	background-image: url("Sprites/Cryo_Room/Training_Room_Background.png");
+	z-index: 1;
+	width: 1280px;
+	height: 720px;
+}
+
+#miceCatcher {
+	background-image: url("Sprites/Cryo_Room/Robot.png");
+	z-index: 2;
+	width: 162px;
+	height: 109px;
+}
+
+#storageContainer {
+	background-image: url("Sprites/Cryo_Room/Storage_Container.png");
+	z-index: 2;
+	width: 265px;
+	height: 228px;
+}
+
+#solarPanel {
+	background-image: url("Sprites/Cryo_Room/Solar_Panel.png");
+	z-index: 2;
+	width: 473px;
+	height: 481px;
+}
+
+#consoleCryo {
+	background-image: url("Sprites/Cryo_Room/Cryo_Console.png");
+	z-index: 2;
+	width: 181px;
+	height: 204px;
+}
+
+#cryo_ladder {
+	background-image: url("Sprites/Cryo_Room/Ladder.png");
+	z-index: 2;
+	width: 85px;
+	height: 481px;
+}
+
+#fog {
+	background-image: url("Sprites/Cryo_Room/Fog.png");
+	z-index: 2;
+	width: 1280px;
+	height: 720px;
+}
+
 #computer {
 	background-image: url("Sprites/Observatory/Computer.png");
 	z-index: 4;
@@ -179,7 +228,7 @@ canvas {
 
 #gantry {
 	background-image: url("Sprites/Observatory/Gantry.png");
-	z-index: 4;
+	z-index: 5;
 	width: 1280px;
 	height: 317px;
 }
@@ -231,4 +280,88 @@ canvas {
 	z-index: 4;
 	width: 49px;
 	height: 448px;
+}
+
+#DopplerScreenBackground {
+	background-image: url("Sprites/Doppler_Screen/Game_Background.png");
+	z-index: 1;
+	width: 1280px;
+	height: 1440px;
+}
+
+#objective {
+	background-image: url("Sprites/Doppler_Screen/Objective_Screen.png");
+	z-index: 4;
+	width: 446px;
+	height: 77px;
+}
+
+#detected {
+	background-image: url("Sprites/Doppler_Screen/Detected_Screen.png");
+	z-index: 4;
+	width: 444px;
+	height: 77px;
+}
+
+#emitted {
+	background-image: url("Sprites/Doppler_Screen/Emitted_Screen.png");
+	z-index: 4;
+	width: 444px;
+	height: 84px;
+}
+
+#mouse_counter {
+	background-image: url("Sprites/Doppler_Screen/Mouse_Counter.png");
+	z-index: 4;
+	width: 259px;
+	height: 240px;
+}
+
+#help_button {
+	background-image: url("Sprites/Doppler_Screen/help_button.png");
+	z-index: 4;
+	width: 332px;
+	height: 92px;
+}
+
+#UIFill {
+	background-image: url("Sprites/Doppler_Screen/UIFill.png");
+	z-index: 6;
+	width: 1280px;
+	height: 720px;
+}
+
+#start_button {
+	background-image: url("Sprites/Doppler_Screen/start_button.png");
+	z-index: 7;
+	width: 374px;
+	height: 53px;
+}
+
+#pause_button {
+	background-image: url("Sprites/Doppler_Screen/pause_button.png");
+	z-index: 7;
+	width: 372px;
+	height: 52px;
+}
+
+#arrow_up {
+	background-image: url("Sprites/Doppler_Screen/arrow_up.png");
+	z-index: 7;
+	width: 178px;
+	height: 116px;
+}
+
+#arrow_down {
+	background-image: url("Sprites/Doppler_Screen/arrow_down.png");
+	z-index: 7;
+	width: 182px;
+	height: 130px;
+}
+
+#goto_cryoScreen {
+	background-image: url("Sprites/ArrowObject.png");
+	z-index: 7;
+	width: 79px;
+	height: 73px;
 }
