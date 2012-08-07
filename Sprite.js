@@ -13,8 +13,6 @@ var Sprite = klass(function (id, left, top, image, zIndex) {
 		top: this.top + 'px',
 		left: this.left + 'px',
 	}
-	
-	this.rule = null;
 })
 	.methods({
 		changeTop: function(top){
@@ -26,9 +24,6 @@ var Sprite = klass(function (id, left, top, image, zIndex) {
 			this.css.left = this.left + 'px';
 		},
 		update: function(){
-			if (!this.rule){
-				//this.createCSSRule();
-			}
 		},
 		draw: function(HTML){
 			HTML.push('<div id="', this.id, '" style="');
@@ -36,14 +31,6 @@ var Sprite = klass(function (id, left, top, image, zIndex) {
 				HTML.push(x, ': ', this.css[x], '; ');
 			}
 			HTML.push('"> </div>');
-		},
-		createCSSRule: function(){
-			this.rule = helper.addCSSRule('#' + this.id, {
-				'background-image': "url('" + this.image.src + "')",
-				width: this.image.width + 'px',
-				height: this.image.height + 'px',
-				'z-index': this.zIndex
-			});
 		}
 	});
 
@@ -195,15 +182,6 @@ var toggleSprite = clickSprite.extend(function(id, left, top, image, zIndex, wid
 	this.css['background-postion'] = '0px 0px';
 })
 	.methods({
-		createCSSRule: function(){
-			this.rule = helper.addCSSRule('#' + this.id, {
-				'background-image': "url('" + this.image.src + "')",
-				overflow: 'hidden',
-				width: this.width + 'px',
-				height: this.height + 'px',
-				'z-index': this.zIndex
-			});
-		},
 		onClick: function(){
 			this.css['background-position'] = this.width + 'px 0px';
 		},

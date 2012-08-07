@@ -50,3 +50,185 @@ canvas {
 #tester {
 	top: 1280px;
 }
+
+#mainScreen1Background {
+	background-image: url("Sprites/Main_View1/Background.png");
+	z-index: 1;
+	width: 1280px;
+	height: 720px;
+}
+
+#bed {
+	background-image: url("Sprites/Main_View1/Bed.png");
+	z-index: 2;
+	width: 281px;
+	height: 371px;
+}
+
+#water {
+	background-image: url("Sprites/Main_View1/Water.png");
+	z-index: 2;
+	width: 208px;
+	height: 250px;
+}
+
+#bike {
+	background-image: url("Sprites/Main_View1/Bike.png");
+	z-index: 2;
+	width: 338px;
+	height: 227px;
+}
+
+#food {
+	background-image: url("Sprites/Main_View1/Food_Pellets.png");
+	z-index: 2;
+	width: 122px;
+	height: 217px;
+}
+
+#drawer {
+	background-image: url("Sprites/Main_View1/Drawer.png");
+	z-index: 2;
+	width: 176px;
+	height: 179px;
+}
+
+#table {
+	background-image: url("Sprites/Main_View1/Table.png");
+	z-index: 2;
+	width: 250px;
+	height: 158px;
+}
+
+#chair {
+	background-image: url("Sprites/Main_View1/Chair.png");
+	z-index: 2;
+	width: 97px;
+	height: 131px;
+}
+
+#thermostat {
+	background-image: url("Sprites/Main_View1/Thermostat.png");
+	z-index: 2;
+	width: 171px;
+	height: 245px;
+}
+
+#mainScreen1_ladder {
+	background-image: url("Sprites/Main_View1/Ladder.png");
+	z-index: 2;
+	width: 141px;
+	height: 551px;
+}
+
+#goto_mainScreen2 {
+	background-image: url("Sprites/ArrowObject.png");
+	z-index: 2;
+	width: 79px;
+	height: 73px;
+}
+
+#space_exact {
+	background-image: url("Sprites/Main_View2/Space_Exact.png");
+	z-index: 1;
+	width: 350px;
+	height: 198px;
+}
+
+#mainScreen2_shutter {
+	background-image: url("Sprites/Main_View2/Shutter.png");
+	z-index: 2;
+	width: 350px;
+	height: 228px;
+}
+
+#mainScreen2_background {
+	background-image: url("Sprites/Main_View2/View2Background.png");
+	z-index: 3;
+	width: 1280px;
+	height: 720px;
+}
+
+#mainScreen2_window {
+	background-image: url("Sprites/Main_View2/Window.png");
+	z-index: 4;
+	width: 425px;
+	height: 245px;
+}
+
+#clothes {
+	background-image: url("Sprites/Main_View2/Clothing_Cabinet.png");
+	z-index: 4;
+	width: 301px;
+	height: 473px;
+}
+
+#goto_mainScreen1 {
+	background-image: url("Sprites/ArrowObject.png");
+	z-index: 4;
+	width: 79px;
+	height: 73px;
+}
+
+#computer {
+	background-image: url("Sprites/Observatory/Computer.png");
+	z-index: 4;
+	width: 224px;
+	height: 275px;
+}
+
+#gantry {
+	background-image: url("Sprites/Observatory/Gantry.png");
+	z-index: 4;
+	width: 1280px;
+	height: 317px;
+}
+
+#observation_background {
+	background-image: url("Sprites/Observatory/Observatory_Background.png");
+	z-index: 3;
+	width: 1280px;
+	height: 720px;
+}
+
+#space {
+	background-image: url("Sprites/Observatory/Space.png");
+	z-index: 1;
+	width: 201px;
+	height: 112px;
+}
+
+#observatory_shutter {
+	background-image: url("Sprites/Observatory/Shutter.png");
+	z-index: 2;
+	width: 177px;
+	height: 99px;
+}
+
+#telescope {
+	background-image: url("Sprites/Observatory/Telescope.png");
+	z-index: 4;
+	width: 509px;
+	height: 503px;
+}
+
+#observatory_window {
+	background-image: url("Sprites/Observatory/Window.png");
+	z-index: 4;
+	width: 209px;
+	height: 123px;
+}
+
+#space_suit {
+	background-image: url("Sprites/Observatory/Space_Suit.png");
+	z-index: 4;
+	width: 59px;
+	height: 173px;
+}
+
+#observatory_ladder {
+	background-image: url("Sprites/Observatory/Ladder.png");
+	z-index: 4;
+	width: 49px;
+	height: 448px;
+}
