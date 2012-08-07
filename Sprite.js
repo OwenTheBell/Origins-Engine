@@ -27,7 +27,7 @@ var Sprite = klass(function (id, left, top, image, zIndex) {
 		},
 		update: function(){
 			if (!this.rule){
-				this.createCSSRule();
+				//this.createCSSRule();
 			}
 		},
 		draw: function(HTML){
