@@ -1,0 +1,48 @@
+/*font stuff*/
+@font-face {
+    font-family: 'MichromaRegular';
+    src: url('Fonts/michroma-webfont.eot');
+    src: url('Fonts/michroma-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Fonts/michroma-webfont.woff') format('woff'),
+         url('Fonts/michroma-webfont.ttf') format('truetype'),
+         url('Fonts/michroma-webfont.svg#MichromaRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*element specific css*/
+div {
+	position: inherit;
+	font-family: 'MichromaRegular';
+}
+
+canvas {
+	position: inherit;
+}
+
+/*css Classes*/
+.dialogue {
+	border-style: solid;
+	border-width: 5px;
+	background-color: #FFFFFF;
+}
+
+.dialogueWrapper {
+	z-index: 12;
+}
+
+.interactive {
+	z-index: 10;
+}
+
+/*id specific css*/
+#origins {
+	position: absolute;
+	border-style: solid;
+	border-width: 2px;
+	overflow: hidden;
+	top: 5px;
+	left: 5px;
+	width: 1280px;
+	height: 720px;
+}
