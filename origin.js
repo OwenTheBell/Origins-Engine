@@ -55,7 +55,7 @@ $(document).ready(function(){
 		height: g.origins.height / 4 + 'px'
 	});
 
-	loadJSON('JSON/Intro.json');
+	loadJSON('JSON/Mod1.json');
 });
 
 loadJSON = function(json){

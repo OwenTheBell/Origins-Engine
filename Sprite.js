@@ -189,3 +189,18 @@ var toggleSprite = clickSprite.extend(function(id, left, top, image, zIndex, wid
 			this.css['background-position'] = '0px 0px';
 		}
 	});
+
+/*
+ * This is a sprite that can move and scale the size of its image
+ */
+var moveableSprite = Sprite.extend(function(id, left, top, image, zIndex){
+	this.scale = 100;
+	this.css.width = this.scale + '%';
+	this.css.height = 'auto';
+})
+	.methods({
+		scaleTo: function(scale){
+			this.scale = scale;
+			this.css.width = this.scale + '%';
+		}
+	});

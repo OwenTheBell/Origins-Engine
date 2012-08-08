@@ -317,14 +317,14 @@ canvas {
 	height: 240px;
 }
 
-#help_button {
+#doppler_help_button {
 	background-image: url("Sprites/Doppler_Screen/help_button.png");
 	z-index: 4;
 	width: 332px;
 	height: 92px;
 }
 
-#UIFill {
+#doppler_UIFill {
 	background-image: url("Sprites/Doppler_Screen/UIFill.png");
 	z-index: 6;
 	width: 1280px;
@@ -359,9 +359,79 @@ canvas {
 	height: 130px;
 }
 
-#goto_cryoScreen {
+#doppler_goto_cryoScreen {
 	background-image: url("Sprites/ArrowObject.png");
 	z-index: 7;
 	width: 79px;
 	height: 73px;
+}
+
+#candles_background {
+	background-image: url("Sprites/Standard_Candles/Background.png");
+	z-index: 1;
+	width: 1280px;
+	height: 720px;
+}
+
+#candles_helpButton {
+	background-image: url("Sprites/Standard_Candles/help_button.png");
+	z-index: 2;
+	width: 164px;
+	height: 87px;
+}
+
+#candles_mice_caught {
+	background-image: url("Sprites/Standard_Candles/mice_caught.png");
+	z-index: 2;
+	width: 248px;
+	height: 229px;
+}
+
+#candles_target {
+	background-image: url("Sprites/Standard_Candles/green_screen.png");
+	z-index: 2;
+	width: 445px;
+	height: 76px;
+}
+
+#candles_prevTarget {
+	background-image: url("Sprites/Standard_Candles/orange_screen.png");
+	z-index: 2;
+	width: 445px;
+	height: 76px;
+}
+
+#candles_timeRemain {
+	background-image: url("Sprites/Standard_Candles/blue_screen.png");
+	z-index: 2;
+	width: 445px;
+	height: 76px;
+}
+
+#candles_UIFrame {
+	background-image: url("Sprites/Standard_Candles/UIFrame.png");
+	z-index: 3;
+	width: 1280px;
+	height: 235px;
+}
+
+#orders {
+	background-image: url("Sprites/Standard_Candles/orders_screen.png");
+	z-index: 4;
+	width: 217px;
+	height: 159px;
+}
+
+#intercept_button {
+	background-image: url("Sprites/Standard_Candles/intercept_button.png");
+	z-index: 4;
+	width: 177px;
+	height: 48px;
+}
+
+#undo_button {
+	background-image: url("Sprites/Standard_Candles/undo_button.png");
+	z-index: 4;
+	width: 177px;
+	height: 48px
 }

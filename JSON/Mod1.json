@@ -253,11 +253,11 @@
 				"zIndex": 2
 			},
 			"telescope": {
-				"type": "dialogueSprite",
+				"type": "screenChangeSprite",
 				"sprite": "Sprites/Observatory/Telescope.png",
 				"x": 0,
 				"y": 217,
-				"dialogue": "spaceTelescope",
+				"screen": "StandardCandles",
 				"zIndex": 4
 			}, 
 			"observatory_window": {
@@ -383,7 +383,8 @@
 	},
 	
 	"StandardCandles": {
-		"screenType": "candlesScreen",
+		"screenType": "Screen",
+		"active": "true",
 		"sprites": {
 			"candles_background": {
 				"type": "Sprite",
@@ -402,7 +403,7 @@
 			},
 			"candles_mice_caught": {
 				"type": "Sprite",
-				"sprite": "Sprites/Standard_Candles/Mice_Caught.png",
+				"sprite": "Sprites/Standard_Candles/mice_caught.png",
 				"x": 6,
 				"y": 486,
 				"zIndex": 2
@@ -418,7 +419,7 @@
 				"type": "Sprite",
 				"sprite": "Sprites/Standard_Candles/orange_screen.png",
 				"x": 407,
-				"y": 546,
+				"y": 566,
 				"zIndex": 2
 			},
 			"candles_timeRemain": {
@@ -428,9 +429,9 @@
 				"y": 636,
 				"zIndex": 2
 			},
-			"candles_UIFill": {
+			"candles_UIFrame": {
 				"type": "Sprite",
-				"sprite": "Sprites/Standard_Candles/UIFill.png",
+				"sprite": "Sprites/Standard_Candles/UIFrame.png",
 				"x": 0,
 				"y": 485,
 				"zIndex": 3
