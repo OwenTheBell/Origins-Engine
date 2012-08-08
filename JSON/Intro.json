@@ -188,10 +188,10 @@
 				"type": "moveSprite",
 				"sprite": "Sprites/Observatory/Shutter.png",
 				"x": 533,
-				"y": 301,
+				"y": 200,
 				"targetX": 533,
-				"targetY": 200,
-				"frames": 30,
+				"targetY": 301,
+				"seconds": ".5",
 				"zIndex": 2
 			},
 			"telescope": {
@@ -221,7 +221,7 @@
 			"observatory_ladder": {
 				"type": "dialogueSprite",
 				"sprite": "Sprites/Observatory/Ladder.png",
-				"x": 727,
+				"x": 730,
 				"y": 0,
 				"dialogue": "ladderObs",
 				"zIndex": 4

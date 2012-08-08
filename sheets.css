@@ -278,8 +278,8 @@ canvas {
 #observatory_ladder {
 	background-image: url("Sprites/Observatory/Ladder.png");
 	z-index: 4;
-	width: 49px;
-	height: 448px;
+	width: 41px;
+	height: 444px;
 }
 
 #DopplerScreenBackground {

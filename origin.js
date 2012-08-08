@@ -76,8 +76,8 @@ continueReady = function(){
 	g.jsonObj = JSON.parse(document.getElementById('JSONstorage').innerHTML);
 	
 	//make sure that the screen array is emptied while the the 
-	g.screenCollection = new Array();
-	
+	g.screenCollection = [];
+	g.availableScreens = []
 	for(i in g.jsonObj){
 		var id = i;
 		var json = g.jsonObj[i];
@@ -88,7 +88,7 @@ continueReady = function(){
 	storage.parentNode.removeChild(storage);
 	
 	//now that all screens have been created there is no more need for this object
-	g.spriteCache = new Array();
+	g.spriteCache = [];
 	g.endMod = false;
 	
 	startGame();

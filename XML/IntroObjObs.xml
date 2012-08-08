@@ -66,18 +66,18 @@
 	
 	</overseer>
 	<player id = "playerObsWindowOpen">
-		<option nextType = "exit" nextId = "eject to" nextTime="obsWindowClosed" target="shutter">
+		<option nextType = "exit" nextId = "observationScreen" nextTime="obsWindowClosed" target="observatory_shutter">
 			<text>Yes, please.</text>
 		</option>
-		<option nextType = "exit" nextId = "eject to">
+		<option nextType = "exit" nextId = "observationScreen">
 			<text>No, leave it open.</text>
 		</option>
 	</player>
 	<player id = "playerObsWindowClosed">
-		<option nextType = "exit" nextId = "eject to" nextTime="overseerWindowOpen" target="shutter">
+		<option nextType = "exit" nextId = "observationScreen" nextTime="obsWindowOpen" target="observatory_shutter">
 			<text>Yes, open it.</text>
 		</option>
-		<option nextType = "exit" nextId = "eject to">
+		<option nextType = "exit" nextId = "observationScreen">
 			<text>No, leave it closed.</text>
 		</option>
 	</player>
