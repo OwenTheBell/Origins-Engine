@@ -324,7 +324,7 @@
 				"y": 480,
 				"zIndex": 4
 			},
-			"help_button": {
+			"doppler_help_button": {
 				"type": "toggleSprite",
 				"sprite": "Sprites/Doppler_Screen/help_button.png",
 				"x": 254,
@@ -332,7 +332,7 @@
 				"zIndex": 4,
 				"width": 166
 			},
-			"UIFill": {
+			"doppler_UIFill": {
 				"type": "Sprite",
 				"sprite": "Sprites/Doppler_Screen/UIFill.png",
 				"x": 0,
@@ -371,7 +371,7 @@
 				"zIndex": 7,
 				"width": 89
 			},
-			"goto_cryoScreen": {
+			"doppler_goto_cryoScreen": {
 				"type": "screenChangeSprite",
 				"sprite": "Sprites/ArrowObject.png",
 				"x": 1175,
@@ -379,6 +379,85 @@
 				"screen": "cryoScreen",
 				"zIndex": 7
 			}
+		}
+	},
+	
+	"StandardCandles": {
+		"screenType": "candlesScreen",
+		"sprites": {
+			"candles_background": {
+				"type": "Sprite",
+				"sprite": "Sprites/Standard_Candles/Background.png",
+				"x": 0,
+				"y": 0,
+				"zIndex": 1
+			},
+			"candles_helpButton": {
+				"type": "toggleSprite",
+				"sprite": "Sprites/Standard_Candles/help_button.png",
+				"x": 249,
+				"y": 598,
+				"zIndex": 2,
+				"width": 166
+			},
+			"candles_mice_caught": {
+				"type": "Sprite",
+				"sprite": "Sprites/Standard_Candles/Mice_Caught.png",
+				"x": 6,
+				"y": 486,
+				"zIndex": 2
+			},
+			"candles_target": {
+				"type": "Sprite",
+				"sprite": "Sprites/Standard_Candles/green_screen.png",
+				"x": 407,
+				"y": 491,
+				"zIndex": 2
+			},
+			"candles_prevTarget": {
+				"type": "Sprite",
+				"sprite": "Sprites/Standard_Candles/orange_screen.png",
+				"x": 407,
+				"y": 546,
+				"zIndex": 2
+			},
+			"candles_timeRemain": {
+				"type": "Sprite",
+				"sprite": "Sprites/Standard_Candles/blue_screen.png",
+				"x": 407,
+				"y": 636,
+				"zIndex": 2
+			},
+			"candles_UIFill": {
+				"type": "Sprite",
+				"sprite": "Sprites/Standard_Candles/UIFill.png",
+				"x": 0,
+				"y": 485,
+				"zIndex": 3
+			},
+			"orders": {
+				"type": "Sprite",
+				"sprite": "Sprites/Standard_Candles/orders_screen.png",
+				"x": 1056,
+				"y": 500,
+				"zIndex": 4
+			},
+			"intercept_button": {
+				"type": "toggleSprite",
+				"sprite": "Sprites/Standard_Candles/intercept_button.png",
+				"x": 876,
+				"y": 527,
+				"zIndex": 4,
+				"width": 177
+			},
+			"undo_button": {
+				"type": "toggleSprite",
+				"sprite": "Sprites/Standard_Candles/undo_button.png",
+				"x": 876,
+				"y": 596,
+				"zIndex": 4,
+				"width": 177
+			}	
 		}
 	},
 	
