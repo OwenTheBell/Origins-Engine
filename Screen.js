@@ -95,7 +95,7 @@ var Screen = klass(function(id) {
 				
 					for (x in this.spriteArray){
 						var testSprite = this.spriteArray[x];
-						if (testSprite instanceof clickSprite){
+						if (testSprite.checkMouse){
 							if ((mouse.X > testSprite.left + g.origins.left) && 
 								(mouse.X < testSprite.left + testSprite.width + g.origins.left) &&
 								(mouse.Y > testSprite.top + g.origins.top) &&

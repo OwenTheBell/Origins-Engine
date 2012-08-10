@@ -194,15 +194,56 @@ var toggleSprite = clickSprite.extend(function(id, left, top, image, zIndex, wid
  * This is a sprite that can move and scale the size of its image
  */
 var moveableSprite = Sprite.extend(function(id, left, top, image, zIndex){
-	this.scale = 100;
-	/*
-	this.css.width = this.scale + '%';
-	this.css.height = 'auto';
-	*/
+	this.scale = 1;
+	this.scaleWidth = this.width * this.scale;
+	this.scaleHeight = this.height * this.scale;
+	this.css['background-size'] = this.scaleWidth + 'px ' + this.scaleHeight + 'px';
+	this.css['background-repeat'] = 'no-repeat';
 })
 	.methods({
 		scaleTo: function(scale){
 			this.scale = scale;
-			this.css.width = this.scale + '%';
+			this.scaleWidth = this.width * this.scale;
+			this.scaleHeight = this.height * this.scale;
+			this.css['background-size'] = this.scaleWidth + 'px ' + this.scaleHeight + 'px';
+		},
+		draw: function(HTML){
+			HTML.push('<div id="', this.id, '" style="');
+			for(x in this.css){
+				HTML.push(x, ': ', this.css[x], '; ');
+			}
+			HTML.push('"> </div>');
 		}
 	});
+
+/*
+ * This is a clickable version of the moveableSprite. Unlike a clickSprite
+ * the clickableMoveSprite does not have a clickMap and instead just checks to
+ * see if the mouse is within the bounds of the scaled width and height
+ */
+var clickMoveableSprite = moveableSprite.extend(function(id, left, top, image, zIndex){
+	this.mouseClicked = false;
+	this.mouseDown = false;
+})
+	.methods({
+		checkMouse: function(){
+			var mouse = g.input.mouse;
+			//Translate the mouse position so that it is relative to the sprite
+			var x = mouse.X - this.left - g.origins.left;
+			var y = mouse.Y - this.top - g.origins.top;
+			
+			try {
+				if (x > 0 && x <= this.scaleWidth && y > 0 && y <= this.scaleHeight){
+					if(mouse.click){
+						this.mouseClicked = true;
+						this.mouseDown = true;
+					}
+					//Return true if the mouse is at least over clickable area
+					return true;
+				}
+			} catch(e) {
+				console.log('ERROR: ' + x + ' doesn\'t appear to be in clickMap');
+			}
+			return false;
+		}
+	})

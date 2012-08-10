@@ -93,6 +93,13 @@ var CreateSprite= function(id, json){
 				sprite = new moveableSprite(id, json.x, json.y, json.sprite, json.zIndex);
 			}
 			break;
+		case 'clickMoveableSprite':
+			if (!json.x && !json.y){
+				sprite = new clickMoveableSprite(id, null, null, json.sprite, json.zIndex);
+			} else {
+				sprite = new clickMoveableSprite(id, json.x, json.y, json.sprite, json.zIndex);
+			}
+			break;
 		default:
 			console.log("ERROR: " + id + ' is set to an invalid sprite type');
 	}

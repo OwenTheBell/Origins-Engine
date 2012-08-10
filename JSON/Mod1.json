@@ -419,14 +419,14 @@
 				"type": "Sprite",
 				"sprite": "Sprites/Standard_Candles/orange_screen.png",
 				"x": 407,
-				"y": 566,
+				"y": 564,
 				"zIndex": 2
 			},
 			"candles_timeRemain": {
 				"type": "Sprite",
 				"sprite": "Sprites/Standard_Candles/blue_screen.png",
 				"x": 407,
-				"y": 636,
+				"y": 637,
 				"zIndex": 2
 			},
 			"candles_UIFrame": {
@@ -460,27 +460,27 @@
 				"width": 177
 			},
 			"maus_closest": {
-				"type": "moveableSprite",
+				"type": "clickMoveableSprite",
 				"sprite": "Sprites/Standard_Candles/maus_closest.png",
 				"zIndex": 2
 			},
 			"maus_closer": {
-				"type": "moveableSprite",
+				"type": "clickMoveableSprite",
 				"sprite": "Sprites/Standard_Candles/maus_closer.png",
 				"zIndex": 2
 			},
 			"maus_far": {
-				"type": "moveableSprite",
+				"type": "clickMoveableSprite",
 				"sprite": "Sprites/Standard_Candles/maus_far.png",
 				"zIndex": 2
 			},
 			"maus_farther": {
-				"type": "moveableSprite",
+				"type": "clickMoveableSprite",
 				"sprite": "Sprites/Standard_Candles/maus_farther.png",
 				"zIndex": 2
 			},
 			"maus_farthest": {
-				"type": "moveableSprite",
+				"type": "clickMoveableSprite",
 				"sprite": "Sprites/Standard_Candles/maus_farthest.png",
 				"zIndex": 2
 			},
