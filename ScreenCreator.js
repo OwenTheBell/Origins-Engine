@@ -7,11 +7,9 @@
 
 var CreateScreen = function(id, json){
 	var screen = {};
+	screen = new Screen(id);
 	if (json.active == "true"){
-		screen = new Screen(id);
 		g.activeScreen = id;
-	} else {
-		screen = new Screen(id);
 	}
 	for(i in json.sprites){
 		//search the spriteCache for the previously created sprite object
@@ -28,11 +26,9 @@ var CreateScreen = function(id, json){
 
 var CreateDopplerScreen = function(id, json){
 	var screen = {};
+	screen = new DopplerScreen(id);
 	if (json.active == 'true'){
-		screen = new DopplerScreen(id);
 		g.activeScreen = id;
-	} else {
-		screen = new DopplerScreen(id);
 	}
 	for (i in json.sprites){
 		screen.addSprite(CreateSprite(i, json.sprites[i]));
@@ -45,6 +41,20 @@ var CreateDopplerScreen = function(id, json){
 
 var CreateSwitchScreen = function(id, json){
 	var screen = new SwitchScreen(id);
+	g.screenCollection[id] = screen;
+}
+
+var CreateStandardCandlesScreen = function(id, json){
+	var screen = new StandardCandlesScreen(id);
+	if (json.active === 'true'){
+		g.activeScreen = id;
+	}
+	for (i in json.sprites){
+		screen.addSprite(CreateSprite(i, json.sprites[i]));
+	}
+	if (json.dialogue){
+		screen.addDialogue(json.dialogue);
+	}
 	g.screenCollection[id] = screen;
 }
 
@@ -75,6 +85,13 @@ var CreateSprite= function(id, json){
 			break;
 		case 'toggleSprite':
 			sprite = new toggleSprite(id, json.x, json.y, json.sprite, json.zIndex, json.width, json.height);
+			break;
+		case 'moveableSprite':
+			if (!json.x && !json.y){
+				sprite = new moveableSprite(id, null, null, json.sprite, json.zIndex);
+			} else {
+				sprite = new moveableSprite(id, json.x, json.y, json.sprite, json.zIndex);
+			}
 			break;
 		default:
 			console.log("ERROR: " + id + ' is set to an invalid sprite type');

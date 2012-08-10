@@ -69,6 +69,9 @@ var helper = {
 			case 'switchScreen':
 				CreateSwitchScreen(id, json);
 				break;
+			case 'standardCandlesScreen':
+				CreateStandardCandlesScreen(id, json);
+				break;
 			default:
 				console.log('ERROR: ' + id + ' has the invalid screenType of: ' + json.screenType);
 		}

@@ -383,7 +383,7 @@
 	},
 	
 	"StandardCandles": {
-		"screenType": "Screen",
+		"screenType": "standardCandlesScreen",
 		"active": "true",
 		"sprites": {
 			"candles_background": {
@@ -458,7 +458,39 @@
 				"y": 596,
 				"zIndex": 4,
 				"width": 177
-			}	
+			},
+			"maus_closest": {
+				"type": "moveableSprite",
+				"sprite": "Sprites/Standard_Candles/maus_closest.png",
+				"zIndex": 2
+			},
+			"maus_closer": {
+				"type": "moveableSprite",
+				"sprite": "Sprites/Standard_Candles/maus_closer.png",
+				"zIndex": 2
+			},
+			"maus_far": {
+				"type": "moveableSprite",
+				"sprite": "Sprites/Standard_Candles/maus_far.png",
+				"zIndex": 2
+			},
+			"maus_farther": {
+				"type": "moveableSprite",
+				"sprite": "Sprites/Standard_Candles/maus_farther.png",
+				"zIndex": 2
+			},
+			"maus_farthest": {
+				"type": "moveableSprite",
+				"sprite": "Sprites/Standard_Candles/maus_farthest.png",
+				"zIndex": 2
+			},
+			"arachne_icon": {
+				"type": "moveableSprite",
+				"sprite": "Sprites/Standard_Candles/arachne_icon.png",
+				"x": 1000,
+				"y": 600,
+				"zIndex": 2
+			}
 		}
 	},
 	

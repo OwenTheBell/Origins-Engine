@@ -195,8 +195,10 @@ var toggleSprite = clickSprite.extend(function(id, left, top, image, zIndex, wid
  */
 var moveableSprite = Sprite.extend(function(id, left, top, image, zIndex){
 	this.scale = 100;
+	/*
 	this.css.width = this.scale + '%';
 	this.css.height = 'auto';
+	*/
 })
 	.methods({
 		scaleTo: function(scale){
