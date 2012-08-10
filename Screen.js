@@ -76,7 +76,8 @@ var Screen = klass(function(id) {
 				this.drawState = 'updated';
 			}
 			var mouse = {};
-			var mouseOverCheck = false;
+			this.mouseCheck = {};
+			this.confirmedSprite = {};
 			//Only take input if the screen is not transitioning
 			if (g.activeScreen == this.id){
 				if (this.css['opacity'] != 1.0) this.css['opacity'] = 1.0;
@@ -101,14 +102,15 @@ var Screen = klass(function(id) {
 								(mouse.Y > testSprite.top + g.origins.top) &&
 								(mouse.Y < testSprite.top + testSprite.height + g.origins.top)){
 								
-								mouseOverCheck = testSprite.checkMouse();
+								this.mouseCheck = testSprite.checkMouse();
+								if(this.mouseCheck.click) this.confirmedSprite = testSprite;
 							}
 						}
 					}
 				}
 			}
 			
-			if(mouseOverCheck){
+			if(this.mouseCheck.hover){
 				this.css.cursor = 'pointer';
 			} else {
 				this.css.cursor = 'default';

@@ -199,6 +199,9 @@ var moveableSprite = Sprite.extend(function(id, left, top, image, zIndex){
 	this.scaleHeight = this.height * this.scale;
 	this.css['background-size'] = this.scaleWidth + 'px ' + this.scaleHeight + 'px';
 	this.css['background-repeat'] = 'no-repeat';
+	this.originLeft = left;
+	this.originTop = top;
+	this.moving = false;
 })
 	.methods({
 		scaleTo: function(scale){
@@ -206,6 +209,27 @@ var moveableSprite = Sprite.extend(function(id, left, top, image, zIndex){
 			this.scaleWidth = this.width * this.scale;
 			this.scaleHeight = this.height * this.scale;
 			this.css['background-size'] = this.scaleWidth + 'px ' + this.scaleHeight + 'px';
+		},
+		moveTo: function(x, y, time){
+			this.moving = true;
+			var frames = time * g.fps;
+			this.endFrame = frames + g.frameCounter;
+			this.targetX = x;
+			this.targetY = y;
+			this.moveY = (y - this.top) / frames;
+			this.moveX = (x - this.left) / frames;
+		},
+		update: function(){
+			if(this.moving){
+				if(g.frameCounter < this.endFrame){
+					this.changeTop(this.top + this.moveY);
+					this.changeLeft(this.left + this.moveX);
+				} else {
+					this.moving = false;
+					this.changeTop(this.targetY);
+					this.changeLeft(this.targetX);
+				}
+			}
 		},
 		draw: function(HTML){
 			HTML.push('<div id="', this.id, '" style="');
@@ -232,18 +256,21 @@ var clickMoveableSprite = moveableSprite.extend(function(id, left, top, image, z
 			var x = mouse.X - this.left - g.origins.left;
 			var y = mouse.Y - this.top - g.origins.top;
 			
+			var mouseState = {click: false, hover: false};
+			
 			try {
 				if (x > 0 && x <= this.scaleWidth && y > 0 && y <= this.scaleHeight){
 					if(mouse.click){
+						mouseState.click = true;
 						this.mouseClicked = true;
 						this.mouseDown = true;
 					}
 					//Return true if the mouse is at least over clickable area
-					return true;
+					mouseState.hover = true;
 				}
 			} catch(e) {
 				console.log('ERROR: ' + x + ' doesn\'t appear to be in clickMap');
 			}
-			return false;
+			return mouseState;
 		}
 	})

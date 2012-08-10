@@ -107,13 +107,14 @@ RunGame = function(){
 		g.screenCollection[x].update();
 	}
 
-	//Empty the drawDiv to remove all pointers to DOM elements, preventing memory leaks
-	while(g.drawDiv.firstChild){
-		g.drawDiv.removeChild(g.drawDiv.firstChild);
-	}
+
 	var HTML = [];
 	for(x in g.screenCollection) {
 		g.screenCollection[x].draw(HTML);
+	}
+	//Empty the drawDiv before adding in the updated HTML
+	while(g.drawDiv.firstChild){
+		g.drawDiv.removeChild(g.drawDiv.firstChild);
 	}
 	g.drawDiv.innerHTML = HTML.join('');
 	for (x in g.screenCollection) {
