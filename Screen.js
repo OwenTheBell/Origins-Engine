@@ -20,8 +20,12 @@ var Screen = klass(function(id) {
 })
 	.methods({
 		addSprite: function(newSprite){
-			newSprite.parent = this;
-			this.spriteArray[newSprite.id] = newSprite;
+			//if the sprite has the caching attribute then it is meant purely to
+			//be cached into memory and not immediately added to the sprite array
+			if(!newSprite.caching){
+				newSprite.parent = this;
+				this.spriteArray[newSprite.id] = newSprite;
+			}
 		},
 		removeSprite: function(id){	
 			this.spriteArray[id] = 'removed';

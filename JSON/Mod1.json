@@ -461,7 +461,15 @@
 			},
 			"maus": {
 				"type": "moveableSprite",
+				"template": "true",
 				"sprite": "Sprites/Standard_Candles/maus_cropped.png",
+				"zIndex": 2
+			},
+			"maus_selector": {
+				"type": "moveableSprite",
+				"template": "true",
+				"caching": "true",
+				"sprite": "Sprites/Standard_Candles/maus_selected_icon.png",
 				"zIndex": 2
 			},
 			"arachne_icon": {

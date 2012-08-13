@@ -70,19 +70,22 @@ var clickSprite = Sprite.extend(function(id, left, top, image, zIndex){
 			var x = mouse.X - this.left - g.origins.left;
 			var y = mouse.Y - this.top - g.origins.top;
 			
+			var mouseState = {click: false, hover: false};
+			
 			try {
 				if (this.clickMap[x][y] == 1){
 					if(mouse.click){
+						mouseState.click = true;
 						this.mouseClicked = true;
 						this.mouseDown = true;
 					}
 					//Return true if the mouse is at least over clickable area
-					return true;
+					mouseState.hover = true;
 				}
 			} catch(e) {
 				console.log('ERROR: ' + x + ' doesn\'t appear to be in clickMap');
 			}
-			return false;
+			return mouseState;
 		},
 		onClick: function(){
 		},

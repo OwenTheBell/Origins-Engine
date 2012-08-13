@@ -438,10 +438,17 @@ canvas {
 }
 
 .maus {
-	background-image: url("Sprites/Standard_Candles/maus_closest.png");
+	background-image: url("Sprites/Standard_Candles/maus_cropped.png");
 	z-index: 2;
 	width: 58px;
 	height: 62px;
+}
+
+.maus_selector {
+	background-image: url("Sprites/Standard_Candles/maus_selected_icon.png");
+	z-index: 2;
+	width: 80px;
+	height: 65px;
 }
 
 #arachne_icon {
