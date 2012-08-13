@@ -26,17 +26,21 @@ var StandardCandlesScreen = Screen.extend(function(id){
 		update: function(){
 			this.supr();
 			if (this.confirmedSprite instanceof moveableSprite){
-				if (this.selectedArray.indexOf(this.confirmedSprite.id) == -1){
+				var confirmed = this.confirmedSprite;
+				if (this.selectedArray.indexOf(confirmed.id) == -1){
+					var x = Math.floor((confirmed.width - (confirmed.width * confirmed.scale)) / 2);
+					var x = confirmed.left - x;
+					var y = Math.floor((confirmed.height - (confirmed.height * confirmed.scale)) / 2);
+					var y = confirmed.top - y;
 					var sprite = new moveableSprite(
-						this.confirmedSprite.id + 'selector',
-						this.confirmedSprite.left,
-						this.confirmedSprite.top,
+						confirmed.id + 'selector',
+						x, y,
 						this.selectorUrl,
-						this.confirmedSprite.zIndex);
+						confirmed.zIndex);
 					sprite.classes.push('maus_selector');
-					sprite.scaleTo(this.confirmedSprite.scale);
+					//sprite.scaleTo(confirmed.scale);
 					this.addSprite(sprite);
-					this.selectedArray.push(this.confirmedSprite.id);
+					this.selectedArray.push(confirmed.id);
 				}
 			}
 		}
