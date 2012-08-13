@@ -13,6 +13,7 @@ var Sprite = klass(function (id, left, top, image, zIndex) {
 		top: this.top + 'px',
 		left: this.left + 'px',
 	}
+	this.classes = [];
 })
 	.methods({
 		changeTop: function(top){
@@ -29,6 +30,12 @@ var Sprite = klass(function (id, left, top, image, zIndex) {
 			HTML.push('<div id="', this.id, '" style="');
 			for(x in this.css){
 				HTML.push(x, ': ', this.css[x], '; ');
+			}
+			if (this.classes.length > 0){
+				HTML.push('" class="');
+				for(x in this.classes){
+					HTML.push(this.classes[x], ' ');
+				}
 			}
 			HTML.push('"> </div>');
 		}
@@ -142,6 +149,10 @@ var triggerSprite = Sprite.extend(function(id, left, top, image, zIndex){
 		}
 	});
 
+/*
+ * Somewhat confusing name, this is a sprite that moves back and forth between
+ * two different positions everytime that it is triggered
+ */
 var moveSprite = triggerSprite.extend(function(id, left, top, image, zIndex, x2, y2, seconds){
 	this.start = {X: left, Y: top}; //sprite starts at it's top and left coordinates
 	this.moveTo = {X: x2, Y: y2}; //coordinates that the sprite will move to
@@ -195,8 +206,8 @@ var toggleSprite = clickSprite.extend(function(id, left, top, image, zIndex, wid
  */
 var moveableSprite = Sprite.extend(function(id, left, top, image, zIndex){
 	this.scale = 1;
-	this.scaleWidth = this.width * this.scale;
-	this.scaleHeight = this.height * this.scale;
+	this.scaleWidth = Math.round(this.width * this.scale);
+	this.scaleHeight = Math.round(this.height * this.scale);
 	this.css['background-size'] = this.scaleWidth + 'px ' + this.scaleHeight + 'px';
 	this.css['background-repeat'] = 'no-repeat';
 	this.originLeft = left;
@@ -206,8 +217,8 @@ var moveableSprite = Sprite.extend(function(id, left, top, image, zIndex){
 	.methods({
 		scaleTo: function(scale){
 			this.scale = scale;
-			this.scaleWidth = this.width * this.scale;
-			this.scaleHeight = this.height * this.scale;
+			this.scaleWidth = Math.round(this.width * this.scale);
+			this.scaleHeight = Math.round(this.height * this.scale);
 			this.css['background-size'] = this.scaleWidth + 'px ' + this.scaleHeight + 'px';
 		},
 		moveTo: function(x, y, time){
@@ -230,13 +241,6 @@ var moveableSprite = Sprite.extend(function(id, left, top, image, zIndex){
 					this.changeLeft(this.targetX);
 				}
 			}
-		},
-		draw: function(HTML){
-			HTML.push('<div id="', this.id, '" style="');
-			for(x in this.css){
-				HTML.push(x, ': ', this.css[x], '; ');
-			}
-			HTML.push('"> </div>');
 		}
 	});
 
