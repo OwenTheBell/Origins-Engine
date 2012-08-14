@@ -10,6 +10,10 @@ var StandardCandlesScreen = Screen.extend(function(id){
 	this.arachneTargets = [];
 	this.intercepting = false;
 	this.nextTarget = 0;
+	this.targetText = new textBox('targetText', 'hello', 407, 491, '#fffff', 2, '20px');
+	this.prevTargetText = new textBox('prevTargetText', 'hello', 407, 564, '#fffff', 2, '20px');
+	this.timeText = new textBox('timeText', 'hello', 407, 637, '#fffff', 2, '20px');
+	this.spriteArray.push(this.targetText, this.prevTargetText, this.timeText);
 })
 	.methods({
 		addSprite: function(newSprite){
