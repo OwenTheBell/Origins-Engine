@@ -3,7 +3,6 @@ var StandardCandlesScreen = Screen.extend(function(id){
 	this.gameWidth = 1280;
 	this.mausCount = 5;
 	this.selectorUrl = '';
-	this.selectedArray = [];
 	this.arachneTargets = [];
 	this.intercepting = false;
 	this.nextTarget = 0;
@@ -30,7 +29,7 @@ var StandardCandlesScreen = Screen.extend(function(id){
 			this.supr();
 			if (this.confirmedSprite instanceof moveableSprite){
 				var confirmed = this.confirmedSprite;
-				if (this.selectedArray.indexOf(confirmed.id) == -1){
+				if (this.arachneTargets.indexOf(confirmed.id) == -1){
 					var x = Math.floor((confirmed.width - (confirmed.width * confirmed.scale)) / 2);
 					var x = confirmed.left - x;
 					var y = Math.floor((confirmed.height - (confirmed.height * confirmed.scale)) / 2);
@@ -43,12 +42,15 @@ var StandardCandlesScreen = Screen.extend(function(id){
 					sprite.classes.push('maus_selector');
 					this.arachneTargets.push({x: x, y: y, id: sprite.id});
 					this.addSprite(sprite);
-					this.selectedArray.push(confirmed.id);
 				}
 			} else if (this.confirmedSprite.id === 'intercept_button' && !this.intercepting){
 				this.spriteArray['arachne_icon'].moveTo(this.arachneTargets[this.nextTarget].x, this.arachneTargets[this.nextTarget].y, 1);
 				this.nextTarget++;
 				this.intercepting = true;
+			} else if (this.confirmedSprite.id === 'undo_button' && !this.intercepting){
+				var target = this.arachneTargets[this.arachneTargets.length - 1];
+				delete this.spriteArray[target.id];
+				this.arachneTargets.splice(this.arachneTargets.length - 1, 1);
 			}
 			if (this.intercepting && !this.spriteArray['arachne_icon'].moving) {
 				delete this.spriteArray[this.arachneTargets[this.nextTarget - 1].id];
