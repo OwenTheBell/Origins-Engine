@@ -440,20 +440,20 @@ canvas {
 .maus {
 	background-image: url("Sprites/Standard_Candles/maus_cropped.png");
 	z-index: 2;
-	width: 58px;
-	height: 62px;
+	width: 77px;
+	height: 81px;
 }
 
 .maus_selector {
 	background-image: url("Sprites/Standard_Candles/maus_selected_icon.png");
 	z-index: 2;
-	width: 80px;
-	height: 65px;
+	width: 77px;
+	height: 81px;
 }
 
 #arachne_icon {
 	background-image: url("Sprites/Standard_Candles/arachne_icon.png");
 	z-index: 2;
 	width: 245px;
-	height: 65px;
+	height: 81px;
 }

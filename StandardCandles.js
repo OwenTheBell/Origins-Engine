@@ -46,9 +46,9 @@ var StandardCandlesScreen = Screen.extend(function(id){
 					this.selectedArray.push(confirmed.id);
 				}
 			} else if (this.confirmedSprite.id === 'intercept_button' && !this.intercepting){
-				 this.spriteArray['arachne_icon'].moveTo(this.arachneTargets[this.nextTarget].x, this.arachneTargets[this.nextTarget].y, 1);
-				 this.nextTarget++;
-				 this.intercepting = true;
+				this.spriteArray['arachne_icon'].moveTo(this.arachneTargets[this.nextTarget].x, this.arachneTargets[this.nextTarget].y, 1);
+				this.nextTarget++;
+				this.intercepting = true;
 			}
 			if (this.intercepting && !this.spriteArray['arachne_icon'].moving) {
 				if (this.nextTarget < this.arachneTargets.length) {
