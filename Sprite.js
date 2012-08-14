@@ -233,6 +233,15 @@ var moveableSprite = Sprite.extend(function(id, left, top, image, zIndex){
 			this.moveY = (y - this.top) / frames;
 			this.moveX = (x - this.left) / frames;
 		},
+		moveToOrigin: function(time){
+			this.moving = true;
+			var frames = time * g.fps;
+			this.endFrame = frames + g.frameCounter;
+			this.targetX = this.originLeft;
+			this.targetY = this.originTop;
+			this.moveY = (this.targetY - this.top) / frames;
+			this.moveX = (this.targetX - this.left) / frames;
+		},
 		update: function(){
 			if(this.moving){
 				if(g.frameCounter < this.endFrame){
