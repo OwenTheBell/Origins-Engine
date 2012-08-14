@@ -41,7 +41,7 @@ var StandardCandlesScreen = Screen.extend(function(id){
 						this.selectorUrl,
 						confirmed.zIndex);
 					sprite.classes.push('maus_selector');
-					this.arachneTargets.push({x: x, y: y});
+					this.arachneTargets.push({x: x, y: y, id: sprite.id});
 					this.addSprite(sprite);
 					this.selectedArray.push(confirmed.id);
 				}
@@ -51,11 +51,15 @@ var StandardCandlesScreen = Screen.extend(function(id){
 				this.intercepting = true;
 			}
 			if (this.intercepting && !this.spriteArray['arachne_icon'].moving) {
+				delete this.spriteArray[this.arachneTargets[this.nextTarget - 1].id];
 				if (this.nextTarget < this.arachneTargets.length) {
 					this.spriteArray['arachne_icon'].moveTo(this.arachneTargets[this.nextTarget].x, this.arachneTargets[this.nextTarget].y, 1);
 					this.nextTarget++;
 				} else {
 					this.spriteArray['arachne_icon'].moveToOrigin(1);
+					this.selectedArray = [];
+					this.arachneTargets = [];
+					this.nextTarget = 0;
 					this.intercepting = false;
 				}
 			}
