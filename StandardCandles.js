@@ -1,6 +1,10 @@
 var StandardCandlesScreen = Screen.extend(function(id){
 	this.gameHeight = 485;
 	this.gameWidth = 1280;
+	this.mouseHeight = null;
+	this.mouseWidth = null;
+	this.mouseSource = '';
+	this.mouseZIndex = null;
 	this.mausCount = 5;
 	this.selectorUrl = '';
 	this.arachneTargets = [];
@@ -10,19 +14,38 @@ var StandardCandlesScreen = Screen.extend(function(id){
 	.methods({
 		addSprite: function(newSprite){
 			if (newSprite.id === 'maus'){
+				this.mouseHeight = newSprite.height;
+				this.mouseWidth = newSprite.width;
+				this.mouseSource = newSprite.image.src;
+				this.mouseZIndex = newSprite.zIndex;
 				for(var i = 1; i <= this.mausCount; i++){
-					var top = Math.floor(Math.random() * (this.gameHeight - newSprite.height));
-					var left = Math.floor(Math.random() * (this.gameWidth - newSprite.width));
-					var sprite = new clickMoveableSprite(newSprite.id + i, left, top, newSprite.image.src, newSprite.zIndex);
+					var top = Math.floor(Math.random() * (this.gameHeight - this.mouseHeight));
+					var left = Math.floor(Math.random() * (this.gameWidth - this.mouseWidth));
+					var sprite = new clickMoveableSprite(newSprite.id + i, left, top, this.mouseSource, this.mouseZIndex);
 					sprite.scaleTo(i * 0.2);
 					sprite.classes.push('maus');
 					this.supr(sprite)
 				}
 			} else if (newSprite.id === 'maus_selector'){
-				console.log(newSprite.image.src);
 				this.selectorUrl = newSprite.image.src;
 			} else {
 				this.supr(newSprite);
+			}
+		},
+		resetMice: function(){
+			for(id in this.spriteArray){
+				if (id.match('maus.')){
+					delete this.spriteArray[id];
+				}
+			}
+			for(var i = 1; i <= this.mausCount; i++){
+				var top = Math.floor(Math.random() * (this.gameHeight - this.mouseHeight));
+				var left = Math.floor(Math.random() * (this.gameWidth - this.mouseWidth));
+				var sprite = new clickMoveableSprite('maus' + i, left, top, this.mouseSource, this.mouseZIndex);
+				sprite.scaleTo(i * 0.2);
+				sprite.classes.push('maus');
+				sprite.parent = this;
+				this.spriteArray[sprite.id] = sprite;
 			}
 		},
 		update: function(){
@@ -61,6 +84,7 @@ var StandardCandlesScreen = Screen.extend(function(id){
 					this.spriteArray['arachne_icon'].moveToOrigin(1);
 					this.selectedArray = [];
 					this.arachneTargets = [];
+					this.resetMice();
 					this.nextTarget = 0;
 					this.intercepting = false;
 				}
