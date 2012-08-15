@@ -376,63 +376,63 @@ canvas {
 
 #candles_helpButton {
 	background-image: url("Sprites/Standard_Candles/help_button.png");
-	z-index: 2;
+	z-index: 3;
 	width: 164px;
 	height: 87px;
 }
 
 #candles_mice_caught {
 	background-image: url("Sprites/Standard_Candles/mice_caught.png");
-	z-index: 2;
+	z-index: 3;
 	width: 248px;
 	height: 229px;
 }
 
 #candles_target {
 	background-image: url("Sprites/Standard_Candles/green_screen.png");
-	z-index: 2;
+	z-index: 3;
 	width: 445px;
 	height: 76px;
 }
 
 #candles_prevTarget {
 	background-image: url("Sprites/Standard_Candles/orange_screen.png");
-	z-index: 2;
+	z-index: 3;
 	width: 445px;
 	height: 76px;
 }
 
 #candles_timeRemain {
 	background-image: url("Sprites/Standard_Candles/blue_screen.png");
-	z-index: 2;
+	z-index: 3;
 	width: 445px;
 	height: 76px;
 }
 
 #candles_UIFrame {
 	background-image: url("Sprites/Standard_Candles/UIFrame.png");
-	z-index: 3;
+	z-index: 4;
 	width: 1280px;
 	height: 235px;
 }
 
 #orders {
 	background-image: url("Sprites/Standard_Candles/orders_screen.png");
-	z-index: 4;
+	z-index: 5;
 	width: 217px;
 	height: 159px;
 }
 
 #intercept_button {
 	background-image: url("Sprites/Standard_Candles/intercept_button.png");
-	z-index: 4;
+	z-index: 5;
 	width: 177px;
 	height: 48px;
 }
 
 #undo_button {
 	background-image: url("Sprites/Standard_Candles/undo_button.png");
-	z-index: 4;
+	z-index: 5;
 	width: 177px;
 	height: 48px;
 }
@@ -440,20 +440,20 @@ canvas {
 .maus {
 	background-image: url("Sprites/Standard_Candles/maus_cropped.png");
 	z-index: 2;
-	width: 58px;
-	height: 62px;
+	width: 77px;
+	height: 81px;
 }
 
 .maus_selector {
 	background-image: url("Sprites/Standard_Candles/maus_selected_icon.png");
 	z-index: 2;
-	width: 80px;
-	height: 65px;
+	width: 77px;
+	height: 81px;
 }
 
 #arachne_icon {
 	background-image: url("Sprites/Standard_Candles/arachne_icon.png");
 	z-index: 2;
 	width: 245px;
-	height: 65px;
+	height: 81px;
 }
