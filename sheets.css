@@ -1,459 +1,459 @@
 /*font stuff*/
 @font-face {
-    font-family: 'MichromaRegular';
-    src: url('Fonts/michroma-webfont.eot');
-    src: url('Fonts/michroma-webfont.eot?#iefix') format('embedded-opentype'),
-         url('Fonts/michroma-webfont.woff') format('woff'),
-         url('Fonts/michroma-webfont.ttf') format('truetype'),
-         url('Fonts/michroma-webfont.svg#MichromaRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'MichromaRegular';
+  src: url('Fonts/michroma-webfont.eot');
+  src: url('Fonts/michroma-webfont.eot?#iefix') format('embedded-opentype'),
+   url('Fonts/michroma-webfont.woff') format('woff'),
+   url('Fonts/michroma-webfont.ttf') format('truetype'),
+   url('Fonts/michroma-webfont.svg#MichromaRegular') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
 
 /*element specific css*/
 div {
-	position: inherit;
-	font-family: 'MichromaRegular';
-	/*background-repeat: no-repeat;*/
+  position: inherit;
+  font-family: 'MichromaRegular';
+  /*background-repeat: no-repeat;*/
 }
 
 canvas {
-	position: inherit;
+  position: inherit;
 }
 
 /*css Classes*/
 .dialogue {
-	border-style: solid;
-	border-width: 5px;
-	background-color: #FFFFFF;
+  border-style: solid;
+  border-width: 5px;
+  background-color: #FFFFFF;
 }
 
 .dialogueWrapper {
-	z-index: 12;
+  z-index: 12;
 }
 
 .interactive {
-	z-index: 10;
+  z-index: 10;
 }
 
 /*id specific css*/
 #origins {
-	position: absolute;
-	border-style: solid;
-	border-width: 2px;
-	overflow: hidden;
-	top: 5px;
-	left: 5px;
-	width: 1280px;
-	height: 720px;
+  position: absolute;
+  border-style: solid;
+  border-width: 2px;
+  overflow: hidden;
+  top: 5px;
+  left: 5px;
+  width: 1280px;
+  height: 720px;
 }
 
 #tester {
-	top: 1280px;
+  top: 1280px;
 }
 
 #mainScreen1_background {
-	background-image: url("Sprites/Main_View1/Background.png");
-	z-index: 1;
-	width: 1280px;
-	height: 720px;
+  background-image: url("Sprites/Main_View1/Background.png");
+  z-index: 1;
+  width: 1280px;
+  height: 720px;
 }
 
 #bed {
-	background-image: url("Sprites/Main_View1/Bed.png");
-	z-index: 2;
-	width: 281px;
-	height: 371px;
+  background-image: url("Sprites/Main_View1/Bed.png");
+  z-index: 2;
+  width: 281px;
+  height: 371px;
 }
 
 #water {
-	background-image: url("Sprites/Main_View1/Water.png");
-	z-index: 2;
-	width: 208px;
-	height: 250px;
+  background-image: url("Sprites/Main_View1/Water.png");
+  z-index: 2;
+  width: 208px;
+  height: 250px;
 }
 
 #bike {
-	background-image: url("Sprites/Main_View1/Bike.png");
-	z-index: 2;
-	width: 338px;
-	height: 227px;
+  background-image: url("Sprites/Main_View1/Bike.png");
+  z-index: 2;
+  width: 338px;
+  height: 227px;
 }
 
 #food {
-	background-image: url("Sprites/Main_View1/Food_Pellets.png");
-	z-index: 2;
-	width: 122px;
-	height: 217px;
+  background-image: url("Sprites/Main_View1/Food_Pellets.png");
+  z-index: 2;
+  width: 122px;
+  height: 217px;
 }
 
 #drawer {
-	background-image: url("Sprites/Main_View1/Drawer.png");
-	z-index: 2;
-	width: 176px;
-	height: 179px;
+  background-image: url("Sprites/Main_View1/Drawer.png");
+  z-index: 2;
+  width: 176px;
+  height: 179px;
 }
 
 #table {
-	background-image: url("Sprites/Main_View1/Table.png");
-	z-index: 2;
-	width: 250px;
-	height: 158px;
+  background-image: url("Sprites/Main_View1/Table.png");
+  z-index: 2;
+  width: 250px;
+  height: 158px;
 }
 
 #chair {
-	background-image: url("Sprites/Main_View1/Chair.png");
-	z-index: 2;
-	width: 97px;
-	height: 131px;
+  background-image: url("Sprites/Main_View1/Chair.png");
+  z-index: 2;
+  width: 97px;
+  height: 131px;
 }
 
 #thermostat {
-	background-image: url("Sprites/Main_View1/Thermostat.png");
-	z-index: 2;
-	width: 171px;
-	height: 245px;
+  background-image: url("Sprites/Main_View1/Thermostat.png");
+  z-index: 2;
+  width: 171px;
+  height: 245px;
 }
 
 #mainScreen1_ladder {
-	background-image: url("Sprites/Main_View1/Ladder.png");
-	z-index: 2;
-	width: 141px;
-	height: 551px;
+  background-image: url("Sprites/Main_View1/Ladder.png");
+  z-index: 2;
+  width: 141px;
+  height: 551px;
 }
 
 #goto_mainScreen2 {
-	background-image: url("Sprites/ArrowObject.png");
-	z-index: 2;
-	width: 79px;
-	height: 73px;
+  background-image: url("Sprites/ArrowObject.png");
+  z-index: 2;
+  width: 79px;
+  height: 73px;
 }
 
 #space_exact {
-	background-image: url("Sprites/Main_View2/Space_Exact.png");
-	z-index: 1;
-	width: 350px;
-	height: 198px;
+  background-image: url("Sprites/Main_View2/Space_Exact.png");
+  z-index: 1;
+  width: 350px;
+  height: 198px;
 }
 
 #mainScreen2_shutter {
-	background-image: url("Sprites/Main_View2/Shutter.png");
-	z-index: 2;
-	width: 350px;
-	height: 228px;
+  background-image: url("Sprites/Main_View2/Shutter.png");
+  z-index: 2;
+  width: 350px;
+  height: 228px;
 }
 
 #mainScreen2_background {
-	background-image: url("Sprites/Main_View2/View2Background.png");
-	z-index: 3;
-	width: 1280px;
-	height: 720px;
+  background-image: url("Sprites/Main_View2/View2Background.png");
+  z-index: 3;
+  width: 1280px;
+  height: 720px;
 }
 
 #mainScreen2_window {
-	background-image: url("Sprites/Main_View2/Window.png");
-	z-index: 4;
-	width: 425px;
-	height: 245px;
+  background-image: url("Sprites/Main_View2/Window.png");
+  z-index: 4;
+  width: 425px;
+  height: 245px;
 }
 
 #clothes {
-	background-image: url("Sprites/Main_View2/Clothing_Cabinet.png");
-	z-index: 4;
-	width: 301px;
-	height: 473px;
+  background-image: url("Sprites/Main_View2/Clothing_Cabinet.png");
+  z-index: 4;
+  width: 301px;
+  height: 473px;
 }
 
 #goto_mainScreen1 {
-	background-image: url("Sprites/ArrowObject.png");
-	z-index: 4;
-	width: 79px;
-	height: 73px;
+  background-image: url("Sprites/ArrowObject.png");
+  z-index: 4;
+  width: 79px;
+  height: 73px;
 }
 
 #cryoScreenBackground {
-	background-image: url("Sprites/Cryo_Room/Training_Room_Background.png");
-	z-index: 1;
-	width: 1280px;
-	height: 720px;
+  background-image: url("Sprites/Cryo_Room/Training_Room_Background.png");
+  z-index: 1;
+  width: 1280px;
+  height: 720px;
 }
 
 #miceCatcher {
-	background-image: url("Sprites/Cryo_Room/Robot.png");
-	z-index: 2;
-	width: 162px;
-	height: 109px;
+  background-image: url("Sprites/Cryo_Room/Robot.png");
+  z-index: 2;
+  width: 162px;
+  height: 109px;
 }
 
 #storageContainer {
-	background-image: url("Sprites/Cryo_Room/Storage_Container.png");
-	z-index: 2;
-	width: 265px;
-	height: 228px;
+  background-image: url("Sprites/Cryo_Room/Storage_Container.png");
+  z-index: 2;
+  width: 265px;
+  height: 228px;
 }
 
 #solarPanel {
-	background-image: url("Sprites/Cryo_Room/Solar_Panel.png");
-	z-index: 2;
-	width: 473px;
-	height: 481px;
+  background-image: url("Sprites/Cryo_Room/Solar_Panel.png");
+  z-index: 2;
+  width: 473px;
+  height: 481px;
 }
 
 #consoleCryo {
-	background-image: url("Sprites/Cryo_Room/Cryo_Console.png");
-	z-index: 2;
-	width: 181px;
-	height: 204px;
+  background-image: url("Sprites/Cryo_Room/Cryo_Console.png");
+  z-index: 2;
+  width: 181px;
+  height: 204px;
 }
 
 #cryo_ladder {
-	background-image: url("Sprites/Cryo_Room/Ladder.png");
-	z-index: 2;
-	width: 85px;
-	height: 481px;
+  background-image: url("Sprites/Cryo_Room/Ladder.png");
+  z-index: 2;
+  width: 85px;
+  height: 481px;
 }
 
 #fog {
-	background-image: url("Sprites/Cryo_Room/Fog.png");
-	z-index: 2;
-	width: 1280px;
-	height: 720px;
+  background-image: url("Sprites/Cryo_Room/Fog.png");
+  z-index: 2;
+  width: 1280px;
+  height: 720px;
 }
 
 #computer {
-	background-image: url("Sprites/Observatory/Computer.png");
-	z-index: 4;
-	width: 224px;
-	height: 275px;
+  background-image: url("Sprites/Observatory/Computer.png");
+  z-index: 4;
+  width: 224px;
+  height: 275px;
 }
 
 #gantry {
-	background-image: url("Sprites/Observatory/Gantry.png");
-	z-index: 5;
-	width: 1280px;
-	height: 317px;
+  background-image: url("Sprites/Observatory/Gantry.png");
+  z-index: 5;
+  width: 1280px;
+  height: 317px;
 }
 
 #observation_background {
-	background-image: url("Sprites/Observatory/Observatory_Background.png");
-	z-index: 3;
-	width: 1280px;
-	height: 720px;
+  background-image: url("Sprites/Observatory/Observatory_Background.png");
+  z-index: 3;
+  width: 1280px;
+  height: 720px;
 }
 
 #space {
-	background-image: url("Sprites/Observatory/Space.png");
-	z-index: 1;
-	width: 201px;
-	height: 112px;
+  background-image: url("Sprites/Observatory/Space.png");
+  z-index: 1;
+  width: 201px;
+  height: 112px;
 }
 
 #observatory_shutter {
-	background-image: url("Sprites/Observatory/Shutter.png");
-	z-index: 2;
-	width: 177px;
-	height: 99px;
+  background-image: url("Sprites/Observatory/Shutter.png");
+  z-index: 2;
+  width: 177px;
+  height: 99px;
 }
 
 #telescope {
-	background-image: url("Sprites/Observatory/Telescope.png");
-	z-index: 4;
-	width: 509px;
-	height: 503px;
+  background-image: url("Sprites/Observatory/Telescope.png");
+  z-index: 4;
+  width: 509px;
+  height: 503px;
 }
 
 #observatory_window {
-	background-image: url("Sprites/Observatory/Window.png");
-	z-index: 4;
-	width: 209px;
-	height: 123px;
+  background-image: url("Sprites/Observatory/Window.png");
+  z-index: 4;
+  width: 209px;
+  height: 123px;
 }
 
 #space_suit {
-	background-image: url("Sprites/Observatory/Space_Suit.png");
-	z-index: 4;
-	width: 59px;
-	height: 173px;
+  background-image: url("Sprites/Observatory/Space_Suit.png");
+  z-index: 4;
+  width: 59px;
+  height: 173px;
 }
 
 #observatory_ladder {
-	background-image: url("Sprites/Observatory/Ladder.png");
-	z-index: 4;
-	width: 41px;
-	height: 444px;
+  background-image: url("Sprites/Observatory/Ladder.png");
+  z-index: 4;
+  width: 41px;
+  height: 444px;
 }
 
 #DopplerScreenBackground {
-	background-image: url("Sprites/Doppler_Screen/Game_Background.png");
-	z-index: 1;
-	width: 1280px;
-	height: 1440px;
+  background-image: url("Sprites/Doppler_Screen/Game_Background.png");
+  z-index: 1;
+  width: 1280px;
+  height: 1440px;
 }
 
 #objective {
-	background-image: url("Sprites/Doppler_Screen/Objective_Screen.png");
-	z-index: 4;
-	width: 446px;
-	height: 77px;
+  background-image: url("Sprites/Doppler_Screen/Objective_Screen.png");
+  z-index: 4;
+  width: 446px;
+  height: 77px;
 }
 
 #detected {
-	background-image: url("Sprites/Doppler_Screen/Detected_Screen.png");
-	z-index: 4;
-	width: 444px;
-	height: 77px;
+  background-image: url("Sprites/Doppler_Screen/Detected_Screen.png");
+  z-index: 4;
+  width: 444px;
+  height: 77px;
 }
 
 #emitted {
-	background-image: url("Sprites/Doppler_Screen/Emitted_Screen.png");
-	z-index: 4;
-	width: 444px;
-	height: 84px;
+  background-image: url("Sprites/Doppler_Screen/Emitted_Screen.png");
+  z-index: 4;
+  width: 444px;
+  height: 84px;
 }
 
 #mouse_counter {
-	background-image: url("Sprites/Doppler_Screen/Mouse_Counter.png");
-	z-index: 4;
-	width: 259px;
-	height: 240px;
+  background-image: url("Sprites/Doppler_Screen/Mouse_Counter.png");
+  z-index: 4;
+  width: 259px;
+  height: 240px;
 }
 
 #doppler_help_button {
-	background-image: url("Sprites/Doppler_Screen/help_button.png");
-	z-index: 4;
-	width: 332px;
-	height: 92px;
+  background-image: url("Sprites/Doppler_Screen/help_button.png");
+  z-index: 4;
+  width: 166px;
+  height: 92px;
 }
 
 #doppler_UIFill {
-	background-image: url("Sprites/Doppler_Screen/UIFill.png");
-	z-index: 6;
-	width: 1280px;
-	height: 720px;
+  background-image: url("Sprites/Doppler_Screen/UIFill.png");
+  z-index: 6;
+  width: 1280px;
+  height: 720px;
 }
 
 #start_button {
-	background-image: url("Sprites/Doppler_Screen/start_button.png");
-	z-index: 7;
-	width: 374px;
-	height: 53px;
+  background-image: url("Sprites/Doppler_Screen/start_button.png");
+  z-index: 7;
+  width: 187px;
+  height: 53px;
 }
 
 #pause_button {
-	background-image: url("Sprites/Doppler_Screen/pause_button.png");
-	z-index: 7;
-	width: 372px;
-	height: 52px;
+  background-image: url("Sprites/Doppler_Screen/pause_button.png");
+  z-index: 7;
+  width: 186px;
+  height: 52px;
 }
 
 #arrow_up {
-	background-image: url("Sprites/Doppler_Screen/arrow_up.png");
-	z-index: 7;
-	width: 178px;
-	height: 116px;
+  background-image: url("Sprites/Doppler_Screen/arrow_up.png");
+  z-index: 7;
+  width: 89px;
+  height: 116px;
 }
 
 #arrow_down {
-	background-image: url("Sprites/Doppler_Screen/arrow_down.png");
-	z-index: 7;
-	width: 182px;
-	height: 130px;
+  background-image: url("Sprites/Doppler_Screen/arrow_down.png");
+  z-index: 7;
+  width: 91px;
+  height: 130px;
 }
 
 #doppler_goto_cryoScreen {
-	background-image: url("Sprites/ArrowObject.png");
-	z-index: 7;
-	width: 79px;
-	height: 73px;
+  background-image: url("Sprites/ArrowObject.png");
+  z-index: 7;
+  width: 79px;
+  height: 73px;
 }
 
 #candles_background {
-	background-image: url("Sprites/Standard_Candles/Background.png");
-	z-index: 1;
-	width: 1280px;
-	height: 720px;
+  background-image: url("Sprites/Standard_Candles/Background.png");
+  z-index: 1;
+  width: 1280px;
+  height: 720px;
 }
 
 #candles_helpButton {
-	background-image: url("Sprites/Standard_Candles/help_button.png");
-	z-index: 3;
-	width: 164px;
-	height: 87px;
+  background-image: url("Sprites/Standard_Candles/help_button.png");
+  z-index: 3;
+  width: 164px;
+  height: 87px;
 }
 
 #candles_mice_caught {
-	background-image: url("Sprites/Standard_Candles/mice_caught.png");
-	z-index: 3;
-	width: 248px;
-	height: 229px;
+  background-image: url("Sprites/Standard_Candles/mice_caught.png");
+  z-index: 3;
+  width: 248px;
+  height: 229px;
 }
 
 #candles_target {
-	background-image: url("Sprites/Standard_Candles/green_screen.png");
-	z-index: 3;
-	width: 445px;
-	height: 76px;
+  background-image: url("Sprites/Standard_Candles/green_screen.png");
+  z-index: 3;
+  width: 445px;
+  height: 76px;
 }
 
 #candles_prevTarget {
-	background-image: url("Sprites/Standard_Candles/orange_screen.png");
-	z-index: 3;
-	width: 445px;
-	height: 76px;
+  background-image: url("Sprites/Standard_Candles/orange_screen.png");
+  z-index: 3;
+  width: 445px;
+  height: 76px;
 }
 
 #candles_timeRemain {
-	background-image: url("Sprites/Standard_Candles/blue_screen.png");
-	z-index: 3;
-	width: 445px;
-	height: 76px;
+  background-image: url("Sprites/Standard_Candles/blue_screen.png");
+  z-index: 3;
+  width: 445px;
+  height: 76px;
 }
 
 #candles_UIFrame {
-	background-image: url("Sprites/Standard_Candles/UIFrame.png");
-	z-index: 4;
-	width: 1280px;
-	height: 235px;
+  background-image: url("Sprites/Standard_Candles/UIFrame.png");
+  z-index: 4;
+  width: 1280px;
+  height: 235px;
 }
 
 #orders {
-	background-image: url("Sprites/Standard_Candles/orders_screen.png");
-	z-index: 5;
-	width: 217px;
-	height: 159px;
+  background-image: url("Sprites/Standard_Candles/orders_screen.png");
+  z-index: 5;
+  width: 217px;
+  height: 159px;
 }
 
 #intercept_button {
-	background-image: url("Sprites/Standard_Candles/intercept_button.png");
-	z-index: 5;
-	width: 177px;
-	height: 48px;
+  background-image: url("Sprites/Standard_Candles/intercept_button.png");
+  z-index: 5;
+  width: 177px;
+  height: 48px;
 }
 
 #undo_button {
-	background-image: url("Sprites/Standard_Candles/undo_button.png");
-	z-index: 5;
-	width: 177px;
-	height: 48px;
+  background-image: url("Sprites/Standard_Candles/undo_button.png");
+  z-index: 5;
+  width: 177px;
+  height: 48px;
 }
 
 .maus {
-	background-image: url("Sprites/Standard_Candles/maus_cropped.png");
-	z-index: 2;
-	width: 77px;
-	height: 81px;
+  background-image: url("Sprites/Standard_Candles/maus_cropped.png");
+  z-index: 2;
+  width: 77px;
+  height: 81px;
 }
 
 .maus_selector {
-	background-image: url("Sprites/Standard_Candles/maus_selected_icon.png");
-	z-index: 2;
-	width: 77px;
-	height: 81px;
+  background-image: url("Sprites/Standard_Candles/maus_selected_icon.png");
+  z-index: 2;
+  width: 77px;
+  height: 81px;
 }
 
 #arachne_icon {
-	background-image: url("Sprites/Standard_Candles/arachne_icon.png");
-	z-index: 2;
-	width: 245px;
-	height: 81px;
+  background-image: url("Sprites/Standard_Candles/arachne_icon.png");
+  z-index: 2;
+  width: 245px;
+  height: 81px;
 }

@@ -112,9 +112,9 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
   this.x = x;
   this.y = y;
   this.radius = radius;
-  this.baseMove = speed - 2;
+  this.baseMove = speed - 1;
   this.move = speed - this.baseMove;
-  this.scaleDis = 300;
+  this.scaleDis = 600;
   this.growth = 2;
   this.circles = [];
   this.pulsePerSecond = pulsePerSecond;
@@ -146,9 +146,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
         var mouse = g.input.mouse;
         //if the mouse is less than a move away in both dimensions don't update position
         if (helper.getDistance(this.centerX, this.centerY, mouse.X, mouse.Y) >= this.baseMove + this.move){
-        //if (helper.getDistance(this.centerX, mouse.X, this.centerY, mouse.Y) >= this.baseMove + this.move){
-        //if (Math.abs(mouse.X - this.centerX) >= this.baseMove || Math.abs(mouse.Y - this.centerY) >= this.baseMove){
-          if((mouse.Y >= 0) && (mouse.Y < doppler.canvas.height) && (mouse.X >= 0) && (mouse.X < doppler.canvas.width)){
+          if(mouse.Y < doppler.canvas.height && mouse.X < doppler.canvas.width){
             function findMove(y, x){
               var temp = Math.atan2(y, x);
               temp = temp * 180 / Math.PI;
@@ -156,7 +154,6 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
               return temp / 90;
             }
             var disToMouse = helper.getDistance(this.centerX, this.centerY, mouse.X, mouse.Y);
-            console.log(disToMouse);
             var move = this.baseMove;
             if (disToMouse < this.scaleDis) {
               move += this.move * (disToMouse / this.scaleDis);
