@@ -112,8 +112,8 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
   this.x = x;
   this.y = y;
   this.radius = radius;
-  this.move = speed;
-  this.baseMove = this.move - 2;
+  this.baseMove = speed - 2;
+  this.move = speed - this.baseMove;
   this.scaleDis = 300;
   this.growth = 2;
   this.circles = [];
@@ -143,21 +143,32 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
       var moveX = 0, moveY = 0;
 
       if(g.input.mouse.down){
+        var mouse = g.input.mouse;
         //if the mouse is less than a move away in both dimensions don't update position
-        if (Math.abs(g.input.mouse.X - this.centerX) >= this.move || Math.abs(g.input.mouse.Y - this.centerY) >= this.move){
-          if((g.input.mouse.Y >= 0) && (g.input.mouse.Y < doppler.canvas.height) && (g.input.mouse.X >= 0) && (g.input.mouse.X < doppler.canvas.width)){
+        if (helper.getDistance(this.centerX, this.centerY, mouse.X, mouse.Y) >= this.baseMove + this.move){
+        //if (helper.getDistance(this.centerX, mouse.X, this.centerY, mouse.Y) >= this.baseMove + this.move){
+        //if (Math.abs(mouse.X - this.centerX) >= this.baseMove || Math.abs(mouse.Y - this.centerY) >= this.baseMove){
+          if((mouse.Y >= 0) && (mouse.Y < doppler.canvas.height) && (mouse.X >= 0) && (mouse.X < doppler.canvas.width)){
             function findMove(y, x){
-                    var temp = Math.atan2(y, x);
-                    temp = temp * 180 / Math.PI;
-                    temp = 90 - Math.abs(temp);
-                    return temp / 90;
+              var temp = Math.atan2(y, x);
+              temp = temp * 180 / Math.PI;
+              temp = 90 - Math.abs(temp);
+              return temp / 90;
             }
-            var Xadjust = findMove(g.input.mouse.Y - this.centerY, g.input.mouse.X - this.centerX);
-            var Yadjust = findMove(g.input.mouse.X - this.centerX, g.input.mouse.Y - this.centerY);
-            moveX = this.move * Xadjust;
-            moveY = this.move * Yadjust;
-            var tempX = g.input.mouse.X - this.centerX;
-            var tempY = g.input.mouse.Y - this.centerY;
+            var disToMouse = helper.getDistance(this.centerX, this.centerY, mouse.X, mouse.Y);
+            console.log(disToMouse);
+            var move = this.baseMove;
+            if (disToMouse < this.scaleDis) {
+              move += this.move * (disToMouse / this.scaleDis);
+            } else {
+              move += this.move;
+            }
+            var Xadjust = findMove(mouse.Y - this.centerY, mouse.X - this.centerX);
+            var Yadjust = findMove(mouse.X - this.centerX, mouse.Y - this.centerY);
+            moveX = move * Xadjust;
+            moveY = move * Yadjust;
+            var tempX = mouse.X - this.centerX;
+            var tempY = mouse.Y - this.centerY;
             this.transAngle = Math.atan2(tempX, -tempY);
           }
         }
