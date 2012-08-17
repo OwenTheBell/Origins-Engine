@@ -17,7 +17,6 @@ var helper = {
       }
     }
     ruleStr += '}';
-    console.log(ruleStr);
     mysheet.insertRule(ruleStr, length);
     return myrules[length];
   },

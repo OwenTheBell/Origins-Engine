@@ -77,9 +77,33 @@ var StandardCandlesScreen = Screen.extend(function(id){
             this.addSprite(sprite);
           }
         } else if (confirmed.id === 'intercept_button' && !this.intercepting){
-          this.spriteArray['arachne_icon'].moveTo(this.arachneTargets[this.nextTarget].x, this.arachneTargets[this.nextTarget].y, 1);
-          this.nextTarget++;
-          this.intercepting = true;
+          //check to see if the selection array is in the correct order
+          var that = this;
+          if ((function() {
+            if (that.arachneTargets.length != that.mausCount) return false; 
+            var prev = 0;
+            for(target in that.arachneTargets){
+              target = that.arachneTargets[target];
+              if (prev == 0) prev = parseInt(target.dist);
+              else if (parseInt(target.dist) > prev) prev = parseInt(target.dist);
+              else return false;
+            }
+            return true;
+          })()){
+            this.spriteArray['arachne_icon'].moveTo(this.arachneTargets[this.nextTarget].x, this.arachneTargets[this.nextTarget].y, 1);
+            this.nextTarget++;
+            this.intercepting = true;
+          } 
+          //if the array wasn't in order than clear all selectors
+          else {
+            for(target in this.arachneTargets){
+              delete this.spriteArray[this.arachneTargets[target].id];
+            }
+            this.arachneTargets = [];
+            this.targetText.text = '';
+            this.prevTargetText.text = '';
+          }
+
         } else if (confirmed.id === 'undo_button' && !this.intercepting){
           var target = this.arachneTargets[this.arachneTargets.length - 1];
           delete this.spriteArray[target.id];
@@ -105,6 +129,8 @@ var StandardCandlesScreen = Screen.extend(function(id){
           this.spriteArray['arachne_icon'].moveToOrigin(1);
           this.selectedArray = [];
           this.arachneTargets = [];
+          this.targetText.text = '';
+          this.prevTargetText.text = '';
           this.resetMice();
           this.nextTarget = 0;
           this.intercepting = false;
