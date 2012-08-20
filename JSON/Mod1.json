@@ -478,6 +478,14 @@
         "x": 1000,
         "y": 600,
         "zIndex": 2
+      },
+      "candles_goto_observation": {
+        "type": "screenChangeSprite",
+        "sprite": "Sprites/ArrowObject.png",
+        "x": 890,
+        "y": 650,
+        "zIndex": 4,
+        "screen": "observationScreen"
       }
     }
   },

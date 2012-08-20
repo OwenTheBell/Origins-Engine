@@ -14,9 +14,11 @@ var StandardCandlesScreen = Screen.extend(function(id){
   this.targetText = new textBox('targetText', '', 600, 491, '#FFFFFF', 4, '20px');
   this.prevTargetText = new textBox('prevTargetText', '', 600, 564, '#ffffff', 4, '20px');
   this.timeText = new textBox('timeText', 'hello', 600, 637, '#ffffff', 4, '20px');
+  this.miceCollected = new textBox('miceCollected', '0', 160, 670, '#00ff00', 4, '20px');   
   this.addSprite(this.targetText);
   this.addSprite(this.prevTargetText);
   this.addSprite(this.timeText);
+  this.addSprite(this.miceCollected);
 })
   .methods({
     addSprite: function(newSprite){
@@ -57,10 +59,17 @@ var StandardCandlesScreen = Screen.extend(function(id){
     },
     update: function(){
       this.supr();
+      var that = this;
       if (this.confirmedSprite){
         var confirmed = this.confirmedSprite;
         if(confirmed instanceof moveableSprite){
-          if (this.arachneTargets.indexOf(confirmed.id) == -1){
+          if ((function(){
+            for(target in that.arachneTargets){
+              if (confirmed.id === that.arachneTargets[target].maus) return false;
+            }
+            return true;
+          })()){
+          //if (this.arachneTargets.indexOf(confirmed.id) == -1){
             var x = Math.floor((confirmed.width - (confirmed.width * confirmed.scale)) / 2);
             var x = confirmed.left - x;
             var y = Math.floor((confirmed.height - (confirmed.height * confirmed.scale)) / 2);
@@ -73,7 +82,7 @@ var StandardCandlesScreen = Screen.extend(function(id){
               this.selectorUrl,
               confirmed.zIndex);
             sprite.classes.push('maus_selector');
-            this.arachneTargets.push({x: x, y: y, id: sprite.id, dist: this.targetText.text});
+            this.arachneTargets.push({x: x, y: y, id: sprite.id, maus: confirmed.id, dist: this.targetText.text});
             this.addSprite(sprite);
           }
         } else if (confirmed.id === 'intercept_button' && !this.intercepting){
@@ -120,7 +129,10 @@ var StandardCandlesScreen = Screen.extend(function(id){
           this.arachneTargets.splice(this.arachneTargets.length - 1, 1);
         }
       }
+      //keep arachne moving if she has stopped and collected a mouse
       if (this.intercepting && !this.spriteArray['arachne_icon'].moving) {
+        this.miceCollected.text = parseInt(this.miceCollected.text) + 1;
+        delete this.spriteArray[this.arachneTargets[this.nextTarget - 1].maus];
         delete this.spriteArray[this.arachneTargets[this.nextTarget - 1].id];
         if (this.nextTarget < this.arachneTargets.length) {
           this.spriteArray['arachne_icon'].moveTo(this.arachneTargets[this.nextTarget].x, this.arachneTargets[this.nextTarget].y, 1);
