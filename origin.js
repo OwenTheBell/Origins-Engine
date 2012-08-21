@@ -17,6 +17,7 @@ var g = {
   evaluationFrame: false,
   jsonObj: {},
   activeScreen: null,
+  prevActive: 'cryoScreen',
   activeDialogue: null,
   availableScreens: [], //list of screens that can be accessed via ladder
   spriteCache: [],

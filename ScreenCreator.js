@@ -26,7 +26,7 @@ var CreateScreen = function(id, json){
 
 var CreateDopplerScreen = function(id, json){
 	var screen = {};
-	screen = new DopplerScreen(id);
+	screen = new DopplerScreen(id, json.targets);
 	if (json.active == 'true'){
 		g.activeScreen = id;
 	}

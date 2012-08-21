@@ -288,6 +288,10 @@
   
   "DopplerScreen": {
     "screenType": "dopplerScreen",
+    "active": "true",
+    "targets": [
+      [0, 120, 240, 360]
+    ], 
     "sprites": {
       "DopplerScreenBackground": {
         "type": "Sprite",
@@ -384,7 +388,6 @@
   
   "StandardCandles": {
     "screenType": "standardCandlesScreen",
-    "active": "true",
     "sprites": {
       "candles_background": {
         "type": "Sprite",

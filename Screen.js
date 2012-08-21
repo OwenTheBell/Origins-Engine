@@ -72,12 +72,12 @@ var Screen = klass(function(id) {
 			} else if (this.fadeOut){
 				if (this.css['opacity'] <= 0.0){
 					this.css['opacity'] = 0.0;
+                                        g.prevActive = this.id;
 					this.fadeOut = false;
 				} else {
 					this.css['opacity'] -= (1 / this.transitionFrames);
 				}
 				
-				this.drawState = 'updated';
 			}
 			var mouse = {};
 			this.mouseCheck = {};

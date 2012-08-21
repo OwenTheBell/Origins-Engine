@@ -4,6 +4,8 @@ var doppler = {
   reciever: {},
   emitter: {},
   target: {},
+  targets: [],
+  currentTarget: 0,
   mouseCount: {}, //textbox object that stores and prints the number of caught mice
   elements: [], //nonSprite elemenents, stuff like the emitter or canvases
   Mouse: {},
@@ -17,14 +19,15 @@ var doppler = {
   pulsing: false
 }
 
-var DopplerScreen = Screen.extend(function(id){
+var DopplerScreen = Screen.extend(function(id, targets){
   doppler.canvas = new Canvas('mainCanvas', 0, 0, 1280, 600, 3);
   doppler.elements.push(doppler.canvas);
   doppler.emitter = new Emitter(20, 20, 5, doppler.generate, 3);
   var randX = Math.floor(Math.random() * (doppler.canvas.width - 200) + 100);
   var randY = Math.floor(Math.random() * (doppler.canvas.height - 300) + 100);
   doppler.reciever = new Reciever(randX, randY, 5);
-  doppler.target = new Target([0, 60, 120, 180, 240]);
+  doppler.targets = targets;
+  doppler.target = new Target(targets[0]);
   doppler.elements.push(doppler.emitter, doppler.reciever, doppler.target);
   doppler.mouseCount = new textBox('mouseCount', '0', 160, 660, '#00ff00', 6, '20px');
   this.addSprite(doppler.mouseCount);
@@ -48,6 +51,11 @@ var DopplerScreen = Screen.extend(function(id){
           }
         }
         if(doppler.matchedAt && g.frameCounter >= doppler.matchedAt + 30){
+          doppler.currentTarget++;
+          if(doppler.currentTarget >= doppler.targets.length){
+            this.fadingOut(1);
+            g.screenCollection[g.prevActive].fadingIn(1);
+          }
           doppler.canvas = new Canvas('mainCanvas', 0, 0, 1280, 600, 3);
           doppler.elements = [];
           doppler.waveDict = {};
@@ -56,10 +64,11 @@ var DopplerScreen = Screen.extend(function(id){
           var randX = Math.floor(Math.random() * (doppler.canvas.width - 200) + 100);
           var randY = Math.floor(Math.random() * (doppler.canvas.height - 200) + 100);
           doppler.reciever = new Reciever(randX, randY, 5);
-          doppler.target = new Target([0, 120, 240, 360]);
+          doppler.target = new Target(doppler.targets[doppler.currentTarget]);
           doppler.elements.push(doppler.reciever, doppler.target);
           doppler.mouseCount = parseInt(doppler.mouseCount.text) + 1;
           doppler.matchedAt = null;
+          }
         }
       }
     },
