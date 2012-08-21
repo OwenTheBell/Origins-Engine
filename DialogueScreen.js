@@ -66,7 +66,6 @@ var DialogueScreen = Screen.extend(function(id, file){
 })
 
   .methods({
-          
     //Pass the file name so it can be outputted on error for easy debugging
     loadXML: function(xml, fileName){
       var count = 0;
@@ -269,31 +268,6 @@ var DialogueScreen = Screen.extend(function(id, file){
           newPopupHTML.push('</td></tr><tr><td><center>', this.activeStatement.collectedInput);
           newPopupHTML.push('</center></td></tr><tr><td>Press Enter when Done</td></tr></div>');
           this.popupHTML = newPopupHTML.join('');
-          /*
-          console.log('trigger');
-          var newPopupHTML = ['<div id="PlayerDiv" style="'];
-          for (x in this.playerCSS){
-            newPopupHTML.push(x, ':', this.playerCSS[x], '; ');
-          }
-          newPopupHTML.push('" class="dialogue speech" ><table><tr><td>');
-          newPopupHTML.push('<div style="');
-          for(x in this.responseHolders[0]){
-            newPopupHTML.push(x, ':', this.responseHolders[0][x], '; ');
-          }
-          this.newPopupHTML.push('" >')
-          this.activeStatement.draw(newPopupHTML);
-          newPoupHTML.push('</div><div style="');
-          for(x in this.responseHolders[1]){
-            newPopupHTML.push(x, ':', this.responseHolders[1][x], '; ');
-          }
-          this.newPopupHTML.push('" >', this.activeStatement.collectedInput);
-          newPoupHTML.push('</div><div style="');
-          for(x in this.responseHolders[2]){
-            newPopupHTML.push(x, ':', this.responseHolders[2][x], '; ');
-          }
-          newPoupHTML.push('" >Press Enter when Done</div></div>');
-          this.playerHTML = newPopupHTML.join('');
-          */
         }
         HTML.push('<div id =', this.id, 'Dialouge', ' style="');
         for(x in this.css){
