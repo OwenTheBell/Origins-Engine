@@ -23,7 +23,8 @@ var DialogueScreen = Screen.extend(function(id, file){
   this.topSprite = new Sprite('topSprite', 0, 0, 'Sprites/Dialogue/top_dialogue.png', 1);
   this.bottomSprite = new Sprite('bottomSprite', 0, 0, 'Sprites/Dialogue/bottom_dialogue.png', 1);
   this.bottomSprite.changeTop(g.origins.height - this.bottomSprite.height);
-  this.spriteArray.push(this.topSprite, this.bottomSprite); 
+  this.speakerName = new textBox('speaker', '', 120, 210, '#ffffff', 10, '20px');
+  this.spriteArray.push(this.topSprite, this.bottomSprite, this.speakerName);
 
   if (!helper.findCSSRule('#OverseerDIV')){
     this.overseerRule = helper.addCSSRule('#OverseerDIV', {
@@ -83,6 +84,7 @@ var DialogueScreen = Screen.extend(function(id, file){
           var overseer = new OverseerStatement(that, this);
           statements[id] = overseer;
           if(!that.activeStatement){
+            that.speakerName.text = 'overseer';
             that.activeStatement = overseer;
           }
         } else {
@@ -99,6 +101,21 @@ var DialogueScreen = Screen.extend(function(id, file){
         var popup = new PopupStatement(that, this);
         statements[popup.id] = popup
       });
+      
+      $(xml).find('arachne').each(function(){
+        var id = $(this).attr('id');
+        
+        if(!statements[id]){
+          var arachne = new ArachneStatement(that, this);
+          statements[id] = arachne;
+          if(!that.activeStatement){
+            that.activeStatement = arachne;
+            that.speakerName.text = 'arachne';
+          }
+        } else {
+          statements[id].addTextBlock(this);
+        }
+      })
       
       for(i in statements){
         var statement = statements[i];
@@ -117,7 +134,7 @@ var DialogueScreen = Screen.extend(function(id, file){
         var next = statement.nextType;
         if (next === 'exit' || next === 'endMod'){
           statement.setNext('exit');
-        } else if (next === 'overseer' || next === 'player' || next === 'popup'){
+        } else if (next === 'overseer' || next === 'player' || next === 'popup' || next === 'arachne'){
           var tester = statements[statement.nextId];
           if (!tester) {
             console.log("ERROR: %s tried to access the invalid %s id %s in the file %s", statement.id, next, statement.nextId, fileName);
@@ -155,6 +172,8 @@ var DialogueScreen = Screen.extend(function(id, file){
         if (this.nextActiveStatement){
           this.previousActiceStatement = this.activeStatement;
           this.activeStatement = this.nextActiveStatement;
+          if (this.activeStatement instanceof OverseerStatement) this.speakerName.text = 'overseer';
+          else if (this.activeStatement instanceof ArachneStatement) this.speakerName.text = 'arachne';
           this.nextActiveStatement = null;
         }
         
@@ -171,9 +190,9 @@ var DialogueScreen = Screen.extend(function(id, file){
           } else {
             for(var i = 0; i < this.responseHolders.length; i++){
               if(target == i){
-                this.responseHolders[i]['background-color'] = '#FFFF88';
+                this.responseHolders[i]['background-color'] = '#800000';
               } else {
-                this.responseHolders[i]['background-color'] = '#FFFFFF';
+                delete this.responseHolders[i]['background-color'];
               }
             }
           }
@@ -186,7 +205,7 @@ var DialogueScreen = Screen.extend(function(id, file){
     
     draw: function(HTML){
       if(this.id == g.activeDialogue){
-        this.popupHTML = ''; //Value must be reset as popup should only appear when active
+        //this.popupHTML = ''; //Value must be reset as popup should only appear when active
         
         //Function to handle creating the PlayerDiv
         var that = this;
@@ -221,7 +240,7 @@ var DialogueScreen = Screen.extend(function(id, file){
         };
         
         //When the overseerDiv needs to be updated
-        if (this.activeStatement instanceof OverseerStatement){
+        if (this.activeStatement instanceof OverseerStatement || this.activeStatement instanceof ArachneStatement){
           var newOverseerHTML = ['<div id="OverseerDIV" style="'];
           for(x in this.overseerCSS){
             newOverseerHTML.push(x,':', this.overseerCSS[x], '; ');
@@ -250,6 +269,31 @@ var DialogueScreen = Screen.extend(function(id, file){
           newPopupHTML.push('</td></tr><tr><td><center>', this.activeStatement.collectedInput);
           newPopupHTML.push('</center></td></tr><tr><td>Press Enter when Done</td></tr></div>');
           this.popupHTML = newPopupHTML.join('');
+          /*
+          console.log('trigger');
+          var newPopupHTML = ['<div id="PlayerDiv" style="'];
+          for (x in this.playerCSS){
+            newPopupHTML.push(x, ':', this.playerCSS[x], '; ');
+          }
+          newPopupHTML.push('" class="dialogue speech" ><table><tr><td>');
+          newPopupHTML.push('<div style="');
+          for(x in this.responseHolders[0]){
+            newPopupHTML.push(x, ':', this.responseHolders[0][x], '; ');
+          }
+          this.newPopupHTML.push('" >')
+          this.activeStatement.draw(newPopupHTML);
+          newPoupHTML.push('</div><div style="');
+          for(x in this.responseHolders[1]){
+            newPopupHTML.push(x, ':', this.responseHolders[1][x], '; ');
+          }
+          this.newPopupHTML.push('" >', this.activeStatement.collectedInput);
+          newPoupHTML.push('</div><div style="');
+          for(x in this.responseHolders[2]){
+            newPopupHTML.push(x, ':', this.responseHolders[2][x], '; ');
+          }
+          newPoupHTML.push('" >Press Enter when Done</div></div>');
+          this.playerHTML = newPopupHTML.join('');
+          */
         }
         HTML.push('<div id =', this.id, 'Dialouge', ' style="');
         for(x in this.css){
@@ -259,7 +303,7 @@ var DialogueScreen = Screen.extend(function(id, file){
         for(x in this.classes){
           HTML.push(this.classes[x], ' ');
         }
-        HTML.push('">', this.overseerHTML, this.playerHTML, this.popupHTML);
+        HTML.push('">', this.overseerHTML, this.playerHTML);//, this.popupHTML);
         for(i in this.spriteArray){
           this.spriteArray[i].draw(HTML);
         }
@@ -406,6 +450,15 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
     }
   });
 
+/*
+ * This is exactly the same as OverseerStament, no diffs at all
+ */
+var ArachneStatement = OverseerStatement.extend(function(parent, xmlData){
+	
+})
+	.methods({
+		
+	});
 /*
 * This class wraps sets of player statements. Nonplayer statements
 * point to this rather than specific player statements
