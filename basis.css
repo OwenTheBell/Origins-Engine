@@ -1,13 +1,13 @@
 /*font stuff*/
 @font-face {
-    font-family: 'MichromaRegular';
-    src: url('Fonts/michroma-webfont.eot');
-    src: url('Fonts/michroma-webfont.eot?#iefix') format('embedded-opentype'),
-         url('Fonts/michroma-webfont.woff') format('woff'),
-         url('Fonts/michroma-webfont.ttf') format('truetype'),
-         url('Fonts/michroma-webfont.svg#MichromaRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'MichromaRegular';
+	src: url('Fonts/michroma-webfont.eot');
+	src: url('Fonts/michroma-webfont.eot?#iefix') format('embedded-opentype'), 
+		url('Fonts/michroma-webfont.woff') format('woff'),
+		url('Fonts/michroma-webfont.ttf') format('truetype'),
+		url('Fonts/michroma-webfont.svg#MichromaRegular') format('svg');
+	font-weight: normal;
+	font-style: normal;
 }
 
 /*element specific css*/
