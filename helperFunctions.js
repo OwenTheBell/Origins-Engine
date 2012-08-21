@@ -53,27 +53,29 @@ var helper = {
   },
   
   evalScreen: function(id, json){
-    switch(json.screenType){
-      case 'Screen':
-        CreateScreen(id, json);
-        break;
-      case 'dialogueScreen':
-        CreateDialogueScreen(id, json);
-        break;
-      case 'interactiveDialogue':
-        CreateInteractiveDialogueScreens(json);
-        break;
-      case 'dopplerScreen':
-        CreateDopplerScreen(id, json);
-        break;
-      case 'switchScreen':
-        CreateSwitchScreen(id, json);
-        break;
-      case 'standardCandlesScreen':
-        CreateStandardCandlesScreen(id, json);
-        break;
-      default:
-        console.log('ERROR: ' + id + ' has the invalid screenType of: ' + json.screenType);
+    if (json.screenType){ 
+      switch(json.screenType){
+        case 'Screen':
+          CreateScreen(id, json);
+          break;
+        case 'dialogueScreen':
+          CreateDialogueScreen(id, json);
+          break;
+        case 'interactiveDialogue':
+          CreateInteractiveDialogueScreens(json);
+          break;
+        case 'dopplerScreen':
+          CreateDopplerScreen(id, json);
+          break;
+        case 'switchScreen':
+          CreateSwitchScreen(id, json);
+          break;
+        case 'standardCandlesScreen':
+          CreateStandardCandlesScreen(id, json);
+          break;
+        default:
+          console.log('ERROR: ' + id + ' has the invalid screenType of: ' + json.screenType);
+      }
     }
   },
   

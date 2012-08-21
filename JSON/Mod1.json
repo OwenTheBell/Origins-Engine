@@ -288,7 +288,6 @@
   
   "DopplerScreen": {
     "screenType": "dopplerScreen",
-    "active": "true",
     "targets": [
       [0, 120, 240, 360]
     ], 
@@ -489,6 +488,31 @@
         "y": 650,
         "zIndex": 4,
         "screen": "observationScreen"
+      }
+    }
+  },
+
+  "caching": {
+    "sprites": {
+      "topDialogue": {
+        "type": "Sprite",
+        "sprite": "Sprites/Dialogue/top_dialogue.png",
+        "zIndex": 1
+      },
+      "bottomDialogue": {
+        "type": "Sprite",
+        "sprite": "Sprites/Dialogue/bottom_dialogue.png",
+        "zIndex": 1
+      },
+      "overseerFace": {
+        "type": "Sprite",
+        "sprite": "Sprites/Dialogue/overseer_portrait.png",
+        "zIndex": 2
+      },
+      "arachneFace": {
+        "type": "Sprite",
+        "sprite": "Sprites/Dialogue/arachne_portrait.png",
+        "zIndex": 2
       }
     }
   },

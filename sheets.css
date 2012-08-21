@@ -1,3 +1,31 @@
+#overseerFace {
+  background-image: url("Sprites/Dialogue/overseer_portrait.png");
+  z-index: 2;
+  width: 266px;
+  height: 190px;
+}
+
+#arachneFace {
+  background-image: url("Sprites/Dialogue/arachne_portrait.png");
+  z-index: 2;
+  width: 183px;
+  height: 191px;
+}
+
+#topSprite {
+  background-image: url("Sprites/Dialogue/top_dialogue.png");
+  z-index: 10;
+  width: 1214px;
+  height: 380px;
+}
+
+#bottomSprite {
+  background-image: url("Sprites/Dialogue/bottom_dialogue.png");
+  z-index: 1;
+  width: 1245;
+  height: 159;
+}
+
 #mainScreen1_background {
   background-image: url("Sprites/Main_View1/Background.png");
   z-index: 1;

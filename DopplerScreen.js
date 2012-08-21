@@ -68,10 +68,10 @@ var DopplerScreen = Screen.extend(function(id, targets){
           doppler.elements.push(doppler.reciever, doppler.target);
           doppler.mouseCount = parseInt(doppler.mouseCount.text) + 1;
           doppler.matchedAt = null;
-          }
         }
       }
     },
+
     draw: function(HTML){
       //only bother rendering if we can actually see this screen
       if (this.css['opacity'] > 0){
