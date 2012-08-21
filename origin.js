@@ -52,7 +52,7 @@ $(document).ready(function(){
   
   //setup some of the external css for the dialogueScreens
   var rule = helper.addCSSRule('.speech', {
-    width: g.origins.width - 20 + 'px',
+    width: g.origins.width - 220 + 'px',
     height: g.origins.height / 4 + 'px'
   });
 
@@ -78,7 +78,7 @@ continueReady = function(){
   
   //make sure that the screen array is emptied while the the 
   g.screenCollection = [];
-  g.availableScreens = []
+  g.availableScreens = [];
   for(i in g.jsonObj){
     var id = i;
     var json = g.jsonObj[i];

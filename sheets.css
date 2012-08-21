@@ -14,7 +14,7 @@
 
 #topSprite {
   background-image: url("Sprites/Dialogue/top_dialogue.png");
-  z-index: 10;
+  z-index: 1;
   width: 1214px;
   height: 380px;
 }
@@ -22,8 +22,8 @@
 #bottomSprite {
   background-image: url("Sprites/Dialogue/bottom_dialogue.png");
   z-index: 1;
-  width: 1245;
-  height: 159;
+  width: 1245px;
+  height: 259px;
 }
 
 #mainScreen1_background {

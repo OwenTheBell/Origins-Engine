@@ -21,18 +21,22 @@ var DialogueScreen = Screen.extend(function(id, file){
   this.classes = ['dialogueWrapper']; //override the standard screen css class and add a different one
   this.activateBlock = false;
   this.topSprite = new Sprite('topSprite', 0, 0, 'Sprites/Dialogue/top_dialogue.png', 1);
-  this.spriteArray.push(this.topSprite); 
+  this.bottomSprite = new Sprite('bottomSprite', 0, 0, 'Sprites/Dialogue/bottom_dialogue.png', 1);
+  this.bottomSprite.changeTop(g.origins.height - this.bottomSprite.height);
+  this.spriteArray.push(this.topSprite, this.bottomSprite); 
 
   if (!helper.findCSSRule('#OverseerDIV')){
     this.overseerRule = helper.addCSSRule('#OverseerDIV', {
-      top: '5px', left: '5px'
+      top: '0px', left: '85px', 'z-index': 2, color: '#ffffff'
     });
 
     //if overseerDialogue wasn't there it is reasonable to assume that the other
     //cssRules aren't there either and should be created
     this.playerRule = helper.addCSSRule('#PlayerDIV', {
-      top: g.origins.height - parseInt(helper.findCSSRule('.speech').style.height) - 15 + 'px',
-      left: 5 + 'px', 
+      top: g.origins.height - parseInt(helper.findCSSRule('.speech').style.height) - 2 + 'px',
+      left: 85 + 'px',
+      'z-index': 2,
+      color: '#ffffff'
     });
 
     this.popupRule = helper.addCSSRule('#PopupDIV', {
