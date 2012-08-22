@@ -42,6 +42,7 @@ var StandardCandlesScreen = Screen.extend(function(id){
     
     createMice: function(){
     	this.mice = [];
+    	this.targetPosition = [];
       for(id in this.spriteArray){
         if (id.match('maus.')){
           delete this.spriteArray[id];
