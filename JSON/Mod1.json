@@ -387,6 +387,7 @@
 
 	"StandardCandles": {
 		"screenType": "standardCandlesScreen",
+		"active": "true",
 		"sprites": {
 			"candles_background": {
 				"type": "Sprite",

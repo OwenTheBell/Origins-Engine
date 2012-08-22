@@ -6,6 +6,9 @@ var StandardCandlesScreen = Screen.extend(function(id){
   this.mouseSource = '';
   this.mouseZIndex = null;
   this.mausCount = 5;
+  this.mice = [];
+  this.scaleTime = 2;
+  this.scalingFrames = 0;
   this.selectorUrl = '';
   this.arachneTargets = [];
   this.intercepting = false;
@@ -31,8 +34,9 @@ var StandardCandlesScreen = Screen.extend(function(id){
           var top = Math.floor(Math.random() * (this.gameHeight - this.mouseHeight));
           var left = Math.floor(Math.random() * (this.gameWidth - this.mouseWidth));
           var sprite = new clickMoveableSprite(newSprite.id + i, left, top, this.mouseSource, this.mouseZIndex);
-          sprite.scaleTo(i * 0.2);
           sprite.classes.push('maus');
+          sprite.timedScaleTo(this.scaleTime * g.fps, i * 0.2)
+          this.mice.push(sprite);
           this.supr(sprite)
         }
       } else if (newSprite.id === 'maus_selector'){
@@ -60,6 +64,8 @@ var StandardCandlesScreen = Screen.extend(function(id){
     update: function(){
       this.supr();
       var that = this;
+      
+      //respond to what sprites were clicked
       if (this.confirmedSprite){
         var confirmed = this.confirmedSprite;
         if(confirmed instanceof moveableSprite){
@@ -129,6 +135,8 @@ var StandardCandlesScreen = Screen.extend(function(id){
           this.arachneTargets.splice(this.arachneTargets.length - 1, 1);
         }
       }
+	
+      
       //keep arachne moving if she has stopped and collected a mouse
       if (this.intercepting && !this.spriteArray['arachne_icon'].moving) {
         this.miceCollected.text = parseInt(this.miceCollected.text) + 1;

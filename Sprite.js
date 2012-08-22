@@ -224,6 +224,12 @@ var moveableSprite = Sprite.extend(function(id, left, top, image, zIndex){
       this.scaleHeight = Math.round(this.height * this.scale);
       this.css['background-size'] = this.scaleWidth + 'px ' + this.scaleHeight + 'px';
     },
+    timedScaleTo: function(frames, scale){
+    	var scaleDif = this.scale - scale;
+    	this.targetScale = scale;
+    	this.endFrame = g.frameCounter + frames;
+    	this.perFrameScale = scaleDif / frames; 
+    },
     moveTo: function(x, y, time){
       this.moving = true;
       var frames = time * g.fps;
@@ -252,6 +258,9 @@ var moveableSprite = Sprite.extend(function(id, left, top, image, zIndex){
           this.changeTop(this.targetY);
           this.changeLeft(this.targetX);
         }
+      }
+      if(this.endFrame && this.endFrame >= g.frameCounter){
+      	this.scaleTo(this.targetScale + (this.perFrameScale * (this.endFrame - g.frameCounter)));
       }
     }
   });
