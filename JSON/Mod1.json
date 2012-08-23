@@ -1,544 +1,543 @@
 {
-	"mainScreen1": {
-		"screenType": "Screen",
-		"active": "true",
-		"available": "true",
-		"sprites": {
-			"mainScreen1_background": {
-				"type": "Sprite",
-				"sprite": "Sprites/Main_View1/Background.png",
-				"x": 0,
-				"y": 0,
-				"zIndex": 1
-			},
-			"bed": {
-				"type": "dialogueSprite",
-				"sprite": "Sprites/Main_View1/Bed.png",
-				"x": 999,
-				"y": 0,
-				"dialogue": "sleeps",
-				"zIndex": 2
-			},
-			"water": {
-				"type": "dialogueSprite",
-				"sprite": "Sprites/Main_View1/Water.png",
-				"x": 199,
-				"y": 100,
-				"dialogue": "water",
-				"zIndex": 2
-			},
-			"bike": {
-				"type": "dialogueSprite",
-				"sprite": "Sprites/Main_View1/Bike.png",
-				"x": 799,
-				"y": 300,
-				"dialogue": "bike",
-				"zIndex": 2
-			},
-			"food": {
-				"type": "dialogueSprite",
-				"sprite": "Sprites/Main_View1/Food_Pellets.png",
-				"x": 100,
-				"y": 99,
-				"dialogue": "food",
-				"zIndex": 2
-			},
-			"drawer": {
-				"type": "dialogueSprite",
-				"sprite": "Sprites/Main_View1/Drawer.png",
-				"x": 0,
-				"y": 349,
-				"dialogue": "bookshelf",
-				"zIndex": 2
-			},
-			"table": {
-				"type": "dialogueSprite",
-				"sprite": "Sprites/Main_View1/Table.png",
-				"x": 350,
-				"y": 250,
-				"dialogue": "table",
-				"zIndex": 2
-			},
-			"chair": {
-				"type": "dialogueSprite",
-				"sprite": "Sprites/Main_View1/Chair.png",
-				"x": 299,
-				"y": 300,
-				"dialogue": "chair",
-				"zIndex": 2
-			},
-			"thermostat": {
-				"type": "dialogueSprite",
-				"sprite": "Sprites/Main_View1/Thermostat.png",
-				"x": 0,
-				"y": 49,
-				"dialogue": "smallmonitor",
-				"zIndex": 2
-			},
-			"mainScreen1_ladder": {
-				"type": "dialogueSprite",
-				"sprite": "Sprites/Main_View1/Ladder.png",
-				"x": 699,
-				"y": 0,
-				"dialogue": "SwitchScreen",
-				"zIndex": 2
-			},
-			"goto_mainScreen2": {
-				"type": "screenChangeSprite",
-				"sprite": "Sprites/ArrowObject.png",
-				"x": 0,
-				"y": 647,
-				"screen": "mainScreen2",
-				"zIndex": 2
-			}
-		}
-	},
+  "mainScreen1": {
+    "screenType": "Screen",
+    "active": "true",
+    "available": "true",
+    "sprites": {
+      "mainScreen1_background": {
+        "type": "Sprite",
+        "sprite": "Sprites/Main_View1/Background.png",
+        "x": 0,
+        "y": 0,
+        "zIndex": 1
+      },
+      "bed": {
+        "type": "dialogueSprite",
+        "sprite": "Sprites/Main_View1/Bed.png",
+        "x": 999,
+        "y": 0,
+        "dialogue": "sleeps",
+        "zIndex": 2
+      },
+      "water": {
+        "type": "dialogueSprite",
+        "sprite": "Sprites/Main_View1/Water.png",
+        "x": 199,
+        "y": 100,
+        "dialogue": "water",
+        "zIndex": 2
+      },
+      "bike": {
+        "type": "dialogueSprite",
+        "sprite": "Sprites/Main_View1/Bike.png",
+        "x": 799,
+        "y": 300,
+        "dialogue": "bike",
+        "zIndex": 2
+      },
+      "food": {
+        "type": "dialogueSprite",
+        "sprite": "Sprites/Main_View1/Food_Pellets.png",
+        "x": 100,
+        "y": 99,
+        "dialogue": "food",
+        "zIndex": 2
+      },
+      "drawer": {
+        "type": "dialogueSprite",
+        "sprite": "Sprites/Main_View1/Drawer.png",
+        "x": 0,
+        "y": 349,
+        "dialogue": "bookshelf",
+        "zIndex": 2
+      },
+      "table": {
+        "type": "dialogueSprite",
+        "sprite": "Sprites/Main_View1/Table.png",
+        "x": 350,
+        "y": 250,
+        "dialogue": "table",
+        "zIndex": 2
+      },
+      "chair": {
+        "type": "dialogueSprite",
+        "sprite": "Sprites/Main_View1/Chair.png",
+        "x": 299,
+        "y": 300,
+        "dialogue": "chair",
+        "zIndex": 2
+      },
+      "thermostat": {
+        "type": "dialogueSprite",
+        "sprite": "Sprites/Main_View1/Thermostat.png",
+        "x": 0,
+        "y": 49,
+        "dialogue": "smallmonitor",
+        "zIndex": 2
+      },
+      "mainScreen1_ladder": {
+        "type": "dialogueSprite",
+        "sprite": "Sprites/Main_View1/Ladder.png",
+        "x": 699,
+        "y": 0,
+        "dialogue": "SwitchScreen",
+        "zIndex": 2
+      },
+      "goto_mainScreen2": {
+        "type": "screenChangeSprite",
+        "sprite": "Sprites/ArrowObject.png",
+        "x": 0,
+        "y": 647,
+        "screen": "mainScreen2",
+        "zIndex": 2
+      }
+    }
+  },
 
-	"mainScreen2": {
-		"screenType": "Screen",
-		"sprites": {
-			"space_exact": {
-				"type": "Sprite",
-				"sprite": "Sprites/Main_View2/Space_Exact.png",
-				"x": 446,
-				"y": 317,
-				"zIndex": 1
-			},
-			"mainScreen2_shutter": {
-				"type": "moveSprite",
-				"sprite": "Sprites/Main_View2/Shutter.png",
-				"x": 450,
-				"y": 100,
-				"targetX": 450,
-				"targetY": 300,
-				"seconds": ".5",
-				"zIndex": 2
-			},
-			"mainScreen2_background": {
-				"type": "Sprite",
-				"sprite": "Sprites/Main_View2/View2Background.png",
-				"x": 0,
-				"y": 0,
-				"zIndex": 3
-			},
-			"mainScreen2_window": {
-				"type": "dialogueSprite",
-				"sprite": "Sprites/Main_View2/Window.png",
-				"x": 400,
-				"y": 300,
-				"dialogue": "window",
-				"zIndex": 4
-			},
-			"clothes": {
-				"type": "dialogueSprite",
-				"sprite": "Sprites/Main_View2/Clothing_Cabinet.png",
-				"x": 849,
-				"y": 199,
-				"dialogue": "clothes",
-				"zIndex": 4
-			},
-			"goto_mainScreen1": {
-				"type": "screenChangeSprite",
-				"sprite": "Sprites/ArrowObject.png",
-				"x": 0,
-				"y": 647,
-				"screen": "mainScreen1",
-				"zIndex": 4
-			}
-		}
-	},
+  "mainScreen2": {
+    "screenType": "Screen",
+    "sprites": {
+      "space_exact": {
+        "type": "Sprite",
+        "sprite": "Sprites/Main_View2/Space_Exact.png",
+        "x": 446,
+        "y": 317,
+        "zIndex": 1
+      },
+      "mainScreen2_shutter": {
+        "type": "moveSprite",
+        "sprite": "Sprites/Main_View2/Shutter.png",
+        "x": 450,
+        "y": 100,
+        "targetX": 450,
+        "targetY": 300,
+        "seconds": ".5",
+        "zIndex": 2
+      },
+      "mainScreen2_background": {
+        "type": "Sprite",
+        "sprite": "Sprites/Main_View2/View2Background.png",
+        "x": 0,
+        "y": 0,
+        "zIndex": 3
+      },
+      "mainScreen2_window": {
+        "type": "dialogueSprite",
+        "sprite": "Sprites/Main_View2/Window.png",
+        "x": 400,
+        "y": 300,
+        "dialogue": "window",
+        "zIndex": 4
+      },
+      "clothes": {
+        "type": "dialogueSprite",
+        "sprite": "Sprites/Main_View2/Clothing_Cabinet.png",
+        "x": 849,
+        "y": 199,
+        "dialogue": "clothes",
+        "zIndex": 4
+      },
+      "goto_mainScreen1": {
+        "type": "screenChangeSprite",
+        "sprite": "Sprites/ArrowObject.png",
+        "x": 0,
+        "y": 647,
+        "screen": "mainScreen1",
+        "zIndex": 4
+      }
+    }
+  },
 
-	"cryoScreen": {
-		"screenType": "Screen",
-		"available": "true",
-		"sprites": {
-			"cryoScreenBackground": {
-				"type": "Sprite",
-				"sprite": "Sprites/Cryo_Room/Training_Room_Background.png",
-				"x": 0,
-				"y": 0,
-				"zIndex": 1
-			},
-			"miceCatcher": {
-				"type": "screenChangeSprite",
-				"sprite": "Sprites/Cryo_Room/Robot.png",
-				"x": 313,
-				"y": 513,
-				"screen": "DopplerScreen",
-				"zIndex": 2
-			},
-			"storageContainer": {
-				"type": "dialogueSprite",
-				"sprite": "Sprites/Cryo_Room/Storage_Container.png",
-				"x": 740,
-				"y": 20,
-				"dialogue": "storageContainer",
-				"zIndex": 2
-			},
-			"solarPanel": {
-				"type": "dialogueSprite",
-				"sprite": "Sprites/Cryo_Room/Solar_Panel.png",
-				"x": 799,
-				"y": 49,
-				"dialogue": "solarPanel",
-				"zIndex": 2
-			},
-			"consoleCryo": {
-				"type": "dialogueSprite",
-				"sprite": "Sprites/Cryo_Room/Cryo_Console.png",
-				"x": 180,
-				"y": 340,
-				"dialogue": "consoleCryo",
-				"zIndex": 2
-			},
-			"cryo_ladder": {
-				"type": "dialogueSprite",
-				"sprite": "Sprites/Cryo_Room/Ladder.png",
-				"x": 580,
-				"y": 0,
-				"dialogue": "SwitchScreen",
-				"zIndex": 2
-			},
-			"fog": {
-				"type": "Sprite",
-				"sprite": "Sprites/Cryo_Room/Fog.png",
-				"x": 0,
-				"y": 0,
-				"zIndex": 2
-			}
-		}
-	},
+  "cryoScreen": {
+    "screenType": "Screen",
+    "available": "true",
+    "sprites": {
+      "cryoScreenBackground": {
+        "type": "Sprite",
+        "sprite": "Sprites/Cryo_Room/Training_Room_Background.png",
+        "x": 0,
+        "y": 0,
+        "zIndex": 1
+      },
+      "miceCatcher": {
+        "type": "screenChangeSprite",
+        "sprite": "Sprites/Cryo_Room/Robot.png",
+        "x": 313,
+        "y": 513,
+        "screen": "DopplerScreen",
+        "zIndex": 2
+      },
+      "storageContainer": {
+        "type": "dialogueSprite",
+        "sprite": "Sprites/Cryo_Room/Storage_Container.png",
+        "x": 740,
+        "y": 20,
+        "dialogue": "storageContainer",
+        "zIndex": 2
+      },
+      "solarPanel": {
+        "type": "dialogueSprite",
+        "sprite": "Sprites/Cryo_Room/Solar_Panel.png",
+        "x": 799,
+        "y": 49,
+        "dialogue": "solarPanel",
+        "zIndex": 2
+      },
+      "consoleCryo": {
+        "type": "dialogueSprite",
+        "sprite": "Sprites/Cryo_Room/Cryo_Console.png",
+        "x": 180,
+        "y": 340,
+        "dialogue": "consoleCryo",
+        "zIndex": 2
+      },
+      "cryo_ladder": {
+        "type": "dialogueSprite",
+        "sprite": "Sprites/Cryo_Room/Ladder.png",
+        "x": 580,
+        "y": 0,
+        "dialogue": "SwitchScreen",
+        "zIndex": 2
+      },
+      "fog": {
+        "type": "Sprite",
+        "sprite": "Sprites/Cryo_Room/Fog.png",
+        "x": 0,
+        "y": 0,
+        "zIndex": 2
+      }
+    }
+  },
 
-	"observationScreen": {
-		"screenType": "Screen",
-		"available": "true",
-		"sprites": {
-			"computer": {
-				"type": "dialogueSprite",
-				"sprite": "Sprites/Observatory/Computer.png",
-				"x": 940,
-				"y": 262,
-				"dialogue": "obsCompy",
-				"zIndex": 4
-			},
-			"gantry": {
-				"type": "Sprite",
-				"sprite": "Sprites/Observatory/Gantry.png",
-				"x": 0,
-				"y": 403,
-				"zIndex": 5
-			},
-			"observation_background": {
-				"type": "Sprite",
-				"sprite": "Sprites/Observatory/Observatory_Background.png",
-				"x": 0,
-				"y": 0,
-				"zIndex": 3
-			},
-			"space": {
-				"type": "Sprite",
-				"sprite": "Sprites/Observatory/Space.png",
-				"x": 524,
-				"y": 294,
-				"zIndex": 1
-			},
-			"observatory_shutter": {
-				"type": "moveSprite",
-				"sprite": "Sprites/Observatory/Shutter.png",
-				"x": 533,
-				"y": 200,
-				"targetX": 533,
-				"targetY": 301,
-				"seconds": ".5",
-				"zIndex": 2
-			},
-			"telescope": {
-				"type": "screenChangeSprite",
-				"sprite": "Sprites/Observatory/Telescope.png",
-				"x": 0,
-				"y": 217,
-				"screen": "StandardCandles",
-				"zIndex": 4
-			},
-			"observatory_window": {
-				"type": "dialogueSprite",
-				"sprite": "Sprites/Observatory/Window.png",
-				"x": 518,
-				"y": 291,
-				"dialogue": "windowObs",
-				"zIndex": 4
-			},
-			"space_suit": {
-				"type": "Sprite",
-				"sprite": "Sprites/Observatory/Space_Suit.png",
-				"x": 834,
-				"y": 278,
-				"zIndex": 4
-			},
-			"observatory_ladder": {
-				"type": "dialogueSprite",
-				"sprite": "Sprites/Observatory/Ladder.png",
-				"x": 730,
-				"y": 0,
-				"dialogue": "SwitchScreen",
-				"zIndex": 4
-			}
-		}
-	},
+  "observationScreen": {
+    "screenType": "Screen",
+    "available": "true",
+    "sprites": {
+      "computer": {
+        "type": "dialogueSprite",
+        "sprite": "Sprites/Observatory/Computer.png",
+        "x": 940,
+        "y": 262,
+        "dialogue": "obsCompy",
+        "zIndex": 4
+      },
+      "gantry": {
+        "type": "Sprite",
+        "sprite": "Sprites/Observatory/Gantry.png",
+        "x": 0,
+        "y": 403,
+        "zIndex": 5
+      },
+      "observation_background": {
+        "type": "Sprite",
+        "sprite": "Sprites/Observatory/Observatory_Background.png",
+        "x": 0,
+        "y": 0,
+        "zIndex": 3
+      },
+      "space": {
+        "type": "Sprite",
+        "sprite": "Sprites/Observatory/Space.png",
+        "x": 524,
+        "y": 294,
+        "zIndex": 1
+      },
+      "observatory_shutter": {
+        "type": "moveSprite",
+        "sprite": "Sprites/Observatory/Shutter.png",
+        "x": 533,
+        "y": 200,
+        "targetX": 533,
+        "targetY": 301,
+        "seconds": ".5",
+        "zIndex": 2
+      },
+      "telescope": {
+        "type": "screenChangeSprite",
+        "sprite": "Sprites/Observatory/Telescope.png",
+        "x": 0,
+        "y": 217,
+        "screen": "StandardCandles",
+        "zIndex": 4
+      },
+      "observatory_window": {
+        "type": "dialogueSprite",
+        "sprite": "Sprites/Observatory/Window.png",
+        "x": 518,
+        "y": 291,
+        "dialogue": "windowObs",
+        "zIndex": 4
+      },
+      "space_suit": {
+        "type": "Sprite",
+        "sprite": "Sprites/Observatory/Space_Suit.png",
+        "x": 834,
+        "y": 278,
+        "zIndex": 4
+      },
+      "observatory_ladder": {
+        "type": "dialogueSprite",
+        "sprite": "Sprites/Observatory/Ladder.png",
+        "x": 730,
+        "y": 0,
+        "dialogue": "SwitchScreen",
+        "zIndex": 4
+      }
+    }
+  },
 
-	"DopplerScreen": {
-		"screenType": "dopplerScreen",
-		"targets": [
-			[0, 120, 240, 360]
-		],
-		"sprites": {
-			"DopplerScreenBackground": {
-				"type": "Sprite",
-				"sprite": "Sprites/Doppler_Screen/Game_Background.png",
-				"x": 0,
-				"y": 0,
-				"zIndex": 1
-			},
-			"objective": {
-				"type": "Sprite",
-				"sprite": "Sprites/Doppler_Screen/Objective_Screen.png",
-				"x": 416,
-				"y": 487,
-				"zIndex": 4
-			},
-			"detected": {
-				"type": "Sprite",
-				"sprite": "Sprites/Doppler_Screen/Detected_Screen.png",
-				"x": 417,
-				"y": 561,
-				"zIndex": 4
-			},
-			"emitted": {
-				"type": "Sprite",
-				"sprite": "Sprites/Doppler_Screen/Emitted_Screen.png",
-				"x": 416,
-				"y": 634,
-				"zIndex": 4
-			},
-			"mouse_counter": {
-				"type": "Sprite",
-				"sprite": "Sprites/Doppler_Screen/Mouse_Counter.png",
-				"x": 0,
-				"y": 480,
-				"zIndex": 4
-			},
-			"doppler_help_button": {
-				"type": "toggleSprite",
-				"sprite": "Sprites/Doppler_Screen/help_button.png",
-				"x": 254,
-				"y": 594,
-				"zIndex": 4,
-				"width": 166
-			},
-			"doppler_UIFill": {
-				"type": "Sprite",
-				"sprite": "Sprites/Doppler_Screen/UIFill.png",
-				"x": 0,
-				"y": 0,
-				"zIndex": 6
-			},
-			"start_button": {
-				"type": "toggleSprite",
-				"sprite": "Sprites/Doppler_Screen/start_button.png",
-				"x": 870,
-				"y": 589,
-				"zIndex": 7,
-				"width": 187
-			},
-			"pause_button": {
-				"type": "toggleSprite",
-				"sprite": "Sprites/Doppler_Screen/pause_button.png",
-				"x": 870,
-				"y": 520,
-				"zIndex": 7,
-				"width": 187
-			},
-			"arrow_up": {
-				"type": "toggleSprite",
-				"sprite": "Sprites/Doppler_Screen/arrow_up.png",
-				"x": 1175,
-				"y": 524,
-				"zIndex": 7,
-				"width": 89
-			},
-			"arrow_down": {
-				"type": "toggleSprite",
-				"sprite": "Sprites/Doppler_Screen/arrow_down.png",
-				"x": 1070,
-				"y": 520,
-				"zIndex": 7,
-				"width": 89
-			},
-			"doppler_goto_cryoScreen": {
-				"type": "screenChangeSprite",
-				"sprite": "Sprites/ArrowObject.png",
-				"x": 1175,
-				"y": 647,
-				"screen": "cryoScreen",
-				"zIndex": 7
-			}
-		}
-	},
+  "DopplerScreen": {
+    "screenType": "dopplerScreen",
+    "targets": [
+      [0, 120, 240, 360]
+    ],
+    "sprites": {
+      "DopplerScreenBackground": {
+        "type": "Sprite",
+        "sprite": "Sprites/Doppler_Screen/Game_Background.png",
+        "x": 0,
+        "y": 0,
+        "zIndex": 1
+      },
+      "objective": {
+        "type": "Sprite",
+        "sprite": "Sprites/Doppler_Screen/Objective_Screen.png",
+        "x": 416,
+        "y": 487,
+        "zIndex": 4
+      },
+      "detected": {
+        "type": "Sprite",
+        "sprite": "Sprites/Doppler_Screen/Detected_Screen.png",
+        "x": 417,
+        "y": 561,
+        "zIndex": 4
+      },
+      "emitted": {
+        "type": "Sprite",
+        "sprite": "Sprites/Doppler_Screen/Emitted_Screen.png",
+        "x": 416,
+        "y": 634,
+        "zIndex": 4
+      },
+      "mouse_counter": {
+        "type": "Sprite",
+        "sprite": "Sprites/Doppler_Screen/Mouse_Counter.png",
+        "x": 0,
+        "y": 480,
+        "zIndex": 4
+      },
+      "doppler_help_button": {
+        "type": "toggleSprite",
+        "sprite": "Sprites/Doppler_Screen/help_button.png",
+        "x": 254,
+        "y": 594,
+        "zIndex": 4,
+        "width": 166
+      },
+      "doppler_UIFill": {
+        "type": "Sprite",
+        "sprite": "Sprites/Doppler_Screen/UIFill.png",
+        "x": 0,
+        "y": 0,
+        "zIndex": 6
+      },
+      "start_button": {
+        "type": "toggleSprite",
+        "sprite": "Sprites/Doppler_Screen/start_button.png",
+        "x": 870,
+        "y": 589,
+        "zIndex": 7,
+        "width": 187
+      },
+      "pause_button": {
+        "type": "toggleSprite",
+        "sprite": "Sprites/Doppler_Screen/pause_button.png",
+        "x": 870,
+        "y": 520,
+        "zIndex": 7,
+        "width": 187
+      },
+      "arrow_up": {
+        "type": "toggleSprite",
+        "sprite": "Sprites/Doppler_Screen/arrow_up.png",
+        "x": 1175,
+        "y": 524,
+        "zIndex": 7,
+        "width": 89
+      },
+      "arrow_down": {
+        "type": "toggleSprite",
+        "sprite": "Sprites/Doppler_Screen/arrow_down.png",
+        "x": 1070,
+        "y": 520,
+        "zIndex": 7,
+        "width": 89
+      },
+      "doppler_goto_cryoScreen": {
+        "type": "screenChangeSprite",
+        "sprite": "Sprites/ArrowObject.png",
+        "x": 1175,
+        "y": 647,
+        "screen": "cryoScreen",
+        "zIndex": 7
+      }
+    }
+  },
 
-	"StandardCandles": {
-		"screenType": "standardCandlesScreen",
-		"active": "true",
-		"sprites": {
-			"candles_background": {
-				"type": "Sprite",
-				"sprite": "Sprites/Standard_Candles/Background.png",
-				"x": 0,
-				"y": 0,
-				"zIndex": 1
-			},
-			"candles_helpButton": {
-				"type": "toggleSprite",
-				"sprite": "Sprites/Standard_Candles/help_button.png",
-				"x": 249,
-				"y": 598,
-				"zIndex": 2,
-				"width": 166
-			},
-			"candles_mice_caught": {
-				"type": "Sprite",
-				"sprite": "Sprites/Standard_Candles/mice_caught.png",
-				"x": 6,
-				"y": 486,
-				"zIndex": 2
-			},
-			"candles_target": {
-				"type": "Sprite",
-				"sprite": "Sprites/Standard_Candles/green_screen.png",
-				"x": 407,
-				"y": 491,
-				"zIndex": 2
-			},
-			"candles_prevTarget": {
-				"type": "Sprite",
-				"sprite": "Sprites/Standard_Candles/orange_screen.png",
-				"x": 407,
-				"y": 564,
-				"zIndex": 2
-			},
-			"candles_timeRemain": {
-				"type": "Sprite",
-				"sprite": "Sprites/Standard_Candles/blue_screen.png",
-				"x": 407,
-				"y": 637,
-				"zIndex": 2
-			},
-			"candles_UIFrame": {
-				"type": "Sprite",
-				"sprite": "Sprites/Standard_Candles/UIFrame.png",
-				"x": 0,
-				"y": 485,
-				"zIndex": 3
-			},
-			"orders": {
-				"type": "Sprite",
-				"sprite": "Sprites/Standard_Candles/orders_screen.png",
-				"x": 1056,
-				"y": 500,
-				"zIndex": 4
-			},
-			"intercept_button": {
-				"type": "toggleSprite",
-				"sprite": "Sprites/Standard_Candles/intercept_button.png",
-				"x": 876,
-				"y": 527,
-				"zIndex": 4,
-				"width": 177
-			},
-			"undo_button": {
-				"type": "toggleSprite",
-				"sprite": "Sprites/Standard_Candles/undo_button.png",
-				"x": 876,
-				"y": 596,
-				"zIndex": 4,
-				"width": 177
-			},
-			"maus": {
-				"type": "moveableSprite",
-				"template": "true",
-				"sprite": "Sprites/Standard_Candles/maus_cropped.png",
-				"zIndex": 2
-			},
-			"maus_selector": {
-				"type": "moveableSprite",
-				"template": "true",
-				"caching": "true",
-				"sprite": "Sprites/Standard_Candles/maus_selected_icon.png",
-				"zIndex": 2
-			},
-			"arachne_icon": {
-				"type": "moveableSprite",
-				"sprite": "Sprites/Standard_Candles/arachne_icon.png",
-				"x": 1000,
-				"y": 600,
-				"zIndex": 2
-			},
-			"candles_goto_observation": {
-				"type": "screenChangeSprite",
-				"sprite": "Sprites/ArrowObject.png",
-				"x": 890,
-				"y": 650,
-				"zIndex": 4,
-				"screen": "observationScreen"
-			}
-		}
-	},
+  "StandardCandles": {
+    "screenType": "standardCandlesScreen",
+    "sprites": {
+      "candles_background": {
+        "type": "Sprite",
+        "sprite": "Sprites/Standard_Candles/Background.png",
+        "x": 0,
+        "y": 0,
+        "zIndex": 1
+      },
+      "candles_helpButton": {
+        "type": "toggleSprite",
+        "sprite": "Sprites/Standard_Candles/help_button.png",
+        "x": 249,
+        "y": 598,
+        "zIndex": 2,
+        "width": 166
+      },
+      "candles_mice_caught": {
+        "type": "Sprite",
+        "sprite": "Sprites/Standard_Candles/mice_caught.png",
+        "x": 6,
+        "y": 486,
+        "zIndex": 2
+      },
+      "candles_target": {
+        "type": "Sprite",
+        "sprite": "Sprites/Standard_Candles/green_screen.png",
+        "x": 407,
+        "y": 491,
+        "zIndex": 2
+      },
+      "candles_prevTarget": {
+        "type": "Sprite",
+        "sprite": "Sprites/Standard_Candles/orange_screen.png",
+        "x": 407,
+        "y": 564,
+        "zIndex": 2
+      },
+      "candles_timeRemain": {
+        "type": "Sprite",
+        "sprite": "Sprites/Standard_Candles/blue_screen.png",
+        "x": 407,
+        "y": 637,
+        "zIndex": 2
+      },
+      "candles_UIFrame": {
+        "type": "Sprite",
+        "sprite": "Sprites/Standard_Candles/UIFrame.png",
+        "x": 0,
+        "y": 485,
+        "zIndex": 3
+      },
+      "orders": {
+        "type": "Sprite",
+        "sprite": "Sprites/Standard_Candles/orders_screen.png",
+        "x": 1056,
+        "y": 500,
+        "zIndex": 4
+      },
+      "intercept_button": {
+        "type": "toggleSprite",
+        "sprite": "Sprites/Standard_Candles/intercept_button.png",
+        "x": 876,
+        "y": 527,
+        "zIndex": 4,
+        "width": 177
+      },
+      "undo_button": {
+        "type": "toggleSprite",
+        "sprite": "Sprites/Standard_Candles/undo_button.png",
+        "x": 876,
+        "y": 596,
+        "zIndex": 4,
+        "width": 177
+      },
+      "maus": {
+        "type": "moveableSprite",
+        "template": "true",
+        "sprite": "Sprites/Standard_Candles/maus_cropped.png",
+        "zIndex": 2
+      },
+      "maus_selector": {
+        "type": "moveableSprite",
+        "template": "true",
+        "caching": "true",
+        "sprite": "Sprites/Standard_Candles/maus_selected_icon.png",
+        "zIndex": 2
+      },
+      "arachne_icon": {
+        "type": "moveableSprite",
+        "sprite": "Sprites/Standard_Candles/arachne_icon.png",
+        "x": 1000,
+        "y": 600,
+        "zIndex": 2
+      },
+      "candles_goto_observation": {
+        "type": "screenChangeSprite",
+        "sprite": "Sprites/ArrowObject.png",
+        "x": 890,
+        "y": 650,
+        "zIndex": 4,
+        "screen": "observationScreen"
+      }
+    }
+  },
 
-	"caching": {
-		"sprites": {
-			"topDialogue": {
-				"type": "Sprite",
-				"sprite": "Sprites/Dialogue/top_dialogue.png",
-				"zIndex": 1
-			},
-			"bottomDialogue": {
-				"type": "Sprite",
-				"sprite": "Sprites/Dialogue/bottom_dialogue.png",
-				"zIndex": 1
-			},
-			"overseerFace": {
-				"type": "Sprite",
-				"sprite": "Sprites/Dialogue/overseer_portrait.png",
-				"zIndex": 2
-			},
-			"arachneFace": {
-				"type": "Sprite",
-				"sprite": "Sprites/Dialogue/arachne_portrait.png",
-				"zIndex": 2
-			}
-		}
-	},
+  "caching": {
+    "sprites": {
+      "topDialogue": {
+        "type": "Sprite",
+        "sprite": "Sprites/Dialogue/top_dialogue.png",
+        "zIndex": 1
+      },
+      "bottomDialogue": {
+        "type": "Sprite",
+        "sprite": "Sprites/Dialogue/bottom_dialogue.png",
+        "zIndex": 1
+      },
+      "overseerFace": {
+        "type": "Sprite",
+        "sprite": "Sprites/Dialogue/overseer_portrait.png",
+        "zIndex": 2
+      },
+      "arachneFace": {
+        "type": "Sprite",
+        "sprite": "Sprites/Dialogue/arachne_portrait.png",
+        "zIndex": 2
+      }
+    }
+  },
 
-	"SwitchScreen": {
-		"screenType": "switchScreen"
-	},
+  "SwitchScreen": {
+    "screenType": "switchScreen"
+  },
 
-	"Mod1ObjCryo": {
-		"screenType": "interactiveDialogue",
-		"xml": "XML/Mod1ObjCryo.xml"
-	},
+  "Mod1ObjCryo": {
+    "screenType": "interactiveDialogue",
+    "xml": "XML/Mod1ObjCryo.xml"
+  },
 
-	"Mod1ObjMainRm": {
-		"screenType": "interactiveDialogue",
-		"xml": "XML/Mod1ObjMainRm.xml"
-	},
+  "Mod1ObjMainRm": {
+    "screenType": "interactiveDialogue",
+    "xml": "XML/Mod1ObjMainRm.xml"
+  },
 
-	"Mod1ObjMainRm2": {
-		"screenType": "interactiveDialogue",
-		"xml": "XML/Mod1ObjMainRm2.xml"
-	},
+  "Mod1ObjMainRm2": {
+    "screenType": "interactiveDialogue",
+    "xml": "XML/Mod1ObjMainRm2.xml"
+  },
 
-	"Mod1ObjObsRm": {
-		"screenType": "interactiveDialogue",
-		"xml": "XML/Mod1ObjObsRm.xml"
-	}
+  "Mod1ObjObsRm": {
+    "screenType": "interactiveDialogue",
+    "xml": "XML/Mod1ObjObsRm.xml"
+  }
 }

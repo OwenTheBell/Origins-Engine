@@ -11,8 +11,8 @@ var textBox = klass(function(id, text, left, top, color, zIndex, size){
   };
   helper.addCSSRule('#' + this.id, ruleCSS);
   this.css = {
-    top: this.top + 'px',
-    left: this.left + 'px'
+    top: top + 'px',
+    left: left + 'px'
   };
 })
   .methods({
@@ -25,5 +25,42 @@ var textBox = klass(function(id, text, left, top, color, zIndex, size){
       }
       HTML.push('" >', this.text, '</div>');
       //return HTML;
+    }
+  });
+
+var xmlTextBox = klass(function(xml){
+  this.xml = xml;
+})
+  .methods({
+    //because of the way that dialogue works this draw statement returns HTML rather
+    //than appending to an existing array of HTML strings
+    draw: function(){
+      HTML = [];
+      $(this.xml).each(function(){
+        var color = $(this).attr('color');
+        if (color){
+          if(color === 'hex color value') {
+            color = '#FFOOFF';
+          }
+          HTML.push('<font color="', color, '">');
+        }
+        //Check to see if there is a declared variable instead of plain text
+        var variable = $(this).find('variable').text();
+        if (variable){
+          //Confirm variable exists
+          if (g.playerInput[variable]) {
+            HTML.push(g.playerInput[variable]);
+          } else {
+            HTML.push('Variable undeclared');
+          }
+        } else {
+          //otherwise just grab the xml text
+          HTML.push($(this).text());
+        }
+        if(color){
+          HTML.push('</font>');
+        }
+      });
+      return HTML.join('');
     }
   });
