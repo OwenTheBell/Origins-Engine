@@ -238,6 +238,12 @@ var Reciever = klass(function(x, y, radius){
           var tempY = (this.canvas.height / 2 ) - doppler.waveDict[g.frameCounter] * (this.canvas.height / 2);
           this.waveFormArray.push({X: this.canvas.width, Y: tempY});
           if (doppler.waveDict[g.frameCounter] == 1){
+          	if(this.remember){
+          		console.log(g.frameCounter - this.remember);
+          		this.remember = g.frameCounter;
+          	} else {
+          		this.remember = g.frameCounter;
+          	}
             // this.click.play();
           }
           delete doppler.waveDict[g.frameCounter];

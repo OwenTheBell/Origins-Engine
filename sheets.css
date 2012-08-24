@@ -335,10 +335,10 @@
 }
 
 #doppler_goto_cryoScreen {
-  background-image: url("Sprites/ArrowObject.png");
+  background-image: url("Sprites/Doppler_Screen/exitbutton.png");
   z-index: 7;
-  width: 79px;
-  height: 73px;
+  width: 100px;
+  height: 86px;
 }
 
 #candles_background {

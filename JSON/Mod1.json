@@ -289,7 +289,8 @@
   "DopplerScreen": {
     "screenType": "dopplerScreen",
     "targets": [
-      [0, 120, 240, 360]
+      [0, 120, 240, 360],
+      [0, 85, 170, 290, 410]
     ],
     "sprites": {
       "DopplerScreenBackground": {
@@ -345,8 +346,8 @@
       "start_button": {
         "type": "toggleSprite",
         "sprite": "Sprites/Doppler_Screen/start_button.png",
-        "x": 870,
-        "y": 589,
+        "x": 1082,
+        "y": 519,
         "zIndex": 7,
         "width": 187
       },
@@ -358,27 +359,11 @@
         "zIndex": 7,
         "width": 187
       },
-      "arrow_up": {
-        "type": "toggleSprite",
-        "sprite": "Sprites/Doppler_Screen/arrow_up.png",
-        "x": 1175,
-        "y": 524,
-        "zIndex": 7,
-        "width": 89
-      },
-      "arrow_down": {
-        "type": "toggleSprite",
-        "sprite": "Sprites/Doppler_Screen/arrow_down.png",
-        "x": 1070,
-        "y": 520,
-        "zIndex": 7,
-        "width": 89
-      },
       "doppler_goto_cryoScreen": {
         "type": "screenChangeSprite",
-        "sprite": "Sprites/ArrowObject.png",
-        "x": 1175,
-        "y": 647,
+        "sprite": "Sprites/Doppler_Screen/exitbutton.png",
+        "x": 1169,
+        "y": 629,
         "screen": "cryoScreen",
         "zIndex": 7
       }
