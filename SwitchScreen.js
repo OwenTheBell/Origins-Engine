@@ -85,7 +85,7 @@ var SwitchScreen = Screen.extend(function(id){
 				for(i in this.screenArray){
 					HTML.push('<div style="top:', i*50, 'px; left: 5px; z-index: 2; color: #ffffff;');
 					if (i == this.selectedOption) {
-						HTML.push('background-color: #FFFF88;');
+						HTML.push('background-color: #800000;');
 					}
 					HTML.push('"> ', this.screenArray[i].name, ' </div>');
 				}

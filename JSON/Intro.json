@@ -3,7 +3,7 @@
 		"screenType": "Screen",
 		"active": "true",
 		"dialogue": ["mainScreen1Intro"],
-		"available": "true",
+		"name": "Main Quarters",
 		"sprites": {
 			"mainScreen1_background": {
 				"type": "Sprite",
@@ -152,7 +152,7 @@
 
 	"observationScreen": {
 		"screenType": "Screen",
-		"available": "true",
+		"name": "Observatory",
 		"dialogue": ["observationScreenIntro"],
 		"sprites": {
 			"computer": {
@@ -223,7 +223,7 @@
 				"sprite": "Sprites/Observatory/Ladder.png",
 				"x": 730,
 				"y": 0,
-				"dialogue": "ladderObs",
+				"dialogue": "switchScreen",
 				"zIndex": 4
 			}
 		}

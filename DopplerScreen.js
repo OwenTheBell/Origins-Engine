@@ -24,7 +24,7 @@ var DopplerScreen = Screen.extend(function(id, targets){
   doppler.elements.push(doppler.canvas);
   doppler.emitter = new Emitter(20, 20, 5, doppler.generate, 3);
   var randX = Math.floor(Math.random() * (doppler.canvas.width - 200) + 100);
-  var randY = Math.floor(Math.random() * (doppler.canvas.height - 300) + 100);
+  var randY = Math.floor(Math.random() * (doppler.canvas.height - 450) + 100);
   doppler.reciever = new Reciever(randX, randY, 5);
   doppler.targets = targets;
   doppler.target = new Target(targets[0]);
@@ -62,8 +62,9 @@ var DopplerScreen = Screen.extend(function(id, targets){
           doppler.elements.push(doppler.canvas);
           doppler.elements.push(doppler.emitter);
           var randX = Math.floor(Math.random() * (doppler.canvas.width - 200) + 100);
-          var randY = Math.floor(Math.random() * (doppler.canvas.height - 200) + 100);
+          var randY = Math.floor(Math.random() * (doppler.canvas.height - 450) + 100);
           doppler.reciever = new Reciever(randX, randY, 5);
+          helper.debugPrint(randX, randY);
           doppler.target = new Target(doppler.targets[doppler.currentTarget]);
           doppler.elements.push(doppler.reciever, doppler.target);
           doppler.mouseCount = parseInt(doppler.mouseCount.text) + 1;
@@ -136,8 +137,8 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
 })
   .methods({
     update: function() {
-      this.waveForm.update();
       if(doppler.pulsing){
+      	this.waveForm.update();
         var distance = helper.getDistance(this.centerX, this.centerY, doppler.reciever.centerX, doppler.reciever.centerY);
         var frames = Math.ceil(distance / this.growth);
         //only add to the waveDict if the point has not been created
@@ -155,7 +156,7 @@ var Emitter = klass(function(x, y, radius, pulsePerSecond, speed){
         var mouse = g.input.mouse;
         //if the mouse is less than a move away in both dimensions don't update position
         if (helper.getDistance(this.centerX, this.centerY, mouse.X, mouse.Y) >= this.baseMove + this.move){
-          if(mouse.Y < doppler.canvas.height && mouse.X < doppler.canvas.width){
+          if(mouse.Y < doppler.canvas.height - 100 && mouse.X < doppler.canvas.width){
             function findMove(y, x){
               var temp = Math.atan2(y, x);
               temp = temp * 180 / Math.PI;

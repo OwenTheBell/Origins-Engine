@@ -194,6 +194,7 @@ var DialogueScreen = Screen.extend(function(id, file){
           this.nextActiveStatement = null;
         }
         
+        var target = -1;
         var mouse = g.input.mouse;
         mouse.X -= g.origins.left + parseInt(this.playerRule.style.left);
         mouse.Y -= g.origins.top + parseInt(this.playerRule.style.top);
@@ -213,6 +214,11 @@ var DialogueScreen = Screen.extend(function(id, file){
               }
             }
           }
+        }
+        if (target == -1){
+        	for(i in this.responseHolders){
+        		delete this.responseHolders[i]['background-color'];
+        	}
         }
         
         this.activeStatement.update();
