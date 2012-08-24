@@ -7,9 +7,9 @@
 
 <item id = "miceCatcher">
 	
-<overseer id = "mineCatchermod1"  nextType = "player" nextId = "playerMiceCatcherMod1">
+<general id = "mineCatchermod1"  nextType = "player" nextId = "playerMiceCatcherMod1">
 		<text>This small remote-controlled device was designed specifically for catching vermin. Would you like to use it now?</text>
-	</overseer>
+	</general>
 
 	<player id = "playerMiceCatcherMod1">
 		<option  nextType = "exit" nextId = "cryoScreen">
@@ -25,9 +25,9 @@
 
 <item id = "storageContainer">
 	
-<overseer id = "storageCyroMod1" nextType = "exit" nextId = "cryoScreen">
+<general id = "storageCyroMod1" nextType = "exit" nextId = "cryoScreen">
 		<text>Something used to be kept in here but it seems to have escaped when the capsule was damaged.</text>
-	</overseer>
+	</general>
 
 </item>
 
@@ -35,9 +35,9 @@
 
 <item id = "solarPanel">
 	
-<overseer id = "panelCyroMod1" nextType = "exit" nextId = "cryoScreen">
-		<text>It’s solar panel from the Hubble Space Telescope. It’s like owning a piece of history though you probably wish that this particular piece of history wasn’t jutting through your capsule’s hull. </text>
-	</overseer>
+<general id = "panelCyroMod1" nextType = "exit" nextId = "cryoScreen">
+		<text>It’s a solar panel from the Hubble Space Telescope. It’s like owning a piece of history though you probably wish that this particular piece of history wasn’t jutting through your capsule’s hull. </text>
+	</general>
 
 </item>
 
@@ -45,27 +45,27 @@
 
 <item id = "consoleCryo">
 	
-<overseer id = "consoleCyroMod1" nextType = "exit" nextId = "cryoScreen">
+<general id = "consoleCyroMod1" nextType = "exit" nextId = "cryoScreen">
 		<text>This machine monitors the equipment used in the room. It tells you that there are many problems and that you should probably fix them.</text>
-	</overseer>
+	</general>
 
 </item>
 <item id = "ladderCryo">
-	<overseer id = "ladderCryoMod1" nextType = "player" nextId = "playerLadderintro1">
+	<general id = "ladderCryoMod1" nextType = "player" nextId = "playerLadderintro1">
 		<text>This is a ladder. It leads upstairs to the other rooms inside the capsule. What would you like to do?</text>
-	</overseer>
+	</general>
 	<player id = "playerLadderintro1">
-		<option nextType = "overseer" nextId = "upladderCryoMod1">
+		<option nextType = "general" nextId = "upladderCryoMod1">
 			<text>Go to other modules.</text>
 		</option>
 		<option  nextType = "exit" nextId = "cryoScreen">
 			<text>Stay here.</text>
 		</option>
 	</player>
-		<overseer id = "upladderCryoMod1" nextType = "exit" nextId = "cryoScreen">
+		<general id = "upladderCryoMod1" nextType = "exit" nextId = "cryoScreen">
 			<text>Where would you like go?</text>
 
-		</overseer>
+		</general>
 	</item>
 
 </dialogue>

@@ -5,13 +5,11 @@
 <dialogue>
 
 <item id = "spaceSuit">
-	
-<overseer id = "spaceSuitMod1"  nextType = "player" nextId = "playerSpaceSuitMod1">
+	<general id = "spaceSuitMod1"  nextType = "player" nextId = "playerSpaceSuitMod1">
 		<text>This is your </text>
 		<text color="FFCC00">Vacuum Suit</text>
 		<text>. It will hopefully keep you alive for some time when exposed to an atmosphere-less environment. Hopefully... Would you like to put it on now?</text>
-	</overseer>
-
+	</general>
 	<player id = "playerSpaceSuitMod1">
 		<option  nextType = "exit" nextId = "observationScreen">
 			<text>Yes</text>
@@ -20,10 +18,9 @@
 			<text>No</text>
 		</option>
 	</player>
-	<overseer id = "spaceSuitMod1b"  nextType = "player" nextId = "playerSpaceSuitMod1b">
+	<general id = "spaceSuitMod1b"  nextType = "player" nextId = "playerSpaceSuitMod1b">
 		<text>This is where your vacuum suit goes when not in use. Would you like to put it away?</text>
-	</overseer>
-
+	</general>
 	<player id = "playerSpaceSuitMod1b">
 		<option  nextType = "exit" nextId = "observationScreen">
 			<text>Yes</text>
@@ -32,51 +29,44 @@
 			<text>No</text>
 		</option>
 	</player>
-
-
-
 </item>
+
 <item id = "spaceTelescope">
-	
-<overseer id = "spaceTelescopeMod1" nextType = "exit" nextId = "observationScreen">
+	<general id = "spaceTelescopeMod1" nextType = "exit" nextId = "observationScreen">
 		<text>This telescope could be used to observe the Earth below you. You could watch the world and its inhabitants as they go about their daily motions; unaware of being silently observed. For now, however, the sights of this machine are set to the stars and not your home-planet.</text>
-	</overseer>
+	</general>
 </item>
 
 <item id = "obsCompy">
-<overseer id = "obsCompyMod1" nextType = "exit" nextId = "observationScreen">
+<general id = "obsCompyMod1" nextType = "exit" nextId = "observationScreen">
 	<text>This is monitor displays a physical map of the capsule. Unfortunately, it seems you still don’t know what the sealed rooms hold.</text>
-
-</overseer>
+</general>
 </item>
 
 <item id = "ladderObs">
-	<overseer id = "ladderObsMod1" nextType = "player" nextId = "playerLaddermod1">
+	<general id = "ladderObsMod1" nextType = "player" nextId = "playerLaddermod1">
 		<text>This is a ladder. It leads upstairs to the other rooms inside the capsule. What would you like to do?</text>
-	</overseer>
+	</general>
 	<player id = "playerLaddermod1">
-		<option nextType = "overseer" nextId = "upladderObsMod1">
+		<option nextType = "general" nextId = "upladderObsMod1">
 			<text>Go to other modules.</text>
 		</option>
 		<option  nextType = "exit" nextId = "observationScreen">
 			<text>Stay here.</text>
 		</option>
 	</player>
-		<overseer id = "upladderObsMod1" nextType = "exit" nextId = "observationScreen">
-			<text>Where would you like go?</text>
-
-		</overseer>
-	</item>
+	<general id = "upladderObsMod1" nextType = "exit" nextId = "observationScreen">
+		<text>Where would you like go?</text>
+	</general>
+</item>
 
 <item id = "windowObs">
-	<overseer id = "obsWindowOpen"  nextType = "player" nextId = "playerObsWindowOpen">
+	<general id = "obsWindowOpen"  nextType = "player" nextId = "playerObsWindowOpen">
 		<text>This is your window to the universe. Would you like to close it?</text>
-	
-	</overseer>
-	<overseer id = "obsWindowClosed"  nextType = "player" nextId = "playerObsWindowClosed">
+	</general>
+	<general id = "obsWindowClosed"  nextType = "player" nextId = "playerObsWindowClosed">
 		<text>This is your window to the universe. Would you like to open it?</text>
-	
-	</overseer>
+	</general>
 	<player id = "playerObsWindowOpen">
 		<option nextType = "exit" nextId = "observationScreen" nextTime="obsWindowClosed" target="observatory_shutter">
 			<text>Yes, please.</text>

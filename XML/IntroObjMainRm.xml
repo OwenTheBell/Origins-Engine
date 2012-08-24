@@ -7,136 +7,162 @@
 
 <item id = "bookshelf">
 
-<overseer id = "bookShelf" nextType = "exit" nextId = "mainScreen1">
+<general id = "bookShelf" nextType = "exit" nextId = "mainScreen1">
 	<text>You find your favorite books and magazines inside. It’s party time!</text>
 
-</overseer>
-<overseer id = "bookShelf" nextType = "exit" nextId = "mainScreen1">
+</general>
+<general id = "bookShelf" nextType = "exit" nextId = "mainScreen1">
 	<text>Your favorite guilty-pleasure novel stares at you from the space-shelve. You barely resist the urge to stop whatever important thing you were doing and just read this sucker.</text>
 
-</overseer>
-<overseer id = "bookShelf" nextType = "exit" nextId = "mainScreen1">
+</general>
+<general id = "bookShelf" nextType = "exit" nextId = "mainScreen1">
 	<text>Finally some peace and quiet. You just now realize though that you left your reading glasses back on earth. That’s not fair. That’s not fair at all.</text>
 
-</overseer>
+</general>
 
 </item> 
 <item id = "bike">
-<overseer id = "bike" nextType = "exit" nextId = "mainScreen1">
+<general id = "bike" nextType = "exit" nextId = "mainScreen1">
 	<text>It’s an exercise bike.  Way cool. It even has a tv monitor attached to it. It doesn’t have your favorite channel though. </text>
 
-</overseer>
+</general>
 
 </item>
 
 <item id = "ladder">
-<overseer id = "ladder1" nextType = "player" nextId = "playerLadder1">
+<general id = "ladder1" nextType = "player" nextId = "playerLadder1">
 	<text>It is a ladder and it leads upstairs to a bathroom and to the other modules inside the capsule. What would you like to do?</text>
 
-</overseer>
+</general>
 <player id = "playerLadder1">
-	<option nextType = "overseer" nextId = "ladder2">
+	<option nextType = "general" nextId = "ladder2">
 		<text>Go to other modules.</text>
 	</option>
-	<option nextType = "overseer" nextId = "ladder3">
+	<option nextType = "general" nextId = "ladder3">
 		<text>Go to the bathroom.</text>
 	</option>
-	<option nextType = "overseer" nextId = "ladder4">
+	<option nextType = "general" nextId = "ladder4">
 		<text>Do nothing.</text>
 	</option>
 </player>
-<overseer id = "ladder2" nextType = "exit" nextId = "mainScreen1">
+<general id = "ladder2" nextType = "exit" nextId = "mainScreen1">
 	<text>Where would you like go?</text>
 
-</overseer>
-<overseer id = "ladder3" nextType = "exit" nextId = "mainScreen1">
+</general>
+<general id = "ladder3" nextType = "exit" nextId = "mainScreen1">
 	<text>You go to the bathroom. Nice job!</text>
 
-</overseer>
-<overseer id = "ladder4" nextType = "exit" nextId = "mainScreen1">
+</general>
+<general id = "ladder4" nextType = "exit" nextId = "mainScreen1">
 	<text>You do nothing. Nice job!</text>
 
-</overseer>
+</general>
 </item>
 <item id = "clothes">
-<overseer id = "clothingCabinet" nextType = "exit" nextId = "mainScreen1">
+<general id = "clothingCabinet" nextType = "exit" nextId = "mainScreen1">
 	<text>There are several identical pairs of clothing in this cabinet. Keeping up with the latest fashions will likely be difficult here. There are also lots of socks.</text>
-</overseer>
+</general>
 </item>
 <item id = "sleeps">
-<overseer id = "sleepPod1"  nextType = "player" nextId = "playerSleepPod1">
+<general id = "sleepPod1"  nextType = "player" nextId = "playerSleepPod1">
 	<text>This is your </text>
 
-	 <text color="FFCC00">Sleeping Compartment.</text>
+	 <text color="FFCC00">Sleeping Compartment</text>
 
-	 <text> It doesn’t look incredibly comfortable. Do you want to go to sleep anyway?</text>
+	 <text>. It doesn’t look incredibly comfortable. Do you want to go to sleep anyway?</text>
 
-</overseer>
+</general>
 <player id = "playerSleepPod1">
-	<option nextType = "endMod" nextId = "sleepPod2">
+	<option nextType = "general" nextId = "sleepPod2">
 		<text>Yes</text>
 	</option>
-	<option nextType = "overseer" nextId = "sleepPod3">
+	<option nextType = "general" nextId = "sleepPod3">
 		<text>No</text>
 	</option>
 </player>
-<overseer id = "sleepPod2" nextType = "exit" nextId = "mainScreen1">
+<general id = "sleepPod2" nextType = "exit" nextId = "mainScreen1">
 	<text>You try to sleep but something keeps you from your rest. It is almost like you still have something to do before your day is over.</text>
 
-</overseer>
-<overseer id = "sleepPod3" nextType = "exit" nextId = "mainScreen1">
+</general>
+<general id = "sleepPod3" nextType = "exit" nextId = "mainScreen1">
 	<text>You decide not to go to sleep. You are also not exactly sure how to get up there anyway.</text>
 
-</overseer>
+</general>
+</item>
+<item id = "windows">
+<general id = "windowopen1"  nextType = "player" nextId = "playerwindow1">
+	<text>This is your window to the universe. Would you like to close it?</text>
+
+</general>
+<general id = "windowclosed1"  nextType = "player" nextId = "playerwindow2">
+	<text>This is your window to the universe. Would you like to open it?</text>
+
+</general>
+<player id = "playerwindow1">
+	<option nextType = "exit" nextId = "mainScreen1">
+		<text>Yes, please.</text>
+	</option>
+	<option nextType = "exit" nextId = "mainScreen1">
+		<text>No, leave it open.</text>
+	</option>
+</player>
+<player id = "playerwindowintro2">
+	<option nextType = "exit" nextId = "mainScreen1">
+		<text>Yes, open it.</text>
+	</option>
+	<option nextType = "exit" nextId = "mainScreen1">
+		<text>No, leave it closed.</text>
+	</option>
+</player>
 </item>
 <item id = "table">
-<overseer id = "table" nextType = "exit" nextId = "mainScreen1">
+<general id = "table" nextType = "exit" nextId = "mainScreen1">
 	<text>This is a nice white folding table which you can use as you please. </text>
-	</overseer>
+	</general>
 </item>
 <item id = "water">
-<overseer id = "water" nextType = "exit" nextId = "mainScreen1">
+<general id = "water" nextType = "exit" nextId = "mainScreen1">
 	<text>This complex hydro-dispenser is able to reconstitute excess liquids intro drinkable though tasteless water.</text>
-</overseer>
+</general>
 </item>
 <item id = "chair">
-<overseer id = "chair" nextType = "exit" nextId = "mainScreen1">
+<general id = "chair" nextType = "exit" nextId = "mainScreen1">
 	<text>This chair is specifically designed to make you as uncomfortable as possible. It is a mystery why anyone would build such a thing.</text>
-</overseer>
+</general>
 </item>
 <item id = "smallmonitor">
-<overseer id = "sMonitor" nextType = "exit" nextId = "mainScreen1">
-	<text>This monitor seems to simply display random waves and charts. You can't tell if they are really monitoring anything and pressing the big buttons has no effect on them.</text>
-</overseer>
+<general id = "sMonitor" nextType = "exit" nextId = "mainScreen1">
+	<text>This monitor seems to simply display random waves and charts. You can't tell if it is really monitoring anything and pressing the big buttons has no effect on the charts.</text>
+</general>
 </item>
 <item id = "food">
-<overseer id = "pellet1" nextType = "player" nextId = "playerPellet1">
+<general id = "pellet1" nextType = "player" nextId = "playerPellet1">
 	<text>This machine distributes highly concentrated nutritional supplements that provide the entirety of a day’s recommended intake of vitamins and proteins in a small brown pellet. The machine randomly varies the taste each one has to keep life interesting. Would you like a pellet?</text>
 
-</overseer>
+</general>
 <player id = "playerPellet1">
-	<option nextType = "overseer" nextId = "pellet3">
+	<option nextType = "general" nextId = "pellet3">
 		<text>Yes</text>
 	</option>
-	<option nextType = "overseer" nextId = "pellet2">
+	<option nextType = "general" nextId = "pellet2">
 		<text>No</text>
 	</option>
 </player>
-<overseer id = "pellet2" nextType = "exit" nextId = "mainScreen1">
+<general id = "pellet2" nextType = "exit" nextId = "mainScreen1">
 	<text>You don't get a pellet.</text>
 
-</overseer>
-<overseer id = "pellet3" nextType = "exit" nextId = "mainScreen1">
+</general>
+<general id = "pellet3" nextType = "exit" nextId = "mainScreen1">
 	<text>You get a pellet and eat it. It fills you up quickly. It tastes like a peanut butter sandwich.</text>
 
-</overseer>
-<overseer id = "pellet3" nextType = "exit" nextId = "mainScreen1">
+</general>
+<general id = "pellet3" nextType = "exit" nextId = "mainScreen1">
 	<text>You get a pellet and eat it. Your jumpsuit rips from your significantly increased girth. It tastes like overly-buttered movie popcorn.</text>
 
-</overseer>
-<overseer id = "pellet3" nextType = "exit" nextId = "mainScreen1">
+</general>
+<general id = "pellet3" nextType = "exit" nextId = "mainScreen1">
 	<text>The machine refuses to give you a pellet and advises you spend time on the exercise bike.</text>
 
-</overseer>
+</general>
 </item>
 </dialogue>

@@ -57,7 +57,7 @@ var DialogueScreen = Screen.extend(function(id, file){
   } else {
     this.overseerRule = helper.findCSSRule('#OverseerDIV');
     this.playerRule = helper.findCSSRule('#PlayerDIV');
-    this.popupRule = helper.findCSSRule('#PopupDIV');
+    //this.popupRule = helper.findCSSRule('#PopupDIV');
     this.responseRule = helper.findCSSRule('.responseDialogue');
   }
 
@@ -117,7 +117,22 @@ var DialogueScreen = Screen.extend(function(id, file){
         } else {
           statements[id].addTextBlock(this);
         }
-      })
+      });
+      
+      $(xml).find('general').each(function(){
+        var id = $(this).attr('id');
+        
+        if(!statements[id]){
+          var general = new GeneralStatement(that, this);
+          statements[id] = general;
+          if(!that.activeStatement){
+            that.activeStatement = general;
+            that.speakerName.text = '';
+          }
+        } else {
+          statements[id].addTextBlock(this);
+        }
+      });
       
       for(i in statements){
         var statement = statements[i];
@@ -136,7 +151,7 @@ var DialogueScreen = Screen.extend(function(id, file){
         var next = statement.nextType;
         if (next === 'exit' || next === 'endMod'){
           statement.setNext('exit');
-        } else if (next === 'overseer' || next === 'player' || next === 'popup' || next === 'arachne'){
+        } else if (next === 'overseer' || next === 'player' || next === 'popup' || next === 'arachne' || next === 'general'){
           var tester = statements[statement.nextId];
           if (!tester) {
             console.log("ERROR: %s tried to access the invalid %s id %s in the file %s", statement.id, next, statement.nextId, fileName);
@@ -247,7 +262,7 @@ var DialogueScreen = Screen.extend(function(id, file){
         };
         
         //When the overseerDiv needs to be updated
-        if (this.activeStatement instanceof OverseerStatement || this.activeStatement instanceof ArachneStatement){
+        if (this.activeStatement instanceof GeneralStatement){
           var newOverseerHTML = ['<div id="OverseerDIV" style="'];
           for(x in this.overseerCSS){
             newOverseerHTML.push(x,':', this.overseerCSS[x], '; ');
@@ -255,14 +270,21 @@ var DialogueScreen = Screen.extend(function(id, file){
           newOverseerHTML.push('" class="dialogue speech" >');
           if (this.activeStatement instanceof OverseerStatement){
             this.overseerFace.draw(newOverseerHTML);
-          } else {
+          	newOverseerHTML.push('<div id="overseerText" style="left: 266px;">');
+          } else if (this.activeStatement instanceof ArachneStatement) {
             this.arachneFace.draw(newOverseerHTML);
+          	newOverseerHTML.push('<div id="overseerText" style="left: 266px;">');
           }
-          newOverseerHTML.push('<div id="overseerText" style="left: 266px;">');
           this.activeStatement.draw(newOverseerHTML);
-          newOverseerHTML.push('</div></div>');
+          if (this.activeStatement instanceof OverseerStatement || this.activeStatement instanceof ArachneStatement){
+        		newOverseerHTML.push('</div></div>');
+        	} else {
+        		newOverseerHTML.push('</div>');
+        	}
           this.overseerHTML = newOverseerHTML.join('');
-          if (this.activeStatement.nextType === 'overseer'){
+          if (this.activeStatement.nextType === 'overseer' ||
+          		this.activeStatement.nextType === 'arachne' ||
+          		this.activeStatement.nextType === 'general'){
             this.playerHTML = addToPlayer('Click here to continue');
           }
           if (this.activeStatement.nextType === 'exit'){
@@ -351,7 +373,7 @@ var Statement = klass(function(parent, xmlData){
     },
   });
 
-var OverseerStatement = Statement.extend(function(parent, xmlData){
+var GeneralStatement = Statement.extend(function(parent, xmlData){
   this.id = $(xmlData).attr('id');
   if ($(xmlData).attr('highlight')){
     this.highlight = $(xmlData).attr('highlight');
@@ -364,7 +386,7 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
     update: function(){
       this.supr();
       
-      if (this.nextType === 'overseer' || this.nextType === 'popup'){
+      if (this.nextType === 'overseer' || this.nextType === 'popup' || this.nextType === 'arachne' || this.nextType === 'general'){
         if (this.clicked >= 0){
           this.parent.nextActiveStatement = this.nextStatement;
           this.block++;
@@ -394,10 +416,13 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
       } else {
         this.parent.playerDiv.html("ERROR: " + this.id + " has an invalid nextType");
       }
-      //if (this.block > this.textBlocks.length) this.block = 0;
     }
   });
 
+var OverseerStatement = GeneralStatement.extend(function(parent, xmlData){
+})
+	.methods({
+	});
 /*
  * This is exactly the same as OverseerStament, no diffs at all
  */

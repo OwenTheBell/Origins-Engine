@@ -4,32 +4,32 @@
 
 <dialogue>
 	<item id="clothes">
-	<overseer id="clothingCabinet" nextType="exit" nextId="mainScreen2">
+	<general id="clothingCabinet" nextType="exit" nextId="mainScreen2">
 		<text>All the clothing here is the same. It isn’t even all that comfortable.</text>
-	</overseer>
+	</general>
 	</item>
-<item id="window">
-	<overseer id="overseerWindowOpen" nextType="player" nextId="playerWindowOpen">
+<item id = "window">
+	<general id = "generalWindowOpen"  nextType = "player" nextId = "playerWindowOpen">
 		<text>This is your window to the universe. Would you like to close it?</text>
 	
-	</overseer>
-	<overseer id="overseerWindowClosed" nextType="player" nextId="playerWindowClosed">
+	</general>
+	<general id = "generalWindowClosed"  nextType = "player" nextId = "playerWindowClosed">
 		<text>This is your window to the universe. Would you like to open it?</text>
 	
-	</overseer>
-	<player id="playerWindowOpen">
-		<option nextType="exit" nextId="mainScreen2" nextTime="overseerWindowClosed" target="mainScreen2_shutter">
+	</general>
+	<player id = "playerWindowOpen">
+		<option nextType = "exit" nextId = "mainScreen2" nextTime="generalWindowClosed" target="mainScreen2_shutter">
 			<text>Yes, please.</text>
 		</option>
-		<option nextType="exit" nextId="mainScreen2">
+		<option nextType = "exit" nextId = "mainScreen2">
 			<text>No, leave it open.</text>
 		</option>
 	</player>
-	<player id="playerWindowClosed">
-		<option nextType="exit" nextId="mainScreen2" nextTime="overseerWindowOpen" target="mainScreen2_shutter">
+	<player id = "playerWindowClosed">
+		<option nextType = "exit" nextId = "mainScreen2" nextTime="generalWindowOpen" target="mainScreen2_shutter">
 			<text>Yes, open it.</text>
 		</option>
-		<option nextType="exit" nextId="mainScreen2">
+		<option nextType = "exit" nextId = "mainScreen2">
 			<text>No, leave it closed.</text>
 		</option>
 	</player>

@@ -1,5 +1,5 @@
 /*
- * This screen, although not actually a dialogue sprite, gets
+ * This screen, although not actually a dialogue screen, gets
  * treated as one by the dialogue that activates it
  */
 var SwitchScreen = Screen.extend(function(id){
@@ -9,8 +9,13 @@ var SwitchScreen = Screen.extend(function(id){
 	var centerY = g.origins.height / 2;
 	this.width = 300; //arbitrary size here
 	this.height = this.screenArray.length * 50; //provide 50px per entry
-	this.top = centerY - (this.height / 2);
-	this.left = centerX - (this.width / 2);
+	this.selectedOption = -1;
+	this.activateBlock = false;
+	this.bottomSprite = new Sprite('bottomSprite', 0, 0, 'Sprites/Dialogue/bottom_dialogue.png', 1);
+  this.bottomSprite.changeTop(g.origins.height - this.bottomSprite.height);
+  this.spriteArray.push(this.bottomSprite);
+  this.top = this.bottomSprite.top + 100;
+  this.left = this.bottomSprite.left + 100;
 	this.css = {
 		top: this.top + 'px',
 		left: this.left + 'px',
@@ -18,8 +23,6 @@ var SwitchScreen = Screen.extend(function(id){
 		width: this.width + 'px',
 		height: this.height + 'px'
 	};
-	this.selectedOption = -1;
-	this.activateBlock = false;
 })
 	.methods({
 		update: function(){
@@ -66,7 +69,11 @@ var SwitchScreen = Screen.extend(function(id){
 		
 		draw: function(HTML){
 			if(g.activeDialogue == this.id){
-				HTML.push('<div id="', this.id, '" class="dialogueWrapper"> <div style="');
+				HTML.push('<div id="', this.id, '" class="dialogueWrapper">');
+				for(i in this.spriteArray){
+					this.spriteArray[i].draw(HTML);
+				}
+				HTML.push('<div style="');
 				for(i in this.css){
 					HTML.push(i, ': ', this.css[i], '; ');
 				}
@@ -76,7 +83,7 @@ var SwitchScreen = Screen.extend(function(id){
 				}
 				HTML.push('" > ');
 				for(i in this.screenArray){
-					HTML.push('<div style="top:', i*50, 'px; left: 5px; ');
+					HTML.push('<div style="top:', i*50, 'px; left: 5px; z-index: 2; color: #ffffff;');
 					if (i == this.selectedOption) {
 						HTML.push('background-color: #FFFF88;');
 					}
