@@ -24,6 +24,8 @@ var DialogueScreen = Screen.extend(function(id, file){
   this.bottomSprite = new Sprite('bottomSprite', 0, 0, 'Sprites/Dialogue/bottom_dialogue.png', 1);
   this.bottomSprite.changeTop(g.origins.height - this.bottomSprite.height);
   this.speakerName = new textBox('speaker', '', 120, 210, '#ffffff', 10, '20px');
+  this.overseerFace = new Sprite('overseerFace', 0, 0, 'Sprites/Dialogue/overseer_portrait.png', 2);
+  this.arachneFace = new Sprite('arachneFace', 0, 0, 'Sprites/Dialogue/arachne_portrait.png', 2);
   this.spriteArray.push(this.topSprite, this.bottomSprite, this.speakerName);
 
   if (!helper.findCSSRule('#OverseerDIV')){
@@ -251,8 +253,14 @@ var DialogueScreen = Screen.extend(function(id, file){
             newOverseerHTML.push(x,':', this.overseerCSS[x], '; ');
           }
           newOverseerHTML.push('" class="dialogue speech" >');
-          this.activeStatement.draw(newOverseerHTML)
-          newOverseerHTML.push('</div>');
+          if (this.activeStatement instanceof OverseerStatement){
+            this.overseerFace.draw(newOverseerHTML);
+          } else {
+            this.arachneFace.draw(newOverseerHTML);
+          }
+          newOverseerHTML.push('<div id="overseerText" style="left: 266px;">');
+          this.activeStatement.draw(newOverseerHTML);
+          newOverseerHTML.push('</div></div>');
           this.overseerHTML = newOverseerHTML.join('');
           if (this.activeStatement.nextType === 'overseer'){
             this.playerHTML = addToPlayer('Click here to continue');
@@ -339,9 +347,7 @@ var Statement = klass(function(parent, xmlData){
     draw: function(HTML){
       if(this.textBlocks[this.block]){
         HTML.push(this.textBlocks[this.block].draw());
-      } else {
-        console.log(this.textBlocks.length);
-      } 
+      }
     },
   });
 
