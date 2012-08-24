@@ -5,6 +5,7 @@
 
 <dialogue>
 
+
 <overseer id = "introOS13" nextType = "overseer" nextId = "introOS14">
 	<text>This </text>
 	<text color="FFCC00">Main Computer </text>
@@ -12,7 +13,7 @@
 	<text color="FFCC00">Overseer </text>
 	<text>or other </text>
 	<text color="FFCC00">Perillos Capsule occupants </text>
-	<text>stationed in Earth's orbit. They may provide help during experiments but will more likely distact you with needless social exchanges. You may even access information on the other capsules and review their progress in comparison to yours.</text>
+	<text>stationed in Earth's orbit. They may provide help during experiments but will more likely distact you with needless social exchanges. You may even access information on the other capsules and review their progress in comarison to yours.</text>
 </overseer>
 <overseer id = "introOS14" nextType = "overseer" nextId = "introOS15" highlight="id of what you wanted highlighted">
 	<text>Here you may also see your own progress or change your personal settings.</text>
@@ -20,7 +21,7 @@
 <overseer id = "introOS15"  nextType = "exit" nextId = "mainScreen1">
 	<text>With the computer-watch you carry you can also access most of the information on the </text>
 	<text color="FFCC00">Main Screen</text>
-	<text> at any time and place aboard your capsule.</text>
+	<text> at any time and place aboard you capsule. (Press button to view Watch Screen)</text>
 </overseer>
 </dialogue>
 
