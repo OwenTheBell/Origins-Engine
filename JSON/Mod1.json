@@ -2,7 +2,7 @@
   "mainScreen1": {
     "screenType": "Screen",
     "active": "true",
-    "available": "true",
+    "name": "Main Quarters",
     "sprites": {
       "mainScreen1_background": {
         "type": "Sprite",
@@ -150,7 +150,7 @@
 
   "cryoScreen": {
     "screenType": "Screen",
-    "available": "true",
+    "name": "Cryo Storage",
     "sprites": {
       "cryoScreenBackground": {
         "type": "Sprite",
@@ -211,7 +211,7 @@
 
   "observationScreen": {
     "screenType": "Screen",
-    "available": "true",
+    "name": "Observatory",
     "sprites": {
       "computer": {
         "type": "dialogueSprite",

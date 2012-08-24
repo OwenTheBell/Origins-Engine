@@ -37,7 +37,7 @@ var SwitchScreen = Screen.extend(function(id){
 					this.selectedOption = Math.floor(mouse.Y / 50);
 					
 					if (mouse.click) {
-						var target = this.screenArray[this.selectedOption];
+						var target = this.screenArray[this.selectedOption].id;
 						this.deActivate();
 						//if the screen to exit to is not the current active screen then switch it
 						if (target != g.activeScreen){
@@ -87,7 +87,7 @@ var SwitchScreen = Screen.extend(function(id){
 					if (i == this.selectedOption) {
 						HTML.push('background-color: #FFFF88;');
 					}
-					HTML.push('"> ', this.screenArray[i], ' </div>');
+					HTML.push('"> ', this.screenArray[i].name, ' </div>');
 				}
 				HTML.push('</div> </div>');
 			}

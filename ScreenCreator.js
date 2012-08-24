@@ -18,8 +18,8 @@ var CreateScreen = function(id, json){
 	if (json.dialogue){
 		screen.addDialogue(json.dialogue);
 	}
-	if (json.available){
-		g.availableScreens.push(id);
+	if(json.name){
+		g.availableScreens.push({id: id, name: json.name});
 	}
 	g.screenCollection[id] = screen;
 }
