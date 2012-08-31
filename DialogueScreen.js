@@ -276,8 +276,9 @@ var DialogueScreen = Screen.extend(function(id, file){
           this.playerHTML = this.activeStatement.stateDraw(this.responseHolders);
           //this.playerHTML = addToPlayer(this.activeStatement.availableStatements);
         } else if (this.activeStatement instanceof PopupStatement){
-          var popupArray = [this.activeStatement.returnText(), this.activeStatement.collectedInput, 'Press Enter when Done'];
-          this.playerHTML = addToPlayer(popupArray);
+          this.playerHTML = this.activeStatement.stateDraw(this.responseHolders);
+          //var popupArray = [this.activeStatement.returnText(), this.activeStatement.collectedInput, 'Press Enter when Done'];
+          //this.playerHTML = addToPlayer(popupArray);
         }
         HTML.push('<div id =', this.id, 'Dialouge', ' style="');
         for(x in this.css){
@@ -593,5 +594,27 @@ var PopupStatement = Statement.extend(function(parent, xmlData){
           this.collectedInput = this.collectedInput.slice(0, this.collectedInput.length - 1);
         }
       }
+    },
+    stateDraw: function(responseHolders){
+      var HTML = ['<div id="PlayerDIV" style="'];
+      var statements = [this.returnText(), 
+              this.collectedInput, 
+              'Press Enter when Done']
+      /*
+      for(x in that.playerCSS){
+        HTML.push(x, ':', that.playerCSS[x], '; ');
+      }	
+      */
+      HTML.push('" class="dialogue speech" >');
+      for(i in statements){
+        var state = statements[i];
+        HTML.push('<div style="');
+        for (x in responseHolders[i]) {
+          HTML.push(x, ':', responseHolders[i][x], '; ');
+        };
+        HTML.push('" >', state, '</div>');
+      }
+      HTML.push('</div>');
+      return HTML.join('');
     }
   });
