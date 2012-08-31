@@ -36,6 +36,8 @@ var xmlTextBox = klass(function(xml){
     //than appending to an existing array of HTML strings
     draw: function(){
       HTML = [];
+      var that = this;
+      
       $(this.xml).each(function(){
         var color = $(this).attr('color');
         if (color){

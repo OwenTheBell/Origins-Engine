@@ -24,6 +24,8 @@ var DialogueScreen = Screen.extend(function(id, file){
   this.bottomSprite = new Sprite('bottomSprite', 0, 0, 'Sprites/Dialogue/bottom_dialogue.png', 1);
   this.bottomSprite.changeTop(g.origins.height - this.bottomSprite.height);
   this.speakerName = new textBox('speaker', '', 120, 210, '#ffffff', 10, '20px');
+  this.overseerFace = new Sprite('overseerFace', 0, 0, 'Sprites/Dialogue/overseer_portrait.png', 2);
+  this.arachneFace = new Sprite('arachneFace', 0, 0, 'Sprites/Dialogue/arachne_portrait.png', 2);
   this.spriteArray.push(this.topSprite, this.bottomSprite, this.speakerName);
 
   if (!helper.findCSSRule('#OverseerDIV')){
@@ -40,13 +42,6 @@ var DialogueScreen = Screen.extend(function(id, file){
       color: '#ffffff'
     });
 
-    this.popupRule = helper.addCSSRule('#PopupDIV', {
-      width: g.origins.width / 5 + 'px',
-      height: g.origins.height / 4 + 'px',
-      top: (g.origins.height - (g.origins.width / 5)) / 2 + 'px',
-      left: (g.origins.width - (g.origins.height / 4)) / 2 + 'px'
-    });
-
     this.responseRule = helper.addCSSRule('.responseDialogue', {
       width: helper.findCSSRule('.speech').style.width,
       height: Math.floor(parseInt(helper.findCSSRule('.speech').style.height) / 4) + 'px'
@@ -54,7 +49,7 @@ var DialogueScreen = Screen.extend(function(id, file){
   } else {
     this.overseerRule = helper.findCSSRule('#OverseerDIV');
     this.playerRule = helper.findCSSRule('#PlayerDIV');
-    this.popupRule = helper.findCSSRule('#PopupDIV');
+    //this.popupRule = helper.findCSSRule('#PopupDIV');
     this.responseRule = helper.findCSSRule('.responseDialogue');
   }
 
@@ -114,7 +109,22 @@ var DialogueScreen = Screen.extend(function(id, file){
         } else {
           statements[id].addTextBlock(this);
         }
-      })
+      });
+      
+      $(xml).find('general').each(function(){
+        var id = $(this).attr('id');
+        
+        if(!statements[id]){
+          var general = new GeneralStatement(that, this);
+          statements[id] = general;
+          if(!that.activeStatement){
+            that.activeStatement = general;
+            that.speakerName.text = '';
+          }
+        } else {
+          statements[id].addTextBlock(this);
+        }
+      });
       
       for(i in statements){
         var statement = statements[i];
@@ -133,7 +143,7 @@ var DialogueScreen = Screen.extend(function(id, file){
         var next = statement.nextType;
         if (next === 'exit' || next === 'endMod'){
           statement.setNext('exit');
-        } else if (next === 'overseer' || next === 'player' || next === 'popup' || next === 'arachne'){
+        } else if (next === 'overseer' || next === 'player' || next === 'popup' || next === 'arachne' || next === 'general'){
           var tester = statements[statement.nextId];
           if (!tester) {
             console.log("ERROR: %s tried to access the invalid %s id %s in the file %s", statement.id, next, statement.nextId, fileName);
@@ -176,6 +186,7 @@ var DialogueScreen = Screen.extend(function(id, file){
           this.nextActiveStatement = null;
         }
         
+        var target = -1;
         var mouse = g.input.mouse;
         mouse.X -= g.origins.left + parseInt(this.playerRule.style.left);
         mouse.Y -= g.origins.top + parseInt(this.playerRule.style.top);
@@ -195,6 +206,11 @@ var DialogueScreen = Screen.extend(function(id, file){
               }
             }
           }
+        }
+        if (target == -1){
+        	for(i in this.responseHolders){
+        		delete this.responseHolders[i]['background-color'];
+        	}
         }
         
         this.activeStatement.update();
@@ -223,7 +239,12 @@ var DialogueScreen = Screen.extend(function(id, file){
                 returnString.push(x, ':', that.responseHolders[iter][x], '; ');
               };
               returnString.push('" >');
-              this.draw(returnString);
+              //allow for both statements and regular strings being passed to this function
+              if (this.draw){
+                this.draw(returnString);
+              } else {
+                returnString.push(this);
+              }
               returnString.push('</div>');
               iter++;
             });
@@ -239,35 +260,45 @@ var DialogueScreen = Screen.extend(function(id, file){
         };
         
         //When the overseerDiv needs to be updated
-        if (this.activeStatement instanceof OverseerStatement || this.activeStatement instanceof ArachneStatement){
+        if (this.activeStatement instanceof GeneralStatement){
+          /*
           var newOverseerHTML = ['<div id="OverseerDIV" style="'];
           for(x in this.overseerCSS){
             newOverseerHTML.push(x,':', this.overseerCSS[x], '; ');
           }
           newOverseerHTML.push('" class="dialogue speech" >');
-          this.activeStatement.draw(newOverseerHTML)
-          newOverseerHTML.push('</div>');
+          if (this.activeStatement instanceof OverseerStatement){
+            this.overseerFace.draw(newOverseerHTML);
+          	newOverseerHTML.push('<div id="overseerText" style="left: 266px;">');
+          } else if (this.activeStatement instanceof ArachneStatement) {
+            this.arachneFace.draw(newOverseerHTML);
+          	newOverseerHTML.push('<div id="overseerText" style="left: 266px;">');
+          }
+          this.activeStatement.draw(newOverseerHTML);
+          if (this.activeStatement instanceof OverseerStatement || 
+              this.activeStatement instanceof ArachneStatement){
+            newOverseerHTML.push('</div></div>');
+          } else {
+	    newOverseerHTML.push('</div>');
+          }
           this.overseerHTML = newOverseerHTML.join('');
-          if (this.activeStatement.nextType === 'overseer'){
-            this.playerHTML = addToPlayer('Click to continue');
+          */
+          this.overseerHTML = this.activeStatement.stateDraw();
+          if (this.activeStatement.nextType === 'overseer' ||
+            this.activeStatement.nextType === 'arachne' ||
+            this.activeStatement.nextType === 'general'){
+            this.playerHTML = addToPlayer('Click here to continue');
           }
           if (this.activeStatement.nextType === 'exit'){
-            this.playerHTML = addToPlayer('Click to Exit');
+            this.playerHTML = addToPlayer('Click here to continue');
           } else if (this.activeStatement.nextType === 'popup'){
-            this.playerHTML = addToPlayer('Click to continue');
+            this.playerHTML = addToPlayer('Click here to continue');
           }
         } else if (this.activeStatement instanceof PlayerOptions){
           this.playerHTML = addToPlayer(this.activeStatement.availableStatements);
         } else if (this.activeStatement instanceof PopupStatement){
-          var newPopupHTML = ['<div id="PopupDIV" style="'];
-          for (x in this.popupCSS){
-            newPopupHTML.push(x, ':', this.popupCSS[x], '; ');
-          }
-          newPopupHTML.push('" class="dialogue" ><table><tr><td>');
-          this.activeStatement.draw(newPopupHTML);
-          newPopupHTML.push('</td></tr><tr><td><center>', this.activeStatement.collectedInput);
-          newPopupHTML.push('</center></td></tr><tr><td>Press Enter when Done</td></tr></div>');
-          this.popupHTML = newPopupHTML.join('');
+          var popupArray = [this.activeStatement.returnText(), this.activeStatement.collectedInput, 'Press Enter when Done'];
+          this.playerHTML = addToPlayer(popupArray);
         }
         HTML.push('<div id =', this.id, 'Dialouge', ' style="');
         for(x in this.css){
@@ -277,7 +308,7 @@ var DialogueScreen = Screen.extend(function(id, file){
         for(x in this.classes){
           HTML.push(this.classes[x], ' ');
         }
-        HTML.push('">', this.overseerHTML, this.playerHTML);//, this.popupHTML);
+        HTML.push('">', this.overseerHTML, this.playerHTML);
         for(i in this.spriteArray){
           this.spriteArray[i].draw(HTML);
         }
@@ -286,17 +317,6 @@ var DialogueScreen = Screen.extend(function(id, file){
     }
   });
 
-/*
-* General parent object that all statements inherit from
-* ARGS:
-*   nextType: the type of the next statements (overseer/player/popup/arachne/exit)
-*   nextVariable: info on where to go. The data type changes based on the value of nextType
-*	overseer: id of an overseerStatement
-*	player: id of a playerOptions
-*	popup: id of a popupStatement
-*	arachne: id of an arachneStatement
-*	exit: id of a Screen that the chat will exit to
-*/
 var Statement = klass(function(parent, xmlData){
   this.parent = parent;
   this.nextType = $(xmlData).attr('nextType');
@@ -311,7 +331,7 @@ var Statement = klass(function(parent, xmlData){
   $(xmlData).find('text').each(function(){
     texts.push(this);
   });
-  this.textBlocks.push(texts);
+  this.textBlocks.push(new xmlTextBox(texts));
 })
   .methods({
     setNext: function(nextStatement){
@@ -332,6 +352,9 @@ var Statement = klass(function(parent, xmlData){
       });
       this.textBlocks.push(texts);
     },
+    returnText: function(){
+      return this.textBlocks[this.block].draw();
+    },
     update: function(){
       if(this.futureBlock){
         this.block = this.futureBlock;
@@ -345,40 +368,14 @@ var Statement = klass(function(parent, xmlData){
         }
       }
     },
-    //Returns all of this.texts as an html string
     draw: function(HTML){
-      function drawHTML(xml){
-        $(xml).each(function(){
-          var color = $(this).attr('color');
-          if (color){
-            if(color === 'hex color value') {
-              color = '#FFOOFF';
-            }
-            HTML.push('<font color="', color, '">');
-          }
-          //Check to see if there is a declared variable instead of plain text
-          var variable = $(this).find('variable').text();
-          if (variable){
-            //Confirm variable exists
-            if (g.playerInput[variable]) {
-              HTML.push(g.playerInput[variable]);
-            } else {
-              HTML.push('Variable undeclared');
-            }
-          } else {
-            //otherwise just grab the xml text
-            HTML.push($(this).text());
-          }
-          if(color){
-            HTML.push('</font>');
-          }
-        });
+      if(this.textBlocks[this.block]){
+        HTML.push(this.textBlocks[this.block].draw());
       }
-      drawHTML(this.textBlocks[this.block]);
     },
   });
 
-var OverseerStatement = Statement.extend(function(parent, xmlData){
+var GeneralStatement = Statement.extend(function(parent, xmlData){
   this.id = $(xmlData).attr('id');
   if ($(xmlData).attr('highlight')){
     this.highlight = $(xmlData).attr('highlight');
@@ -386,12 +383,13 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
   if ($(xmlData).attr('loop')){
     this.loop = true;
   }
+  this.face = null;
 })
   .methods({
     update: function(){
       this.supr();
       
-      if (this.nextType === 'overseer' || this.nextType === 'popup'){
+      if (this.nextType === 'overseer' || this.nextType === 'popup' || this.nextType === 'arachne' || this.nextType === 'general'){
         if (this.clicked >= 0){
           this.parent.nextActiveStatement = this.nextStatement;
           this.block++;
@@ -421,18 +419,44 @@ var OverseerStatement = Statement.extend(function(parent, xmlData){
       } else {
         this.parent.playerDiv.html("ERROR: " + this.id + " has an invalid nextType");
       }
+    },
+    stateDraw: function(html){
+      var HTML = ['<div id="OverseerDIV" style="'];
+      for(x in this.overseerCSS){
+        HTML.push(x,':', this.overseerCSS[x], '; ');
+      }
+      HTML.push('" class="dialogue speech" >');
+      if (this.face){
+        this.overseerFace.draw(HTML);
+        HTML.push('<div id="overseerText" style="left: 266px;">');
+      }
+      if(this.textBlocks[this.block]){
+        HTML.push(this.textBlocks[this.block].draw());
+      }
+      if (this.face){
+        HTML.push('</div></div>');
+      } else {
+        HTML.push('</div>');
+      }
+      return HTML.join('');
     }
+  });
+
+var OverseerStatement = GeneralStatement.extend(function(parent, xmlData){
+  this.face = new Sprite('overseerFace', 0, 0, 'Sprites/Dialogue/overseer_portrait.png', 2);
+})
+  .methods({
   });
 
 /*
  * This is exactly the same as OverseerStament, no diffs at all
  */
 var ArachneStatement = OverseerStatement.extend(function(parent, xmlData){
-	
+  this.face = new Sprite('arachneFace', 0, 0, 'Sprites/Dialogue/arachne_portrait.png', 2);
 })
-	.methods({
-		
-	});
+  .methods({
+  });
+
 /*
 * This class wraps sets of player statements. Nonplayer statements
 * point to this rather than specific player statements
@@ -508,7 +532,6 @@ var PlayerOptions = klass(function(parent, xmlData){
             this.parent.set_check[set] = true;
           }
         }
-        
         this.clicked = -1;
       }
     }
@@ -548,6 +571,7 @@ var PopupStatement = Statement.extend(function(parent, xmlData){
   this.id = $(xmlData).attr('id');
   this.target = $(xmlData).attr('target');
   this.collectedInput = '';
+  this.popupStatements = [];
 })
   .methods({
     update: function(){
