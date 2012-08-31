@@ -261,28 +261,6 @@ var DialogueScreen = Screen.extend(function(id, file){
         
         //When the overseerDiv needs to be updated
         if (this.activeStatement instanceof GeneralStatement){
-          /*
-          var newOverseerHTML = ['<div id="OverseerDIV" style="'];
-          for(x in this.overseerCSS){
-            newOverseerHTML.push(x,':', this.overseerCSS[x], '; ');
-          }
-          newOverseerHTML.push('" class="dialogue speech" >');
-          if (this.activeStatement instanceof OverseerStatement){
-            this.overseerFace.draw(newOverseerHTML);
-          	newOverseerHTML.push('<div id="overseerText" style="left: 266px;">');
-          } else if (this.activeStatement instanceof ArachneStatement) {
-            this.arachneFace.draw(newOverseerHTML);
-          	newOverseerHTML.push('<div id="overseerText" style="left: 266px;">');
-          }
-          this.activeStatement.draw(newOverseerHTML);
-          if (this.activeStatement instanceof OverseerStatement || 
-              this.activeStatement instanceof ArachneStatement){
-            newOverseerHTML.push('</div></div>');
-          } else {
-	    newOverseerHTML.push('</div>');
-          }
-          this.overseerHTML = newOverseerHTML.join('');
-          */
           this.overseerHTML = this.activeStatement.stateDraw();
           if (this.activeStatement.nextType === 'overseer' ||
             this.activeStatement.nextType === 'arachne' ||
@@ -295,7 +273,8 @@ var DialogueScreen = Screen.extend(function(id, file){
             this.playerHTML = addToPlayer('Click here to continue');
           }
         } else if (this.activeStatement instanceof PlayerOptions){
-          this.playerHTML = addToPlayer(this.activeStatement.availableStatements);
+          this.playerHTML = this.activeStatement.stateDraw(this.responseHolders);
+          //this.playerHTML = addToPlayer(this.activeStatement.availableStatements);
         } else if (this.activeStatement instanceof PopupStatement){
           var popupArray = [this.activeStatement.returnText(), this.activeStatement.collectedInput, 'Press Enter when Done'];
           this.playerHTML = addToPlayer(popupArray);
@@ -389,7 +368,10 @@ var GeneralStatement = Statement.extend(function(parent, xmlData){
     update: function(){
       this.supr();
       
-      if (this.nextType === 'overseer' || this.nextType === 'popup' || this.nextType === 'arachne' || this.nextType === 'general'){
+      if (this.nextType === 'overseer' || 
+        this.nextType === 'popup' || 
+        this.nextType === 'arachne' || 
+        this.nextType === 'general'){
         if (this.clicked >= 0){
           this.parent.nextActiveStatement = this.nextStatement;
           this.block++;
@@ -422,12 +404,14 @@ var GeneralStatement = Statement.extend(function(parent, xmlData){
     },
     stateDraw: function(html){
       var HTML = ['<div id="OverseerDIV" style="'];
+      /*
       for(x in this.overseerCSS){
         HTML.push(x,':', this.overseerCSS[x], '; ');
       }
+      */
       HTML.push('" class="dialogue speech" >');
       if (this.face){
-        this.overseerFace.draw(HTML);
+        this.face.draw(HTML);
         HTML.push('<div id="overseerText" style="left: 266px;">');
       }
       if(this.textBlocks[this.block]){
@@ -534,6 +518,28 @@ var PlayerOptions = klass(function(parent, xmlData){
         }
         this.clicked = -1;
       }
+    },
+    stateDraw: function(responseHolders){
+      var HTML = ['<div id="PlayerDIV" style="'];
+      /*
+      for(x in that.playerCSS){
+        HTML.push(x, ':', that.playerCSS[x], '; ');
+      }	
+      */
+      HTML.push('" class="dialogue speech" >');
+      for(i in this.availableStatements){
+        var state = this.availableStatements[i];
+        HTML.push('<div style="');
+        for (x in responseHolders[i]) {
+          HTML.push(x, ':', responseHolders[i][x], '; ');
+        };
+        HTML.push('" >');
+        //allow for both statements and regular strings being passed to this function
+        state.draw(HTML);
+        HTML.push('</div>');
+      }
+      HTML.push('</div>');
+      return HTML.join('');
     }
   });
 
