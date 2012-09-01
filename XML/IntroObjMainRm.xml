@@ -106,7 +106,7 @@
 		<text>No, leave it open.</text>
 	</option>
 </player>
-<player id = "playerwindowintro2">
+<player id = "playerwindow2">
 	<option nextType = "exit" nextId = "mainScreen1">
 		<text>Yes, open it.</text>
 	</option>

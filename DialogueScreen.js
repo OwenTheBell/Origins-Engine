@@ -24,8 +24,6 @@ var DialogueScreen = Screen.extend(function(id, file){
   this.bottomSprite = new Sprite('bottomSprite', 0, 0, 'Sprites/Dialogue/bottom_dialogue.png', 1);
   this.bottomSprite.changeTop(g.origins.height - this.bottomSprite.height);
   this.speakerName = new textBox('speaker', '', 120, 210, '#ffffff', 10, '20px');
-  this.overseerFace = new Sprite('overseerFace', 0, 0, 'Sprites/Dialogue/overseer_portrait.png', 2);
-  this.arachneFace = new Sprite('arachneFace', 0, 0, 'Sprites/Dialogue/arachne_portrait.png', 2);
   this.spriteArray.push(this.topSprite, this.bottomSprite, this.speakerName);
 
   if (!helper.findCSSRule('#OverseerDIV')){
@@ -49,7 +47,6 @@ var DialogueScreen = Screen.extend(function(id, file){
   } else {
     this.overseerRule = helper.findCSSRule('#OverseerDIV');
     this.playerRule = helper.findCSSRule('#PlayerDIV');
-    //this.popupRule = helper.findCSSRule('#PopupDIV');
     this.responseRule = helper.findCSSRule('.responseDialogue');
   }
 
@@ -141,7 +138,7 @@ var DialogueScreen = Screen.extend(function(id, file){
       //Function for setting a statement's nextStatement
       function linkNext(statement){
         var next = statement.nextType;
-        if (next === 'exit' || next === 'endMod'){
+      if (next === 'exit' || next === 'endMod'){
           statement.setNext('exit');
         } else if (next === 'overseer' || next === 'player' || next === 'popup' || next === 'arachne' || next === 'general'){
           var tester = statements[statement.nextId];
@@ -160,7 +157,6 @@ var DialogueScreen = Screen.extend(function(id, file){
       this.activateBlock = true;
       g.activeDialogue = this.id;
       this.css['opacity'] = 1.0;
-      this.drawState = 'updated';
       this.originalActive = this.activeStatement;
     },
     
@@ -208,9 +204,9 @@ var DialogueScreen = Screen.extend(function(id, file){
           }
         }
         if (target == -1){
-        	for(i in this.responseHolders){
-        		delete this.responseHolders[i]['background-color'];
-        	}
+          for(i in this.responseHolders){
+            delete this.responseHolders[i]['background-color'];
+          }
         }
         
         this.activeStatement.update();
@@ -274,11 +270,8 @@ var DialogueScreen = Screen.extend(function(id, file){
           }
         } else if (this.activeStatement instanceof PlayerOptions){
           this.playerHTML = this.activeStatement.stateDraw(this.responseHolders);
-          //this.playerHTML = addToPlayer(this.activeStatement.availableStatements);
         } else if (this.activeStatement instanceof PopupStatement){
           this.playerHTML = this.activeStatement.stateDraw(this.responseHolders);
-          //var popupArray = [this.activeStatement.returnText(), this.activeStatement.collectedInput, 'Press Enter when Done'];
-          //this.playerHTML = addToPlayer(popupArray);
         }
         HTML.push('<div id =', this.id, 'Dialouge', ' style="');
         for(x in this.css){
@@ -303,7 +296,6 @@ var Statement = klass(function(parent, xmlData){
   this.nextId = $(xmlData).attr('nextId');
   this.textBlocks = []; //Holder for the different options that can be displayed by this statement
   this.block = 0; //Index for which textBlock to display
-  this.drawState = 'new';
   this.clicked = -1;
   
   var that = this;
@@ -368,39 +360,45 @@ var GeneralStatement = Statement.extend(function(parent, xmlData){
   .methods({
     update: function(){
       this.supr();
-      
-      if (this.nextType === 'overseer' || 
-        this.nextType === 'popup' || 
-        this.nextType === 'arachne' || 
-        this.nextType === 'general'){
-        if (this.clicked >= 0){
-          this.parent.nextActiveStatement = this.nextStatement;
-          this.block++;
-        }
-        this.clicked = -1;
-      } else if (this.nextType === 'player'){
-        this.parent.nextActiveStatement = this.nextStatement;
-      } else if (this.nextType === 'exit'){
-        if (this.clicked >= 0){
-          this.parent.deActivate();
-          //if the screen to exit to is not the current active screen then switch it
-          if (this.nextId != g.activeScreen){
-            if(g.screenCollection[this.nextId]){
-              g.screenCollection[g.activeScreen].fadingOut(1);
-              g.screenCollection[this.nextId].fadingIn(1);
-            } else {
-              console.log(this.nextId + ' is not a screen in the screen collection');
-            }
+      this.textBlocks[this.block].update();
+      if (this.finishWrite){
+        if (this.nextType === 'overseer' || 
+          this.nextType === 'popup' || 
+          this.nextType === 'arachne' || 
+          this.nextType === 'general'){
+          if (this.clicked >= 0){
+            this.parent.nextActiveStatement = this.nextStatement;
+            this.block++;
           }
-          this.block++;
+          this.clicked = -1;
+        } else if (this.nextType === 'player'){
+          this.parent.nextActiveStatement = this.nextStatement;
+        } else if (this.nextType === 'exit'){
+          if (this.clicked >= 0){
+            this.parent.deActivate();
+            //if the screen to exit to is not the current active screen then switch it
+            if (this.nextId != g.activeScreen){
+              if(g.screenCollection[this.nextId]){
+                g.screenCollection[g.activeScreen].fadingOut(1);
+                g.screenCollection[this.nextId].fadingIn(1);
+              } else {
+                console.log(this.nextId + ' is not a screen in the screen collection');
+              }
+            }
+            this.block++;
+          }
+          this.clicked = -1;
+        } else if (this.nextType === 'endMod'){
+          this.parent.deActivate();
+          g.screenCollection[g.activeScreen].fadingOut(1);
+          g.endMod = true;
+        } else {
+          this.parent.playerDiv.html("ERROR: " + this.id + " has an invalid nextType");
         }
-        this.clicked = -1;
-      } else if (this.nextType === 'endMod'){
-        this.parent.deActivate();
-        g.screenCollection[g.activeScreen].fadingOut(1);
-        g.endMod = true;
-      } else {
-        this.parent.playerDiv.html("ERROR: " + this.id + " has an invalid nextType");
+      }
+      this.textBlocks[this.block].update();
+      if (this.textBlocks[this.block].finish){
+        this.finishWrite = true;
       }
     },
     stateDraw: function(html){
@@ -451,7 +449,6 @@ var PlayerOptions = klass(function(parent, xmlData){
   this.id = $(xmlData).attr('id');
   this.statementArray = [];
   this.availableStatements = null;
-  this.drawState = 'new';
   
   var that = this;
   $(xmlData).find('option').each(function(){
@@ -616,5 +613,17 @@ var PopupStatement = Statement.extend(function(parent, xmlData){
       }
       HTML.push('</div>');
       return HTML.join('');
+    }
+  });
+
+var ContinueStatement = klass(function(parent){
+  this.nextStatement = parent.nextStatement;
+  this.outputString = 'Press here to continue';
+})
+  .methods({
+    update: function(){
+    },
+    draw: function(){
+      var HTML = ['<div id="PlayerDIV" style"'];
     }
   });
