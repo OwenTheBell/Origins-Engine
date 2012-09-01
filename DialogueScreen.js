@@ -133,12 +133,37 @@ var DialogueScreen = Screen.extend(function(id, file){
           linkNext(statement);
         }
       }
-      
+      /* 
+      function linkNext(statement){
+        var next = statement.nextType;
+        if(next === 'popup' || next === 'player'){
+          var tester = statements[statement.nextId];
+          if (!tester){
+            console.log("ERROR: %s tried to access the invalid %s id %s in the file %s", statement.id, next, statement.nextId, fileName);
+          } else {
+            statement.setNext(tester);
+          }
+        } else {
+          var contState = new ContinueStatement(that);
+          if (next === 'exit' || next === 'endMod'){
+            contState.setNext('exit');
+          } else {
+            var tester = statements[statement.nextId];
+            if (!tester){
+              console.log("ERROR: %s tried to access the invalid %s id %s in the file %s", statement.id, next, statement.nextId, fileName);
+            } else {
+              contState.setNext(tester);
+            }
+          }
+          statement.setNext(contState);
+        }
+      }
+      */
       this.statements = statements;
       //Function for setting a statement's nextStatement
       function linkNext(statement){
         var next = statement.nextType;
-      if (next === 'exit' || next === 'endMod'){
+        if (next === 'exit' || next === 'endMod'){
           statement.setNext('exit');
         } else if (next === 'overseer' || next === 'player' || next === 'popup' || next === 'arachne' || next === 'general'){
           var tester = statements[statement.nextId];
@@ -395,10 +420,11 @@ var GeneralStatement = Statement.extend(function(parent, xmlData){
         } else {
           this.parent.playerDiv.html("ERROR: " + this.id + " has an invalid nextType");
         }
-      }
-      this.textBlocks[this.block].update();
-      if (this.textBlocks[this.block].finish){
+      } else if (this.textBlocks[this.block].finish){
         this.finishWrite = true;
+        console.log('finished');
+      }else {
+        this.textBlocks[this.block].update();
       }
     },
     stateDraw: function(html){
@@ -468,6 +494,9 @@ var PlayerOptions = klass(function(parent, xmlData){
             this.availableStatements.push(statement);
           }
         }
+      }
+      for(i in this.availableStatements){
+        this.availableStatements[i].update();
       }
       
       if((this.clicked >= 0) && (this.clicked < this.availableStatements.length)){
@@ -568,6 +597,9 @@ var PlayerStatement = Statement.extend(function(parent, xmlData, id){
     },
     check: function(){
       return this.set_check.check;
+    },
+    update: function(){
+      this.textBlocks[this.block].update();
     }
   });
 
@@ -617,13 +649,21 @@ var PopupStatement = Statement.extend(function(parent, xmlData){
   });
 
 var ContinueStatement = klass(function(parent){
-  this.nextStatement = parent.nextStatement;
   this.outputString = 'Press here to continue';
 })
   .methods({
+    setNext: function(next){
+      this.nextStatement = next;
+    },
     update: function(){
     },
-    draw: function(){
-      var HTML = ['<div id="PlayerDIV" style"'];
+    stateDraw: function(responseHolders){
+      var HTML = ['<div id="PlayerDIV" style="" class="dialogue speech" >'];
+      HTML.push('<div style="');
+      for(x in responseHolders[0]){
+        HTML.push(x, ':', responseHolders[0][x], '; ');
+      }
+      HTML.push('" >Click here to continue</div></div>');
+      return HTML.join('');
     }
   });

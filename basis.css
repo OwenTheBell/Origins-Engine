@@ -14,6 +14,7 @@
 div {
   position: inherit;
   font-family: 'MichromaRegular';
+  font-size: 18px;
 }
 
 canvas {
