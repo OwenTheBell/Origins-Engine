@@ -7,13 +7,13 @@
 
 <item id = "bookshelf">
 
-<general id = "bookShelf1" nextType = "exit" nextId = "mainScreen">
+<general id = "bookShelf1" nextType = "exit" nextId = "mainScreen1">
 	<text>The books sit in their compartment so snuggly. So neatly. So innocently. You just know they are plotting something…</text>
 
 </general>
 </item> 
 <item id = "bike">
-<general id = "bike1" nextType = "exit" nextId = "mainScreen">
+<general id = "bike1" nextType = "exit" nextId = "mainScreen1">
 	<text>The exercise bike stands idly. It still looks like new. Probably from lack of use.</text>
 
 </general>
@@ -34,14 +34,14 @@
 		<text>Do nothing.</text>
 	</option>
 </player>
-<general id = "ladder2" nextType = "exit" nextId = "mainScreen">
+<general id = "ladder2" nextType = "exit" nextId = "mainScreen1">
 	<text>Where would you like go?</text>
 
 </general>
-<general id = "ladder3" nextType = "exit" nextId = "mainScreen">
+<general id = "ladder3" nextType = "exit" nextId = "mainScreen1">
 	<text>You go to the bathroom.</text>
 </general>
-<general id = "ladder4" nextType = "exit" nextId = "mainScreen">
+<general id = "ladder4" nextType = "exit" nextId = "mainScreen1">
 	<text>You do nothing.</text>
 </general>
 </item>
@@ -60,32 +60,32 @@
 		<text>No</text>
 	</option>
 </player>
-<general id = "sleepPod2" nextType = "exit" nextId = "mainScreen">
+<general id = "sleepPod2" nextType = "exit" nextId = "mainScreen1">
 	<text>You try to sleep but something keeps you from your rest. It is almost like you still have something to do before your day is over.</text>
 
 </general>
-<general id = "sleepPod3" nextType = "exit" nextId = "mainScreen">
+<general id = "sleepPod3" nextType = "exit" nextId = "mainScreen1">
 	<text>You decide not to go to sleep. It is really not comfortable up there anyway.</text>
 
 </general>
 </item>
 <item id = "table">
-<general id = "table" nextType = "exit" nextId = "mainScreen">
+<general id = "table" nextType = "exit" nextId = "mainScreen1">
 	<text>You and Arachne use this fold-out table to play chess and other boardgames sometimes. She usually wins.</text>
 	</general>
 </item>
 <item id = "water">
-<general id = "water" nextType = "exit" nextId = "mainScreen">
+<general id = "water" nextType = "exit" nextId = "mainScreen1">
 	<text>This complex hydro-dispenser is able to reconstitute excess liquids into drinkable though tasteless water.You wish there was something else to drink, but at least the water is cold when it comes out.</text>
 </general>
 </item>
 <item id = "chair">
-<general id = "chair" nextType = "exit" nextId = "mainScreen">
+<general id = "chair" nextType = "exit" nextId = "mainScreen1">
 	<text>This chair is probably the worst one ever designed by mortal hands. It's probably why it is up here in space with you. So the rest of humanity would not have to suffer this abominable piece of plastic.</text>
 </general>
 </item>
 <item id = "smallmonitor">
-<general id = "sMonitor" nextType = "exit" nextId = "mainScreen">
+<general id = "sMonitor" nextType = "exit" nextId = "mainScreen1">
 	<text>This monitor seems to simply display random waves and charts. You can't tell if they are really monitoring anything and pressing the big buttons has no effect on them. Everything seems normal though.</text>
 </general>
 </item>
@@ -101,19 +101,19 @@
 		<text>No</text>
 	</option>
 </player>
-<general id = "pellet2" nextType = "exit" nextId = "mainScreen">
+<general id = "pellet2" nextType = "exit" nextId = "mainScreen1">
 	<text>You don't get a pellet.</text>
 
 </general>
-<general id = "pellet3" nextType = "exit" nextId = "mainScreen">
+<general id = "pellet3" nextType = "exit" nextId = "mainScreen1">
 	<text>You get a pellet and eat it. It fills you up quickly. It tastes like oatmeal but it feels really weird eating oatmeal from a pellet.</text>
 
 </general>
-<general id = "pellet3" nextType = "exit" nextId = "mainScreen">
+<general id = "pellet3" nextType = "exit" nextId = "mainScreen1">
 	<text>You get a pellet and eat it. This one tastes like a fancy lobster dinner. Hopefully you won't get an allergic reaction.</text>
 
 </general>
-<general id = "pellet3" nextType = "exit" nextId = "mainScreen">
+<general id = "pellet3" nextType = "exit" nextId = "mainScreen1">
 	<text>The machine refuses to give you a pellet and advises you spend time on the exercise bike.</text>
 
 </general>

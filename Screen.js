@@ -5,6 +5,7 @@ var Screen = klass(function(id) {
   this.fadeIn = false;
   this.timeIn;
   this.classes = ['interactive'];
+  this.mouseCheck = {};
   this.dialogue = {
     screens: [],
     active: false,
@@ -14,7 +15,6 @@ var Screen = klass(function(id) {
   this.css = {
     'opacity': 0.0
   }
-  
   this.transitionFrames = 0;
   this.transitionFramesCount = 0;
 })
@@ -79,7 +79,6 @@ var Screen = klass(function(id) {
         }
       }
       var mouse = {};
-      this.mouseCheck = {};
       this.confirmedSprite = {};
       //Only take input if the screen is not transitioning
       if (g.activeScreen == this.id){

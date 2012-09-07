@@ -23,7 +23,7 @@ var DialogueScreen = Screen.extend(function(id, file){
   this.topSprite = new Sprite('topSprite', 0, 0, 'Sprites/Dialogue/top_dialogue.png', 1);
   this.bottomSprite = new Sprite('bottomSprite', 0, 0, 'Sprites/Dialogue/bottom_dialogue.png', 1);
   this.bottomSprite.changeTop(g.origins.height - this.bottomSprite.height);
-  this.speakerName = new textBox('speaker', '', 120, 210, '#ffffff', 10, '20px');
+  this.speakerName = new textBox('speaker', '', 120, 210, '#3399ff', 10, '20px');
   this.spriteArray.push(this.topSprite, this.bottomSprite, this.speakerName);
 
   if (!helper.findCSSRule('#OverseerDIV')){
@@ -42,7 +42,7 @@ var DialogueScreen = Screen.extend(function(id, file){
 
     this.responseRule = helper.addCSSRule('.responseDialogue', {
       width: helper.findCSSRule('.speech').style.width,
-      height: Math.floor(parseInt(helper.findCSSRule('.speech').style.height) / 4) + 'px'
+      height: Math.floor(parseInt(helper.findCSSRule('.speech').style.height) / 5) + 'px'
     });
   } else {
     this.overseerRule = helper.findCSSRule('#OverseerDIV');
@@ -51,7 +51,7 @@ var DialogueScreen = Screen.extend(function(id, file){
   }
 
   this.responseHolders = [];
-  for(var i = 0; i < 4; i++){
+  for(var i = 0; i < 5; i++){
     this.responseHolders[i] = {};
     this.responseHolders[i].top = parseInt(this.responseRule.style.height) * i + 'px';
   }
@@ -133,51 +133,50 @@ var DialogueScreen = Screen.extend(function(id, file){
           linkNext(statement);
         }
       }
-      /* 
+      
       function linkNext(statement){
         var next = statement.nextType;
-        if(next === 'popup' || next === 'player'){
-          var tester = statements[statement.nextId];
-          if (!tester){
-            console.log("ERROR: %s tried to access the invalid %s id %s in the file %s", statement.id, next, statement.nextId, fileName);
-          } else {
-            statement.setNext(tester);
-          }
-        } else {
-          var contState = new ContinueStatement(that);
-          if (next === 'exit' || next === 'endMod'){
-            contState.setNext('exit');
-          } else {
+        if (statement instanceof GeneralStatement){
+          if(next === 'popup' || next === 'player'){
             var tester = statements[statement.nextId];
             if (!tester){
               console.log("ERROR: %s tried to access the invalid %s id %s in the file %s", statement.id, next, statement.nextId, fileName);
             } else {
-              contState.setNext(tester);
+              statement.setNext(tester);
             }
-          }
-          statement.setNext(contState);
-        }
-      }
-      */
-      this.statements = statements;
-      //Function for setting a statement's nextStatement
-      function linkNext(statement){
-        var next = statement.nextType;
-        if (next === 'exit' || next === 'endMod'){
-          statement.setNext('exit');
-        } else if (next === 'overseer' || next === 'player' || next === 'popup' || next === 'arachne' || next === 'general'){
-          var tester = statements[statement.nextId];
-          if (!tester) {
-            console.log("ERROR: %s tried to access the invalid %s id %s in the file %s", statement.id, next, statement.nextId, fileName);
           } else {
-            statement.setNext(tester);
+            var contState = new ContinueStatement(that);
+            if (next === 'exit'){
+              contState.setNext(next, statement.nextId);
+            } else if (next === 'endMod'){
+              contState.setNext(next);
+            } else {
+              var tester = statements[statement.nextId];
+              if (!tester){
+                console.log("ERROR: %s tried to access the invalid %s id %s in the file %s", statement.id, next, statement.nextId, fileName);
+              } else {
+                contState.setNext(next, tester);
+              }
+            }
+            statement.setNext(contState);
           }
         } else {
-          console.log("ERROR: %s has an invalid nextType of %s in the file %s", statement.id, statement.nextType, fileName);
+          if (next === 'exit' || next === 'endMod'){
+            statement.setNext('exit');
+          } else if (next === 'overseer' || next === 'player' || next === 'popup' || next === 'arachne' || next === 'general'){
+            var tester = statements[statement.nextId];
+            if (!tester) {
+              console.log("ERROR: %s tried to access the invalid %s id %s in the file %s", statement.id, next, statement.nextId, fileName);
+            } else {
+              statement.setNext(tester);
+            }
+          } else {
+            console.log("ERROR: %s has an invalid nextType of %s in the file %s", statement.id, statement.nextType, fileName);
+          }
         }
-      };
+      }
     },
-          
+     
     activate: function(){
       this.activateBlock = true;
       g.activeDialogue = this.id;
@@ -211,6 +210,7 @@ var DialogueScreen = Screen.extend(function(id, file){
         var mouse = g.input.mouse;
         mouse.X -= g.origins.left + parseInt(this.playerRule.style.left);
         mouse.Y -= g.origins.top + parseInt(this.playerRule.style.top);
+        var hovering = false;
         if((mouse.X > 0) && (mouse.X <= parseInt(helper.findCSSRule('.speech').style.width))
           && (mouse.Y > 0) && (mouse.Y <= parseInt(helper.findCSSRule('.speech').style.height))){
           
@@ -221,19 +221,23 @@ var DialogueScreen = Screen.extend(function(id, file){
           } else {
             for(var i = 0; i < this.responseHolders.length; i++){
               if(target == i){
-                this.responseHolders[i]['background-color'] = '#800000';
+                hovering = true;
+                //this.responseHolders[i]['background-color'] = '#800000';
               } else {
-                delete this.responseHolders[i]['background-color'];
+                //delete this.responseHolders[i]['background-color'];
               }
             }
           }
         }
+        if (hovering) this.css.cursor = 'pointer';
+        else this.css.cursor = 'default';
+        /*
         if (target == -1){
           for(i in this.responseHolders){
             delete this.responseHolders[i]['background-color'];
           }
         }
-        
+        */ 
         this.activeStatement.update();
       }
       this.activateBlock = false;
@@ -283,21 +287,11 @@ var DialogueScreen = Screen.extend(function(id, file){
         //When the overseerDiv needs to be updated
         if (this.activeStatement instanceof GeneralStatement){
           this.overseerHTML = this.activeStatement.stateDraw();
-          if (this.activeStatement.nextType === 'overseer' ||
-            this.activeStatement.nextType === 'arachne' ||
-            this.activeStatement.nextType === 'general'){
-            this.playerHTML = addToPlayer('Click here to continue');
-          }
-          if (this.activeStatement.nextType === 'exit'){
-            this.playerHTML = addToPlayer('Click here to continue');
-          } else if (this.activeStatement.nextType === 'popup'){
-            this.playerHTML = addToPlayer('Click here to continue');
-          }
-        } else if (this.activeStatement instanceof PlayerOptions){
+        } else if (this.activeStatement instanceof PlayerOptions ||
+        this.activeStatement instanceof PopupStatement ||
+        this.activeStatement instanceof ContinueStatement){
           this.playerHTML = this.activeStatement.stateDraw(this.responseHolders);
-        } else if (this.activeStatement instanceof PopupStatement){
-          this.playerHTML = this.activeStatement.stateDraw(this.responseHolders);
-        }
+        } 
         HTML.push('<div id =', this.id, 'Dialouge', ' style="');
         for(x in this.css){
           HTML.push(x, ':', this.css[x], '; ');
@@ -387,39 +381,7 @@ var GeneralStatement = Statement.extend(function(parent, xmlData){
       this.supr();
       this.textBlocks[this.block].update();
       if (this.finishWrite){
-        if (this.nextType === 'overseer' || 
-          this.nextType === 'popup' || 
-          this.nextType === 'arachne' || 
-          this.nextType === 'general'){
-          if (this.clicked >= 0){
-            this.parent.nextActiveStatement = this.nextStatement;
-            this.block++;
-          }
-          this.clicked = -1;
-        } else if (this.nextType === 'player'){
-          this.parent.nextActiveStatement = this.nextStatement;
-        } else if (this.nextType === 'exit'){
-          if (this.clicked >= 0){
-            this.parent.deActivate();
-            //if the screen to exit to is not the current active screen then switch it
-            if (this.nextId != g.activeScreen){
-              if(g.screenCollection[this.nextId]){
-                g.screenCollection[g.activeScreen].fadingOut(1);
-                g.screenCollection[this.nextId].fadingIn(1);
-              } else {
-                console.log(this.nextId + ' is not a screen in the screen collection');
-              }
-            }
-            this.block++;
-          }
-          this.clicked = -1;
-        } else if (this.nextType === 'endMod'){
-          this.parent.deActivate();
-          g.screenCollection[g.activeScreen].fadingOut(1);
-          g.endMod = true;
-        } else {
-          this.parent.playerDiv.html("ERROR: " + this.id + " has an invalid nextType");
-        }
+        this.parent.nextActiveStatement = this.nextStatement;
       } else if (this.textBlocks[this.block].finish){
         this.finishWrite = true;
         console.log('finished');
@@ -608,6 +570,7 @@ var PopupStatement = Statement.extend(function(parent, xmlData){
   this.target = $(xmlData).attr('target');
   this.collectedInput = '';
   this.popupStatements = [];
+  //this.pressEnter = new xmlTextBox('<x>Press Enter when Done</x>');
 })
   .methods({
     update: function(){
@@ -623,12 +586,15 @@ var PopupStatement = Statement.extend(function(parent, xmlData){
           this.collectedInput = this.collectedInput.slice(0, this.collectedInput.length - 1);
         }
       }
+      this.textBlocks[this.block].update();
+      //this.pressEnter.update();
     },
     stateDraw: function(responseHolders){
       var HTML = ['<div id="PlayerDIV" style="'];
-      var statements = [this.returnText(), 
-              this.collectedInput, 
-              'Press Enter when Done']
+      var statements = [this.textBlocks[this.block].draw(),
+              this.collectedInput,
+              //this.pressEnter.draw()];
+              'Press Enter when Done'];
       /*
       for(x in that.playerCSS){
         HTML.push(x, ':', that.playerCSS[x], '; ');
@@ -649,14 +615,50 @@ var PopupStatement = Statement.extend(function(parent, xmlData){
   });
 
 var ContinueStatement = klass(function(parent){
+  this.parent = parent;
   this.outputString = 'Press here to continue';
 })
   .methods({
-    setNext: function(next){
-      this.nextStatement = next;
+    setNext: function(type, next){
+      this.nextType = type;
+      if (type === 'exit') this.nextId = next;
+      else this.nextStatement = next;
     },
     update: function(){
+      switch (this.nextType){
+        case 'overseer':
+        case 'arachne':
+        case 'general':
+          if (this.clicked >= 0){
+            this.parent.nextActiveStatement = this.nextStatement;
+          }
+          this.clicked = -1;
+          break;
+        case 'exit':
+          if (this.clicked >= 0){
+            this.parent.deActivate();
+            //if the screen to exit to is not the current active screen then switch it
+            if (this.nextId != g.activeScreen){
+              if(g.screenCollection[this.nextId]){
+                g.screenCollection[g.activeScreen].fadingOut(1);
+                g.screenCollection[this.nextId].fadingIn(1);
+              } else {
+                console.log(this.nextId + ' is not a screen in the screen collection');
+              }
+            }
+          }
+          this.clicked = -1;
+          break;
+        case 'endMod':
+          this.parent.deActivate();
+          g.screenCollection[g.activeScreen].fadingOut(1);
+          g.endMod = true;
+          break;
+        default:
+          this.parent.playerDiv.html("ERROR: " + this.id + " has an invalid nextType");
+      }
     },
+
     stateDraw: function(responseHolders){
       var HTML = ['<div id="PlayerDIV" style="" class="dialogue speech" >'];
       HTML.push('<div style="');

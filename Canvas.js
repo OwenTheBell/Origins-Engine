@@ -5,33 +5,33 @@
  * to actually put that canvas object on the DIV
  */
 var Canvas = klass(function(id, left, top, width, height, zIndex){
-	this.id = id;
-	this.top = top;
-	this.left = left;
-	//these values cannot be put into css as the DOM requries them to
-	//render the canvas element properly
-	this.width = width;
-	this.height = height;
-	this.canvas = document.createElement('canvas');
-	this.canvas.width = this.width;
-	this.canvas.height = this.height
-	this.canvas.setAttribute('id', this.id);
-	this.canvas.style.zIndex = zIndex;
-	this.canvas.style.top = this.top + 'px';
-	this.canvas.style.left = this.left + 'px';
-	this.context = this.canvas.getContext('2d');
+  this.id = id;
+  this.top = top;
+  this.left = left;
+  //these values cannot be put into css as the DOM requries them to
+  //render the canvas element properly
+  this.width = width;
+  this.height = height;
+  this.canvas = document.createElement('canvas');
+  this.canvas.width = this.width;
+  this.canvas.height = this.height
+  this.canvas.setAttribute('id', this.id);
+  this.canvas.style.zIndex = zIndex;
+  this.canvas.style.top = this.top + 'px';
+  this.canvas.style.left = this.left + 'px';
+  this.context = this.canvas.getContext('2d');
 })
-	.methods({
-		update: function(){
-		},
-		draw: function(HTML){
-		},
-		//return the wrapped canvas so that it can be appended to the DOM
-		canvasDraw: function(){
-			return this.canvas;
-		},
-		clear: function(){
-			this.context.clearRect(0, 0, this.width, this.height);
-		}
-	});
+  .methods({
+    update: function(){
+    },
+    draw: function(HTML){
+    },
+    //return the wrapped canvas so that it can be appended to the DOM
+    canvasDraw: function(){
+      return this.canvas;
+    },
+    clear: function(){
+      this.context.clearRect(0, 0, this.width, this.height);
+    }
+  });
 
