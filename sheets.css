@@ -438,3 +438,80 @@
   width: 79px;
   height: 73px;
 }
+
+#mod1exp1_background1 {
+  background-image: url("Sprites/Mod1Exp1/MagLvl1/MagLvl1.png");
+  z-index: 1;
+  width: 1280px;
+  height: 720px;
+}
+
+#mod1exp1_background2 {
+  background-image: url("Sprites/Mod1Exp1/MagLvl2/MagLvl2.png");
+  z-index: 1;
+  width: 1280px;
+  height: 720px;
+}
+
+#mod1exp1_background3 {
+  background-image: url("Sprites/Mod1Exp1/MagLvl3/MagLvl3.png");
+  z-index: 1;
+  width: 1280px;
+  height: 720px;
+}
+
+#CVariableBLU {
+ background-image: url("Sprites/Mod1Exp1/MagLvl1/C_Variable_BLU.png");
+ z-index: 2;
+ width: 21px;
+ height: 19px;
+}
+
+#CVariableRD {
+  background-image: url("Sprites/Mod1Exp1/MagLvl1/C_Variable_RD.png");
+  z-index: 2;
+  width: 27px;
+  height: 28px;
+}
+
+#CVariableRD_LRG {
+  background-image: url("Sprites/Mod1Exp1/MagLvl1/C_Variable_RD_LRG.png");
+  z-index: 2;
+  width: 28px;
+  height: 32px;
+}
+
+#CVariableWHT {
+  background-image: url("Sprites/Mod1Exp1/MagLvl1/C_Variable_WHT.png");
+  z-index: 2;
+  width: 21px;
+  height: 23px;
+}
+
+#Supernova_BLU {
+  background-image: url("Sprites/Mod1Exp1/MagLvl1/Supernova_BLU.png");
+  z-index: 2;
+  width: 22px;
+  height: 21px;
+}
+
+#Supernova_LTRD {
+  background-image: url("Sprites/Mod1Exp1/MagLvl1/Supernova_LTRD.png");
+  z-index: 2;
+  width: 12px;
+  height: 14px;
+}
+
+#Supernova_RD {
+  background-image: url("Sprites/Mod1Exp1/MagLvl1/Supernova_RD.png");
+  z-index: 2;
+  width: 12px;
+  height: 14px;
+}
+
+#Supenova_WHT {
+  background-image: url("Sprites/Mod1Exp1/MagLvl1/Supernova_WHT.png");
+  z-index: 2;
+  width: 14px;
+  height: 14px;
+}

@@ -73,6 +73,9 @@ var helper = {
         case 'standardCandlesScreen':
           CreateStandardCandlesScreen(id, json);
           break;
+        case 'Mod1Exp1Screen':
+          CreateMod1Exp1Screen(id, json);
+          break;
         default:
           console.log('ERROR: ' + id + ' has the invalid screenType of: ' + json.screenType);
       }

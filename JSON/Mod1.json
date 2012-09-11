@@ -476,6 +476,74 @@
       }
     }
   },
+  
+  "Mod1Exp1Screen": {
+    "screenType": "Mod1Exp1Screen",
+    "active": "true",
+    "sprites": {
+      "mod1exp1_background1": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl1/MagLvl1.png",
+        "x": 0,
+        "y": 0,
+        "zIndex": 1
+      },
+      "CVariableBLU": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl1/C_Variable_BLU.png",
+        "zIndex": 2
+      },
+      "CVariableRD": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl1/C_Variable_RD.png",
+        "zIndex": 2
+      },
+      "CVariableRD_LRG": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl1/C_Variable_RD_LRG.png",
+        "zIndex": 2
+      },
+      "CVariableRD": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl1/C_Variable_WHT.png",
+        "zIndex": 2
+      },
+      "Supernova_BLU": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl1/Supernova_BLU.png",
+        "zIndex": 2
+      },
+      "Supernove_LTRD": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl1/Supernova_LTRD.png",
+        "zIndex": 2
+      },
+      "Supernova_RD": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl1/Supernova_RD.png",
+        "zIndex": 2
+      },
+      "Supernova_WHT": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl1/Supernova_WHT.png",
+        "zIndex": 2
+      },
+      "mod1exp1_background2": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl2/MagLvl2.png",
+        "x": 0,
+        "y": 0,
+        "zIndex": 1
+      },
+      "mod1exp1_background3": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl3/MagLvl3.png",
+        "x": 0,
+        "y": 0,
+        "zIndex": 1
+      }
+    }
+  },
 
   "caching": {
     "sprites": {
