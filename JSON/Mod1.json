@@ -481,6 +481,34 @@
     "screenType": "Mod1Exp1Screen",
     "active": "true",
     "sprites": {
+      "MagLvl1": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/UI/MagIconlvl1.png",
+        "x": 1167,
+        "y": 366,
+        "zIndex": 4
+      },
+      "MagLvl2": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/UI/MagIconlvl2.png",
+        "x": 1155,
+        "y": 290,
+        "zIndex": 4
+      },
+      "MagLvl3": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/UI/MagIconlvl3.png",
+        "x": 1157,
+        "y": 210,
+        "zIndex": 4
+      },
+      "MagLvl4": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/UI/MagIconlvl4.png",
+        "x": 1148,
+        "y": 130,
+        "zIndex": 4
+      },
       "mod1exp1_background1": {
         "type": "Sprite",
         "sprite": "Sprites/Mod1Exp1/MagLvl1/MagLvl1.png",
@@ -503,7 +531,7 @@
         "sprite": "Sprites/Mod1Exp1/MagLvl1/C_Variable_RD_LRG.png",
         "zIndex": 2
       },
-      "CVariableRD": {
+      "CVariableWHT": {
         "type": "Sprite",
         "sprite": "Sprites/Mod1Exp1/MagLvl1/C_Variable_WHT.png",
         "zIndex": 2
@@ -513,7 +541,7 @@
         "sprite": "Sprites/Mod1Exp1/MagLvl1/Supernova_BLU.png",
         "zIndex": 2
       },
-      "Supernove_LTRD": {
+      "Supernova_LTRD": {
         "type": "Sprite",
         "sprite": "Sprites/Mod1Exp1/MagLvl1/Supernova_LTRD.png",
         "zIndex": 2

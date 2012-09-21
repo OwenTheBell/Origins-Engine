@@ -439,6 +439,34 @@
   height: 73px;
 }
 
+#MagLvl1 {
+  background-image: url("Sprites/Mod1Exp1/UI/MagIconlvl1.png");
+  z-index: 4;
+  width: 55px;
+  height: 61px;
+}
+
+#MagLvl2 {
+  background-image: url("Sprites/Mod1Exp1/UI/MagIconlvl2.png");
+  z-index: 4;
+  width: 67px;
+  height: 57px;
+}
+
+#MagLvl3 {
+  background-image: url("Sprites/Mod1Exp1/UI/MagIconlvl3.png");
+  z-index: 4;
+  width: 66px;
+  height: 59px;
+}
+
+#MagLvl4 {
+  background-image: url("Sprites/Mod1Exp1/UI/MagIconlvl4.png");
+  z-index: 4;
+  width: 85px;
+  height: 66px;
+}
+
 #mod1exp1_background1 {
   background-image: url("Sprites/Mod1Exp1/MagLvl1/MagLvl1.png");
   z-index: 1;
