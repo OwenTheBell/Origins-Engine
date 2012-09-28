@@ -543,3 +543,122 @@
   width: 14px;
   height: 14px;
 }
+
+#CVariableRD_LRG_2 {
+  background-image: url("Sprites/Mod1Exp1/MagLvl2/C_Variable_RD_LRG.png");
+  z-index: 2;
+  width: 72px;
+  height: 65px;
+}
+
+#CVariableRD_2 {
+  background-image: url("Sprites/Mod1Exp1/Maglvl2/C_Variable_RD.png");
+  z-index: 2;
+  width: 65px;
+  height: 63px;
+}
+
+#DiskGalLTBL {
+  background-image: url("Sprites/Mod1Exp1/MagLvl2/Disk_Gal_LTBL.png");
+  z-index: 2;
+  width: 50px;
+  height: 28px;
+}
+
+#DiskGalRD {
+  background-image: url("Sprites/Mod1Exp1/MagLvl2/Disk_Gal_RD.png");
+  z-index: 2;
+  width: 41px;
+  height: 27px;
+}
+
+#SpriGalOR {
+  background-image: url("Sprites/Mod1Exp1/MagLvl2/Spir_GAL_OR.png");
+  z-index: 2;
+  width: 35px;
+  height: 27px;
+}
+
+#SpirGalRD {
+  background-image: url("Sprites/Mod1Exp1/MagLvl2/Spir_GAL_RD.png");
+  z-index: 2;
+  width: 23px;
+  height: 31px;
+}
+
+#SupernovaRD_MD {
+  background-image: url("Sprites/Mod1Exp1/MagLvl2/Supernova_RD_MD.png");
+  z-index: 2;
+  width: 66px;
+  height: 63px;
+}
+
+#SupernovaWHT_LRD {
+  background-image: url("Sprites/Mod1Exp1/MagLvl2/Supernova_WHT_LRG.png");
+  z-index: 2;
+  width: 116px;
+  height: 113px;
+}
+
+#ColGalRD_SM_Rotated {
+  background-image: url("Sprites/Mod1Exp1/MagLvl3/COL_GAL_RD_SM_Rotated.png");
+  z-index: 2;
+  width: 33px;
+  height: 48px;
+}
+
+#ColGalRD_SM {
+  background-image: url("Sprites/Mod1Exp1/MagLvl3/COL_GAL_RD_SM.png");
+  z-index: 2;
+  width: 48px;
+  height: 65px;
+}
+
+#DiskGalNM_LRG {
+  background-image: url("Sprites/Mod1Exp1/MagLvl3/Disk_GAL_NM_LRG.png");
+  z-index: 2;
+  width: 256px;
+  height: 153px;
+}
+
+#SpirGalOR_MD {
+  background-image: url("Sprites/Mod1Exp1/MagLvl3/Spir_GAL_OR_MD.png");
+  z-index: 2;
+  width: 35px;
+  height: 40px;
+}
+
+#SpirGalRD_SM {
+  background-image: url("Sprites/Mod1Exp1/MagLvl3/SPIR_GAL_RD_SM.png");
+  z-index: 2;
+  width: 21px;
+  height: 17px;
+}
+
+#mod1exp1_background4 {
+  background-image: url("Sprites/Mod1Exp1/MagLvl4/MagLvl4.png");
+  z-index: 1;
+  width: 1280px;
+  height: 720px;
+}
+
+#ColGalOrig {
+  background-image: url("Sprites/Mod1Exp1/MagLvl4/COL_GAL_Orig.png");
+  z-index: 2;
+  width: 630px;
+  height: 396px;
+}
+
+#DiskGalOrig {
+  background-image: url("Sprites/Mod1Exp1/MagLvl4/Disk_GAL_Orig.png");
+  z-index: 2;
+  width: 607px;
+  height: 347px;
+}
+
+#SpirGalOrig {
+  background-image: url("Sprites/Mod1Exp1/MagLvl4/Spir_GAL_Orig.png");
+  z-index: 2;
+  width: 148px;
+  height: 190px;
+}

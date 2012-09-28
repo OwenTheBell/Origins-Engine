@@ -79,7 +79,7 @@ var Screen = klass(function(id) {
         }
       }
       var mouse = {};
-      this.confirmedSprite = {};
+      this.confirmedSprite = null;
       //Only take input if the screen is not transitioning
       if (g.activeScreen == this.id){
         if (this.css['opacity'] != 1.0) this.css['opacity'] = 1.0;
@@ -95,10 +95,18 @@ var Screen = klass(function(id) {
             }
           }
           mouse = g.input.mouse;
-  
+          /*
+            This has the serious issue that unrendered sprites can be clicked
+            on. An easy solution would be to only evalutate sprites that we
+            can search for with jQuery, but that is also a relatively
+            inefficient approach. The best option might well be to setup
+            what would be an array of activeSprites that are actually updated,
+            and rendered while the spriteArray contains all sprites that could
+            potentially be rendered
+          */ 
           for (x in this.spriteArray){
             var testSprite = this.spriteArray[x];
-            if (testSprite.checkMouse){
+            if (testSprite instanceof clickSprite){
               if ((mouse.X > testSprite.left + g.origins.left) && 
                 (mouse.X < testSprite.left + testSprite.width + g.origins.left) &&
                 (mouse.Y > testSprite.top + g.origins.top) &&

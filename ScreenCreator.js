@@ -94,11 +94,9 @@ var CreateSprite= function(id, json){
     case 'Sprite':
       sprite = new Sprite(id, json.x, json.y, json.sprite, json.zIndex);
       break;
-      /*
     case 'clickSprite':
       sprite = new clickSprite(id, json.x, json.y, json.sprite, json.zIndex);
       break;
-      */
     case 'dialogueSprite':
       sprite = new dialogueSprite(id, json.x, json.y, json.sprite, json.zIndex, json.dialogue);
       break;

@@ -482,28 +482,28 @@
     "active": "true",
     "sprites": {
       "MagLvl1": {
-        "type": "Sprite",
+        "type": "clickSprite",
         "sprite": "Sprites/Mod1Exp1/UI/MagIconlvl1.png",
         "x": 1167,
         "y": 366,
         "zIndex": 4
       },
       "MagLvl2": {
-        "type": "Sprite",
+        "type": "clickSprite",
         "sprite": "Sprites/Mod1Exp1/UI/MagIconlvl2.png",
         "x": 1155,
         "y": 290,
         "zIndex": 4
       },
       "MagLvl3": {
-        "type": "Sprite",
+        "type": "clickSprite",
         "sprite": "Sprites/Mod1Exp1/UI/MagIconlvl3.png",
         "x": 1157,
         "y": 210,
         "zIndex": 4
       },
       "MagLvl4": {
-        "type": "Sprite",
+        "type": "clickSprite",
         "sprite": "Sprites/Mod1Exp1/UI/MagIconlvl4.png",
         "x": 1148,
         "y": 130,
@@ -536,22 +536,22 @@
         "sprite": "Sprites/Mod1Exp1/MagLvl1/C_Variable_WHT.png",
         "zIndex": 2
       },
-      "Supernova_BLU": {
+      "SupernovaBLU": {
         "type": "Sprite",
         "sprite": "Sprites/Mod1Exp1/MagLvl1/Supernova_BLU.png",
         "zIndex": 2
       },
-      "Supernova_LTRD": {
+      "SupernovaLTRD": {
         "type": "Sprite",
         "sprite": "Sprites/Mod1Exp1/MagLvl1/Supernova_LTRD.png",
         "zIndex": 2
       },
-      "Supernova_RD": {
+      "SupernovaRD": {
         "type": "Sprite",
         "sprite": "Sprites/Mod1Exp1/MagLvl1/Supernova_RD.png",
         "zIndex": 2
       },
-      "Supernova_WHT": {
+      "SupernovaWHT": {
         "type": "Sprite",
         "sprite": "Sprites/Mod1Exp1/MagLvl1/Supernova_WHT.png",
         "zIndex": 2
@@ -563,12 +563,99 @@
         "y": 0,
         "zIndex": 1
       },
+      "CVariableRD_LRG_2": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl2/C_Variable_RD_LRG.png",
+        "zIndex": 2
+      },
+      "CVariableRD_2": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl2/C_Variable_RD.png",
+        "zIndex": 2
+      },
+      "DiskGalLTBL": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl2/Disk_Gal_LTBL.png",
+        "zIndex": 2
+      },
+      "DiskGalRD": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl2/Disk_Gal_RD.png",
+        "zIndex": 2
+      },
+      "SpirGalOR": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl2/Spir_GAL_OR.png",
+        "zIndex": 2
+      },
+      "SpirGalRD": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl2/Spir_GAL_RD.png",
+        "zIndex": 2
+      },
+      "SupernovaRD_MD": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl2/Supernova_RD_MD.png",
+        "zIndex": 2
+      },
+      "SupernovaWHT_LRD": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl2/Supernova_WHT_LRG.png",
+        "zIndex": 2
+      },
       "mod1exp1_background3": {
         "type": "Sprite",
         "sprite": "Sprites/Mod1Exp1/MagLvl3/MagLvl3.png",
         "x": 0,
         "y": 0,
         "zIndex": 1
+      },
+      "ColGalRD_SM_Rotated": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl3/COL_GAL_RD_SM_Rotated.png",
+        "zIndex": 2
+      },
+      "ColGalRD_SM": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl3/COL_GAL_RD_SM.png",
+        "zIndex": 2
+      },
+      "DiskGalNM_LRG": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl3/Disk_GAL_NM_LRG.png",
+        "zIndex": 2
+      },
+      "SpirGalOR_MD": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl3/SPIR_GAL_OR_MD.png",
+        "zIndex": 2
+      },
+      "SpirGalRD_SM": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl3/SPIR_GAL_RD_SM.png",
+        "zIndex": 2
+      },
+      "mod1exp1_background4": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl4/MagLvl4.png",
+        "x": 0,
+        "y": 0,
+        "zIndex": 1
+      },
+      "ColGalOrig": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl4/COL_GAL_Orig.png",
+        "zIndex": 2
+      },
+      "DiskCalOrig": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl4/Disk_GAL_Orig.png",
+        "zIndex": 2
+      },
+      "SpirGalOrig": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp1/MagLvl4/Spir_GAL_Orig.png",
+        "zIndex": 2
       }
     }
   },
