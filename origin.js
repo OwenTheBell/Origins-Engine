@@ -107,7 +107,6 @@ RunGame = function(){
     g.screenCollection[x].update();
   }
 
-
   var HTML = [];
   for(x in g.screenCollection) {
     g.screenCollection[x].draw(HTML);

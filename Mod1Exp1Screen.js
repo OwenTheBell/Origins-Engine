@@ -27,7 +27,7 @@ var Mod1Exp1Screen = Screen.extend(function(id){
           var top = Math.floor(Math.random() * g.origins.height);
           //limit the width to prevent overlaying of UI with targets
           var left = Math.floor(Math.random() * 1000);
-          var temp = new clickStar(id, left, top, sprite.image.src, sprite.zIndex, 0);
+          var temp = new clickStar(id, left, top, sprite.image.src, sprite.zIndex, magCount);
           temp.parent = this;
           delete this.spriteArray[id];
           this.magLvls[magCount].addSprite(temp);

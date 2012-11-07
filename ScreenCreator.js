@@ -72,6 +72,20 @@ var CreateMod1Exp1Screen = function(id, json){
   g.screenCollection[id] = screen;
 }
 
+var CreateMod1Exp3Screen = function(id, json){
+  var screen = new Mod1Exp3Screen(id); 
+  if (json.active === 'true') {
+    g.activeScreen = id;
+  }
+  for (i in json.sprites){
+    screen.addSprite(CreateSprite(i, json.sprites[i]));
+  }
+  if (json.dialogue){
+    screen.addDialogue(json.dialogue);
+  }
+  g.screenCollection[id] = screen;
+}
+
 var CreateDialogueScreen = function(id, json){
   var talkScreen = new DialogueScreen(id, json.xml);
   helper.ajaxGet(talkScreen);

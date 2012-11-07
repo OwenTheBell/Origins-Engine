@@ -509,6 +509,13 @@
         "y": 130,
         "zIndex": 4
       },
+      "LogBookIcon": {
+        "type": "clickSprite",
+        "sprite": "Sprites/Mod1Exp1/UI/Logbook.png",
+        "x": 15,
+        "y": 508,
+        "zIndex": 4
+      },
       "mod1exp1_background1": {
         "type": "Sprite",
         "sprite": "Sprites/Mod1Exp1/MagLvl1/MagLvl1.png",
@@ -647,7 +654,7 @@
         "sprite": "Sprites/Mod1Exp1/MagLvl4/COL_GAL_Orig.png",
         "zIndex": 2
       },
-      "DiskCalOrig": {
+      "DiskGalOrig": {
         "type": "Sprite",
         "sprite": "Sprites/Mod1Exp1/MagLvl4/Disk_GAL_Orig.png",
         "zIndex": 2
@@ -659,6 +666,18 @@
       }
     }
   },
+
+  "Mod1Exp3Screen": {
+    "screenType": "Mod1Exp3Screen",
+    "active": "true",
+    "sprites": {
+      "skyMap": {
+        "type": "Sprite",
+        "sprite": "Sprites/Mod1Exp3/sky_map.png",
+        "zIndex": 1
+      }
+    }
+  },  
 
   "caching": {
     "sprites": {

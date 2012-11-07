@@ -467,6 +467,13 @@
   height: 66px;
 }
 
+#LogBookIcon {
+  background-image: url("Sprites/Mod1Exp1/UI/Logbook.png");
+  z-index: 4;
+  width: 182px;
+  height: 184px;
+}
+
 #mod1exp1_background1 {
   background-image: url("Sprites/Mod1Exp1/MagLvl1/MagLvl1.png");
   z-index: 1;

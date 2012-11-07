@@ -27,6 +27,67 @@ var textBox = klass(function(id, text, left, top, color, zIndex, size){
     }
   });
 
+var inputBox = klass(function(id, left, top, width, height, zIndex){
+  this.id = id;
+  this.left = left;
+  this.top = top;
+  this.width = width;
+  this.height = height;
+  this.zIndex = zIndex;
+	this.acceptedInput = '';
+	this.collectedInput = '';
+  var ruleCSS = {
+    'z-index': zIndex,
+    width: width + 'px',
+    height: height + 'px'
+  };
+  helper.addCSSRule('#' + this.id, ruleCSS);
+  this.css = {
+    top: top + 'px',
+    left: left + 'px'
+  };
+})
+  .methods({
+    update: function(){
+			if (g.input.key.press){
+				keyValue = g.input.key.value;
+				if (keyValue == 13){
+					this.acceptedInput = this.collectedInput;
+				} else if (((keyValue >= 65) && (keyValue <= 90)) || ((keyValue >= 97) && (keyValue <= 122))){
+					this.collectedInput += String.fromCharCode(keyValue);
+				} else if (keyValue == 8){
+					this.collectedInput = this.collectedInput.slice(0, this.collectedInput.length - 1);
+				}
+			}
+
+    },
+    draw: function(HTML){
+      HTML.push('<div id="' + this.id + '" style="');
+      for(x in this.css){
+        HTML.push(x, ':', this.css[x], '; ');
+      }
+      HTML.push('" >' + this.collectedInput + '</div>');
+    }
+  });
+
+var numInputBox = inputBox.extend(function(id, left, top, width, height, zIndex){
+})
+	.methods({
+		update: function(){
+			if (g.input.key.press){
+				keyValue = g.input.key.value;
+				if (keyValue == 13){
+					this.acceptedInput = this.collectedInput;
+				} else if ((keyValue >= 48) && (keyValue <= 57)){
+					this.collectedInput += String.fromCharCode(keyValue);
+				} else if (keyValue == 8){
+					this.collectedInput = this.collectedInput.slice(0, this.collectedInput.length - 1);
+				}
+			}
+		}
+	});
+
+
 var xmlTextBox = klass(function(xml){
   this.xml = xml;
   this.length = null;
